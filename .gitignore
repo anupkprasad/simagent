@@ -49,6 +49,7 @@ ligand_acpype_input.acpype/
 # campaigns/ is ignored in the block below, with one published exception.
 results/
 jobs/
+working_dir/
 working_dir_backup/
 work_di/
 work_dir_hl/
@@ -58,6 +59,8 @@ tmp/
 garbage/
 benchmarks/
 pseudo_JAK/
+# Ad-hoc root data dumps (not part of the package)
+/protein_info.json
 
 # Active local campaigns (~60G+ sims + manuscript drafts) — keep out of git.
 # campaigns/ itself stays visible so one nested path can be re-included.
