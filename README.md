@@ -51,8 +51,8 @@ Scientific dependencies (GROMACS, AmberTools, MDAnalysis, LangChain, …) live i
 one conda environment named **`SimAgentEnv`**:
 
 ```bash
-git clone https://github.com/anupkprasad/agenticAI.git
-cd agenticAI
+git clone https://github.com/anupkprasad/simagent.git
+cd simagent
 conda env create -f environment.yml
 conda activate SimAgentEnv
 pip install -e .
@@ -173,8 +173,8 @@ Hands-on walkthrough (apo/holo panel, status, reports, provenance):
 
 **Worked-example combined report (inspect results here):**
 [`example/pseudo_apo_holo/reporter/combined_report.html`](example/pseudo_apo_holo/reporter/combined_report.html)
-· [GitHub file](https://github.com/anupkprasad/agenticAI/blob/SimAgent_v1.0/example/pseudo_apo_holo/reporter/combined_report.html)
-· [HTML preview](https://htmlpreview.github.io/?https://raw.githubusercontent.com/anupkprasad/agenticAI/SimAgent_v1.0/example/pseudo_apo_holo/reporter/combined_report.html)
+· [GitHub file](https://github.com/anupkprasad/simagent/blob/main/example/pseudo_apo_holo/reporter/combined_report.html)
+· [HTML preview](https://htmlpreview.github.io/?https://raw.githubusercontent.com/anupkprasad/simagent/main/example/pseudo_apo_holo/reporter/combined_report.html)
 (third-party preview; if it fails on this ~8–10 MB file, download from GitHub and open locally)
 
 ---
