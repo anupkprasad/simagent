@@ -1,9 +1,0 @@
-{
-  "grid_entropy": null,
-  "pca_pka_ref_shared_dyn": 4.123907630797936,
-  "pca_pka_ref_shared_gmin_pc1": -1.245377351196534,
-  "pca_pka_ref_shared_gmin_pc2": 1.147900617341943,
-  "pca_pka_ref_shared_centroid_pc1": -1.0744988189114957,
-  "pca_pka_ref_shared_centroid_pc2": 1.1247521099841937,
-  "pca_pka_ref_shared_pc_rms": 0.37947808079550077
-}

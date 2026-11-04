@@ -14,11 +14,9 @@ system can:
    QC, plus optional family-scale modular dynamics and unsupervised classification)
 6. Produce HTML reports with literature references and interactive 3D views
 
-Active campaign trees (sims + manuscript draft) live under `campaigns/`
-(gitignored locally). Published SimAgent robustness provenance — complete
-`run_01` for the 5-system and 37-system cohorts (agents + analysis plots/tables;
-no trajectories) — is under
-[`campaigns/robustness/simagent_provenance/`](campaigns/robustness/simagent_provenance/).
+Active campaign trees (sims, drafts, local deposits) live under `campaigns/`
+and are **gitignored** — not part of the published repository. The public demo
+is under [`example/`](example/).
 
 **Worked example (run / track / results):** [example/TUTORIAL.md](example/TUTORIAL.md)
 
@@ -406,8 +404,6 @@ src/
   simsetup/                # GROMACS system builder
   analysis/                # Combined cross-sim analysis
   reporter/                # Report generation
-tests/                     # Pytest suite
-campaigns/robustness/simagent_provenance/  # Published robustness run_01 provenance
 example/                   # Runnable demo (pseudo_apo_holo) + use-case tutorial
 example/TUTORIAL.md        # Run / track / find results for the example campaign
 docs/
@@ -428,7 +424,6 @@ docs/
 | Document                                              | Description                                                |
 | ----------------------------------------------------- | ---------------------------------------------------------- |
 | [example/TUTORIAL.md](example/TUTORIAL.md)             | Example campaign: run, track status, reports, provenance   |
-| [codeocean/README.md](codeocean/README.md)             | Code Ocean capsule (smoke run + figure regen for review)   |
 | [docs/PROJECT.md](docs/PROJECT.md)                     | Product overview, repository layout, quick start, CLI      |
 | [docs/PIPELINE_WORKFLOW.md](docs/PIPELINE_WORKFLOW.md) | Agent order, directories, files, and flag examples         |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)           | LangGraph pipeline, state, and per-agent design            |
@@ -470,9 +465,8 @@ this repository.
 ### 1. Paper cohort: 37 human (pseudo)kinase–ATP systems
 
 Locked natural-language objective used for the family-scale study in the
-manuscript (Supplementary Fig. for the robustness / end-to-end cohort). The same
-text is archived with the published provenance at
-[`campaigns/robustness/simagent_provenance/pseudokin_37x2/goal.txt`](campaigns/robustness/simagent_provenance/pseudokin_37x2/goal.txt).
+manuscript (robustness / end-to-end cohort). Campaign outputs stay local under
+`campaigns/` (gitignored).
 
 ```bash
 python SimAgent.py \
@@ -529,9 +523,8 @@ EOF
   --rep-num 2
 ```
 
-Agent plans, logs, reports, and analysis plots for this `run_01` (and the
-smaller `pseudokin_5x2` robustness cohort) are in
-[`campaigns/robustness/simagent_provenance/`](campaigns/robustness/simagent_provenance/).
+Agent plans, logs, reports, and analysis plots for local cohort runs are written
+under the chosen `--working-dir` (typically inside a gitignored `campaigns/` tree).
 
 ### 2. Analysis-only: four completed systems
 

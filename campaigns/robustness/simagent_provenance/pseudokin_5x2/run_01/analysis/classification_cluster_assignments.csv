@@ -1,6 +1,0 @@
-label,display_name,sim_directory,cluster_id,method
-o60674_ATP,JAK2_ATP,/home/akp66103/workspace/agenticAI/campaigns/robustness/campaigns/pseudokin_5x2/run_01/o60674_ATP,2,hierarchical
-p17612_ATP,KAPCA_ATP,/home/akp66103/workspace/agenticAI/campaigns/robustness/campaigns/pseudokin_5x2/run_01/p17612_ATP,1,hierarchical
-p24941_ATP,CDK2_ATP,/home/akp66103/workspace/agenticAI/campaigns/robustness/campaigns/pseudokin_5x2/run_01/p24941_ATP,3,hierarchical
-q13418_ATP,ILK_ATP,/home/akp66103/workspace/agenticAI/campaigns/robustness/campaigns/pseudokin_5x2/run_01/q13418_ATP,1,hierarchical
-q8ivt5_ATP,KSR1_ATP,/home/akp66103/workspace/agenticAI/campaigns/robustness/campaigns/pseudokin_5x2/run_01/q8ivt5_ATP,1,hierarchical

@@ -45,8 +45,10 @@ ligand_acpype_input.acpype/
 *.slurm
 !ollama_server.slurm
 
+# NFS silly-rename leftovers (open deleted files on NFS mounts)
+.nfs*
+
 # Local run / work directories
-# campaigns/ is ignored in the block below, with one published exception.
 results/
 jobs/
 working_dir/
@@ -58,24 +60,17 @@ multi_run/
 tmp/
 garbage/
 benchmarks/
-pseudo_JAK/
 
-# Active local campaigns (~60G+ sims + manuscript drafts) — keep out of git.
-# campaigns/ itself stays visible so one nested path can be re-included.
-campaigns/*
-!campaigns/README.md
-!campaigns/robustness/
-campaigns/robustness/*
-!campaigns/robustness/simagent_provenance/
-!campaigns/robustness/simagent_provenance/**
-# *.log is ignored above; keep the provenance logs
-!campaigns/robustness/simagent_provenance/**/*.log
-# Legacy root paths only (a bare name also matches campaigns/robustness/).
+# All campaign runs, drafts, and deposits stay local — never published
+campaigns/
+
+# Legacy root campaign path names (also match nested dirs)
 ment/
 /robustness/
 dclk3_psma4/
 dclk3_dcx_psma4/
 pseudoKin*/
+pseudo_JAK/
 
 # Project-specific local data (not source)
 pseudokin_june3bckp/
@@ -89,12 +84,13 @@ horse_MLKL/
 agenticB5R1/
 agenticB5R1_t1/
 backup/
+
+# Local pytest suite — not part of the public tree
 tests/
 # Legacy plural path only; tracked demos live under example/
 examples/
 
 # Local-only (not part of the published SimAgent tree)
-archive/
 llm_chat.py
 .github/copilot-instructions.md
 
