@@ -8,6 +8,36 @@ from __future__ import annotations
 from typing import Any, Dict, List, Optional, Sequence
 
 
+def _resnames_from_campaign_spec(state: Optional[Dict[str, Any]]) -> List[str]:
+    """Ligand names compiled into the campaign spec (goal inference or recipe)."""
+    try:
+        from agentic.campaign.spec import spec_from_state
+    except Exception:
+        return []
+    spec = spec_from_state(state)
+    if spec is None:
+        return []
+    names: List[str] = []
+    raw = (spec.settings or {}).get("ligand_resnames")
+    if isinstance(raw, str) and raw.strip():
+        names.append(raw.strip())
+    elif isinstance(raw, (list, tuple)):
+        names.extend(str(x).strip() for x in raw if str(x).strip())
+    if names:
+        return names
+    recipes = (
+        getattr(spec, "analysis_recipe", None),
+        getattr(spec, "pre_combined_recipe", None),
+    )
+    for recipe in recipes:
+        for step in getattr(recipe, "steps", None) or []:
+            params = getattr(step, "tool_params", None) or {}
+            sel = str(params.get("ligand_selection") or "").strip()
+            if sel.lower().startswith("resname "):
+                names.extend(tok for tok in sel.split()[1:] if tok)
+    return names
+
+
 def ligand_resnames_from_state(state: Optional[Dict[str, Any]] = None) -> List[str]:
     """Return declared ligand residue names (may be empty for apo / protein-only)."""
     state = state or {}
@@ -27,6 +57,8 @@ def ligand_resnames_from_state(state: Optional[Dict[str, Any]] = None) -> List[s
             elif isinstance(val, str) and val.strip():
                 names.append(val.strip())
     # Deduplicate preserving order
+    if not names:
+        names.extend(_resnames_from_campaign_spec(state))
     seen = set()
     out: List[str] = []
     for n in names:

@@ -71,6 +71,45 @@ def load_consensus_alignment(alignment_json: str | Path) -> Dict[str, Any]:
     return data
 
 
+def _label_lookup_aliases(label: str, alignment: Dict[str, Any]) -> List[str]:
+    """Gene ↔ UniProt aliases for ment-style ``uniprot_to_name`` maps."""
+    lab = label.strip()
+    aliases = [lab]
+    base = lab
+    for sfx in ("_ATP", "_ADP", "_AMP", "_atp", "_adp", "_amp"):
+        if base.endswith(sfx):
+            base = base[: -len(sfx)]
+            break
+    if base not in aliases:
+        aliases.append(base)
+    u2n = alignment.get("uniprot_to_name") or {}
+    # uniprot → gene
+    for uid, name in u2n.items():
+        if str(uid).lower() == base.lower() or str(uid).lower() == lab.lower():
+            if name and str(name) not in aliases:
+                aliases.append(str(name))
+            break
+    # gene → uniprot (+ optional _ATP sim folder name)
+    for uid, name in u2n.items():
+        if str(name).lower() == base.lower() or str(name).lower() == lab.lower():
+            if str(uid) not in aliases:
+                aliases.append(str(uid))
+            atp = f"{uid}_ATP"
+            if atp not in aliases:
+                aliases.append(atp)
+            break
+    # de-dup case-insensitively preserving order
+    seen = set()
+    out: List[str] = []
+    for a in aliases:
+        key = a.lower()
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(a)
+    return out
+
+
 def mapping_for_label(
     alignment: Dict[str, Any], label: str
 ) -> List[Optional[Dict[str, Any]]]:
@@ -81,14 +120,17 @@ def mapping_for_label(
     - Compact v2: ``per_sim[label].resids``
     - Framework star MSA: ``consensus_positions[].mappings[label]``
     - Ment-style: ``proteins[label].mapping`` list aligned to consensus
+    - Ment gene-keyed maps via ``uniprot_to_name`` (e.g. ``p17612_ATP`` ↔ ``KAPCA``)
     """
     from src.analysis.cross_sim_artifacts import expand_consensus_positions
 
     lab = label.strip()
+    aliases = _label_lookup_aliases(lab, alignment)
+    alias_l = {a.lower() for a in aliases}
     # Ment / occupancy style
     proteins = alignment.get("proteins") or {}
     for key, val in proteins.items():
-        if str(key).lower() == lab.lower():
+        if str(key).lower() in alias_l:
             mapping = val.get("mapping") if isinstance(val, dict) else None
             if mapping is not None:
                 return list(mapping)
@@ -106,7 +148,7 @@ def mapping_for_label(
         maps = (pos or {}).get("mappings") or {}
         hit = None
         for k, v in maps.items():
-            if str(k).lower() == lab.lower():
+            if str(k).lower() in alias_l:
                 hit = v
                 break
         if hit is None:

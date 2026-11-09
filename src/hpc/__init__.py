@@ -1,5 +1,5 @@
 """
-HPC integration module for AgenticAI
+HPC integration module for SimAgent
 
 Contains tools for:
 - Job submission to SLURM/PBS systems

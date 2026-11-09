@@ -48,19 +48,32 @@ def reuse_hpc_enabled(state: Optional[Dict[str, Any]] = None) -> bool:
 
 
 def _reuse_hpc_files_ready(sim_dir: str, hpc_dir: Optional[str] = None) -> bool:
-    """Ready under ``--reuse-hpc``: non-empty ``md.tpr`` + ``mdWrap.xtc`` only (no md.log)."""
-    hpc = Path(hpc_dir) if hpc_dir else (Path(sim_dir) / "hpc")
-    tpr = hpc / "md.tpr"
-    xtc = hpc / "mdWrap.xtc"
+    """Ready under ``--reuse-hpc``: production ``md.tpr`` + trajectory, no md.log.
+
+    Accepts a flat ``hpc/`` directory and nested ``hpc/rep01`` / ``hpc/rep02``
+    seeds. Every nested replicate must be present.
+    """
+    from agentic.utils.sim_health import production_health
+
     try:
-        return (
-            tpr.is_file()
-            and tpr.stat().st_size > 0
-            and xtc.is_file()
-            and xtc.stat().st_size > 0
+        return bool(
+            production_health(
+                sim_dir, hpc_dir=hpc_dir, reuse_hpc=True
+            ).get("healthy")
         )
-    except OSError:
-        return False
+    except Exception:
+        hpc = Path(hpc_dir) if hpc_dir else (Path(sim_dir) / "hpc")
+        tpr = hpc / "md.tpr"
+        xtc = hpc / "mdWrap.xtc"
+        try:
+            return (
+                tpr.is_file()
+                and tpr.stat().st_size > 0
+                and xtc.is_file()
+                and xtc.stat().st_size > 0
+            )
+        except OSError:
+            return False
 
 
 def _md_production_finished(hpc_dir: Path) -> bool:
@@ -82,8 +95,9 @@ def _sim_production_trajectory_ready(
 ) -> bool:
     """Production trajectory complete — equilibration ``nvt``/``npt`` files do not count.
 
-    With ``--reuse-hpc``, only ``hpc/md.tpr`` + ``hpc/mdWrap.xtc`` are required (no md.log).
-    Pass ``hpc_dir`` for nested replicates (``…/hpc/rep01``).
+    With ``--reuse-hpc``, production ``md.tpr`` + trajectory are required (no md.log).
+    Flat ``hpc/`` and nested ``hpc/rep01`` / ``hpc/rep02`` both count. Pass
+    ``hpc_dir`` to check one replicate directory.
     """
     from agentic.utils.sim_health import production_health, is_reuse_hpc
 
@@ -981,6 +995,27 @@ def _submit_ready_sims(state: Dict[str, Any], pool: Dict[str, Any]) -> List[str]
                 key,
             )
             continue
+        from src.hpc.job_submitter import find_live_slurm_job_for_dir
+
+        hpc_path = rec.get("hpc_dir") or str(Path(wd) / "hpc")
+        live = find_live_slurm_job_for_dir(hpc_path)
+        if live:
+            rec["hpc_status"] = "submitted"
+            rec["job_id"] = live
+            rec.pop("error", None)
+            slots -= 1
+            try:
+                from agentic.hpc.job_markers import write_job_marker
+
+                write_job_marker(hpc_path, live)
+            except Exception:
+                logger.debug("Could not write .agentic_job_id marker", exc_info=True)
+            logger.info(
+                "HPC pool: %s already queued as job_id=%s — skipping sbatch",
+                key,
+                live,
+            )
+            continue
         result = submit_simulation_job(
             wd,
             parent,
@@ -997,7 +1032,14 @@ def _submit_ready_sims(state: Dict[str, Any], pool: Dict[str, Any]) -> List[str]
             rec.pop("error", None)
             submitted.append(key)
             slots -= 1
-            logger.info("HPC pool: submitted %s job_id=%s", key, rec.get("job_id"))
+            if result.get("status") == "ALREADY_QUEUED":
+                logger.info(
+                    "HPC pool: %s already queued as job_id=%s — skipping sbatch",
+                    key,
+                    rec.get("job_id"),
+                )
+            else:
+                logger.info("HPC pool: submitted %s job_id=%s", key, rec.get("job_id"))
         else:
             err = result.get("error", "submit failed")
             if not _sim_setup_ready(wd):

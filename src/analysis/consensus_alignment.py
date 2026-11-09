@@ -467,26 +467,53 @@ def find_mafft_executable() -> Optional[str]:
     return None
 
 
+def _star_fallback_or_raise(
+    chains: Dict[str, ChainSequence],
+    reference_label: str,
+    *,
+    reason: str,
+    allow_star_fallback: bool,
+) -> Dict[str, Any]:
+    """Star pairwise only when explicitly allowed; otherwise fail loudly."""
+    if not allow_star_fallback:
+        raise RuntimeError(
+            f"{reason}. Install MAFFT (or set MAFFT/MAFFT_BIN), or pass "
+            "msa_method='star_pairwise' / allow_star_fallback=True. "
+            "Silent star fallback is disabled so family robustness runs cannot "
+            "quietly diverge from the paper MAFFT≥0.5 protocol."
+        )
+    logger.warning("%s — falling back to Biopython star pairwise MSA", reason)
+    msa = build_star_msa_to_reference(chains, reference_label)
+    msa["msa_method"] = "star_pairwise"
+    msa["msa_fallback_from"] = "mafft"
+    msa["msa_fallback_reason"] = reason
+    return msa
+
+
 def build_mafft_msa_to_reference(
     chains: Dict[str, ChainSequence],
     reference_label: str,
     *,
     mafft_bin: Optional[str] = None,
+    allow_star_fallback: bool = False,
 ) -> Dict[str, Any]:
     """
     Run MAFFT on all sequences and index columns by the reference row.
 
-    Falls back to Biopython star pairwise if MAFFT is unavailable.
+    By default does **not** silently fall back to star pairwise (reproducibility).
+    Pass ``allow_star_fallback=True`` only when a degraded alignment is acceptable.
     """
     if reference_label not in chains:
         raise KeyError(f"Reference label {reference_label!r} not in chain set")
 
     exe = mafft_bin or find_mafft_executable()
     if not exe:
-        logger.warning("MAFFT not found — falling back to Biopython star pairwise MSA")
-        msa = build_star_msa_to_reference(chains, reference_label)
-        msa["msa_method"] = "star_pairwise"
-        return msa
+        return _star_fallback_or_raise(
+            chains,
+            reference_label,
+            reason="MAFFT not found on PATH or MAFFT/MAFFT_BIN / known candidates",
+            allow_star_fallback=allow_star_fallback,
+        )
 
     other_labels = [k for k in sorted(chains.keys()) if k != reference_label]
     labels = [reference_label] + other_labels
@@ -516,19 +543,22 @@ def build_mafft_msa_to_reference(
                 timeout=600,
             )
         except Exception as exc:
-            logger.warning("MAFFT failed (%s) — star pairwise fallback", exc)
-            msa = build_star_msa_to_reference(chains, reference_label)
-            msa["msa_method"] = "star_pairwise"
-            return msa
-        if proc.returncode != 0 or not (proc.stdout or "").strip():
-            logger.warning(
-                "MAFFT exit=%s stderr=%s — star pairwise fallback",
-                proc.returncode,
-                (proc.stderr or "")[:300],
+            return _star_fallback_or_raise(
+                chains,
+                reference_label,
+                reason=f"MAFFT failed ({exc})",
+                allow_star_fallback=allow_star_fallback,
             )
-            msa = build_star_msa_to_reference(chains, reference_label)
-            msa["msa_method"] = "star_pairwise"
-            return msa
+        if proc.returncode != 0 or not (proc.stdout or "").strip():
+            return _star_fallback_or_raise(
+                chains,
+                reference_label,
+                reason=(
+                    f"MAFFT exit={proc.returncode} "
+                    f"stderr={(proc.stderr or '')[:300]}"
+                ),
+                allow_star_fallback=allow_star_fallback,
+            )
         out_fa.write_text(proc.stdout, encoding="utf-8")
         aligned = _read_fasta_rows(out_fa)
 
@@ -539,10 +569,12 @@ def build_mafft_msa_to_reference(
                 aligned[reference_label] = aligned.pop(k)
                 break
     if reference_label not in aligned:
-        logger.warning("MAFFT output missing reference — star pairwise fallback")
-        msa = build_star_msa_to_reference(chains, reference_label)
-        msa["msa_method"] = "star_pairwise"
-        return msa
+        return _star_fallback_or_raise(
+            chains,
+            reference_label,
+            reason="MAFFT output missing reference row",
+            allow_star_fallback=allow_star_fallback,
+        )
 
     ref_row = aligned[reference_label]
     width = len(ref_row)
@@ -612,6 +644,7 @@ def build_mafft_msa_to_reference(
         "columns": columns,
         "labels": labels,
         "msa_method": "mafft",
+        "mafft_bin": str(exe),
         "full_msa_rows": {lab: aligned[lab] for lab in labels},
     }
 
@@ -820,12 +853,14 @@ def build_consensus_sequence_alignment(
     msa_method: str = DEFAULT_MSA_METHOD,
     conservation_metric: str = DEFAULT_CONSERVATION_METRIC,
     min_conservation: float = DEFAULT_MIN_CONSERVATION,
+    allow_star_fallback: bool = False,
 ) -> Dict[str, Any]:
     """
     Build a MAFFT global MSA and export ``global_consensus_msa`` columns.
 
-    Default alignment engine is **MAFFT** (falls back to Biopython star
-    pairwise if MAFFT is unavailable).
+    Default alignment engine is **MAFFT**. Star pairwise is used only when
+    ``msa_method='star_pairwise'`` or ``allow_star_fallback=True`` (disabled by
+    default so robustness / reproducibility runs cannot silently diverge).
 
     Paper-style outputs (defaults; all thresholds are user-overridable):
       * ``global_msa.fasta`` — full gapped MAFFT alignment (display / provenance).
@@ -868,6 +903,8 @@ def build_consensus_sequence_alignment(
         conservation_metric: ``similarity`` (default, physchem groups), ``identity``,
             ``blosum``, or ``coverage``.
         min_conservation: Threshold for conservation_metric (default 0.5).
+        allow_star_fallback: If True and MAFFT cannot run, use star pairwise
+            and record ``msa_fallback_reason`` (default False).
 
     Returns:
         Dict with ``success``, output paths, ``n_sequences``, ``n_consensus_positions``.
@@ -988,7 +1025,19 @@ def build_consensus_sequence_alignment(
             msa = build_star_msa_to_reference(chains, reference_label)
             msa["msa_method"] = "star_pairwise"
         else:
-            msa = build_mafft_msa_to_reference(chains, reference_label)
+            try:
+                msa = build_mafft_msa_to_reference(
+                    chains,
+                    reference_label,
+                    allow_star_fallback=bool(allow_star_fallback),
+                )
+            except RuntimeError as exc:
+                return {
+                    "success": False,
+                    "error": str(exc),
+                    "msa_method": "mafft",
+                    "mafft_bin": find_mafft_executable(),
+                }
 
         metric = (conservation_metric or DEFAULT_CONSERVATION_METRIC).strip().lower()
         internal = normalize_conservation_metric(metric)
@@ -1093,6 +1142,7 @@ def build_global_mapped_alignment(
     msa_method: str = DEFAULT_MSA_METHOD,
     conservation_metric: str = DEFAULT_CONSERVATION_METRIC,
     min_conservation: float = DEFAULT_MIN_CONSERVATION,
+    allow_star_fallback: bool = False,
 ) -> Dict[str, Any]:
     """Build a MAFFT global MSA; export ``global_consensus_msa`` (filtered columns).
 
@@ -1103,7 +1153,8 @@ def build_global_mapped_alignment(
 
     Does **not** write unfiltered ``global_msa.json`` by default. Pocket
     mapping is a separate step: 15 Å ligand shell ∩ these consensus columns,
-    then transferred to every protein.
+    then transferred to every protein. Does not silently fall back to star
+    pairwise unless ``allow_star_fallback=True``.
     """
     return build_consensus_sequence_alignment.func(
         working_dir=working_dir,
@@ -1122,6 +1173,7 @@ def build_global_mapped_alignment(
         msa_method=msa_method,
         conservation_metric=conservation_metric,
         min_conservation=min_conservation,
+        allow_star_fallback=allow_star_fallback,
     )
 
 

@@ -1,7 +1,8 @@
-# AgenticAI — LLM-Powered Molecular Dynamics Workflow
+# SimAgent — LLM-Powered Molecular Dynamics Workflow
 
-AgenticAI automates GROMACS molecular dynamics (MD) workflows using LLM-powered
+SimAgent automates GROMACS molecular dynamics (MD) workflows using LLM-powered
 planning, multi-agent orchestration, and optional human-in-the-loop checkpoints.
+The project was previously named AgenticAI.
 
 Given a natural-language goal and either a PDB file or a UniProt accession, the
 system can:
@@ -16,9 +17,9 @@ system can:
 
 Active campaign trees (sims, drafts, local deposits) live under `campaigns/`
 and are **gitignored** — not part of the published repository. The public demo
-is under [`example/`](example/).
+is under [`tutorial/`](tutorial/).
 
-**Worked example (run / track / results):** [example/TUTORIAL.md](example/TUTORIAL.md)
+**Worked tutorial (run from scratch):** [tutorial/TUTORIAL.md](tutorial/TUTORIAL.md)
 
 ---
 
@@ -66,11 +67,17 @@ Conda places `SimAgentEnv` in its default envs directory (no custom `--prefix`).
 Activate it before running SimAgent or use the example launchers, which resolve
 the env the same way.
 
+`pip install -e .` registers the `simagent` command and installs the Python
+packages. GROMACS, AmberTools, Open Babel, and MAFFT still come from the conda
+environment.
+
 Confirm the CLI loads:
 
 ```bash
-python SimAgent.py --help
+simagent --help
 ```
+
+`python SimAgent.py --help` is the same entry point.
 
 **GROMACS** is included in this environment. For phosphorylated proteins with
 CHARMM36, install `charmm36-jul2022.ff` separately (see [Force fields](#force-fields)).
@@ -169,19 +176,14 @@ Paid API: add `--llm-provider openai --llm-api-key "$OPENAI_API_KEY"` (and a
 matching `--llm-model` / `--llm-base-url`). Offline heuristic plans: `--no-llm`.
 
 Hands-on walkthrough (apo/holo panel, status, reports, provenance):
-[example/TUTORIAL.md](example/TUTORIAL.md)
-
-**Worked-example combined report (inspect results here):**
-[`example/pseudo_apo_holo/reporter/combined_report.html`](example/pseudo_apo_holo/reporter/combined_report.html)
-· [GitHub file](https://github.com/anupkprasad/simagent/blob/main/example/pseudo_apo_holo/reporter/combined_report.html)
-· [HTML preview](https://htmlpreview.github.io/?https://raw.githubusercontent.com/anupkprasad/simagent/main/example/pseudo_apo_holo/reporter/combined_report.html)
-(third-party preview; if it fails on this ~8–10 MB file, download from GitHub and open locally)
+[tutorial/TUTORIAL.md](tutorial/TUTORIAL.md). The tutorial folder ships the goal,
+launcher, and starting PDBs. Reports and trajectories are created when you run it.
 
 ---
 
 ## Prompt Engineering Guide
 
-AgenticAI works best when `--goal` describes the scientific intent, the available inputs, the requested workflow stages, and the exact analyses you want. Write the goal as a short paragraph or a few sentences, not as comma-separated metadata. Natural language gives the planner enough context to create per-simulation prompts that downstream agents can follow.
+SimAgent works best when `--goal` describes the scientific intent, the available inputs, the requested workflow stages, and the exact analyses you want. Write the goal as a short paragraph or a few sentences, not as comma-separated metadata. Natural language gives the planner enough context to create per-simulation prompts that downstream agents can follow.
 
 Include these details when they apply:
 
@@ -277,12 +279,12 @@ re-run those stages with new instructions (full pipeline rerun, not just a singl
 State is saved to `{working_dir}/supervisor/state.jsonl` (and per-sim copies under
 `{label}/supervisor/`). See [docs/CONVENTIONS.md](docs/CONVENTIONS.md) for resume semantics.
 
-Example (interactive analysis + report on completed trajectories):
+Example (interactive analysis and report on completed trajectories):
 
 ```bash
 python SimAgent.py \
-  --goal "Analysis only for p23458, p29597, q7rtn6, q96c45 …" \
-  --working-dir ./agenticB5R1 \
+  --goal "Analysis only. Compute RMSF and write the report." \
+  --working-dir /work/completed_run \
   --subtask analysis reporter \
   --HITL all
 ```
@@ -385,11 +387,13 @@ when per-sim work is already complete.
 ## Repository Layout
 
 ```
-SimAgent.py                # CLI entry point
+SimAgent.py                # Launcher; command line is agentic/cli.py
 LICENSE                    # MIT
+CONTRIBUTING.md            # Points at docs/CONVENTIONS.md
 environment.yml            # Conda environment (SimAgentEnv)
-ollama_server.slurm        # Example Slurm job to serve Ollama on GPU nodes
+protein_info.json          # Pseudokinase information: names, aliases, binding class, sequences
 agentic/
+  cli.py                   # Command line used by `simagent` and SimAgent.py
   workflow.py              # LangGraph StateGraph orchestration
   supervisor/              # Routing, enrichment, multi-sim loop
   planner/                 # Execution plans + disposition base
@@ -404,8 +408,8 @@ src/
   simsetup/                # GROMACS system builder
   analysis/                # Combined cross-sim analysis
   reporter/                # Report generation
-example/                   # Runnable demo (pseudo_apo_holo) + use-case tutorial
-example/TUTORIAL.md        # Run / track / find results for the example campaign
+tutorial/                  # Fresh apo/holo starter (goal, launcher, four PDBs)
+tutorial/TUTORIAL.md       # How to run that tutorial and where results appear
 docs/
   PROJECT.md               # Product overview, layout, CLI, run outputs
   PIPELINE_WORKFLOW.md     # Agent order, directories, files, flag examples
@@ -417,13 +421,15 @@ docs/
   OLLAMA_SETUP.md          # Install Ollama + pull gpt-oss:20b
 ```
 
+`protein_info.json` is the pseudokinase information table: names, aliases, binding class, and sequences for the manuscript cohort. It stays at the repository root.
+
 ---
 
 ## Documentation
 
 | Document                                              | Description                                                |
 | ----------------------------------------------------- | ---------------------------------------------------------- |
-| [example/TUTORIAL.md](example/TUTORIAL.md)             | Example campaign: run, track status, reports, provenance   |
+| [tutorial/TUTORIAL.md](tutorial/TUTORIAL.md)           | Apo/holo tutorial: run from scratch, track status, reports |
 | [docs/PROJECT.md](docs/PROJECT.md)                     | Product overview, repository layout, quick start, CLI      |
 | [docs/PIPELINE_WORKFLOW.md](docs/PIPELINE_WORKFLOW.md) | Agent order, directories, files, and flag examples         |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)           | LangGraph pipeline, state, and per-agent design            |
@@ -448,8 +454,6 @@ python SimAgent.py --goal "..." --llm-base-url http://127.0.0.1:11434
 python SimAgent.py --goal "..." --HITL all
 ```
 
-Tests: `pytest` (see `environment.yml` for dependencies).
-
 ---
 
 ## License
@@ -457,94 +461,3 @@ Tests: `pytest` (see `environment.yml` for dependencies).
 This project is released under the [MIT License](LICENSE). CHARMM36 force field
 parameters are distributed separately by the MacKerell lab and are not part of
 this repository.
-
----
-
-## Examples run in the project
-
-### 1. Paper cohort: 37 human (pseudo)kinase–ATP systems
-
-Locked natural-language objective used for the family-scale study in the
-manuscript (robustness / end-to-end cohort). Campaign outputs stay local under
-`campaigns/` (gitignored).
-
-```bash
-python SimAgent.py \
-  --goal "$(cat <<'EOF'
-I have 37 human protein–ATP holo structures in given working directory
-(one PDB per system). There are 32 pseudokinases and 5 ground-truth active kinases.
-Please run a full end-to-end comparative MD study on all of them.
-
-Systems (UniProt id : protein name):
-  o15197:EPHB6, o43187:IRAK2, o60674:JAK2, p00533:EGFR, p17612:KAPCA, p21860:ERBB3, p23458:JAK1, p24941:CDK2, p25092:GUC2C, p28482:MK01, p29597:TYK2, p51841:GUC2F, p52333:JAK3,
-  q05823:RN5A, q13308:PTK7, q13418:ILK, q58a45:PAN3, q5jzy3:EPHAA, q6vab6:KSR2, q7rtn6:STRAA, q7z7a4:PXK, q8iv63:VRK3, q8ivt5:KSR1, q8nb16:MLKL, q8ncb2:CAMKV, q8ne28:STKL1,
-  q8tea7:TBCK, q8wz42:TITIN, q92519:TRIB2, q96c45:ULK4, q96qs6:PSKH2, q9bxu1:STK31, q9c0k7:STRAB, q9nsy0:NRBP2, q9uhy1:NRBP, q9y243:AKT3, q9y616:IRAK3
-
-For each complex, preprocess the structure and set up GROMACS with
-AMBER99SB-ILDN, TIP3P water, 310 K, 1 bar, and 0.15 M NaCl.
-Run two independent 200 ns production MD replicates per system, wait for all
-simulations to finish, then analyze and plot the full 200 ns of every
-trajectory (do not truncate to a shorter window).
-
-Use KAPCA (p17612) as the reference to define the ATP-binding pocket
-(residues within 15 Å of ATP, unless a different cutoff is stated), map that
-pocket onto the other proteins with a global sequence alignment
-(MAFFT / star MSA), and plot both the global MSA and the pocket /
-high-consensus MSA panels.
-
-From both replicates (then average across replicates), extract these ten
-scalar dynamics descriptors for every system. All ten are required for
-clustering — do not drop any:
-
-1. ATP COM distance to the consensus pocket — mean
-2. ATP COM distance to the consensus pocket — standard deviation
-3. ATP orientation vs the pocket axis — mean axis angle
-4. ATP orientation vs the pocket axis — standard deviation of the axis angle
-5. Pocket side-chain χ₁ circular mean
-6. Pocket side-chain χ₁ circular standard deviation
-7. Flexibility of consensus-mapped Cα atoms — mean RMSF
-8. Flexibility of consensus-mapped Cα atoms — standard deviation of RMSF
-9. N-lobe ↔ C-lobe DCCM mean correlation
-10. Shared-reference φ/ψ/χ₁ dihedral PCA dynamics scalar
-    (pca_pka_ref_shared_dyn = √(d_g² + d_c² + pc_rms²) vs KAPCA in the
-     shared PKA PC space; do not substitute independent per-protein PCA
-     grid entropy)
-
-When all systems are done, assemble those ten descriptors into one feature
-table, run consensus hierarchical clustering, and write a single dendrogram +
-feature-heatmap panel (robust z-score / IQR scaling). Also write a combined
-HTML report with brief literature context. You may mark a k=4 cut for
-interpretation, but still emit the full tree.
-EOF
-)" \
-  --working-dir ./pseudokin_37x2/run_01 \
-  --force-field amber99sb-ildn \
-  --water-model tip3p \
-  --rep-num 2
-```
-
-Agent plans, logs, reports, and analysis plots for local cohort runs are written
-under the chosen `--working-dir` (typically inside a gitignored `campaigns/` tree).
-
-### 2. Analysis-only: four completed systems
-
-```bash
-# --- Analysis-only: four completed systems ---
-python SimAgent.py \
-  --goal "Simulation are already done for these uniprot ids: p23458.pdb, p29597.pdb,
-          q7rtn6.pdb, q96c45.pdb. So please do not preprocess or simsetup or hpc.
-          Directly do the analysis of these data. I want specifically RMSF of protein
-          and COM distance of ATP (ligand) from protein for all the simulations.
-          Also run PCA on protein Cα, plot PC1 vs PC2, and compute the free energy
-          landscape from PC1 and PC2 at 310 K.
-          In combined analysis, please compare the RMSF in cross simulations and
-          ligand pocket distance in cross simulations and free energy landscape.
-          The given uniprotid:protein name are p23458:JAK1, p29597:TYK2,
-          q7rtn6:STRAA and q96c45:ULK4. Calculate the DCCM for JAK1 and TYK2 to
-          compare the dynamics between these two proteins. Please also calculate
-          radius of gyration for JAK1, TYK2 and ULK4 and compare them in plot.
-          In report preparation, please focus on relevant pseudokinase literature of
-          these simulated proteins." \
-  --working-dir ./agenticB5R1 \
-  --subtask analysis reporter
-```

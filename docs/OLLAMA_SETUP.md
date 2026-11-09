@@ -110,7 +110,7 @@ Restart `ollama serve` after changing these.
 ### 2.5 Create the SimAgent conda env (if not done)
 
 ```bash
-cd /path/to/agenticAI
+cd /path/to/simagent
 conda env create -f environment.yml
 conda activate SimAgentEnv
 pip install -e .
@@ -164,10 +164,8 @@ OpenAI-compatible APIs. For a local Ollama server, no key is needed — point
 
 ## 4. HPC / Singularity (site-specific)
 
-This repo ships an example SLURM launcher: [`ollama_server.slurm`](../ollama_server.slurm).
-It expects a CUDA Singularity image (e.g. `~/containers/ollama_cuda.sif`) and
-site modules (`CUDA/...`). Edit paths, partition, and `OLLAMA_MODELS` for your
-cluster, then:
+Write a site SLURM script for the Ollama server. Do not commit account names,
+partitions, or container paths. A typical submit is:
 
 ```bash
 sbatch ollama_server.slurm
@@ -226,4 +224,4 @@ endpoint.
 4. [ ] `ollama pull gpt-oss:20b`
 5. [ ] Optional: install CHARMM36 ff if you use phospho / CHARMM (see README)
 6. [ ] `python SimAgent.py ... --llm-model gpt-oss:20b --llm-base-url http://127.0.0.1:11434`
-7. [ ] Optional smoke-test: [example/TUTORIAL.md](../example/TUTORIAL.md) (`pseudo_apo_holo`)
+7. [ ] Optional smoke-test: [tutorial/TUTORIAL.md](../tutorial/TUTORIAL.md) (`pseudo_apo_holo`)

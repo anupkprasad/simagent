@@ -31,6 +31,20 @@ def default_index_path(knowledge_root: Path | str) -> Path:
     return root.parent / INDEX_NAME if root.name == "knowledge" else root / INDEX_NAME
 
 
+def _portable_path(path: str | Path) -> str:
+    """Repository-relative path when the file is inside this checkout."""
+    raw = Path(path)
+    try:
+        resolved = raw.expanduser().resolve()
+    except OSError:
+        return str(raw)
+    root = Path(__file__).resolve().parents[2]
+    try:
+        return resolved.relative_to(root).as_posix()
+    except ValueError:
+        return str(resolved)
+
+
 def _mtime(path: Path) -> float:
     try:
         return path.stat().st_mtime
@@ -128,7 +142,7 @@ def build_knowledge_chunks(loader: Any) -> List[Dict[str, Any]]:
                 str(content or ""),
                 doc_key=str(doc_key),
                 category=str(doc.get("category") or "general"),
-                source=str(doc.get("file_path") or ""),
+                source=_portable_path(doc.get("file_path") or ""),
             )
         )
     return chunks
@@ -139,7 +153,7 @@ def _file_fingerprint(loader: Any) -> Dict[str, float]:
     for doc in (getattr(loader, "knowledge_docs", {}) or {}).values():
         path = doc.get("file_path")
         if path:
-            stamp[str(path)] = _mtime(Path(path))
+            stamp[_portable_path(path)] = _mtime(Path(path))
     return stamp
 
 

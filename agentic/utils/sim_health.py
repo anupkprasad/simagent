@@ -47,20 +47,13 @@ def _md_log_finished(hpc: Path) -> bool:
     return "Finished mdrun" in text
 
 
-def production_health(
-    sim_dir: str | Path,
+def _production_health_dir(
+    hpc: Path,
     *,
-    hpc_dir: Optional[str] = None,
     reuse_hpc: bool = False,
     min_traj_bytes: int = _MIN_TRAJ_BYTES,
 ) -> Dict[str, Any]:
-    """Return health of production MD artifacts under ``sim_dir/hpc``.
-
-    Healthy when ``md.tpr`` and a production trajectory exist, and either
-    ``md.log`` reports finished mdrun or ``reuse_hpc`` is set (seeded campaigns).
-    """
-    root = Path(sim_dir) if sim_dir else Path()
-    hpc = _hpc_dir(root, hpc_dir)
+    """Health of one HPC directory (flat ``hpc/`` or one ``hpc/repXX``)."""
     tpr = hpc / "md.tpr"
     traj = _first_trajectory(hpc)
     out: Dict[str, Any] = {
@@ -99,6 +92,74 @@ def production_health(
     out["healthy"] = True
     out["reason"] = "production MD finished"
     return out
+
+
+def _nested_hpc_rep_dirs(hpc: Path) -> List[Path]:
+    """Existing ``hpc/rep01``-style directories, in replicate order."""
+    if not hpc.is_dir():
+        return []
+    try:
+        from src.analysis.replicate_paths import parse_rep_id
+    except Exception:
+        return []
+    nested = [
+        p for p in hpc.iterdir()
+        if p.is_dir() and parse_rep_id(p.name) is not None
+    ]
+    return sorted(nested, key=lambda p: parse_rep_id(p.name) or 0)
+
+
+def production_health(
+    sim_dir: str | Path,
+    *,
+    hpc_dir: Optional[str] = None,
+    reuse_hpc: bool = False,
+    min_traj_bytes: int = _MIN_TRAJ_BYTES,
+) -> Dict[str, Any]:
+    """Return health of production MD artifacts under ``sim_dir/hpc``.
+
+    Healthy when ``md.tpr`` and a production trajectory exist, and either
+    ``md.log`` reports finished mdrun or ``reuse_hpc`` is set (seeded campaigns).
+
+    Multi-replicate campaigns store those files in ``hpc/rep01`` and
+    ``hpc/rep02``, not in the ``hpc/`` root. When nested replicate directories
+    exist, every replicate must be healthy. A missing ``hpc/md.tpr`` is then
+    not a failure.
+    """
+    root = Path(sim_dir) if sim_dir else Path()
+    hpc = _hpc_dir(root, hpc_dir)
+    nested = _nested_hpc_rep_dirs(hpc)
+    if not nested:
+        return _production_health_dir(
+            hpc, reuse_hpc=reuse_hpc, min_traj_bytes=min_traj_bytes
+        )
+
+    checks = [
+        _production_health_dir(
+            rep, reuse_hpc=reuse_hpc, min_traj_bytes=min_traj_bytes
+        )
+        for rep in nested
+    ]
+    failed = [c for c in checks if not c.get("healthy")]
+    if failed:
+        bad = dict(failed[0])
+        name = Path(str(bad.get("hpc_dir") or "")).name or "replicate"
+        bad["reason"] = f"{name}: {bad.get('reason') or 'production not healthy'}"
+        bad["replicates"] = [c.get("hpc_dir") for c in checks]
+        return bad
+
+    first = checks[0]
+    n = len(checks)
+    if reuse_hpc:
+        reason = f"reuse-hpc topology + trajectory present ({n} replicates)"
+    else:
+        reason = f"production MD finished ({n} replicates)"
+    return {
+        **first,
+        "healthy": True,
+        "reason": reason,
+        "replicates": [c.get("hpc_dir") for c in checks],
+    }
 
 
 def is_reuse_hpc(state: Optional[Dict[str, Any]] = None) -> bool:

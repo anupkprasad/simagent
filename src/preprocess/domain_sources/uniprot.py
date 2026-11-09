@@ -85,7 +85,7 @@ class UniProtDomainSource(DomainSource):
             url,
             headers={
                 "Accept": "application/json",
-                "User-Agent": "agenticAI-preprocess/1.0",
+                "User-Agent": "SimAgent/1.0",
             },
         )
         with urllib.request.urlopen(req, timeout=30) as response:

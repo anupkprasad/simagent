@@ -51,18 +51,7 @@ def _merge_agent_retrieval(raw: Any) -> Dict[str, Any]:
     return merged
 
 
-_DEFAULT_GOLD = [
-    "reference_pocket_ligand_distance_mean_A",
-    "reference_pocket_ligand_distance_std_A",
-    "reference_pocket_ligand_axis_angle_mean_deg",
-    "reference_pocket_std_ligand_axis_angle_deg",
-    "chi1_pocket_circ_mean_deg",
-    "chi1_pocket_circ_std_deg",
-    "consensus_rmsf_mean_A",
-    "consensus_rmsf_std_A",
-    "dccm_N_C_mean_corr",
-    "pca_pka_ref_shared_dyn",
-]
+_DEFAULT_GOLD: List[str] = []
 
 
 @dataclass
@@ -81,9 +70,10 @@ class CampaignSettings:
     )
     gold_columns: List[str] = field(default_factory=lambda: list(_DEFAULT_GOLD))
     hitl: Optional[str] = None
-    feature_pack: str = "paper_sharedpcdyn"
+    feature_pack: str = "from_goal"
     family_modular: str = "auto"  # force | auto | off
     reference_label: str = ""
+    feature_plugins: List[Dict[str, Any]] = field(default_factory=list)
     source_path: str = ""
 
     def to_dict(self) -> Dict[str, Any]:
@@ -93,7 +83,10 @@ class CampaignSettings:
     @classmethod
     def from_dict(cls, data: Optional[Dict[str, Any]] = None) -> "CampaignSettings":
         data = dict(data or {})
-        gold = data.get("gold_columns") or list(_DEFAULT_GOLD)
+        if "gold_columns" in data and data.get("gold_columns") is not None:
+            gold = list(data.get("gold_columns") or [])
+        else:
+            gold = list(_DEFAULT_GOLD)
         hitl = data.get("hitl")
         if isinstance(hitl, str):
             hitl = hitl.strip().lower() or None
@@ -113,9 +106,10 @@ class CampaignSettings:
             agent_retrieval=_merge_agent_retrieval(data.get("agent_retrieval")),
             gold_columns=[str(c) for c in gold if c],
             hitl=hitl,
-            feature_pack=str(data.get("feature_pack") or "paper_sharedpcdyn"),
+            feature_pack=str(data.get("feature_pack") or "from_goal"),
             family_modular=str(data.get("family_modular") or "auto").strip().lower(),
             reference_label=str(data.get("reference_label") or ""),
+            feature_plugins=list(data.get("feature_plugins") or []),
             source_path=str(data.get("source_path") or ""),
         )
 

@@ -1,6 +1,6 @@
-# AgenticAI — LLM-Powered Molecular Dynamics Workflow
+# SimAgent — LLM-Powered Molecular Dynamics Workflow
 
-**This file is the project overview.** Start here to learn what AgenticAI
+**This file is the project overview.** Start here to learn what SimAgent
 does, which features it ships, how the repository is laid out, how to run a
 job, and which files a run writes. It is not the design of the LangGraph, the
 analysis-tool theory, or the coding rules — those live in the other `docs/`
@@ -10,7 +10,7 @@ pages listed under [Documentation](#documentation).
 
 ## Overview
 
-AgenticAI is an agentic AI system that automates molecular dynamics (MD) simulation
+SimAgent is an agentic AI system that automates molecular dynamics (MD) simulation
 workflows using LLM-powered reasoning, intelligent task orchestration, and optional
 human-in-the-loop decision making.
 
@@ -89,23 +89,25 @@ Given a natural-language goal and either a PDB file or a UniProt accession, the 
   banner for family campaigns, and a 3Dmol.js viewer with trajectory
   snapshots and PNG export.
 
-**Hands-on demo:** [example/TUTORIAL.md](../example/TUTORIAL.md) walks through
-the published `example/pseudo_apo_holo/` campaign (run, track status, reports,
-provenance). Framework install and CLI remain in this file and [README.md](../README.md).
+**Hands-on tutorial:** [tutorial/TUTORIAL.md](../tutorial/TUTORIAL.md) runs
+`tutorial/pseudo_apo_holo/` from the goal, launcher, and starting PDBs.
+Reports and trajectories are produced by that run. Framework install and CLI
+remain in this file and [README.md](../README.md).
 
 ## Repository Layout
 
 ```
-SimAgent.py                     # CLI entry point
+SimAgent.py                     # Launcher; command line is agentic/cli.py
 environment.yml                 # Conda environment (SimAgentEnv, Python 3.11)
-example/
+tutorial/
     TUTORIAL.md                 # Use-case guide: run / track / find results
-    pseudo_apo_holo/            # Published apo/holo demo (PDBs, goal, plots, report)
+    pseudo_apo_holo/            # Fresh apo/holo starter (PDBs, goal, launcher)
 agentic/
+    cli.py                      # Command line used by `simagent` and SimAgent.py
     state.py                    # MDState TypedDict — central shared state (~65 fields)
     workflow.py                 # LangGraph StateGraph (12 nodes)
     supervisor/                 # MDSupervisor: routing, enrichment, multi-sim loop
-    planner/                    # MDPlanner + MDProgrammer; knowledge/ + knowledge_index.json
+    planner/                    # MDPlanner + MDProgrammer; knowledge/ (index is generated)
     campaign/                   # CampaignSpec, campaign.yaml, compile/contracts
     retrieval/                  # Hybrid tool + knowledge retriever
     preprocess/                 # PreprocessingAgent: download, domain trim, clean
@@ -148,7 +150,7 @@ docs/                           # Project documentation (you are here)
 | Doc | What it covers |
 |-----|----------------|
 | [PROJECT.md](PROJECT.md) | This page — product overview, layout, quick start, CLI, run outputs |
-| [example/TUTORIAL.md](../example/TUTORIAL.md) | Hands-on apo/holo demo: run, track status, reports, provenance |
+| [tutorial/TUTORIAL.md](../tutorial/TUTORIAL.md) | Hands-on apo/holo tutorial: run from scratch, track status, reports |
 | [PIPELINE_WORKFLOW.md](PIPELINE_WORKFLOW.md) | Agent order, directories, files, and flag examples |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | LangGraph, shared state, agents, directory layout |
 | [CONVENTIONS.md](CONVENTIONS.md) | Coding and documentation rules for contributors |
@@ -156,7 +158,6 @@ docs/                           # Project documentation (you are here)
 | [TOOLS.md](TOOLS.md) | External dependencies plus GROMACS/analysis mechanisms |
 | [POOLS.md](POOLS.md) | Local parallel workers and SLURM HPC pool |
 | [CAMPAIGN_AND_RETRIEVAL.md](CAMPAIGN_AND_RETRIEVAL.md) | CampaignSpec, science gates, hybrid tool retrieval |
-| [implementation_plan.md](implementation_plan.md) | Prioritized backlog (P0–P3) to improve SimAgent |
 | [OLLAMA_SETUP.md](OLLAMA_SETUP.md) | Ollama server + `gpt-oss:20b` (separate from conda) |
 
 Each page opens with a purpose paragraph. Related mechanisms share one
@@ -270,7 +271,7 @@ After every run the following are written to the base working directory:
 | `{label}/state.json` | Per-simulation snapshot (completed stages, bound `hpc/repXX` traj) |
 | `{label}/{stage}/inventory.json` | Per-stage artifact index (preprocess → reporter; HITL `pwd` reads this) |
 | `{label}/analysis/repXX/inventory.json` | Absolute topology, trajectory, and mapped-residue paths |
-| `planner/knowledge_index.json` | Cached knowledge chunks + hashed embeddings |
+| `planner/knowledge_index.json` | Generated knowledge cache for that run (not a source file) |
 | `supervisor/execution_report.md` | Stage-by-stage execution summary |
 | `reporter/combined_report.html` | Interactive HTML report (multi-sim; includes science banner when family) |
 | `analysis/statistical_summary.json` | Cross-simulation statistics table |

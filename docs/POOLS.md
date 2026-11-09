@@ -1,6 +1,6 @@
 # Parallel execution pools
 
-**This file is the concurrency guide.** AgenticAI uses two related pools
+**This file is the concurrency guide.** SimAgent uses two related pools
 for multi-simulation work: a local worker pool on this machine, and an HPC
 / SLURM pool on the cluster. Read it for what runs in parallel, how worker
 and job counts are chosen, CLI flags, resume, and on-disk pool state.
@@ -27,7 +27,7 @@ Combined analysis and HITL stay sequential.
 ## Local worker pool
 
 When a multi-simulation workflow runs **independent per-simulation stages**
-(prep or analysis+reporter), AgenticAI can execute them concurrently on the
+(prep or analysis+reporter), SimAgent can execute them concurrently on the
 local machine. Worker count is chosen **automatically** from CPU and memory.
 
 ### What runs in parallel
@@ -60,7 +60,7 @@ workers = min(floor(avail_cpus / cpus_per_job),
 For **prep** and **analysis+reporter**, worker count is also capped by
 `--llm-concurrency` (default `auto` = 4) so fewer simulations block on the
 shared Ollama server. Set `OLLAMA_NUM_PARALLEL` on the Ollama host to the same
-value (see `ollama_server.slurm`).
+value (see [OLLAMA_SETUP.md](OLLAMA_SETUP.md)).
 
 Default per-job estimates:
 
@@ -103,7 +103,7 @@ export AGENTIC_LLM_CONCURRENCY=4
 
 ### Ollama server
 
-Parallel workers share one LLM endpoint. On the Ollama host, set (see `ollama_server.slurm`):
+Parallel workers share one LLM endpoint. On the Ollama host, set (see [OLLAMA_SETUP.md](OLLAMA_SETUP.md)):
 
 ```bash
 export OLLAMA_NUM_PARALLEL=4

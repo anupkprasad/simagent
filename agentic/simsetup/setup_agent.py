@@ -778,6 +778,14 @@ class SimulationSetupAgent:
                 analysis["ion_resnames"] = list(state_ion_resnames)
                 analysis["has_ions"] = True
                 logger.info(f"Ion resnames from state: {state_ion_resnames}")
+            for fp in state_ligand_files:
+                if fp and os.path.isfile(fp) and str(fp) not in analysis["ligand_files"]:
+                    analysis["ligand_files"].append(str(fp))
+                    analysis["has_ligand"] = True
+            for fp in state_ion_files:
+                if fp and os.path.isfile(fp) and str(fp) not in analysis["ion_files"]:
+                    analysis["ion_files"].append(str(fp))
+                    analysis["has_ions"] = True
         
         # --- Source 2: File registry (files copied to simsetup) ---
         simsetup_dir = None
@@ -827,6 +835,42 @@ class SimulationSetupAgent:
                     candidate = Path(simsetup_dir) / f"{resname.lower()}{ext}"
                     if candidate.exists() and str(candidate) not in analysis["ion_files"]:
                         analysis["ion_files"].append(str(candidate))
+
+        # Preprocess writes a generic ligand.pdb (and ions.pdb), not ATP.pdb.
+        # Searching only {resname}.pdb drops ATP from the rebuilt system.gro.
+        search_dirs = []
+        if simsetup_dir:
+            search_dirs.append(simsetup_dir)
+        if state:
+            pre = state.get("preprocess_directory") or state.get("preprocessing_directory")
+            if not pre and state.get("working_directory"):
+                pre = str(Path(state["working_directory"]) / "preprocess")
+            if pre:
+                search_dirs.append(pre)
+        if analysis["has_ligand"] and not analysis["ligand_files"]:
+            for directory in search_dirs:
+                if not directory or not os.path.isdir(directory):
+                    continue
+                for name in ("ligand.pdb", "ligand.gro"):
+                    candidate = Path(directory) / name
+                    if candidate.is_file() and str(candidate) not in analysis["ligand_files"]:
+                        analysis["ligand_files"].append(str(candidate))
+                        logger.info(f"Ligand coordinates from generic file: {candidate}")
+                        break
+                if analysis["ligand_files"]:
+                    break
+        if analysis["has_ions"] and not analysis["ion_files"]:
+            for directory in search_dirs:
+                if not directory or not os.path.isdir(directory):
+                    continue
+                for name in ("ions.pdb", "ions.gro", "ion.pdb", "ion.gro"):
+                    candidate = Path(directory) / name
+                    if candidate.is_file() and str(candidate) not in analysis["ion_files"]:
+                        analysis["ion_files"].append(str(candidate))
+                        logger.info(f"Ion coordinates from generic file: {candidate}")
+                        break
+                if analysis["ion_files"]:
+                    break
         
         # --- Source 3: HETATM scan of pdb_file (fallback) ---
         if os.path.exists(pdb_file):
@@ -1342,7 +1386,29 @@ Return JSON with: reasoning, overview, steps (name, description, tool_name, tool
             if ion_resnames:
                 tool_params["ion_resname"] = ion_resnames[0]
 
-        steps = [
+        steps = []
+        # The single-step fallback used to call build_simulation_system without
+        # an ITP, so declared ATP was omitted from system.gro. Parameterize first.
+        if analysis.get("has_ligand") and not analysis.get("ligand_itps"):
+            ligand_pdb = (analysis.get("ligand_files") or [None])[0]
+            ligand_resname = (analysis.get("ligand_resnames") or [None])[0]
+            if ligand_pdb:
+                steps.append(
+                    SimSetupStep(
+                        name="Parameterize ligand",
+                        description=(
+                            f"Generate GAFF2 parameters for "
+                            f"{ligand_resname or 'ligand'} before the system build"
+                        ),
+                        tool_name="generate_ligand_parameters",
+                        tool_params={
+                            "ligand_pdb": ligand_pdb,
+                            "net_charge": -4 if str(ligand_resname or "").upper() == "ATP" else None,
+                        },
+                        reason="Ligand coordinates exist but no topology ITP is available yet",
+                    )
+                )
+        steps.append(
             SimSetupStep(
                 name="Build Complete System",
                 description=(
@@ -1353,7 +1419,7 @@ Return JSON with: reasoning, overview, steps (name, description, tool_name, tool
                 tool_params=tool_params,
                 reason="Single orchestrator handles all system types with modular delegation"
             ),
-        ]
+        )
 
         return SimSetupPlan(
             reasoning="Using build_simulation_system orchestrator (LLM fallback)",
@@ -1605,6 +1671,34 @@ Return JSON with: reasoning, overview, steps (name, description, tool_name, tool
                     lpdb = tool_params.get("ligand_pdb", "")
                     if lpdb and not Path(lpdb).is_absolute():
                         tool_params["ligand_pdb"] = str(Path(simsetup_dir) / Path(lpdb).name)
+                    resolved_lpdb = Path(str(tool_params.get("ligand_pdb") or ""))
+                    if not resolved_lpdb.is_file():
+                        generic = Path(simsetup_dir) / "ligand.pdb"
+                        if generic.is_file():
+                            tool_params["ligand_pdb"] = str(generic)
+                            logger.info(
+                                "Ligand PDB %s missing; using %s",
+                                resolved_lpdb.name or "(unset)",
+                                generic.name,
+                            )
+                    # ATP is -4. A planned charge of 0 makes antechamber fail or
+                    # emit a neutral ligand that never lands in system.gro.
+                    declared = {
+                        str(r).upper()
+                        for r in (state.get("ligand_resnames") or [])
+                    }
+                    ligand_name = Path(str(tool_params.get("ligand_pdb") or "")).stem.upper()
+                    if "ATP" in declared or ligand_name == "ATP":
+                        try:
+                            planned_charge = int(tool_params.get("net_charge"))
+                        except (TypeError, ValueError):
+                            planned_charge = None
+                        if planned_charge in (None, 0):
+                            tool_params["net_charge"] = -4
+                            logger.info(
+                                "ATP net charge set to -4 (plan had %s)",
+                                planned_charge,
+                            )
                 
                 elif step.tool_name == "build_topology" and "output_file" not in tool_params:
                     tool_params["output_file"] = "processed.gro"
@@ -1622,6 +1716,24 @@ Return JSON with: reasoning, overview, steps (name, description, tool_name, tool
                     if ligand_gro_path:
                         tool_params["ligand_file"] = Path(ligand_gro_path).name
                         logger.info(f"Injecting actual ligand_file: {Path(ligand_gro_path).name}")
+                    else:
+                        # Fallback and some LLM plans name the ligand ATP.pdb.
+                        # Preprocess writes ligand.pdb, so ATP never reaches system.gro.
+                        comp = state.get("component_selection") or {}
+                        if comp.get("ligand") is not False:
+                            generic = Path(simsetup_dir) / "ligand.pdb"
+                            current_name = Path(str(tool_params.get("ligand_file") or "")).name
+                            current = Path(simsetup_dir) / current_name if current_name else None
+                            if generic.is_file() and (current is None or not current.is_file()):
+                                tool_params["ligand_file"] = generic.name
+                                logger.info("Injecting ligand_file=ligand.pdb")
+                            if not tool_params.get("ligand_resname"):
+                                names = [
+                                    str(r) for r in (state.get("ligand_resnames") or [])
+                                    if str(r).strip()
+                                ]
+                                if names:
+                                    tool_params["ligand_resname"] = names[0]
                         
                 elif step.tool_name == "build_simulation_box" and "output_file" not in tool_params:
                     tool_params["output_file"] = "boxed.gro"

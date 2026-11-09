@@ -18,7 +18,7 @@ pool sizing ([POOLS.md](POOLS.md)), analysis theory
 
 | Term | Meaning |
 |------|---------|
-| **Required calculations** | Measurements that must run for every protein (pocket COM/orientation, RMSF, DCCM, dihedral PCA). The LLM cannot skip them. |
+| **Required calculations** | Measurements the active feature pack pins for every protein (pocket COM/orientation when a ligand is declared, torsions, RMSF, DCCM). The LLM cannot skip them. Shared-reference dynamics is a post pin, not a per-sim PCA directory. |
 | **Shared analysis protocol** | The same compiled tool list and output directories applied to every protein. |
 | **Required shared setup** | Structure-only work done once before per-protein MD (MSA, pocket definition, residue map). |
 | **Restricted to the study directory** | File tools can only list/read inside this campaign or the current protein folder. |
@@ -31,12 +31,25 @@ The natural-language `--goal` is compiled **once** into `state["campaign_spec"]`
 
 | Field | Role |
 |-------|------|
-| `mode` | `family_modular` or `generic` |
-| `shared_analysis_protocol` (`analysis_recipe`) | Same calculations and output dirs for every protein |
-| `contract` | Required `consensus_*` dirs and feature-column density |
+| `mode` | `single_md` (N=1), `multi_protocol` (N>1, same non-family protocol), `family_modular`, or `apo_holo` |
+| `shared_analysis_protocol` (`analysis_recipe`) | Same calculations and output dirs for every protein. Non-family runs get a **soft** recipe only when the goal names classic metrics (RMSD, RMSF, Rg, …); a broad “dynamics” goal stays empty so the analysis LLM chooses |
+| `post_combined_recipe` / `pin_post_tools` | Combined-stage pins (shared-reference dynamics, apo/holo overlays) |
+| `contract` | Required `consensus_*` dirs and feature-column density for family mode |
 | `required_calculations` | Measurements that must run for every protein (not optional LLM choices) |
 | `required_shared_setup` | Structure-only setup every simulation consumes (MSA, pocket, residue map) |
+| `settings.family_detect` | Why family mode was on or off (`score`, `signals`, `reason`) |
 | `allow_partial_combined` | Science-report flag only. Dendrogram + heatmap still plot from whatever columns exist |
+
+`campaign.yaml` selects the program:
+
+| Key | Values |
+|-----|--------|
+| `family_modular` | `auto` (default; ≥2 modular signals, or a comparative phrase plus one signal), `force`, or `off` |
+| `feature_pack` | `from_goal` (default: columns and tools named in the goal, any count), or a preset: `shared_pocket_dynamics`, `pocket_chi_rmsf_dccm`, `rmsf_dccm_only`. `paper_sharedpcdyn` is a legacy alias of `shared_pocket_dynamics` |
+| `reference_label` | Directory name of the shared-dynamics reference. Empty uses the first system with consensus dihedrals, then a `p17612*` label if one exists |
+| `feature_plugins` | Extra calculators merged into the pack (`tool_name`, `output_dir`, `feature_columns`, `stage`: `per_sim` / `post` / `pre`) |
+
+A single system is still the multi-sim tree with N=1 (no combined stage). Resume reads `{base}/planner/campaign_spec.json` before `goal.txt`, so a truncated goal cannot turn family gates off.
 
 Per-sim workers receive `user_goal_original` **and** `campaign_spec`. They do
 not invent a new analysis shopping list.
@@ -52,15 +65,18 @@ science excerpt) is used instead.
 
 A system is science-complete only when:
 
-1. The modular directories from the shared analysis protocol exist
-   (`consensus_dihedrals`, `consensus_rmsf`, `consensus_DCCM`;
-   `consensus_PCA` is optional / legacy — shared-ref dyn is a post pin)
+1. The modular directories from the **active feature pack** exist
+   (only the descriptors the goal selected, for example `consensus_rmsf`
+   and `consensus_DCCM`).
+   `consensus_PCA/` is optional and is **not** a per-sim gate. Shared-reference
+   dynamics is a post pin and writes campaign-level features, not a per-sim
+   `consensus_PCA/` requirement.
 2. Every **required calculation** has left its artifact contract (including
    pocket metrics: `reference_pocket_metrics.json` /
    `ligand_pocket_distance.csv`, typically under `analysis/repXX/` or
    `analysis/reference_pocket/`)
 
-A family campaign *prefers* the 9 gold columns when they are filled. Combined
+A family campaign prefers the columns compiled from the goal (or from `gold_columns`) when they are filled. Combined
 Ward still runs on any usable table (≥2 systems and ≥2 numeric columns) so a
 generic goal that only asks for RMSF / χ₁ / entropy still gets a
 dendrogram+heatmap. Missing gold columns are a **warning** in `run_summary`
@@ -75,20 +91,30 @@ When the goal is a comparative protein-family study, every system runs the
 **same** analysis protocol (compiled once, applied to all). The LLM does not
 invent a different tool list per protein. The protocol is:
 
-1. `calculate_consensus_pocket_metrics` → COM + axis-angle (`ligand_pocket_distance.csv` alias)
-2. `calculate_consensus_torsions` → `consensus_dihedrals/`
+1. `calculate_consensus_pocket_metrics` → COM + axis-angle (omitted when no ligand is declared)
+2. `calculate_consensus_torsions` → `consensus_dihedrals/` (omitted by `rmsf_dccm_only`)
 3. `calculate_consensus_rmsf_features` → `consensus_rmsf/`
 4. `calculate_consensus_dccm_features` → `consensus_DCCM/`
-5. `run_independent_dynamics_fel` (dihedral PCA) → `consensus_PCA/`
+
+`run_independent_dynamics_fel` (dihedral PCA → `consensus_PCA/`) is available
+as a tool and is batchable, but it is **not** a required per-sim pin.
+A goal that asks for shared-reference dihedral PCA pins
+`compute_shared_pka_ref_dyn_features` at **post-combined**, using
+`reference_label` (the reference named in the goal, otherwise the first
+system). The optional `shared_pocket_dynamics` preset always includes that step.
 
 `--reuse-hpc` also skips LLM preprocess/setup planning (deterministic fallback).
 
 Resume/skip checks use the science contract. HTML + RMSD no longer mark a
 family system complete. The shared analysis protocol is complete when the
-four `consensus_*` directories **and** the required pocket-metric files exist
-(RMSD is not required). Combined Ward always includes the 9 preferred
-columns so the LLM cannot drop axis-angle / RMSF / χ₁ / DCCM / entropy from
-the collected table — empty columns are recorded as unavailable instead.
+pack’s `consensus_*` directories **and** any required pocket-metric files exist
+(RMSD is not required; `consensus_PCA/` is not required). Combined Ward prefers
+the pack’s gold columns — empty columns are recorded as unavailable instead.
+Family **post-combined** is done only when `classification_features.csv`
+exists. Generic multi-sim combined can finish on overlays and `*_stats.csv`
+alone. A `success: false` marker does not block the reporter when those
+artifacts are already on disk. Combined analysis re-entry is capped (default 2)
+so a false gate cannot loop until the graph recursion limit.
 Per-sim **success is artifact-gated**. `plot_md_data` / other `plot_*`
 failures are warnings. A failed H-bond/SASA plot does not fail the
 simulation or trigger a 3× replan. Retries reuse the compiled plan,
@@ -125,8 +151,9 @@ only the tools that match the goal, not every RMSD/H-bond/SLURM helper.
 
 The same embedder retrieves **knowledge chunks**. Planner context is
 `[kb:category.doc#heading]` citations, not a 6–10k dump of every manual.
-The index is `planner/knowledge_index.json` (next to
-`agentic/planner/knowledge/`, copied into the campaign `planner/` folder).
+The index is generated at `agentic/planner/knowledge_index.json` (next to
+`agentic/planner/knowledge/`) and copied into the campaign `planner/` folder.
+That cache is local; it is not part of the published tree.
 
 ```bash
 # optional override; campaign.yaml embed_model is used when this is unset

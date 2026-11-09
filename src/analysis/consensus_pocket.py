@@ -236,6 +236,49 @@ def _build_per_label_resid_map(
     return out
 
 
+def _safe_output_prefix(prefix: str) -> str:
+    """Filename stem only. An absolute prefix makes alias copies target the same file."""
+    name = Path(str(prefix or "")).name.strip()
+    for suffix in (".csv", ".json", ".dat"):
+        if name.lower().endswith(suffix):
+            name = name[: -len(suffix)]
+    for token in ("_ligand_orientation", "_ligand_distance", "_metrics"):
+        if name.endswith(token):
+            name = name[: -len(token)]
+    name = name.replace("/", "").strip("._")
+    return name or "reference_pocket"
+
+
+def _resolve_pocket_label(requested: str, known: Sequence[str]) -> Optional[str]:
+    """Match a display or folder label onto a pocket-definition label.
+
+    ``p17612`` matches ``p17612_ATP``. Gene names such as ``KAPCA_ATP`` do not
+    match a UniProt key; callers should pass the simulation directory name.
+    """
+    req = str(requested or "").strip()
+    known_list = [str(k) for k in known if str(k).strip()]
+    if not req or not known_list:
+        return None
+    by_lower = {k.lower(): k for k in known_list}
+    candidates = [req]
+    low = req.lower()
+    for suf in ("_atp", "_adp", "_amp"):
+        if low.endswith(suf):
+            candidates.append(req[: -len(suf)])
+        else:
+            candidates.append(req + suf.upper())
+    for cand in candidates:
+        hit = by_lower.get(cand.lower())
+        if hit:
+            return hit
+    for cand in candidates:
+        cl = cand.lower()
+        for key, orig in by_lower.items():
+            if key.startswith(cl + "_") or cl.startswith(key + "_"):
+                return orig
+    return None
+
+
 def _coverage_fraction(
     pocket_positions: Sequence[Dict[str, Any]],
     label: str,
@@ -1158,21 +1201,56 @@ def map_consensus_pocket_residues(
     with open(def_path, encoding="utf-8") as fh:
         definition = json.load(fh)
 
-    all_labels = [str(l) for l in (definition.get("labels") or [])]
-    target_labels = [str(l) for l in (labels or all_labels)]
-    pocket_positions = definition.get("consensus_pocket_positions") or []
+    pocket_positions = definition.get("consensus_pocket_positions")
+    # An MSA JSON copied onto the pocket-definition path has no pocket positions.
+    # Do not rewrite the residue map as a header-only CSV.
+    if not isinstance(pocket_positions, list) or len(pocket_positions) < 3:
+        return {
+            "success": False,
+            "error": (
+                f"Pocket definition {def_path.name} has "
+                f"{0 if not isinstance(pocket_positions, list) else len(pocket_positions)} "
+                "pocket positions; need >=3. Re-run define_pocket_mapped_residues."
+            ),
+            "stage": "map",
+        }
 
-    per_label_resids = _build_per_label_resid_map(pocket_positions, target_labels)
+    all_labels = [str(l) for l in (definition.get("labels") or [])]
+    if not all_labels:
+        seen = []
+        for pos in pocket_positions:
+            for key in (pos.get("mappings") or {}):
+                if str(key) not in seen:
+                    seen.append(str(key))
+        all_labels = seen
+    requested = [str(l) for l in (labels or all_labels)]
+    resolved: List[str] = []
+    for lab in requested:
+        hit = _resolve_pocket_label(lab, all_labels)
+        if hit and hit not in resolved:
+            resolved.append(hit)
+    # Display names (KAPCA_ATP) do not match UniProt keys (p17612_ATP).
+    # Keep the definition labels instead of writing an all-zero resid map.
+    if all_labels and len(resolved) < max(1, (len(requested) + 1) // 2):
+        resolved = list(all_labels)
+    target_labels = resolved or list(all_labels)
+
+    per_label_resids = _build_per_label_resid_map(pocket_positions, all_labels or target_labels)
+    for lab in requested:
+        hit = _resolve_pocket_label(lab, all_labels)
+        if hit and lab not in per_label_resids:
+            per_label_resids[lab] = list(per_label_resids.get(hit) or [])
     per_label_coverage = {
-        lab: _coverage_fraction(pocket_positions, lab) for lab in target_labels
+        lab: _coverage_fraction(pocket_positions, _resolve_pocket_label(lab, all_labels) or lab)
+        for lab in (all_labels or target_labels)
     }
     usable = [
         lab
-        for lab in target_labels
+        for lab in (all_labels or target_labels)
         if per_label_coverage.get(lab, 0.0) >= float(min_coverage)
         and len(per_label_resids.get(lab, [])) >= 3
     ]
-    skipped = [lab for lab in target_labels if lab not in usable]
+    skipped = [lab for lab in (all_labels or target_labels) if lab not in usable]
 
     definition["per_label_resids"] = per_label_resids
     definition["per_label_coverage"] = per_label_coverage
@@ -1183,18 +1261,66 @@ def map_consensus_pocket_residues(
     with open(def_path, "w", encoding="utf-8") as fh:
         json.dump(definition, fh, indent=2)
     csv_path = out_dir / residue_map_csv
-    _write_residue_map_csv(csv_path, pocket_positions, all_labels)
+    _write_residue_map_csv(csv_path, pocket_positions, all_labels or target_labels)
     _mirror_artifact(def_path, out_dir / DEFAULT_DEFINITION_JSON)
     _mirror_artifact(def_path, out_dir / LEGACY_DEFINITION_JSON)
     _mirror_artifact(csv_path, out_dir / DEFAULT_RESIDUE_MAP_CSV)
     _mirror_artifact(csv_path, out_dir / LEGACY_RESIDUE_MAP_CSV)
     _mirror_artifact(csv_path, out_dir / "reference_pocket_resid_map.csv")
 
+    # Always emit pocket_mapped.json (per-sim resid lists) — axis-angle / COM
+    # resolve this file, not the definition JSON. Honor explicit output_json when
+    # the caller asks for pocket_mapped.json; otherwise write the standard name.
+    mapped_name = Path(output_json).name if output_json else "pocket_mapped.json"
+    if mapped_name in (
+        DEFAULT_DEFINITION_JSON,
+        LEGACY_DEFINITION_JSON,
+        Path(definition_json).name,
+    ):
+        mapped_name = "pocket_mapped.json"
+    per_sim: Dict[str, Any] = {}
+    for lab, resids in per_label_resids.items():
+        clean = [int(r) for r in (resids or []) if r is not None]
+        per_sim[str(lab)] = {
+            "resids": clean,
+            "selection": (
+                f"resid {' '.join(str(r) for r in clean)}" if clean else ""
+            ),
+        }
+    pocket_map_payload = {
+        "schema_version": "1.0",
+        "mapping_kind": "pocket_mapped",
+        "reference_label": definition.get("reference_label"),
+        "reference_selection": definition.get("ligand_selection")
+        or definition.get("reference_selection"),
+        "per_sim": per_sim,
+        "notes": "Written by map_consensus_pocket_residues from pocket definition",
+        "source": def_path.name,
+        "usable_labels": usable,
+        "per_label_coverage": per_label_coverage,
+    }
+    mapped_path = out_dir / mapped_name
+    mapped_path.write_text(
+        json.dumps(pocket_map_payload, indent=2) + "\n", encoding="utf-8"
+    )
+    if mapped_name != "pocket_mapped.json":
+        _mirror_artifact(mapped_path, out_dir / "pocket_mapped.json")
+    _mirror_artifact(mapped_path, out_dir / "pocket_map.json")
+    # Keep campaign cross_sim/ in sync when working_dir is analysis/.
+    try:
+        from src.analysis.cross_sim_artifacts import write_pocket_map
+
+        campaign_root = out_dir.parent if out_dir.name in ("analysis", "cross_sim") else out_dir
+        write_pocket_map(campaign_root, pocket_map_payload)
+    except Exception:
+        pass
+
     return {
         "success": True,
         "message": f"Mapped pocket_mapped residues to {len(usable)}/{len(target_labels)} simulations",
         "definition_json": str(out_dir / DEFAULT_DEFINITION_JSON),
         "residue_map_csv": str(out_dir / DEFAULT_RESIDUE_MAP_CSV),
+        "pocket_map_json": str((out_dir / "pocket_mapped.json").resolve()),
         "per_label_resids": per_label_resids,
         "per_label_coverage": per_label_coverage,
         "usable_labels": usable,
@@ -1343,27 +1469,28 @@ def resolve_pocket_resids_for_sim(
 
 def _write_pocket_collector_aliases(adir: Path, output_prefix: str) -> Dict[str, str]:
     """Copy COM / orientation products to names collectors already search."""
+    prefix = _safe_output_prefix(output_prefix)
     aliases: Dict[str, str] = {}
-    dist = adir / f"{output_prefix}_ligand_distance.csv"
+    dist = adir / f"{prefix}_ligand_distance.csv"
     dest = adir / "ligand_pocket_distance.csv"
-    if dist.is_file() and dist.resolve() != dest.resolve():
-        shutil.copy2(dist, dest)
+    if dist.is_file():
+        _mirror_artifact(dist, dest)
         aliases["ligand_pocket_distance_csv"] = str(dest)
-    orient = adir / f"{output_prefix}_ligand_orientation.csv"
+    orient = adir / f"{prefix}_ligand_orientation.csv"
     dest_o = adir / "pocket_axis_angle.csv"
-    if orient.is_file() and orient.resolve() != dest_o.resolve():
-        shutil.copy2(orient, dest_o)
+    if orient.is_file():
+        _mirror_artifact(orient, dest_o)
         aliases["pocket_axis_angle_csv"] = str(dest_o)
     rp_dir = adir / "reference_pocket"
     rp_dir.mkdir(parents=True, exist_ok=True)
-    metrics = adir / f"{output_prefix}_metrics.json"
+    metrics = adir / f"{prefix}_metrics.json"
     if metrics.is_file():
-        shutil.copy2(metrics, rp_dir / "reference_pocket_metrics.json")
+        _mirror_artifact(metrics, rp_dir / "reference_pocket_metrics.json")
         aliases["reference_pocket_metrics_json"] = str(
             rp_dir / "reference_pocket_metrics.json"
         )
     if orient.is_file():
-        shutil.copy2(orient, rp_dir / f"{output_prefix}_ligand_orientation.csv")
+        _mirror_artifact(orient, rp_dir / f"{prefix}_ligand_orientation.csv")
     return aliases
 
 
@@ -1425,6 +1552,7 @@ def calculate_consensus_pocket_metrics(
 
     sim_root = sim_directory or sim_dir
     lab = label or Path(sim_root).name
+    output_prefix = _safe_output_prefix(output_prefix)
     resids = resolve_pocket_resids_for_sim(
         pocket_resids=pocket_resids,
         label=lab,
@@ -1564,13 +1692,16 @@ def calculate_consensus_pocket_metrics(
         }
         summary_path = f"{output_prefix}_metrics.json"
         Path(summary_path).write_text(json.dumps(summary, indent=2), encoding="utf-8")
-        aliases = _write_pocket_collector_aliases(adir, output_prefix)
+        try:
+            aliases = _write_pocket_collector_aliases(adir, output_prefix)
+        except Exception as alias_exc:
+            logger.warning("Pocket alias copy skipped: %s", alias_exc)
+            aliases = {}
         if aliases:
             summary["outputs"].update(aliases)
             Path(summary_path).write_text(json.dumps(summary, indent=2), encoding="utf-8")
             rp_metrics = adir / "reference_pocket" / "reference_pocket_metrics.json"
-            if rp_metrics.is_file():
-                shutil.copy2(summary_path, rp_metrics)
+            _mirror_artifact(adir / summary_path, rp_metrics)
 
         append_analysis_summary(
             working_dir=str(adir),
@@ -1730,10 +1861,12 @@ def run_consensus_pocket_metrics_batch(
         if not def_res.get("success"):
             return {"success": False, "stage": "define", **def_res}
 
+    # Map with the definition's own labels. Passing gene-name labels
+    # (KAPCA_ATP) against UniProt keys (p17612_ATP) zeroed every resid list.
     map_res = map_consensus_pocket_residues.func(
         working_dir=str(out_dir),
         definition_json=definition_json,
-        labels=labels,
+        labels=None,
         min_coverage=min_coverage,
     )
     if not map_res.get("success"):
@@ -1746,30 +1879,36 @@ def run_consensus_pocket_metrics_batch(
 
     results: Dict[str, Any] = {}
     failed: List[str] = []
+    known_keys = list(per_label_resids) or list(usable)
     for sd, lab in zip(sim_dirs, labels):
         lab = str(lab)
         sim_uid = Path(sd).name
-        if lab not in usable:
-            failed.append(lab)
-            results[lab] = {
+        canon = (
+            _resolve_pocket_label(sim_uid, known_keys)
+            or _resolve_pocket_label(lab, known_keys)
+        )
+        if not canon or canon not in usable:
+            failed.append(sim_uid or lab)
+            results[sim_uid or lab] = {
                 "success": False,
                 "error": "insufficient pocket mapping coverage",
-                "coverage": (map_res.get("per_label_coverage") or {}).get(lab),
+                "coverage": (map_res.get("per_label_coverage") or {}).get(canon or lab),
+                "requested_label": lab,
             }
             continue
-        resids = per_label_resids.get(lab) or []
+        resids = per_label_resids.get(canon) or per_label_resids.get(sim_uid) or []
         mres = calculate_consensus_pocket_metrics.func(
             sim_dir=sd,
             pocket_resids=resids,
-            label=lab,
+            label=sim_uid or lab,
             ligand_selection=ligand_selection,
             frame_interval=frame_interval,
             working_dir=str(pocket_root / sim_uid),
             output_prefix="reference_pocket",
         )
-        results[lab] = mres
+        results[sim_uid or lab] = mres
         if not mres.get("success"):
-            failed.append(lab)
+            failed.append(sim_uid or lab)
 
     manifest = {
         "reference_label": reference_label,
@@ -1783,7 +1922,11 @@ def run_consensus_pocket_metrics_batch(
         "usable_sim_ids": sorted(
             Path(sd).name
             for sd, lab in zip(sim_dirs, labels)
-            if str(lab) in usable
+            if (
+                _resolve_pocket_label(Path(sd).name, known_keys)
+                or _resolve_pocket_label(str(lab), known_keys)
+            )
+            in usable
         ),
         "per_label_coverage": map_res.get("per_label_coverage"),
     }

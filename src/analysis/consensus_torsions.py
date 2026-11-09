@@ -40,6 +40,23 @@ def _resolve_traj(
     )
 
 
+def _pocket_resids_from_json(pocket_map_json: str, label: str) -> Optional[List[int]]:
+    """Load per-sim pocket PDB resids from ``pocket_mapped.json`` when present."""
+    if not pocket_map_json:
+        return None
+    path = Path(pocket_map_json)
+    if not path.is_file():
+        return None
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    from src.analysis.cross_sim_artifacts import pocket_resids_for_label
+
+    resids = pocket_resids_for_label(data, label)
+    return resids or None
+
+
 @tool
 def calculate_consensus_torsions(
     topology_file: str = "",
@@ -49,6 +66,7 @@ def calculate_consensus_torsions(
     angles: Optional[List[str]] = None,
     residue_scope: str = "mapped",
     pocket_map_csv: str = "",
+    pocket_map_json: str = "",
     output_dir: str = "consensus_dihedrals",
     working_dir: Optional[str] = None,
     sim_directory: Optional[str] = None,
@@ -65,6 +83,9 @@ def calculate_consensus_torsions(
     (intersection with pocket_map_csv consensus indices), or ``all`` (alias of mapped).
 
     **angles:** subset of ``phi``, ``psi``, ``chi1`` (default all three).
+
+    Pocket χ₁ summary prefers ``pocket_map_json`` per-sim PDB resids (same list as
+    axis-angle/COM). Falls back to ``pocket_map_csv`` consensus indices.
 
     Writes under ``{working_dir}/{output_dir}/``:
     ``phi_deg.npy``, ``psi_deg.npy``, ``chi1_deg.npy``, ``dihedral_sincos.npy``,
@@ -119,6 +140,17 @@ def calculate_consensus_torsions(
             }
 
         pocket_ci = load_pocket_consensus_indices(pocket_map_csv or None)
+        pocket_resids = _pocket_resids_from_json(pocket_map_json or "", label)
+        if pocket_resids is None and sim_directory:
+            # Discover campaign pocket_mapped.json next to the sim when unset.
+            for cand in (
+                Path(sim_directory).parent / "analysis" / "pocket_mapped.json",
+                Path(sim_directory).parent / "cross_sim" / "pocket_mapped.json",
+            ):
+                pocket_resids = _pocket_resids_from_json(str(cand), label)
+                if pocket_resids:
+                    break
+        pocket_resid_set = set(pocket_resids) if pocket_resids else None
         scope = (residue_scope or "mapped").lower()
         if scope == "all":
             scope = "mapped"
@@ -229,19 +261,37 @@ def calculate_consensus_torsions(
                     }
                 )
 
-        # Global / pocket χ₁ circular means
+        # Global / pocket χ₁ circular means.
+        # Pocket summary uses circular mean/std of *per-residue* χ₁ means
+        # (paper / ment add_chi1_mean_features convention), not pooled frames.
         chi_all = chi_ts[:, [j for j, h in enumerate(has_chi) if h]].ravel()
         chi1_global_mean, chi1_global_std = circ_mean_std_deg(chi_all)
         chi1_pocket_mean = chi1_pocket_std = float("nan")
-        if pocket_ci:
+        pocket_cols: List[int] = []
+        pocket_filter = "none"
+        if pocket_resid_set is not None:
+            pocket_cols = [
+                j
+                for j, e in enumerate(entries)
+                if e["has_chi1"] and int(e["resid"]) in pocket_resid_set
+            ]
+            pocket_filter = "pocket_map_json_resids"
+        elif pocket_ci:
             pocket_cols = [
                 j
                 for j, e in enumerate(entries)
                 if e["has_chi1"] and e["consensus_index"] in pocket_ci
             ]
-            if pocket_cols:
+            pocket_filter = "pocket_map_csv_consensus_index"
+        if pocket_cols:
+            per_res_means = []
+            for j in pocket_cols:
+                m, _s = circ_mean_std_deg(chi_ts[:, j])
+                if np.isfinite(m):
+                    per_res_means.append(m)
+            if per_res_means:
                 chi1_pocket_mean, chi1_pocket_std = circ_mean_std_deg(
-                    chi_ts[:, pocket_cols].ravel()
+                    np.asarray(per_res_means, dtype=float)
                 )
 
         summary = {
@@ -252,6 +302,8 @@ def calculate_consensus_torsions(
             "chi1_pocket_circ_std_deg": chi1_pocket_std,
             "n_residues": len(entries),
             "n_with_chi1": int(sum(has_chi)),
+            "n_pocket_chi1": len(pocket_cols),
+            "pocket_filter": pocket_filter,
             "angles": angles,
             "residue_scope": scope,
         }

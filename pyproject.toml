@@ -1,0 +1,67 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "simagent"
+version = "1.0.0"
+description = "SimAgent: LLM-powered GROMACS molecular dynamics workflows"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
+authors = [{ name = "Anup K. Prasad" }]
+keywords = ["molecular-dynamics", "gromacs", "llm", "simagent"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+    "Topic :: Scientific/Engineering :: Chemistry",
+]
+dependencies = [
+    "numpy>=1.26",
+    "scipy>=1.11",
+    "pandas>=2.0",
+    "matplotlib>=3.8",
+    "seaborn>=0.13",
+    "scikit-learn>=1.4",
+    "openpyxl>=3.1",
+    "MDAnalysis>=2.7",
+    "biopython>=1.83",
+    "parmed>=4.3",
+    "PyYAML>=6",
+    "requests>=2.31",
+    "paramiko>=3",
+    "pydantic>=2",
+    "langchain>=0.3",
+    "langchain-core>=0.3",
+    "langgraph>=0.2",
+    "ollama>=0.4",
+    "networkx>=3",
+    "psutil>=5.9",
+    "tiktoken>=0.7",
+    "PyPDF2>=3",
+    "tqdm>=4.66",
+]
+
+[project.urls]
+Homepage = "https://github.com/anupkprasad/simagent"
+Repository = "https://github.com/anupkprasad/simagent"
+Documentation = "https://github.com/anupkprasad/simagent/blob/main/docs/PROJECT.md"
+
+[project.scripts]
+simagent = "agentic.cli:main"
+
+[tool.setuptools]
+py-modules = ["SimAgent", "llm_config"]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["agentic*", "src*"]
+exclude = ["tests*"]
+
+[tool.setuptools.package-data]
+agentic = ["**/*.yaml", "**/*.yml", "**/*.md", "**/*.json"]
+src = ["**/*.csv", "**/*.md", "**/*.tcl", "**/*.itp"]

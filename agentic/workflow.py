@@ -1684,6 +1684,15 @@ Execution Path: {' → '.join(state.get('execution_path', []))}
                 state["reporter_output"] = None
                 state["figures"] = []
                 state["input_validated"] = False
+                # A new invocation without --resume must not reopen the HPC
+                # pool from the previous checkpoint. --retry-labels is also
+                # how a full cohort is selected, so its presence is not a resume.
+                state.pop("hpc_pool", None)
+                state.pop("parallel_pool", None)
+                state.pop("hpc_pool_phase_complete", None)
+                state.pop("post_hpc_analysis_only", None)
+                state.pop("use_hpc_pool", None)
+                state["hpc_pool_disabled"] = False
                 logger.info(
                     "[multi-sim] Fresh run — cleared stale loop/checkpoint state; "
                     "supervisor will enrich, build master plan, then enter per-sim loop"

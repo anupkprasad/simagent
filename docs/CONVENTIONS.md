@@ -6,7 +6,7 @@ repo*, not a description of the running system.
 
 **In this file:** `MDState` rules, agent layout, pluggable registries, LLM
 calls, graph edges, multi-sim / HITL / resume conventions, MD and HPC
-defaults, path handling, how to document a mechanism, testing.
+defaults, path handling, how to document a mechanism.
 
 **Not in this file:** LangGraph topology ([ARCHITECTURE.md](ARCHITECTURE.md)),
 product overview ([PROJECT.md](PROJECT.md)), run walkthrough
@@ -167,7 +167,9 @@ uses the registry automatically.
   progress. A normal re-run without `--resume` regenerates the master plan and
   restarts the per-sim loop (see `docs/ARCHITECTURE.md` directory layout).
 - **`campaign.yaml`** is the source of truth for mapping / retrieval / gold
-  columns / HITL defaults. Agent `config.yaml` files stay for prompts. Env
+  columns / HITL defaults, and for study shape: `family_modular`
+  (`force` \| `auto` \| `off`), `feature_pack`, `reference_label`, and
+  `feature_plugins`. Agent `config.yaml` files stay for prompts. Env
   `AGENTIC_*` and CLI `--HITL` / `--campaign-yaml` override. See
   [CAMPAIGN_AND_RETRIEVAL.md](CAMPAIGN_AND_RETRIEVAL.md).
 
@@ -271,7 +273,7 @@ explicitly asks for it. Mentions of “HPC cluster” do not count.
 - `write_run_summary(working_dir, summary)` → writes `run_summary.json` + `run_summary.md`
 - `format_run_summary_terminal(summary)` → terminal-printable string
 
-Call at workflow exit in `SimAgent.py`. Do **not** use `len(pdb_list)` for
+Call at workflow exit in `agentic/cli.py`. Do **not** use `len(pdb_list)` for
 the total simulation count — use `build_run_summary` which reads from `sim_prompts`.
 
 ---
@@ -334,15 +336,6 @@ inline comments.
    (the relevant agent) if the change is not already obvious from the file
    you edited.
 5. Keep the code comment short; the doc is the source of truth for “why”.
-
----
-
-## Testing
-
-- Tests live in `tests/`.
-- Test both LLM-enabled and fallback (no-LLM) modes.
-- Use the mock LLM client for unit tests.
-- When adding a new agent, add a corresponding mock tool response fixture.
 
 ---
 

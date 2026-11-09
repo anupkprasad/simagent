@@ -20,7 +20,7 @@ _UNIPROT_RE = re.compile(r"^[A-Z][0-9][A-Z0-9]{3,9}$")
 def _http_get_text(url: str, timeout: int = 60) -> str:
     req = urllib.request.Request(
         url,
-        headers={"User-Agent": "agenticAI-preprocess/1.0"},
+        headers={"User-Agent": "SimAgent/1.0"},
     )
     with urllib.request.urlopen(req, timeout=timeout) as response:
         return response.read().decode("utf-8", errors="replace")

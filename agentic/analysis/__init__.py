@@ -1,5 +1,5 @@
 """
-Analysis module for AgenticAI
+Analysis module for SimAgent
 
 Provides MD trajectory analysis capabilities including:
 - RMSD (Root Mean Square Deviation) - structural stability

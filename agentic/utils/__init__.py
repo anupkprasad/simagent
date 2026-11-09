@@ -1,4 +1,4 @@
-"""Utility modules for AgenticAI workflow
+"""Utility modules for the SimAgent workflow
 
 This package contains shared utilities used across all agents and workflow components:
 - conversation_logger: Logging conversations and workflow state

@@ -1318,17 +1318,25 @@ def collect_features_for_sim(
                     orient_csv, ("axis_angle_deg", "axis_angle")
                 ):
                     break
-    orient_m, orient_s = _csv_mean_std(orient_csv, "axis_angle_deg")
-    if orient_m is None:
-        orient_m, orient_s = _csv_mean_std(orient_csv, "axis_angle")
-    if orient_m is not None:
-        row["reference_pocket_mean_ligand_axis_angle_deg"] = orient_m
-        row["reference_pocket_std_ligand_axis_angle_deg"] = orient_s
+    # Orientation CSV is a fallback only. Do not overwrite rep-averaged
+    # reference_pocket_metrics (axis mean/std) with a single-rep CSV.
+    need_orient_mean = row.get("reference_pocket_mean_ligand_axis_angle_deg") is None
+    need_orient_std = row.get("reference_pocket_std_ligand_axis_angle_deg") is None
+    if need_orient_mean or need_orient_std:
+        orient_m, orient_s = _csv_mean_std(orient_csv, "axis_angle_deg")
+        if orient_m is None:
+            orient_m, orient_s = _csv_mean_std(orient_csv, "axis_angle")
+        if need_orient_mean and orient_m is not None:
+            row["reference_pocket_mean_ligand_axis_angle_deg"] = orient_m
+        if need_orient_std and orient_s is not None:
+            row["reference_pocket_std_ligand_axis_angle_deg"] = orient_s
     if orient_csv.is_file() and _looks_like_tabular_csv(
         orient_csv, ("axis_angle_deg", "axis_angle")
     ) and (
         row.get("reference_pocket_ligand_distance_p95_A") is None
         or row.get("reference_pocket_ligand_axis_angle_p95_deg") is None
+        or row.get("reference_pocket_mean_ligand_axis_angle_deg") is None
+        or row.get("reference_pocket_std_ligand_axis_angle_deg") is None
     ):
         from src.analysis.consensus_pocket import summarize_ligand_orientation_csv
 
@@ -1419,12 +1427,6 @@ def collect_features_for_sim(
 
     # Modular family dynamics (torsions / consensus RMSF-DCCM / PCA-tICA FELs)
     _ingest_modular_family_features(adir, row)
-
-    # Prefer pocket χ₁; if missing/NaN, copy domain-wide as a soft fallback.
-    if not _is_finite_number(row.get("chi1_pocket_circ_mean_deg")) and _is_finite_number(
-        row.get("chi1_circ_mean_deg")
-    ):
-        row["chi1_pocket_circ_mean_deg"] = row["chi1_circ_mean_deg"]
 
     # Summary fallbacks for missing fields
     if any(row.get(c) is None for c in FEATURE_COLUMNS):
@@ -1614,6 +1616,7 @@ def collect_classification_features_table(
     include_zscore: bool = True,
     requested_metric_groups: Optional[List[str]] = None,
     feature_columns: Optional[List[str]] = None,
+    zscore_method: Optional[str] = None,
     auto_discover: bool = False,
     allowed_labels: Optional[List[str]] = None,
     local_fel_root: Optional[str] = None,
@@ -1735,7 +1738,8 @@ def collect_classification_features_table(
         z_path = None
         zrows: List[Dict[str, Any]] = []
         use_robust = bool(
-            "paper_ward4" in set(metric_groups or [])
+            str(zscore_method or "").lower() == "robust"
+            or "paper_ward4" in set(metric_groups or [])
             or (
                 feature_columns
                 and list(feature_columns) == list(PAPER_WARD4_FEATURE_COLUMNS)

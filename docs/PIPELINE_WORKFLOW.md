@@ -15,7 +15,7 @@ pool sizing ([POOLS.md](POOLS.md)), analysis theory
 Entry point: `python SimAgent.py --goal "..." --working-dir <dir>`.
 
 For a published end-to-end demo (status files, reports, provenance), see
-[example/TUTORIAL.md](../example/TUTORIAL.md).
+[tutorial/TUTORIAL.md](../tutorial/TUTORIAL.md).
 
 ---
 
@@ -86,7 +86,7 @@ only; each simulation’s agent work lives under its label directory.
 - Combined `analysis/` + `reporter/combined_report.html` **only when** `len(sim_prompts) > 1`
 - Optional `cross_sim/` — pre-combined pocket/MSA/consensus artifacts + `inventory.json`
 - Optional `campaign.yaml` — local override of shipped mapping/retrieval knobs
-- `planner/knowledge_index.json` — retrieved knowledge cache
+- `planner/knowledge_index.json` — knowledge cache generated for that run
 
 **Per simulation (`{base}/{label}/`):**
 - `agent_conversation.log` — per-sim validation, execution plan, preprocess → reporter

@@ -1,7 +1,7 @@
 # Tools & Dependencies
 
 **This file is the software catalogue plus GROMACS/analysis mechanisms.**
-Use it to see which binaries and Python libraries AgenticAI calls, and how
+Use it to see which binaries and Python libraries SimAgent calls, and how
 setup/analysis work around format limits (multi-chain residue map, phospho
 PDB cleanup). It is not the per-tool science (RMSD formula, output CSV
 names) and not the execution pools.
@@ -353,7 +353,6 @@ PDB resid `0` is valid if that number exists in the source PDB.
 | `src/analysis/trajectory_compute.py` | Translate batched metric params |
 | `agentic/analysis/tools.py` | Translate standalone tool kwargs |
 | `agentic/simsetup/setup_agent.py` | Register file; set `state["chain_residue_map"]` |
-| `tests/test_chain_residue_map.py` | Overlapping resids, 4 chains, HIS/phospho, PDB+GRO build |
 
 Public helpers in `chain_residue_map.py`:
 
@@ -362,10 +361,6 @@ Public helpers in `chain_residue_map.py`:
 - `translate_selection(selection, map)` / `translate_selection_params(params, map)`
 - `lookup_resindices(map, chain_id, resid_start=..., resid_end=...)`
 - `CHAIN_SELECTION_LLM_NOTE` — inserted into Analysis agent prompts
-
-```bash
-python -m pytest tests/test_chain_residue_map.py -q
-```
 
 ### Phosphorylation and chain order in the PDB (not this map)
 
@@ -513,11 +508,10 @@ Functions:
 
 ---
 
-## Testing & Development
+## Development utilities
 
 | Tool | Role |
 |------|------|
-| **pytest** | Unit and integration testing |
 | **invoke** | Task runner |
 | **PyYAML** | Configuration file parsing |
 | **tqdm** | Progress bars |

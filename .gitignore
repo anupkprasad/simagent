@@ -26,10 +26,6 @@ dist/
 *.cache
 *_offsets.npz
 *_offsets.lock
-# Keep the published example starting structures
-!example/pseudo_apo_holo/*.pdb
-# Local smoke-test copy of the example (not for git)
-example/pseudo_apo_holo_test/
 # GROMACS force-field trees (copied into sim dirs) — ignore anywhere
 amber99sb-ildn.ff/
 *.ff/
@@ -41,9 +37,8 @@ ligand_acpype_input.acpype/
 *_old.py
 *_bckp/
 
-# Slurm scripts
+# Slurm scripts (including a local Ollama server script)
 *.slurm
-!ollama_server.slurm
 
 # NFS silly-rename leftovers (open deleted files on NFS mounts)
 .nfs*
@@ -87,8 +82,15 @@ backup/
 
 # Local pytest suite — not part of the public tree
 tests/
-# Legacy plural path only; tracked demos live under example/
+# Legacy demo paths.
 examples/
+example/
+
+# Local tutorial. Run it here first; publish only after that run.
+tutorial/
+
+# Generated planner cache. Rebuilt from agentic/planner/knowledge/.
+agentic/planner/knowledge_index.json
 
 # Local-only (not part of the published SimAgent tree)
 llm_chat.py

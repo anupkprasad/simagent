@@ -69,7 +69,7 @@ Supervisor order:
 
 1. **`pre_combined`** (optional) — pocket / MSA / consensus / reference maps
 2. **Per-sim** traj analysis → reporter (with multi-rep fan-out+avg as above)
-3. **`post_combined`** (optional; legacy `run_combined_analysis` / `combined_analysis` phase) — overlays, consensus-pocket batch, classification collect → LLM feature selection → Ward dendrogram+heatmap, family report
+3. **`post_combined`** (optional; legacy `run_combined_analysis` / `combined_analysis` phase) — overlays, consensus-pocket batch, shared-reference dynamics when the feature pack asks for it, classification collect → LLM feature selection → Ward dendrogram+heatmap, family report. Family mode is finished only when `classification_features.csv` is on disk; a false `success` marker does not force another analysis pass when the artifacts already exist.
 4. **`combined_reporter`** when post ran
 
 Planner fields: `run_pre_combined` / `pre_combined_plan`, `run_post_combined` /
@@ -348,7 +348,7 @@ C_{ij} = \frac{\langle \Delta\mathbf{r}_i \cdot \Delta\mathbf{r}_j \rangle}{\sqr
 **Combined / report:** apo–holo difference maps are written under `{base}/analysis/`
 as `{PROTEIN}_dccm_diff_heatmap.png` (and related CSV). The combined HTML report
 embeds those ΔDCCM figures in Comparative Dynamics **Panel E** when DCCM is in
-the goal or enriched prompt (see [example/TUTORIAL.md](../example/TUTORIAL.md)).
+the goal or enriched prompt (see [tutorial/TUTORIAL.md](../tutorial/TUTORIAL.md)).
 
 ---
 
@@ -581,11 +581,14 @@ report renders them in a dedicated **Phylogenetic Trees** section.
 
 ## Modular family dynamics (torsions / PCA / tICA)
 
-Atomic tools for family-level MD. When the goal describes comparative dynamics
-in scientific terms (pocket–ligand COM/orientation, consensus flexibility,
-pocket χ₁, N↔C correlation, independent dihedral PCA entropy), the planner
-detects **family modular** intent and schedules matching tools — there is
-**no hard-wired mega feature list** and **no fixed cluster count**.
+Atomic tools for family-level MD. `campaign.yaml` `family_modular: auto`
+turns the study into `family_modular` when the goal has at least two modular
+signals (or an explicit tool name, or a comparative phrase plus one signal).
+`force` always compiles the family program; `off` never does. The active
+`feature_pack: from_goal` (the default) chooses pins and columns from the
+goal, so a family can use fewer or more than any demonstration set. Named
+presets (`shared_pocket_dynamics`, `pocket_chi_rmsf_dccm`, `rmsf_dccm_only`)
+are optional. There is **no fixed cluster count** and no fixed feature count.
 
 | Tool | Scope | Role |
 | --- | --- | --- |
@@ -607,22 +610,29 @@ detects **family modular** intent and schedules matching tools — there is
   “shared reference / project onto …”).
 
 **Output dirs** (under `{label}/analysis/` or `analysis/avg/` with `--rep-num`):
-`consensus_dihedrals/`, `consensus_PCA/`, `consensus_TICA/`,
-`consensus_cart_PCA/`, `consensus_cart_TICA/`, and `*_ref` variants for
-shared-reference mode.
+`consensus_dihedrals/`, `consensus_rmsf/`, `consensus_DCCM/`, and optionally
+`consensus_PCA/`, `consensus_TICA/`, `consensus_cart_PCA/`, `consensus_cart_TICA/`,
+plus `*_ref` variants for shared-reference mode. Per-sim science gates follow
+the descriptors the goal selected. They do **not** require
+`consensus_PCA/`. Shared-reference dynamics is a post-combined pin
+(`reference_label` in `campaign.yaml`). Extra descriptors can be added with
+`feature_plugins` without editing the recipe
+(`agentic/campaign/feature_plugins.py`). Consensus RMSF, DCCM, torsions, and
+pocket metrics are registered on the trajectory batch path.
 
 **Classification collection (family modular goals)**
 
-Default metric groups when modular + consensus pocket are detected:
-
-`consensus_rmsf`, `consensus_torsions`, `consensus_dccm`, `dihedral_pca`,
-`reference_pocket`, `com` (local COM as fallback).
+Metric groups follow the goal. A pocket-distance request adds
+`reference_pocket` and `com`. An RMSF request adds `consensus_rmsf`.
+A shared-reference dihedral PCA request adds `dihedral_pca_ref`.
 
 - Pass `requested_metric_groups` and/or exact `feature_columns=[...]`
 - Or `auto_discover=True` to include modular scalars found on disk
-- Paper Ward-9 columns (`gold_columns` in `campaign.yaml`) are **preferred**,
+- Columns come from the goal (`feature_pack: from_goal`) or from
+  `gold_columns` when that list is non-empty. A non-empty list can be any
+  length and replaces the parsed columns. They are **preferred**,
   never required to draw the dendrogram. Combined Ward runs on any table
-  with ≥2 systems and ≥2 numeric columns. Missing gold columns are a
+  with ≥2 systems and ≥2 numeric columns. Missing columns are a
   science-report warning, not a plot block.
 - Paper Ward-4-style columns are **guidance only** (`PAPER_WARD4_FEATURE_COLUMNS`);
   the LLM may select a similar subset (more or less) with written reasoning

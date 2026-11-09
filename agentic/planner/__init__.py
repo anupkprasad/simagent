@@ -1,4 +1,4 @@
-"""Planner agent package for AgenticAI MD workflow."""
+"""Planner agent package for the SimAgent MD workflow."""
 
 from .planner_agent import MDPlanner
 from .tools_registry import get_tools_registry, ToolsRegistry

@@ -344,6 +344,7 @@ def submit_simulation_job(
     result = {
         "success": True,
         "job_id": job_id,
+        "status": submit_result.get("status"),
         "job_script": script_path,
         "job_name": job_name,
         "production_ns": ns,

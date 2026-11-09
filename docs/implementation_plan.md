@@ -1,5 +1,7 @@
 # SimAgent implementation plan
 
+Maintainer backlog. This page is not part of the user documentation index.
+
 **This file is the backlog for making SimAgent reliable at family scale and
 usable as a general MD agent.** Items come from the robustness 37×2 reviews
 (run_01 / run_02), the orchestration and mapping work, and the capability
@@ -271,6 +273,9 @@ Useful for a general MD platform. Do not block the next robustness campaign.
 Keep these; P0 builds on them.
 
 - `CampaignSpec` compile-once / map-many; reject truncated `(same as above)` prompts
+- Study profiles `single_md`, `multi_protocol`, `family_modular`, `apo_holo`; feature packs and `feature_plugins` in `campaign.yaml` (optimization_5)
+- Per-sim family gates do not require `consensus_PCA/`; shared-ref dyn is a post pin with `reference_label`
+- Family post-combined requires `classification_features.csv`; generic combined can finish on overlays; combined re-entry is capped
 - Shared analysis protocol (LLM compiles pre-combined extras; engine executes)
 - Science completeness gate + 85% dense Ward matrix; plots are non-critical
 - Hybrid tool retrieval (hashed n-gram + Jaccard + optional Ollama)

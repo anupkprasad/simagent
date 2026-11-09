@@ -105,8 +105,16 @@ class LigandTopologyGenerator:
         # Resolve ligand_pdb to absolute path (acpype runs from output_dir)
         ligand_pdb_abs = str(Path(ligand_input).resolve())
         
+        try:
+            from src.simsetup.md_env import acpype_subprocess_env, ensure_md_toolchain
+
+            ensure_md_toolchain()
+        except Exception:
+            acpype_subprocess_env = None  # type: ignore[assignment]
+
+        acpype_exe = shutil.which("acpype") or "acpype"
         cmd = [
-            "acpype",
+            acpype_exe,
             "-i", ligand_pdb_abs,
             "-a", atom_type,
             "-c", charge_method
@@ -121,12 +129,14 @@ class LigandTopologyGenerator:
                 pass  # auto-detect
         
         try:
+            run_env = acpype_subprocess_env(acpype_exe) if acpype_subprocess_env else None
             result = subprocess.run(
                 cmd,
                 capture_output=True,
                 text=True,
                 timeout=600,
-                cwd=str(output_dir)
+                cwd=str(output_dir),
+                env=run_env,
             )
             
             # ACPYPE may derive output names from sanitized inputs. Probe both

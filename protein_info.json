@@ -1144,46 +1144,46 @@
         "uniprot": "O60674",
         "sim_dir": "o60674",
         "duration_ns": 100.0,
-        "source": "/home/akp66103/workspace/agenticAI/pseudoKin/o60674/analysis/ligand_pocket_distance.csv"
+        "source": "pseudoKin/o60674/analysis/ligand_pocket_distance.csv"
       },
       {
         "uniprot": "P25092",
         "sim_dir": "p25092",
         "duration_ns": 100.0,
-        "source": "/home/akp66103/workspace/agenticAI/pseudoKin/p25092/analysis/ligand_pocket_distance.csv"
+        "source": "pseudoKin/p25092/analysis/ligand_pocket_distance.csv"
       },
       {
         "uniprot": "Q05823",
         "sim_dir": "q05823",
         "duration_ns": 100.0,
-        "source": "/home/akp66103/workspace/agenticAI/pseudoKin/q05823/analysis/ligand_pocket_distance.csv"
+        "source": "pseudoKin/q05823/analysis/ligand_pocket_distance.csv"
       },
       {
         "uniprot": "Q8TEA7",
         "sim_dir": "q8tea7",
         "duration_ns": 100.0,
-        "source": "/home/akp66103/workspace/agenticAI/pseudoKin/q8tea7/analysis/ligand_pocket_distance.csv"
+        "source": "pseudoKin/q8tea7/analysis/ligand_pocket_distance.csv"
       },
       {
         "uniprot": "Q92519",
         "sim_dir": "q92519",
         "duration_ns": 100.0,
-        "source": "/home/akp66103/workspace/agenticAI/pseudoKin/q92519/analysis/ligand_pocket_distance.csv"
+        "source": "pseudoKin/q92519/analysis/ligand_pocket_distance.csv"
       },
       {
         "uniprot": "Q9NSY0",
         "sim_dir": "q9nsy0",
         "duration_ns": 100.0,
-        "source": "/home/akp66103/workspace/agenticAI/pseudoKin/q9nsy0/analysis/ligand_pocket_distance.csv"
+        "source": "pseudoKin/q9nsy0/analysis/ligand_pocket_distance.csv"
       }
     ],
     "named_protein_dirs_in_pseudoKin": [],
     "generated": "2026-07-21 16:42:32",
     "notes": [
-      "Matching is case-insensitive between UniProt IDs and /pseudoKin/{uid} directories.",
-      "Duration source preference: analysis/ligand_pocket_distance.csv, then consensus/reference pocket distance CSVs.",
+      "Matching is case-insensitive between UniProt IDs and a local pseudoKin/{uid} directory. That tree is not part of this repository.",
+      "Duration source preference: pseudoKin/{uid}/analysis/ligand_pocket_distance.csv, then consensus/reference pocket distance CSVs. source paths are relative to that local pseudoKin directory.",
       "Entries marked *{uniprot} are simulations that are not members of the \"pseudokinase\" list.",
-      "Directories reporter/ and supervisor/ under /pseudoKin were ignored as non-simulation folders.",
+      "Directories reporter/ and supervisor/ under the local pseudoKin directory were ignored as non-simulation folders.",
       "Removed RYK, ROP2, and ROP5Bi because they contained only md.tpr and no .xtc trajectory."
     ]
   }

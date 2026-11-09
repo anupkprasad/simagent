@@ -1,4 +1,4 @@
-"""HPC agent package for AgenticAI MD workflow."""
+"""HPC agent package for the SimAgent MD workflow."""
 
 from .hpc_agent import MDHPCAgent
 

@@ -1,5 +1,5 @@
 """
-Simulation setup module for AgenticAI
+Simulation setup module for SimAgent
 
 Contains tools for:
 - Topology generation for GROMACS/AMBER

@@ -447,7 +447,7 @@ def format_run_summary_markdown(summary: Dict[str, Any]) -> str:
     """Render run summary as Markdown."""
     counts = summary.get("counts", {})
     lines = [
-        "# AgenticAI Workflow Run Summary",
+        "# SimAgent Workflow Run Summary",
         "",
         f"**Generated:** {summary.get('generated_at')}",
         f"**Mode:** {summary.get('mode')}",

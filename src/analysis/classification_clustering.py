@@ -247,14 +247,129 @@ def resolve_n_clusters_for_goal(
 
 
 def clustering_method_for_goal(*goal_texts: str) -> str:
-    """Return ``kmeans`` when explicitly requested; otherwise ``hierarchical``."""
+    """Infer clustering method from goal text.
+
+    Returns:
+      - ``kmeans`` when k-means is explicitly requested
+      - ``consensus_hierarchical`` when the goal asks for consensus / bootstrap /
+        leave-one-out co-association clustering (paper family-scale recipe)
+      - ``hierarchical`` otherwise (single Ward/average cut)
+    """
     for text in goal_texts:
         if not text:
             continue
         normalized = text.lower().replace("\u2011", "-")
         if re.search(r"\bk[-\s]?means?\b", normalized):
             return "kmeans"
+        if re.search(
+            r"\bconsensus\b.*\b(hierarch|cluster)|"
+            r"\b(bootstrap|leave[- ]one[- ]out|loo)\b.*\b(cluster|ward|co-?assoc)|"
+            r"\bco-?association\b",
+            normalized,
+            flags=re.DOTALL,
+        ):
+            return "consensus_hierarchical"
+        if "consensus hierarchical" in normalized or "consensus clustering" in normalized:
+            return "consensus_hierarchical"
     return "hierarchical"
+
+
+def _accumulate_coassociation(
+    idxs: Sequence[int],
+    part_ids: Sequence[int],
+    co_sum: np.ndarray,
+    co_count: np.ndarray,
+) -> None:
+    idxs_l = list(idxs)
+    part = {i: int(c) for i, c in zip(idxs_l, part_ids)}
+    for a in range(len(idxs_l)):
+        ia = idxs_l[a]
+        for b in range(a + 1, len(idxs_l)):
+            ib = idxs_l[b]
+            co_count[ia, ib] += 1.0
+            co_count[ib, ia] += 1.0
+            if part[ia] == part[ib]:
+                co_sum[ia, ib] += 1.0
+                co_sum[ib, ia] += 1.0
+
+
+def _coassociation_matrix(
+    scaled: np.ndarray,
+    n_clusters: int,
+    *,
+    n_bootstrap: int = 200,
+    seed: int = 42,
+    linkage_method: str = "ward",
+) -> Tuple[np.ndarray, Dict[str, Any]]:
+    """Leave-one-out + bootstrap Ward co-association (paper consensus recipe)."""
+    n = int(scaled.shape[0])
+    co_sum = np.zeros((n, n), dtype=float)
+    co_count = np.zeros((n, n), dtype=float)
+    rng = np.random.default_rng(int(seed))
+    k = max(1, min(int(n_clusters), n))
+
+    for leave in range(n):
+        keep = [i for i in range(n) if i != leave]
+        if len(keep) < k:
+            continue
+        ids, _ = _cluster_hierarchical(
+            scaled[keep], k, linkage_method=linkage_method
+        )
+        _accumulate_coassociation(keep, ids, co_sum, co_count)
+
+    for _ in range(max(0, int(n_bootstrap))):
+        draw = rng.integers(0, n, size=n)
+        uniq = sorted({int(i) for i in draw})
+        if len(uniq) < k + 1:
+            continue
+        ids, _ = _cluster_hierarchical(
+            scaled[uniq], k, linkage_method=linkage_method
+        )
+        _accumulate_coassociation(uniq, ids, co_sum, co_count)
+
+    with np.errstate(divide="ignore", invalid="ignore"):
+        co = np.divide(
+            co_sum, co_count, out=np.zeros_like(co_sum), where=co_count > 0
+        )
+    np.fill_diagonal(co, 1.0)
+    tri = co_count[np.triu_indices(n, 1)]
+    meta: Dict[str, Any] = {
+        "method": f"LOO + bootstrap Ward k={k}",
+        "n_loo": n,
+        "n_bootstrap": int(n_bootstrap),
+        "pair_obs_min": int(tri.min()) if tri.size else 0,
+        "pair_obs_median": float(np.median(tri)) if tri.size else 0.0,
+    }
+    return co, meta
+
+
+def _cluster_consensus_hierarchical(
+    X: np.ndarray,
+    n_clusters: int,
+    *,
+    n_bootstrap: int = 200,
+    seed: int = 42,
+    linkage_method: str = "ward",
+) -> Tuple[np.ndarray, np.ndarray, np.ndarray, Dict[str, Any]]:
+    """Consensus tree: Ward linkage of distance ``1 − co-association``.
+
+    Returns ``(cluster_ids, linkage_matrix, coassociation, meta)``.
+    ``X`` should already be robust-/z-scaled (as in classification_features_zscore.csv).
+    """
+    co, meta = _coassociation_matrix(
+        X,
+        n_clusters,
+        n_bootstrap=n_bootstrap,
+        seed=seed,
+        linkage_method=linkage_method,
+    )
+    dist = np.clip(1.0 - co, 0.0, 1.0)
+    np.fill_diagonal(dist, 0.0)
+    condensed = squareform(dist, checks=False)
+    Z = hierarchy.linkage(condensed, method="ward")
+    k = max(1, min(int(n_clusters), X.shape[0]))
+    labels = hierarchy.fcluster(Z, t=k, criterion="maxclust")
+    return labels.astype(int), Z, co, meta
 
 
 def _label_base(label: str) -> str:
@@ -1176,8 +1291,13 @@ def _plot_dendrogram(
     cluster_ids: Optional[Sequence[int]] = None,
     n_clusters: Optional[int] = None,
     leaf_order_tb: Optional[Sequence[int]] = None,
+    highlight_display_names: Optional[Sequence[str]] = None,
 ) -> Optional[List[int]]:
-    """Horizontal dendrogram (left→right); returns leaf order top→bottom."""
+    """Horizontal dendrogram (left→right); returns leaf order top→bottom.
+
+    Names in ``highlight_display_names`` (e.g. ground-truth kinases) get a ★
+    marker to the left of the leaf label.
+    """
     if not HAS_MPL or cluster_ids is None:
         return None
     from matplotlib.patches import Patch
@@ -1187,6 +1307,7 @@ def _plot_dendrogram(
     link_colors = _link_color_func_for_clusters(
         linkage_matrix, cluster_ids, cluster_colors
     )
+    hi = _normalize_highlight_names(highlight_display_names)
 
     fig, ax = plt.subplots(figsize=(7.5, max(6, n * 0.38)))
     ddata = hierarchy.dendrogram(
@@ -1208,8 +1329,24 @@ def _plot_dendrogram(
 
     for tick, leaf_idx in zip(ax.get_ymajorticklabels(), leaf_order):
         cid = int(cluster_ids[leaf_idx])
+        name = str(display_names[leaf_idx])
         tick.set_color(cluster_colors[cid])
         tick.set_fontweight("bold")
+        if name.strip().lower() in hi:
+            # Place a filled star just left of the leaf label.
+            y = tick.get_position()[1]
+            ax.scatter(
+                [-0.02],
+                [y],
+                marker="*",
+                s=11 ** 2,
+                c="black",
+                zorder=6,
+                clip_on=False,
+                transform=ax.get_yaxis_transform(),
+                linewidths=0.2,
+                edgecolors="black",
+            )
 
     counts: Dict[int, int] = {}
     for cid in cluster_ids:
@@ -1222,6 +1359,20 @@ def _plot_dendrogram(
         )
         for cid in clusters
     ]
+    if hi:
+        handles.append(
+            plt.Line2D(
+                [0],
+                [0],
+                marker="*",
+                color="w",
+                markerfacecolor="black",
+                markeredgecolor="black",
+                markersize=11,
+                linestyle="None",
+                label="ground-truth kinase",
+            )
+        )
     ax.legend(handles=handles, loc="lower right", fontsize=9, framealpha=0.9)
     ax.set_title(title)
     ax.set_xlabel("Distance")
@@ -1477,14 +1628,17 @@ def cluster_classification_features(
     Cluster simulations from a classification feature table (z-score CSV recommended).
 
     Default method is hierarchical agglomerative clustering (Ward linkage).
-    Use method='kmeans' for k-means. Writes cluster assignments and a PCA scatter
-    plot with protein/simulation name labels; hierarchical runs also get a horizontal
-    dendrogram, circular similarity tree, and z-score feature heatmap.
+    Use method='kmeans' for k-means, or method='consensus_hierarchical' for the
+    paper family-scale recipe (leave-one-out + bootstrap Ward co-association,
+    then Ward linkage of ``1 − co-association``). Writes cluster assignments and
+    a PCA scatter plot with protein/simulation name labels; hierarchical runs
+    also get a horizontal dendrogram, circular similarity tree, and z-score
+    feature heatmap.
 
     Args:
         working_dir: Directory containing the features CSV (usually base/analysis).
         features_file: Input CSV (prefer classification_features_zscore.csv).
-        method: 'hierarchical' (default) or 'kmeans'.
+        method: 'hierarchical' (default), 'consensus_hierarchical', or 'kmeans'.
         n_clusters: Number of clusters; auto-chosen from sample size if omitted.
         linkage_method: scipy linkage for hierarchical ('ward', 'average', 'complete').
         user_goal: Optional goal text to parse id:name labels (e.g. p23458:JAK1).
@@ -1524,12 +1678,22 @@ def cluster_classification_features(
         method_norm = (method or "hierarchical").lower().replace("-", "").replace("_", "")
         if method_norm in ("kmeans", "kmean"):
             method_key = "kmeans"
+        elif method_norm in (
+            "consensushierarchical",
+            "consensus",
+            "bootstrapconsensus",
+            "coassociation",
+        ):
+            method_key = "consensus_hierarchical"
         elif method_norm in ("hierarchical", "hier", "agglomerative"):
             method_key = "hierarchical"
         else:
             return {
                 "success": False,
-                "error": f"Unknown method {method!r}; use 'hierarchical' or 'kmeans'",
+                "error": (
+                    f"Unknown method {method!r}; use 'hierarchical', "
+                    "'consensus_hierarchical', or 'kmeans'"
+                ),
             }
 
         labels, _, sim_dirs, X_raw, feature_cols = _load_feature_matrix(
@@ -1563,9 +1727,21 @@ def cluster_classification_features(
         coords, pc1_var, pc2_var = _pca_2d(X)
 
         linkage_matrix = None
+        consensus_meta: Optional[Dict[str, Any]] = None
+        coassociation: Optional[np.ndarray] = None
         if method_key == "hierarchical":
             cluster_ids, linkage_matrix = _cluster_hierarchical(
                 X, k, linkage_method=linkage_method
+            )
+        elif method_key == "consensus_hierarchical":
+            cluster_ids, linkage_matrix, coassociation, consensus_meta = (
+                _cluster_consensus_hierarchical(
+                    X,
+                    k,
+                    n_bootstrap=200,
+                    seed=42,
+                    linkage_method=linkage_method,
+                )
             )
         else:
             cluster_ids = _cluster_kmeans(X, k)
@@ -1590,7 +1766,12 @@ def cluster_classification_features(
                 )
 
         scatter_path = out_dir / scatter_plot_file
-        method_title = "Hierarchical" if method_key == "hierarchical" else "K-means"
+        if method_key == "consensus_hierarchical":
+            method_title = "Consensus hierarchical"
+        elif method_key == "hierarchical":
+            method_title = "Hierarchical"
+        else:
+            method_title = "K-means"
         scale_phrase = (
             f" — {feature_scale_label} features" if feature_scale_label else ""
         )
@@ -1611,8 +1792,14 @@ def cluster_classification_features(
         phylo_path = None
         heatmap_path = None
         panel_path = None
-        if method_key == "hierarchical" and linkage_matrix is not None and HAS_MPL:
+        hier_like = method_key in ("hierarchical", "consensus_hierarchical")
+        if hier_like and linkage_matrix is not None and HAS_MPL:
             leaf_order: Optional[List[int]] = None
+            dendro_title = (
+                "A. Consensus hierarchical clustering (1 − co-association)"
+                if method_key == "consensus_hierarchical"
+                else "A. Hierarchical clustering dendrogram"
+            )
             if panel_file:
                 panel_path = out_dir / panel_file
                 leaf_order = _plot_dendrogram_heatmap_panel(
@@ -1622,7 +1809,7 @@ def cluster_classification_features(
                     display_names,
                     cluster_ids,
                     panel_path,
-                    dendrogram_title="A. Hierarchical clustering dendrogram",
+                    dendrogram_title=dendro_title,
                     heatmap_title="B. Classification features by simulation",
                     colorbar_label=feature_scale_label,
                     archetype_names=cluster_archetype_names,
@@ -1639,9 +1826,14 @@ def cluster_classification_features(
                     linkage_matrix,
                     display_names,
                     dendro_path,
-                    title=f"Hierarchical clustering dendrogram (k={k})",
+                    title=(
+                        f"Consensus hierarchical dendrogram (k={k})"
+                        if method_key == "consensus_hierarchical"
+                        else f"Hierarchical clustering dendrogram (k={k})"
+                    ),
                     cluster_ids=cluster_ids,
                     n_clusters=k,
+                    highlight_display_names=highlight_display_names,
                 )
                 if leaf_order:
                     heatmap_path = out_dir / heatmap_file
@@ -1676,6 +1868,23 @@ def cluster_classification_features(
                 display_names,
                 cluster_ids,
             )
+        if method_key == "consensus_hierarchical":
+            repro_note = (
+                "Consensus hierarchical clustering: leave-one-out + bootstrap Ward "
+                "co-association on the scaled feature matrix, then Ward linkage of "
+                "distance 1 − co-association (seed=42, n_bootstrap=200). Re-runs "
+                "differ when the feature table changes."
+            )
+        else:
+            repro_note = (
+                "Hierarchical Ward clustering is deterministic for a fixed z-score "
+                "matrix. Re-runs differ when the feature table changes (metric "
+                "groups, missing per-sim outputs, or re-computed analysis values)."
+            )
+        if applied_weights:
+            repro_note += (
+                " Feature weights scale columns by sqrt(weight) before linkage."
+            )
         summary = {
             "method": method_key,
             "n_clusters": k,
@@ -1685,16 +1894,8 @@ def cluster_classification_features(
             "dropped_feature_columns": dropped_cols,
             "imputation": impute_stats,
             "row_order": labels,
-            "reproducibility_note": (
-                "Hierarchical Ward clustering is deterministic for a fixed z-score "
-                "matrix. Re-runs differ when the feature table changes (metric "
-                "groups, missing per-sim outputs, or re-computed analysis values)."
-                + (
-                    " Feature weights scale columns by sqrt(weight) before linkage."
-                    if applied_weights
-                    else ""
-                )
-            ),
+            "reproducibility_note": repro_note,
+            "consensus": consensus_meta,
             "features_file": str(feat_path),
             "assignments_file": str(assign_path),
             "scatter_plot": str(scatter_path) if scatter_path else None,
@@ -1702,7 +1903,7 @@ def cluster_classification_features(
             "phylo_tree_plot": str(phylo_path) if phylo_path else None,
             "heatmap_plot": str(heatmap_path) if heatmap_path else None,
             "panel_plot": str(panel_path) if panel_path else None,
-            "linkage_method": linkage_method if method_key == "hierarchical" else None,
+            "linkage_method": linkage_method if hier_like else None,
             "labels": labels,
             "display_names": display_names,
             "cluster_assignments": {
@@ -1714,6 +1915,17 @@ def cluster_classification_features(
                 or None
             ),
         }
+        if coassociation is not None:
+            co_path = out_dir / "classification_coassociation.csv"
+            with open(co_path, "w", newline="", encoding="utf-8") as fh:
+                writer = csv.writer(fh)
+                writer.writerow(["label"] + labels)
+                for i, lab in enumerate(labels):
+                    writer.writerow(
+                        [lab] + [f"{float(coassociation[i, j]):.6f}" for j in range(n_samples)]
+                    )
+            summary["coassociation_file"] = str(co_path)
+
         summary_path = out_dir / summary_file
         summary_path.write_text(json.dumps(summary, indent=2), encoding="utf-8")
 

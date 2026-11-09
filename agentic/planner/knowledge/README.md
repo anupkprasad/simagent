@@ -39,7 +39,8 @@ The planner **retrieves** top-k chunks (hashed n-gram + Jaccard, optional
 Ollama embeddings) instead of dumping whole files. Citations look like
 `[kb:protocols.equilibration_protocol#nvt-temperature]`. The index is
 persisted at `planner/knowledge_index.json` (next to this tree, and copied
-into the campaign `planner/` folder).
+into the campaign `planner/` folder). The repository copy is generated locally
+and is not published.
 
 Documents can be in:
 - Markdown (.md)

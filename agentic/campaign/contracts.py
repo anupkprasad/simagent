@@ -7,7 +7,7 @@ import logging
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Sequence
 
-from agentic.campaign.family_recipe import FAMILY_FEATURE_COLUMNS, FAMILY_MODULAR_DIRS
+from agentic.campaign.family_recipe import FAMILY_MODULAR_DIRS
 from agentic.campaign.spec import CampaignSpec, spec_from_state
 
 logger = logging.getLogger(__name__)
@@ -338,7 +338,10 @@ def family_feature_matrix_ready(
 ) -> Dict[str, Any]:
     """True when enough rows have the required family columns filled."""
     path = Path(csv_path)
-    required = list(required_columns or (spec.analysis_recipe.required_feature_columns if spec else FAMILY_FEATURE_COLUMNS))
+    required = list(
+        required_columns
+        or (spec.analysis_recipe.required_feature_columns if spec else [])
+    )
     min_frac = spec.contract.min_complete_fraction if spec else 0.85
     allow_partial = bool(spec and spec.allow_partial_combined)
     if not path.is_file():

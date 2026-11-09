@@ -2368,14 +2368,19 @@ Return ONLY JSON:
         Path(analysis_dir).mkdir(parents=True, exist_ok=True)
 
         ref_label = labels[0] if labels else "reference"
-        for sp in state.get("sim_prompts") or []:
-            # Prefer KAPCA / p17612-style reference when present in the goal.
-            lab = str(sp.get("label") or "")
-            if lab.lower().startswith("p17612") or "kapca" in str(
-                sp.get("protein_name") or ""
-            ).lower():
-                ref_label = lab
-                break
+        try:
+            from agentic.planner.planning_guidelines import _resolve_reference_label
+
+            parsed_ref = _resolve_reference_label(
+                state.get("user_goal_original") or "",
+                state.get("user_goal") or "",
+                labels=labels,
+                default="",
+            )
+            if parsed_ref:
+                ref_label = parsed_ref
+        except Exception:
+            pass
 
         pdb_by_label = {
             str(sp.get("label")): sp.get("pdb")
@@ -3192,14 +3197,15 @@ Return ONLY JSON:
                         or state.get("enriched_prompt")
                         or "",
                         labels=labels,
-                        default="q8nb16",
+                        default=(labels[0] if labels else ""),
                     )
-                    if ref_label not in {str(l) for l in labels}:
+                    if labels and ref_label not in {str(l) for l in labels}:
                         logger.warning(
-                            "Reference label %r not in simulation labels; using q8nb16",
+                            "Reference label %r not in simulation labels; using %s",
                             ref_label,
+                            labels[0],
                         )
-                        ref_label = "q8nb16" if "q8nb16" in {str(l) for l in labels} else labels[0]
+                        ref_label = labels[0]
                     ref_pipe = run_reference_landscape_pipeline.func(
                         sim_dirs=sim_dirs,
                         labels=labels,
@@ -3251,13 +3257,7 @@ Return ONLY JSON:
                     state.get("user_goal") or "",
                 )
                 # Consensus-mapped pocket COM/angle when modular / reference pocket asked.
-                if class_groups and (
-                    "reference_pocket" in class_groups
-                    or "consensus_rmsf" in class_groups
-                    or "consensus_torsions" in class_groups
-                    or "consensus_dccm" in class_groups
-                    or "dihedral_pca" in class_groups
-                ):
+                if class_groups and "reference_pocket" in class_groups:
                     cp_req = dict(cp_req)
                     cp_req["requested"] = True
                 if cp_req.get("requested"):
@@ -3268,7 +3268,7 @@ Return ONLY JSON:
                         state.get("user_goal") or "",
                         state.get("combined_analysis_plan") or "",
                         labels=labels,
-                        default=cp_req.get("reference_label") or "q8nb16",
+                        default=cp_req.get("reference_label") or (labels[0] if labels else ""),
                     )
                     # Prefer reference_label from an existing pocket definition
                     # (pre_combined may have written p17612_ATP while goal parse
@@ -3327,9 +3327,14 @@ Return ONLY JSON:
                         if ref_sim_dir:
                             idx = sim_dirs.index(ref_sim_dir)
                             cp_ref = labels[idx]
+                    batch_labels = (
+                        list(dir_labels)
+                        if len(dir_labels) == len(sim_dirs)
+                        else list(labels)
+                    )
                     cp_batch = run_consensus_pocket_metrics_batch.func(
                         sim_dirs=sim_dirs,
-                        labels=labels,
+                        labels=batch_labels,
                         working_dir=analysis_dir,
                         reference_label=cp_ref,
                         reference_sim_dir=ref_sim_dir,
@@ -3393,11 +3398,6 @@ Return ONLY JSON:
                                 break
                         if not ref_lab:
                             ref_lab = configured
-                    if not ref_lab:
-                        for cand in fs_labels:
-                            if str(cand).lower().startswith("p17612"):
-                                ref_lab = str(cand)
-                                break
                     if not ref_lab:
                         ref_lab = str(fs_labels[0]) if fs_labels else ""
                     align = ""
@@ -3471,8 +3471,8 @@ Return ONLY JSON:
                         if ref_clustering
                         else sorted(class_groups)
                     )
-                    # Family campaigns lock to the 9 paper Ward columns so COM /
-                    # axis-angle cannot be dropped when the LLM re-selects.
+                    # Family campaigns use the compiled protocol columns
+                    # (whatever the goal or gold_columns listed).
                     feature_columns = None
                     _fam_spec_collect = None
                     try:
@@ -3525,6 +3525,15 @@ Return ONLY JSON:
                     }
                     if feature_columns:
                         collect_kwargs["feature_columns"] = feature_columns
+                    goal_blob = " ".join(
+                        str(t or "")
+                        for t in (
+                            state.get("user_goal_original"),
+                            state.get("user_goal"),
+                        )
+                    ).lower()
+                    if "robust z" in goal_blob or "iqr" in goal_blob:
+                        collect_kwargs["zscore_method"] = "robust"
                     if ref_clustering:
                         collect_kwargs.update(
                             output_file=ref_outputs["features_csv"],
@@ -3587,9 +3596,9 @@ Return ONLY JSON:
                                 pinned = list(
                                     _fam_spec_collect.analysis_recipe.required_feature_columns
                                 )
-                                selected_cols = pinned + [
-                                    c for c in selected_cols if c not in pinned
-                                ]
+                                # The compiled protocol is the user's feature
+                                # list (any length). Do not append extras.
+                                selected_cols = list(pinned)
                             if selected_cols:
                                 recollect_kwargs = dict(collect_kwargs)
                                 recollect_kwargs["feature_columns"] = selected_cols
@@ -4811,6 +4820,10 @@ Return ONLY JSON:
     ) -> AnalysisPlan:
         """Execute the shared analysis protocol — no per-protein LLM tool shopping."""
         from agentic.campaign.family_recipe import recipe_steps_as_plan_dicts
+        from agentic.campaign.spec import spec_from_state
+
+        spec = spec_from_state(state)
+        recipe = spec.analysis_recipe if spec else None
 
         topo_name = (
             Path(agent_input.topology_file).name if agent_input.topology_file else "md.tpr"
@@ -4826,6 +4839,7 @@ Return ONLY JSON:
             "steps": recipe_steps_as_plan_dicts(
                 topology_file=topo_name,
                 trajectory_file=traj_name,
+                recipe=recipe,
             ),
             "potential_issues": [],
             "recommendations": [],
@@ -4954,17 +4968,8 @@ Return ONLY JSON:
         # prompt only names a subset of descriptors.
         goal_texts = collect_goal_texts_for_intent(state, agent_input)
         if detect_family_modular_dynamics_requested(*goal_texts):
-            merged.update(
-                {
-                    "consensus_rmsf",
-                    "consensus_torsions",
-                    "consensus_dccm",
-                    "dihedral_pca",
-                    "reference_pocket",
-                }
-            )
-            merged.discard("fel")
-            merged.discard("pca")  # Cartesian PCA; modular path uses dihedral_pca
+            if "dihedral_pca" in merged or "shared_dihedral_pca" in merged:
+                merged.discard("pca")
 
         if merged:
             return frozenset(merged)
@@ -5413,6 +5418,25 @@ Return ONLY JSON:
         if not family_on:
             return plan_dict
 
+        allowed: Set[str] = set()
+        try:
+            if _spec and _spec.pin_tools:
+                allowed = {str(t) for t in _spec.pin_tools}
+            elif _spec and _spec.analysis_recipe.steps:
+                allowed = {s.tool_name for s in _spec.analysis_recipe.steps}
+        except Exception:
+            allowed = set()
+        if not allowed:
+            try:
+                from agentic.campaign.family_recipe import build_protocol_from_goal
+
+                pack = build_protocol_from_goal("\n".join(str(t or "") for t in texts))
+                allowed = {str(t) for t in (pack.get("pin_tools") or [])}
+            except Exception:
+                allowed = set()
+        if not allowed:
+            return plan_dict
+
         # Per-sim plans only. Combined / pre-combined stages already expose a
         # different tool bucket (SHARED/COMBINED); local calculate_rmsf etc. are
         # not on that menu, so dropping them there is unnecessary.
@@ -5479,24 +5503,17 @@ Return ONLY JSON:
             }
 
         drop_tools = {
-            "calculate_free_energy_landscape",
-            "analyze_fel_landscape_features",
-            "export_fel_basin_structures",
             "extract_chi1_stats",
-            "extract_dccm_corr",
-            "extract_fel_entropy",
             "perform_ward_clustering",
             "assemble_feature_table",
             "generate_html_report",
-            # Per-sim local tools (same bucket as consensus_*). When family
-            # modular intent is on, the LLM can still pick these and change
-            # feature scale; pin to calculate_consensus_* instead. Combined
-            # stage is skipped above — those tools are not listed there.
-            "calculate_rmsf",
-            "calculate_dccm",
-            "calculate_ligand_pocket_distance",
-            "calculate_pocket_rmsf",
         }
+        if "calculate_consensus_rmsf_features" in allowed:
+            drop_tools.update({"calculate_rmsf", "calculate_pocket_rmsf"})
+        if "calculate_consensus_dccm_features" in allowed:
+            drop_tools.update({"calculate_dccm", "extract_dccm_corr"})
+        if "calculate_consensus_pocket_metrics" in allowed:
+            drop_tools.add("calculate_ligand_pocket_distance")
         steps: List[Dict[str, Any]] = []
         seen: Set[str] = set()
         for step in plan_dict.get("steps", []) or []:
@@ -5519,7 +5536,7 @@ Return ONLY JSON:
             steps.append(step)
 
         for tool, spec in canonical.items():
-            if tool in seen:
+            if tool not in allowed or tool in seen:
                 continue
             steps.append(
                 {

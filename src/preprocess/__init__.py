@@ -1,5 +1,5 @@
 """
-Preprocessing module for AgenticAI
+Preprocessing module for SimAgent
 
 Contains tools for:
 - Structure download from AlphaFold / RCSB by UniProt ID

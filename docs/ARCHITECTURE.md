@@ -1,6 +1,6 @@
 # Architecture
 
-**This file is the system design.** It describes how AgenticAI is wired:
+**This file is the system design.** It describes how SimAgent is wired:
 the LangGraph hub-and-spoke, the ordered pipeline, multi-simulation layout,
 shared `MDState`, and what each agent does. Read it to understand *how a run
 moves through the graph*, not how to invoke the CLI or how an RMSD is
@@ -22,7 +22,7 @@ family-scale compile-once contracts and embedding tool search
 
 ## High-Level Design
 
-AgenticAI uses a **LangGraph StateGraph** with a hub-and-spoke topology.
+SimAgent uses a **LangGraph StateGraph** with a hub-and-spoke topology.
 Every field agent returns control to the **Supervisor**, which decides the
 next step by reading the `next_node` field in shared state.
 
@@ -130,7 +130,7 @@ base_dir/
 ```
 
 Published demo layout and how to track a live run:
-[example/TUTORIAL.md](../example/TUTORIAL.md).
+[tutorial/TUTORIAL.md](../tutorial/TUTORIAL.md).
 
 ### Isolation and concurrency
 
@@ -226,11 +226,12 @@ Fields follow the pattern `{stage}_{artifact}`:
 | `current_step` | Index into `execution_plan` |
 | `errors` / `warnings` | Accumulated issue lists |
 | `human_feedback` | Response from human checkpoint |
-| `is_multi_simulation` | True when sim_prompts has >1 entry |
+| `is_multi_simulation` | True for the campaign tree, including a single system (N=1 skips combined stages) |
 | `sim_prompts` | List of per-simulation goal dicts |
 | `multi_sim_phase` | `pre_combined` → `executing_sims` / `hpc_pool` → `combined_analysis` (`post_combined`) → `combined_reporter` |
 | `run_pre_combined` / `pre_combined_plan` | Optional combined tools before per-sim traj (`n_sims>1`) |
 | `run_post_combined` / `post_combined_plan` | Optional combined tools after all sims; legacy `run_combined_analysis` → post |
+| `campaign_spec` | Compiled once: `single_md`, `multi_protocol`, `family_modular`, or `apo_holo` (see [CAMPAIGN_AND_RETRIEVAL.md](CAMPAIGN_AND_RETRIEVAL.md)) |
 
 ### Per-Agent Directories and File Management
 

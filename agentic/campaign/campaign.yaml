@@ -41,28 +41,27 @@ agent_retrieval:
 family_modular: auto
 
 # Feature pack for family campaigns (ignored when family_modular is off).
-# paper_sharedpcdyn | pocket_chi_rmsf_dccm | rmsf_dccm_only
-feature_pack: paper_sharedpcdyn
+# from_goal (default) reads the descriptors in the user goal. Any count.
+# Optional presets: shared_pocket_dynamics, pocket_chi_rmsf_dccm, rmsf_dccm_only.
+# paper_sharedpcdyn is a legacy alias of shared_pocket_dynamics.
+feature_pack: from_goal
 
 # Shared-reference dynamics label (directory name under the campaign base).
 # Empty = first system that has consensus dihedrals, then p17612* if present.
 reference_label: ""
 
-# Family Ward columns — paper fig3 sharedpcdyn (10 features)
-# Overridden by feature_pack gold columns unless you set feature_pack and
-# also want a custom column list (custom list wins when non-empty and
-# feature_pack is paper_sharedpcdyn).
-gold_columns:
-  - reference_pocket_ligand_distance_mean_A
-  - reference_pocket_ligand_distance_std_A
-  - reference_pocket_ligand_axis_angle_mean_deg
-  - reference_pocket_std_ligand_axis_angle_deg
-  - chi1_pocket_circ_mean_deg
-  - chi1_pocket_circ_std_deg
-  - consensus_rmsf_mean_A
-  - consensus_rmsf_std_A
-  - dccm_N_C_mean_corr
-  - pca_pka_ref_shared_dyn
+# Optional extra family descriptors. Each entry is merged into the active pack.
+# feature_plugins:
+#   - tool_name: calculate_consensus_rmsf_features
+#     output_dir: consensus_rmsf
+#     feature_columns: [consensus_rmsf_mean_A]
+#     stage: per_sim          # per_sim | post | pre
+#     metric_group: consensus_rmsf
+feature_plugins: []
+
+# Optional exact feature list. Empty = take the columns the goal names.
+# A non-empty list replaces the parsed columns and can be any length.
+gold_columns: []
 
 # Human-in-the-loop: null | error | all
 # CLI --HITL still wins when passed.

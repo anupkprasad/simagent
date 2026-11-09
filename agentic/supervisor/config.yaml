@@ -1,4 +1,4 @@
-# Supervisor Configuration for AgenticAI MD Workflow
+# Supervisor Configuration for the SimAgent MD workflow
 # Updated: 2026-01-30
 # Architecture: Supervisor → Planner → Programmer → Field Agents
 

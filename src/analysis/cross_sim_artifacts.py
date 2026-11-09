@@ -250,6 +250,29 @@ def pocket_selection_for_label(
     return "resid " + " ".join(nums)
 
 
+def _pocket_label_aliases(label: str) -> List[str]:
+    """Folder and bare-id spellings of one simulation label."""
+    raw = str(label or "").strip()
+    if not raw:
+        return []
+    aliases = [raw]
+    low = raw.lower()
+    for suf in ("_atp", "_adp", "_amp"):
+        if low.endswith(suf):
+            aliases.append(raw[: -len(suf)])
+        else:
+            aliases.append(raw + suf.upper())
+    seen = set()
+    out: List[str] = []
+    for alias in aliases:
+        key = alias.lower()
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(alias)
+    return out
+
+
 def pocket_resids_for_label(
     pocket_map: Dict[str, Any],
     label: str,
@@ -257,20 +280,28 @@ def pocket_resids_for_label(
     """Return mapped PDB residue IDs for *label* from ``pocket_mapped.json``."""
     per = (pocket_map or {}).get("per_sim") or {}
     lab = str(label)
-    entry = per.get(lab)
-    if entry is None:
-        for k, v in per.items():
-            if str(k).lower() == lab.lower():
-                entry = v
-                break
+    entry = None
+    for alias in _pocket_label_aliases(lab):
+        entry = per.get(alias)
+        if entry is None:
+            for k, v in per.items():
+                if str(k).lower() == alias.lower():
+                    entry = v
+                    break
+        if entry is not None:
+            break
     if entry is None:
         per_label = (pocket_map or {}).get("per_label_resids") or {}
-        raw = per_label.get(lab)
-        if raw is None:
-            for k, v in per_label.items():
-                if str(k).lower() == lab.lower():
-                    raw = v
-                    break
+        raw = None
+        for alias in _pocket_label_aliases(lab):
+            raw = per_label.get(alias)
+            if raw is None:
+                for k, v in per_label.items():
+                    if str(k).lower() == alias.lower():
+                        raw = v
+                        break
+            if raw is not None:
+                break
         if isinstance(raw, (list, tuple)):
             return [int(r) for r in raw if r is not None and str(r).strip() != ""]
         return []
@@ -613,14 +644,20 @@ def normalize_pre_artifacts_to_contract(base_dir: str | Path) -> Optional[Path]:
     if def_path is None:
         def_path = root / "reference_pocket_definition.json"
 
-    if not pocket_path.is_file() and def_path.is_file():
+    # Prefer regenerating pocket_mapped.json from the pocket definition so a
+    # stale map cannot shadow a freshly rebuilt definition/CSV.
+    if def_path.is_file():
         try:
             definition = json.loads(def_path.read_text(encoding="utf-8"))
         except Exception as exc:
             logger.warning("normalize: failed to read %s: %s", def_path, exc)
             definition = None
-        if isinstance(definition, dict):
-            per_label = definition.get("per_label_resids") or {}
+        per_label = (
+            (definition.get("per_label_resids") or {})
+            if isinstance(definition, dict)
+            else {}
+        )
+        if isinstance(definition, dict) and per_label:
             per_sim: Dict[str, Any] = {}
             for lab, resids in per_label.items():
                 if isinstance(resids, list):
@@ -644,6 +681,12 @@ def normalize_pre_artifacts_to_contract(base_dir: str | Path) -> Optional[Path]:
                     "per_label_coverage": definition.get("per_label_coverage"),
                 },
             )
+        elif pocket_path.is_file():
+            try:
+                pm = json.loads(pocket_path.read_text(encoding="utf-8"))
+                write_json_compact(pocket_path, pm)
+            except Exception:
+                pass
     elif pocket_path.is_file():
         try:
             pm = json.loads(pocket_path.read_text(encoding="utf-8"))
@@ -675,10 +718,10 @@ def normalize_pre_artifacts_to_contract(base_dir: str | Path) -> Optional[Path]:
                 labels=list(raw.get("labels") or []),
                 consensus_positions=list(raw.get("consensus_positions") or []),
                 msa_width=raw.get("msa_width"),
-                msa_method=str(raw.get("msa_method") or "star_pairwise"),
-                conservation_metric=str(raw.get("conservation_metric") or "coverage"),
-                min_conservation=float(raw.get("min_conservation") or 0.0),
-                min_coverage=float(raw.get("min_coverage") or 0.85),
+                msa_method=str(raw.get("msa_method") or "mafft"),
+                conservation_metric=str(raw.get("conservation_metric") or "similarity"),
+                min_conservation=float(raw.get("min_conservation") or 0.5),
+                min_coverage=float(raw.get("min_coverage") or 0.25),
                 extra={
                     k: v
                     for k, v in raw.items()

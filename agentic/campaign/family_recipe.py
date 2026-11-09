@@ -11,7 +11,8 @@ Shared-reference dynamics is a combined-stage step
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional, Tuple
+import re
+from typing import Any, Dict, List, Optional, Sequence, Tuple
 
 from agentic.campaign.spec import AnalysisRecipe, ArtifactContract, RecipeStep
 
@@ -46,9 +47,11 @@ FAMILY_MODULAR_DIR_ALIASES: Dict[str, str] = {
     "consensus_PCA_ref": "consensus_PCA",
 }
 
-# Named feature packs. ``paper_sharedpcdyn`` is the historical kinase default.
-FEATURE_PACKS: Dict[str, Dict[str, Any]] = {
-    "paper_sharedpcdyn": {
+# Named presets. The framework default is ``from_goal`` (see
+# ``build_protocol_from_goal``): columns and tools follow the user goal.
+# ``shared_pocket_dynamics`` is the pseudokinase demonstration set.
+# ``paper_sharedpcdyn`` is a legacy alias of that preset.
+_SHARED_POCKET_PRESET: Dict[str, Any] = {
         "gold_columns": [
             "reference_pocket_ligand_distance_mean_A",
             "reference_pocket_ligand_distance_std_A",
@@ -72,7 +75,11 @@ FEATURE_PACKS: Dict[str, Dict[str, Any]] = {
             "consensus_dccm",
             "dihedral_pca_ref",
         ],
-    },
+}
+
+FEATURE_PACKS: Dict[str, Dict[str, Any]] = {
+    "shared_pocket_dynamics": _SHARED_POCKET_PRESET,
+    "paper_sharedpcdyn": _SHARED_POCKET_PRESET,
     "pocket_chi_rmsf_dccm": {
         "gold_columns": [
             "reference_pocket_ligand_distance_mean_A",
@@ -113,11 +120,298 @@ FEATURE_PACKS: Dict[str, Dict[str, Any]] = {
 }
 
 
-def resolve_feature_pack(name: Optional[str]) -> Tuple[str, Dict[str, Any]]:
-    """Return ``(pack_name, pack_dict)``. Unknown names fall back to the paper pack."""
-    key = (name or "").strip() or "paper_sharedpcdyn"
+# Goal-derived descriptors. A comparative study includes only the blocks the
+# user named. Each block can contribute one column or several.
+_MEAN_RE = re.compile(r"\bmeans?\b", re.IGNORECASE)
+_STD_RE = re.compile(r"standard deviation|\bstdev\b|\bstd\b", re.IGNORECASE)
+
+FAMILY_DESCRIPTORS: List[Dict[str, Any]] = [
+    {
+        "id": "pocket_distance",
+        "patterns": (
+            r"com distance",
+            r"center of mass",
+            r"distance to the (?:consensus )?pocket",
+            r"pocket.{0,30}distance",
+            r"ligand.{0,30}distance",
+        ),
+        "mean_columns": ("reference_pocket_ligand_distance_mean_A",),
+        "std_columns": ("reference_pocket_ligand_distance_std_A",),
+        "columns": (),
+        "pin_tools": ("calculate_consensus_pocket_metrics",),
+        "post_tools": (),
+        "metric_groups": ("reference_pocket", "com"),
+        "modular_dirs": (),
+    },
+    {
+        "id": "pocket_orientation",
+        "patterns": (
+            r"axis angle",
+            r"axis orientation",
+            r"orientation vs the pocket",
+            r"ligand orientation",
+            r"pocket axis",
+        ),
+        "mean_columns": ("reference_pocket_ligand_axis_angle_mean_deg",),
+        "std_columns": ("reference_pocket_std_ligand_axis_angle_deg",),
+        "columns": (),
+        "pin_tools": ("calculate_consensus_pocket_metrics",),
+        "post_tools": (),
+        "metric_groups": ("reference_pocket",),
+        "modular_dirs": (),
+    },
+    {
+        "id": "sidechain_chi1",
+        "patterns": (
+            r"χ\s*₁",
+            r"χ1",
+            r"chi\s*1",
+            r"side[-\s]?chain",
+        ),
+        "mean_columns": ("chi1_pocket_circ_mean_deg",),
+        "std_columns": ("chi1_pocket_circ_std_deg",),
+        "columns": (),
+        "pin_tools": ("calculate_consensus_torsions",),
+        "post_tools": (),
+        "metric_groups": ("consensus_torsions",),
+        "modular_dirs": ("consensus_dihedrals",),
+    },
+    {
+        "id": "consensus_rmsf",
+        "patterns": (
+            r"\brmsf\b",
+            r"flexibility of consensus",
+            r"consensus[-\s]?mapped",
+            r"c[αa]\s+flexibility",
+        ),
+        "mean_columns": ("consensus_rmsf_mean_A",),
+        "std_columns": ("consensus_rmsf_std_A",),
+        "columns": (),
+        "pin_tools": ("calculate_consensus_rmsf_features",),
+        "post_tools": (),
+        "metric_groups": ("consensus_rmsf",),
+        "modular_dirs": ("consensus_rmsf",),
+    },
+    {
+        "id": "interdomain_dccm",
+        "patterns": (
+            r"n[-\s]?lobe.{0,40}c[-\s]?lobe",
+            r"c[-\s]?lobe.{0,40}n[-\s]?lobe",
+            r"inter[-\s]?domain",
+            r"between (?:the )?(?:n|c)[-\s]?terminal",
+            r"dccm_N_C",
+        ),
+        "mean_columns": (),
+        "std_columns": (),
+        "columns": ("dccm_N_C_mean_corr",),
+        "pin_tools": ("calculate_consensus_dccm_features",),
+        "post_tools": (),
+        "metric_groups": ("consensus_dccm",),
+        "modular_dirs": ("consensus_DCCM",),
+    },
+    {
+        "id": "dccm",
+        "patterns": (
+            r"\bdccm\b",
+            r"cross[-\s]?correlation",
+            r"correlated motion",
+        ),
+        "mean_columns": (),
+        "std_columns": (),
+        "columns": ("mean_abs_dccm",),
+        "pin_tools": ("calculate_consensus_dccm_features",),
+        "post_tools": (),
+        "metric_groups": ("consensus_dccm", "dccm"),
+        "modular_dirs": ("consensus_DCCM",),
+    },
+    {
+        "id": "shared_ref_dihedral_pca",
+        "patterns": (
+            r"pca_pka_ref_shared_dyn",
+            r"pca_ref_shared_dyn",
+            r"shared[-\s]?reference.{0,80}(?:dihedral|pca|dyn)",
+            r"reference.{0,40}dihedral\s+pca",
+        ),
+        "mean_columns": (),
+        "std_columns": (),
+        "columns": ("pca_pka_ref_shared_dyn",),
+        "pin_tools": (),
+        "post_tools": ("compute_shared_pka_ref_dyn_features",),
+        "metric_groups": ("dihedral_pca_ref",),
+        "modular_dirs": (),
+    },
+    {
+        "id": "rmsd",
+        "patterns": (r"\brmsd\b",),
+        "mean_columns": ("mean_rmsd_A",),
+        "std_columns": ("std_rmsd_A",),
+        "columns": (),
+        "pin_tools": ("calculate_rmsd",),
+        "post_tools": (),
+        "metric_groups": ("rmsd",),
+        "modular_dirs": (),
+    },
+    {
+        "id": "rg",
+        "patterns": (r"\brg\b", r"radius of gyration", r"\bgyration\b"),
+        "mean_columns": ("mean_rg_A",),
+        "std_columns": ("std_rg_A",),
+        "columns": (),
+        "pin_tools": ("calculate_gyration",),
+        "post_tools": (),
+        "metric_groups": ("rg",),
+        "modular_dirs": (),
+    },
+    {
+        "id": "sasa",
+        "patterns": (r"\bsasa\b", r"solvent accessible"),
+        "mean_columns": ("mean_protein_sasa_nm2",),
+        "std_columns": ("std_protein_sasa_nm2",),
+        "columns": (),
+        "pin_tools": ("calculate_sasa",),
+        "post_tools": (),
+        "metric_groups": ("sasa",),
+        "modular_dirs": (),
+    },
+]
+
+_KNOWN_COLUMNS = {
+    col
+    for desc in FAMILY_DESCRIPTORS
+    for col in (
+        list(desc["columns"]) + list(desc["mean_columns"]) + list(desc["std_columns"])
+    )
+}
+_FROM_GOAL_NAMES = frozenset({"", "from_goal", "auto", "goal", "user"})
+
+
+def _goal_chunks(text: str) -> List[str]:
+    raw = (text or "").replace("\u2011", "-").replace("\u2013", "-").replace("\u2014", "-")
+    chunks: List[str] = []
+    for line in raw.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        chunks.extend(part.strip() for part in re.split(r"(?<=[.!?])\s+", line) if part.strip())
+    return chunks or [raw]
+
+
+def _columns_for_chunk(desc: Dict[str, Any], chunk: str) -> List[str]:
+    has_mean = bool(_MEAN_RE.search(chunk))
+    has_std = bool(_STD_RE.search(chunk))
+    picked = list(desc["columns"])
+    means = list(desc["mean_columns"])
+    stds = list(desc["std_columns"])
+    if means or stds:
+        if has_mean and not has_std:
+            picked.extend(means)
+        elif has_std and not has_mean:
+            picked.extend(stds)
+        else:
+            picked.extend(means)
+            picked.extend(stds)
+    return picked
+
+
+def _append_unique(dst: List[str], items: Sequence[str]) -> None:
+    for item in items:
+        if item and item not in dst:
+            dst.append(item)
+
+
+def build_protocol_from_goal(
+    goal: str,
+    *,
+    gold_columns: Optional[Sequence[str]] = None,
+) -> Dict[str, Any]:
+    """Shared family protocol whose size follows the user, not a fixed list.
+
+    Natural-language descriptors in *goal* select tools and columns. A
+    non-empty *gold_columns* list replaces the parsed columns (any length)
+    and still pulls in the tools that produce those columns.
+    """
+    columns: List[str] = []
+    pins: List[str] = []
+    posts: List[str] = []
+    groups: List[str] = []
+    dirs: List[str] = []
+    matched: List[str] = []
+
+    by_id = {desc["id"]: desc for desc in FAMILY_DESCRIPTORS}
+
+    def _hit(desc_id: str, text: str) -> bool:
+        desc = by_id[desc_id]
+        return any(re.search(pat, text, flags=re.IGNORECASE) for pat in desc["patterns"])
+
+    def _take(desc_id: str, chunk: str) -> None:
+        desc = by_id[desc_id]
+        matched.append(desc_id)
+        _append_unique(columns, _columns_for_chunk(desc, chunk))
+        _append_unique(pins, desc["pin_tools"])
+        _append_unique(posts, desc["post_tools"])
+        _append_unique(groups, desc["metric_groups"])
+        _append_unique(dirs, desc["modular_dirs"])
+
+    for chunk in _goal_chunks(goal):
+        low = chunk.lower()
+        # "N-lobe–C-lobe DCCM" is the domain-pair scalar, not a second
+        # absolute-correlation feature.
+        inter = _hit("interdomain_dccm", low)
+        for desc in FAMILY_DESCRIPTORS:
+            if desc["id"] == "dccm" and inter:
+                continue
+            if desc["id"] == "dccm":
+                if _hit("dccm", low) and not _hit("interdomain_dccm", low):
+                    _take("dccm", chunk)
+                continue
+            if _hit(desc["id"], low):
+                _take(desc["id"], chunk)
+
+    for token in re.findall(r"\b([a-z][a-z0-9_]{6,})\b", (goal or "").lower()):
+        if token in _KNOWN_COLUMNS:
+            _append_unique(columns, [token])
+            for desc in FAMILY_DESCRIPTORS:
+                owned = set(desc["columns"]) | set(desc["mean_columns"]) | set(desc["std_columns"])
+                if token in owned:
+                    _append_unique(pins, desc["pin_tools"])
+                    _append_unique(posts, desc["post_tools"])
+                    _append_unique(groups, desc["metric_groups"])
+                    _append_unique(dirs, desc["modular_dirs"])
+
+    explicit = [str(c) for c in (gold_columns or []) if str(c).strip()]
+    if explicit:
+        columns = []
+        _append_unique(columns, explicit)
+        for desc in FAMILY_DESCRIPTORS:
+            owned = set(desc["columns"]) | set(desc["mean_columns"]) | set(desc["std_columns"])
+            if owned.intersection(columns):
+                _append_unique(pins, desc["pin_tools"])
+                _append_unique(posts, desc["post_tools"])
+                _append_unique(groups, desc["metric_groups"])
+                _append_unique(dirs, desc["modular_dirs"])
+
+    return {
+        "gold_columns": columns,
+        "pin_tools": pins,
+        "modular_dirs": dirs,
+        "post_tools": posts,
+        "metric_groups": groups,
+        "matched_descriptors": matched,
+    }
+
+
+def resolve_feature_pack(name: Optional[str]) -> Tuple[str, Optional[Dict[str, Any]]]:
+    """Return ``(pack_name, pack_dict)``.
+
+    ``from_goal`` (the default) has no fixed dict; the caller builds it from
+    the user goal. Unknown names also use ``from_goal`` rather than a
+    demonstration preset.
+    """
+    key = (name or "").strip() or "from_goal"
+    if key in _FROM_GOAL_NAMES:
+        return "from_goal", None
     if key not in FEATURE_PACKS:
-        key = "paper_sharedpcdyn"
+        return "from_goal", None
     return key, FEATURE_PACKS[key]
 
 
@@ -199,8 +493,8 @@ def build_shared_analysis_protocol(
     for step in optional:
         if allowed is None or step.tool_name in allowed:
             steps.append(step)
-    cols = list(gold_columns) if gold_columns else list(FAMILY_FEATURE_COLUMNS)
-    groups = list(metric_groups) if metric_groups else list(FAMILY_METRIC_GROUPS)
+    cols = list(gold_columns or [])
+    groups = list(metric_groups or [])
     return AnalysisRecipe(
         steps=steps,
         required_feature_columns=cols,
@@ -216,7 +510,7 @@ def family_contract(
     n_features: Optional[int] = None,
 ) -> ArtifactContract:
     dirs = list(modular_dirs) if modular_dirs else list(FAMILY_MODULAR_DIRS)
-    nfeat = int(n_features) if n_features is not None else len(FAMILY_FEATURE_COLUMNS)
+    nfeat = int(n_features) if n_features is not None else 1
     return ArtifactContract(
         modular_dirs=dirs,
         analysis_markers=["analysis_summary.jsonl"],
@@ -251,10 +545,12 @@ def recipe_steps_as_plan_dicts(
     *,
     topology_file: str = "md.tpr",
     trajectory_file: str = "mdWrap.xtc",
+    recipe: Optional[AnalysisRecipe] = None,
 ) -> List[Dict[str, Any]]:
-    """Render the shared analysis protocol as analysis-agent plan step dicts."""
+    """Render a shared analysis protocol as analysis-agent plan step dicts."""
     out: List[Dict[str, Any]] = []
-    for step in build_shared_analysis_protocol().steps:
+    steps = list(recipe.steps) if recipe is not None and recipe.steps else []
+    for step in steps:
         params = dict(step.tool_params)
         params.setdefault("topology_file", topology_file)
         params.setdefault("trajectory_file", trajectory_file)

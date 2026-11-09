@@ -1,4 +1,4 @@
-"""Programmer agent package for AgenticAI MD workflow."""
+"""Programmer agent package for the SimAgent MD workflow."""
 
 from .programmer_agent import MDProgrammer
 from .tools import (

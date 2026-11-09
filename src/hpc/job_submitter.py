@@ -21,6 +21,53 @@ def reuse_hpc_blocks_sbatch() -> bool:
     )
 
 
+def find_live_slurm_job_for_dir(workdir: str | Path) -> Optional[str]:
+    """Return a queued or running SLURM job whose work directory is *workdir*.
+
+    Completed and failed jobs are not listed by ``squeue``, so a later retry
+    of a finished directory is still allowed. Returns None when SLURM cannot
+    be queried.
+    """
+    import shutil
+
+    target = Path(workdir).expanduser()
+    try:
+        target = target.resolve()
+    except OSError:
+        target = target.absolute()
+    user = os.environ.get("USER", "").strip()
+    if not user or shutil.which("squeue") is None:
+        return None
+    try:
+        result = subprocess.run(
+            ["squeue", "-u", user, "-h", "-o", "%i|%T|%Z"],
+            capture_output=True,
+            text=True,
+            timeout=30,
+        )
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        logger.debug("squeue workdir lookup failed: %s", exc)
+        return None
+    if result.returncode != 0:
+        return None
+    for line in result.stdout.splitlines():
+        line = line.strip()
+        if not line or "|" not in line:
+            continue
+        job_id, _state, raw_dir = (line.split("|", 2) + ["", ""])[:3]
+        job_id = job_id.strip()
+        raw_dir = raw_dir.strip()
+        if not job_id or not raw_dir:
+            continue
+        try:
+            queued = Path(raw_dir).expanduser().resolve()
+        except OSError:
+            queued = Path(raw_dir)
+        if queued == target:
+            return job_id
+    return None
+
+
 @tool
 def submit_job(
     script_path: str,
@@ -64,9 +111,29 @@ def submit_job(
                 "success": False,
                 "error": f"Script file not found: {script_path}"
             }
-        
+
         # Local submission
         if not remote_host:
+            live = find_live_slurm_job_for_dir(script_file.parent)
+            if live:
+                logger.warning(
+                    "submit_job: %s already has SLURM job %s — not submitting again",
+                    script_file.parent,
+                    live,
+                )
+                try:
+                    from agentic.hpc.job_markers import write_job_marker
+
+                    write_job_marker(script_file.parent, live)
+                except Exception:
+                    logger.debug("Could not write .agentic_job_id marker", exc_info=True)
+                return {
+                    "success": True,
+                    "job_id": live,
+                    "status": "ALREADY_QUEUED",
+                    "message": f"Job already queued for this directory: {live}",
+                    "job_script": str(script_file.resolve()),
+                }
             result = subprocess.run(
                 ["sbatch", str(script_file)],
                 capture_output=True,

@@ -1,5 +1,5 @@
 """
-Analysis tools for AgenticAI
+Analysis tools for SimAgent
 
 Core implementations for MD trajectory analysis:
 - RMSD calculation (rmsd_calculator.py)

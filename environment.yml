@@ -10,7 +10,7 @@
 # The Ollama *server* and the `gpt-oss:20b` model are NOT in conda — install
 # them separately: see docs/OLLAMA_SETUP.md
 #
-# Related docs: docs/PROJECT.md, docs/TOOLS.md, example/TUTORIAL.md §7
+# Related docs: docs/PROJECT.md, docs/TOOLS.md, tutorial/TUTORIAL.md §7
 #
 name: SimAgentEnv
 channels:
@@ -43,13 +43,12 @@ dependencies:
   - langgraph-prebuilt
   - langgraph-sdk
 
-  # ===== Network / serialization / tests =====
+  # ===== Network / serialization =====
   - paramiko>=3
   - requests>=2.31
   - pyyaml>=6
   - orjson
   - ormsgpack
-  - pytest>=8
   - invoke>=2
 
   # ===== Pip packages =====

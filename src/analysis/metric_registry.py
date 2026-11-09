@@ -166,6 +166,33 @@ METRIC_REGISTRY: Dict[str, TrajectoryMetricSpec] = {
         TrajectoryPassKind.RAW,
         TrajectoryExecutionMode.EXTERNAL,
     ),
+    # Family consensus calculators — ALIGNED batch so large-N / multi-rep
+    # campaigns share one Universe load with other aligned metrics.
+    "calculate_consensus_rmsf_features": TrajectoryMetricSpec(
+        "calculate_consensus_rmsf_features",
+        TrajectoryPassKind.ALIGNED,
+        TrajectoryExecutionMode.BATCH_ANALYSIS,
+    ),
+    "calculate_consensus_dccm_features": TrajectoryMetricSpec(
+        "calculate_consensus_dccm_features",
+        TrajectoryPassKind.ALIGNED,
+        TrajectoryExecutionMode.BATCH_ANALYSIS,
+    ),
+    "calculate_consensus_torsions": TrajectoryMetricSpec(
+        "calculate_consensus_torsions",
+        TrajectoryPassKind.ALIGNED,
+        TrajectoryExecutionMode.BATCH_ANALYSIS,
+    ),
+    "calculate_consensus_pocket_metrics": TrajectoryMetricSpec(
+        "calculate_consensus_pocket_metrics",
+        TrajectoryPassKind.RAW,
+        TrajectoryExecutionMode.BATCH_ANALYSIS,
+    ),
+    "run_independent_dynamics_fel": TrajectoryMetricSpec(
+        "run_independent_dynamics_fel",
+        TrajectoryPassKind.ALIGNED,
+        TrajectoryExecutionMode.BATCH_ANALYSIS,
+    ),
 }
 
 

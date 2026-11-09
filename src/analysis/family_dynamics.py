@@ -64,6 +64,38 @@ def _find_dihedral_dirs(sim_analysis: Path) -> List[Path]:
     return out
 
 
+def _is_replicate_dihedral_dir(path: Path) -> bool:
+    """True when path lives under a ``rep*`` folder (not pooled ``avg/``)."""
+    return any(part.lower().startswith("rep") for part in path.parts)
+
+
+def _schema_dihedral_dirs(sim_analysis: Path) -> List[Path]:
+    """Consensus-schema dihedral dirs, preferring replicates over pooled avg."""
+    dirs = [
+        d
+        for d in _find_dihedral_dirs(sim_analysis)
+        if (d / "per_residue_dihedrals.csv").is_file()
+        and "consensus_index"
+        in (d / "per_residue_dihedrals.csv").read_text(
+            encoding="utf-8", errors="replace"
+        )[:200]
+    ]
+    reps = [d for d in dirs if _is_replicate_dihedral_dir(d)]
+    return reps if reps else dirs
+
+
+def _reference_fit_dihedral_dir(sim_analysis: Path) -> Optional[Path]:
+    """Paper shared-PCA fit: first replicate only (``rep01`` / ``rep1``)."""
+    dirs = _schema_dihedral_dirs(sim_analysis)
+    if not dirs:
+        return None
+    for d in dirs:
+        parts_l = [p.lower() for p in d.parts]
+        if "rep01" in parts_l or "rep1" in parts_l:
+            return d
+    return dirs[0]
+
+
 def _resolve_campaign_base(base_directory: str, working_dir: Optional[str] = None) -> Path:
     """Return the multi-sim campaign root (parent of ``*_ATP`` dirs), not ``analysis/``."""
     base = Path(base_directory).resolve()
@@ -818,8 +850,12 @@ def run_shared_dynamics_fel_batch(
 
 
 def _pc_shared_descriptors(proj: np.ndarray) -> Dict[str, float]:
-    """Paper shared-PC scalars: FEL gmin, centroid, and PC RMS about centroid."""
-    from src.analysis.family_dynamics_core import fel_descriptors_from_proj2
+    """Paper shared-PC scalars: FEL gmin, centroid, and PC RMS about centroid.
+
+    Global-min location uses a Gaussian-smoothed FEL (``SMOOTH_SIGMA``) on the
+    occupied grid, matching the ment sharedpcdyn recipe.
+    """
+    from src.analysis.family_dynamics_core import SMOOTH_SIGMA, fel_descriptors_from_proj2
 
     pc1 = proj[:, 0].astype(float)
     pc2 = proj[:, 1].astype(float)
@@ -835,7 +871,18 @@ def _pc_shared_descriptors(proj: np.ndarray) -> Dict[str, float]:
     if not np.any(mask):
         gmin1, gmin2 = cent1, cent2
     else:
-        F_m = np.where(mask, F, np.inf)
+        F_work = F.astype(float).copy()
+        if SMOOTH_SIGMA and float(SMOOTH_SIGMA) > 0:
+            try:
+                from scipy.ndimage import gaussian_filter
+
+                fill = float(np.max(F_work[mask]))
+                F_work = gaussian_filter(
+                    np.where(mask, F_work, fill), sigma=float(SMOOTH_SIGMA)
+                )
+            except Exception:
+                logger.debug("shared-PC gmin smooth skipped", exc_info=True)
+        F_m = np.where(mask, F_work, np.inf)
         jy, ix = np.unravel_index(int(np.argmin(F_m)), F.shape)
         gmin1, gmin2 = float(xc[ix]), float(yc[jy])
     return {
@@ -909,10 +956,10 @@ def compute_shared_pka_ref_dyn_features(
     overwrite: bool = False,
 ) -> Dict[str, Any]:
     """
-    Fit shared-reference φ/ψ/χ₁ PCA on ``reference_label``, project every
-    system (pooling frames across ``rep*/`` when present), and write a
-    transferable dynamics scalar ``pca_pka_ref_shared_dyn`` plus supporting
-    PC descriptors.
+    Fit shared-reference φ/ψ/χ₁ PCA on ``reference_label`` **replicate 1 only**
+    (paper sharedpcdyn), project every system (pooling ``rep*/`` frames, not
+    ``avg/``), and write transferable dynamics scalar ``pca_pka_ref_shared_dyn``
+    plus supporting PC descriptors.
 
     Alignment uses the reference residue ``consensus_index`` schema: every
     system is projected into the same feature space, with missing MSA columns
@@ -974,17 +1021,12 @@ def compute_shared_pka_ref_dyn_features(
 
     ref_lab = _resolve_sim_dir_label(base, reference_label, labs or disk_labs)
     if not ref_lab:
-        # Display names (KAPCA_ATP) cannot be reverse-mapped without a name map;
-        # fall back to PKA UniProt or the first system that has dihedrals.
         for cand in disk_labs:
-            if str(cand).lower().startswith("p17612"):
+            if _schema_dihedral_dirs(base / cand / "analysis"):
                 ref_lab = cand
                 break
-        if not ref_lab:
-            for cand in disk_labs:
-                if _find_dihedral_dirs(base / cand / "analysis"):
-                    ref_lab = cand
-                    break
+        if not ref_lab and disk_labs:
+            ref_lab = disk_labs[0]
     if not ref_lab:
         return {
             "success": False,
@@ -999,14 +1041,8 @@ def compute_shared_pka_ref_dyn_features(
     if ref_lab not in labs:
         labs = [ref_lab] + [l for l in labs if l != ref_lab]
 
-    ref_dirs = [
-        d
-        for d in _find_dihedral_dirs(base / ref_lab / "analysis")
-        if (d / "per_residue_dihedrals.csv").is_file()
-        and "consensus_index"
-        in (d / "per_residue_dihedrals.csv").read_text(encoding="utf-8", errors="replace")[:200]
-    ]
-    if not ref_dirs:
+    ref_fit_dir = _reference_fit_dihedral_dir(base / ref_lab / "analysis")
+    if ref_fit_dir is None:
         return {
             "success": False,
             "error": (
@@ -1017,7 +1053,7 @@ def compute_shared_pka_ref_dyn_features(
         }
 
     try:
-        ref_df = _load_dihedral_residue_table(ref_dirs[0])
+        ref_df = _load_dihedral_residue_table(ref_fit_dir)
         schema = _shared_dihedral_schema(ref_df, angles)
         if len(schema) < 8:
             return {
@@ -1025,14 +1061,9 @@ def compute_shared_pka_ref_dyn_features(
                 "error": f"Reference schema too small ({len(schema)} features) for {ref_lab}",
             }
         fill0 = np.zeros(len(schema), dtype=float)
-        X_ref_chunks = []
-        for ddir in ref_dirs:
-            X_ref_chunks.append(_build_aligned_dihedral_matrix(ddir, schema, fill0))
-        X_ref0 = np.vstack(X_ref_chunks)
+        X_ref0 = _build_aligned_dihedral_matrix(ref_fit_dir, schema, fill0)
         fill = X_ref0.mean(axis=0)
-        X_ref = np.vstack(
-            [_build_aligned_dihedral_matrix(ddir, schema, fill) for ddir in ref_dirs]
-        )
+        X_ref = _build_aligned_dihedral_matrix(ref_fit_dir, schema, fill)
     except Exception as exc:
         logger.exception("shared dyn: failed to build reference matrix")
         return {"success": False, "error": f"Reference dihedral matrix failed: {exc}"}
@@ -1047,6 +1078,7 @@ def compute_shared_pka_ref_dyn_features(
         "space": "dihedral",
         "method": "pca",
         "reference_label": ref_lab,
+        "reference_fit_dir": str(ref_fit_dir),
         "angles": angles,
         "fill": fill,
         "schema": schema,
@@ -1060,19 +1092,11 @@ def compute_shared_pka_ref_dyn_features(
     except Exception as exc:
         logger.warning("shared dyn: could not save model: %s", exc)
 
-    # Collect pooled projections per label (schema-aligned).
+    # Collect pooled projections per label (schema-aligned; replicates only).
     proj_by_lab: Dict[str, np.ndarray] = {}
     skipped: List[Dict[str, str]] = []
     for lab in labs:
-        dirs = [
-            d
-            for d in _find_dihedral_dirs(base / lab / "analysis")
-            if (d / "per_residue_dihedrals.csv").is_file()
-            and "consensus_index"
-            in (d / "per_residue_dihedrals.csv").read_text(
-                encoding="utf-8", errors="replace"
-            )[:200]
-        ]
+        dirs = _schema_dihedral_dirs(base / lab / "analysis")
         if not dirs:
             skipped.append({"label": lab, "reason": "no_dihedrals"})
             continue

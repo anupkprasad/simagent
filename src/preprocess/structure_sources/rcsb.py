@@ -47,7 +47,7 @@ class RCSBSource(StructureSource):
         try:
             req = urllib.request.Request(
                 url,
-                headers={"User-Agent": "agenticAI-preprocess/1.0"},
+                headers={"User-Agent": "SimAgent/1.0"},
             )
             with urllib.request.urlopen(req, timeout=60) as response:
                 data = response.read()
@@ -101,7 +101,7 @@ class RCSBSource(StructureSource):
             data=payload,
             headers={
                 "Content-Type": "application/json",
-                "User-Agent": "agenticAI-preprocess/1.0",
+                "User-Agent": "SimAgent/1.0",
             },
             method="POST",
         )
@@ -142,7 +142,7 @@ class RCSBSource(StructureSource):
             try:
                 req = urllib.request.Request(
                     url,
-                    headers={"User-Agent": "agenticAI-preprocess/1.0"},
+                    headers={"User-Agent": "SimAgent/1.0"},
                 )
                 with urllib.request.urlopen(req, timeout=60) as response:
                     data = response.read()

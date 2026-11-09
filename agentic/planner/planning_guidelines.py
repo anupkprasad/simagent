@@ -396,6 +396,9 @@ _METRIC_PATTERNS: Dict[str, tuple[str, ...]] = {
     ),
     "shared_dihedral_pca": (
         r"shared[-\s]?reference\s+dihedral\s+pca",
+        r"shared[-\s]?reference.{0,80}dihedral\s+pca",
+        r"pca_pka_ref_shared_dyn",
+        r"pca_ref_shared_dyn",
         r"project(?:ion)?\s+onto\s+.*dihedral\s+pca",
         r"reference\s+dihedral\s+pca",
     ),
@@ -722,43 +725,14 @@ def detect_requested_metrics(goal: str) -> Optional[FrozenSet[str]]:
         found.discard("gyration")
         found.add("rg")
 
-    # Family modular dynamics: schedule consensus_* / dihedral PCA tools when
-    # the goal describes comparative pocket/flexibility/correlation/landscape
-    # features (scientific language). Do not force a fixed cluster count.
-    if detect_family_modular_dynamics_requested(goal):
-        found.update(
-            {
-                "consensus_rmsf",
-                "consensus_torsions",
-                "consensus_dccm",
-                "dihedral_pca",
-            }
-        )
-        # Prefer dihedral PCA entropy; only keep Cartesian FEL if explicitly asked
-        # (and not in a "do not use … FEL" negation).
-        negated_fel = bool(
-            re.search(
-                r"(?:do\s+not|don't|not)\s+use\s+.{0,60}fel|"
-                r"do\s+not\s+use\s+a\s+shared[-\s]?reference",
-                text,
-            )
-        )
-        explicit_cart_fel = (not negated_fel) and bool(
-            re.search(
-                r"cartesian\s+fel|trajectory\s+pca.{0,40}fel|"
-                r"calculate_free_energy_landscape|fel_pc1_pc2",
-                text,
-            )
-        )
-        if not explicit_cart_fel:
-            found.discard("fel")
-            # Keep bare pca only when user also asked for Cartesian trajectory PCA.
-            if not re.search(
-                r"cartesian\s+pca|trajectory\s+pca|calculate_trajectory_pca|"
-                r"c[\s-]?alpha\s+pca",
-                text,
-            ):
-                found.discard("pca")
+    # A shared-reference or dihedral PCA request is not also Cartesian PCA.
+    if "dihedral_pca" in found or "shared_dihedral_pca" in found:
+        if not re.search(
+            r"cartesian\s+pca|trajectory\s+pca|calculate_trajectory_pca|"
+            r"c[\s-]?alpha\s+pca",
+            text,
+        ):
+            found.discard("pca")
 
     for pattern in _EXCLUSIVE_PATTERNS:
         match = re.search(pattern, text)
@@ -1078,7 +1052,7 @@ def _parse_reference_label_from_goal(text: str) -> Optional[str]:
 def _resolve_reference_label(
     *goal_texts: str,
     labels: Optional[Sequence[str]] = None,
-    default: str = "q8nb16",
+    default: str = "",
 ) -> str:
     """
     Pick a reference simulation label from goal text.
@@ -1109,9 +1083,13 @@ def _resolve_reference_label(
                 if lab_l.endswith(suf) and lab_l[: -len(suf)] == cand_l:
                     return lab_s
         return str(candidate)
-    if labels and default in {str(l) for l in labels}:
+    if default and labels and default in {str(l) for l in labels}:
         return default
-    return default
+    if default and not labels:
+        return default
+    if labels:
+        return str(list(labels)[0])
+    return default or ""
 
 
 def detect_reference_landscape_requested(*goal_texts: str) -> Dict[str, Any]:
@@ -1211,34 +1189,16 @@ def classification_metric_groups_for_goal(*goal_texts: str) -> Optional[FrozenSe
         groups = base | extras if extras else base
 
     if family_modular:
-        groups = {
-            "consensus_rmsf",
-            "consensus_torsions",
-            "consensus_dccm",
-            "dihedral_pca",
-        }
-        if cp_req.get("requested"):
-            groups.add("reference_pocket")
-            # Also keep local COM columns so distance survives when the
-            # consensus-pocket batch is incomplete.
-            groups.add("com")
-        # Keep any explicitly named modular extras from the goal.
+        groups = set()
         if metrics is not None:
             for m in metrics:
-                if m in CLASSIFICATION_FEATURE_GROUPS and m not in (
-                    "fel",
-                    "pca",
-                    "paper_ward4",
-                ):
-                    if m.startswith("consensus") or m in (
-                        "dihedral_pca",
-                        "dihedral_tica",
-                        "cart_pca",
-                        "cart_tica",
-                        "reference_pocket",
-                        "com",
-                    ):
-                        groups.add(m)
+                if m in CLASSIFICATION_FEATURE_GROUPS and m not in {"paper_ward4"}:
+                    groups.add(m)
+                if m == "shared_dihedral_pca":
+                    groups.add("dihedral_pca_ref")
+        if cp_req.get("requested") or "reference_pocket" in groups:
+            groups.add("reference_pocket")
+            groups.add("com")
         return frozenset(groups)
 
     modular = groups & {

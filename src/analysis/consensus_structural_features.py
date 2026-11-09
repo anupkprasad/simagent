@@ -63,10 +63,15 @@ def calculate_consensus_rmsf_features(
     """
     Consensus-mapped Cα RMSF mean/std for one simulation.
 
+    Aligns mapped consensus Cα atoms to frame 0 before RMSF (same fit used for
+    consensus DCCM). Without that fit, rigid-body motion inflates RMSF by an
+    order of magnitude and breaks family-scale clustering.
+
     Writes ``{output_dir}/consensus_rmsf_features.json`` with
     ``consensus_rmsf_mean_A`` and ``consensus_rmsf_std_A``, plus per-residue profile.
     """
     import MDAnalysis as mda
+    from MDAnalysis.analysis import align as mda_align
     from MDAnalysis.analysis import rms
 
     from src.analysis.family_dynamics_core import (
@@ -76,6 +81,16 @@ def calculate_consensus_rmsf_features(
 
     if not alignment_json or not label:
         return {"success": False, "error": "alignment_json and label required"}
+
+    # Resolve inputs before any chdir so relative campaign paths stay valid.
+    alignment_path = str(Path(alignment_json).expanduser().resolve())
+    sim_abs = str(Path(sim_directory).expanduser().resolve()) if sim_directory else None
+    hpc_abs = str(Path(hpc_dir).expanduser().resolve()) if hpc_dir else None
+    top_in = str(Path(topology_file).expanduser().resolve()) if topology_file else ""
+    traj_in = str(Path(trajectory_file).expanduser().resolve()) if trajectory_file else ""
+    top, traj = _resolve_traj(top_in, traj_in, sim_abs, hpc_dir=hpc_abs)
+    if not top or not traj:
+        return {"success": False, "error": "Missing trajectory"}
 
     original_dir = None
     try:
@@ -90,18 +105,23 @@ def calculate_consensus_rmsf_features(
         if feat_path.is_file() and not overwrite:
             return {"success": True, "skipped": True, **json.loads(feat_path.read_text())}
 
-        top, traj = _resolve_traj(
-            topology_file, trajectory_file, sim_directory, hpc_dir=hpc_dir
-        )
-        if not top or not traj:
-            return {"success": False, "error": "Missing trajectory"}
-
-        alignment = load_consensus_alignment(alignment_json)
+        alignment = load_consensus_alignment(alignment_path)
         mapping = mapping_for_label(alignment, label)
         u = mda.Universe(str(Path(top).resolve()), str(Path(traj).resolve()))
         ag, meta = _mapped_ca_atomgroup(u, mapping)
         if ag is None or ag.n_atoms < 3:
             return {"success": False, "error": "Too few mapped Cα atoms"}
+
+        # Fit mapped consensus Cα to frame 0 (matches consensus DCCM / family_dynamics).
+        resids = [m["resid"] for m in meta]
+        sel = " or ".join(f"resid {r}" for r in resids)
+        align_sel = f"protein and name CA and ({sel})"
+        ref = u.copy()
+        mda_align.AlignTraj(u, ref, select=align_sel, in_memory=True).run()
+        # Re-select after in-memory align so the AtomGroup tracks fitted coords.
+        ag, meta = _mapped_ca_atomgroup(u, mapping)
+        if ag is None or ag.n_atoms < 3:
+            return {"success": False, "error": "Too few mapped Cα atoms after align"}
 
         R = rms.RMSF(ag).run()
         vals = np.asarray(R.results.rmsf, dtype=float)
@@ -121,6 +141,8 @@ def calculate_consensus_rmsf_features(
             "consensus_rmsf_mean_A": mean_a,
             "consensus_rmsf_std_A": std_a,
             "n_atoms": int(ag.n_atoms),
+            "aligned": True,
+            "align_selection": align_sel,
             "profile_csv": str(profile.resolve()),
             "topology_file": str(Path(top).resolve()),
             "trajectory_file": str(Path(traj).resolve()),
@@ -173,16 +195,25 @@ def calculate_consensus_dccm_features(
     Writes ``dccm_N_C_mean_corr``, ``mean_abs_dccm`` into
     ``{output_dir}/consensus_dccm_features.json``.
     """
-    import MDAnalysis as mda
-    from MDAnalysis.analysis import align as mda_align
-
+    from src.analysis.consensus_local_fel import _trajectory_coord_matrix_self_aligned
+    from src.analysis.dccm_calculator import _compute_dccm_matrix
     from src.analysis.family_dynamics_core import (
         load_consensus_alignment,
         mapping_for_label,
     )
+    from src.analysis.lobe_split import assign_n_c_lobe_indices
 
     if not alignment_json or not label:
         return {"success": False, "error": "alignment_json and label required"}
+
+    alignment_path = str(Path(alignment_json).expanduser().resolve())
+    sim_abs = str(Path(sim_directory).expanduser().resolve()) if sim_directory else None
+    hpc_abs = str(Path(hpc_dir).expanduser().resolve()) if hpc_dir else None
+    top_in = str(Path(topology_file).expanduser().resolve()) if topology_file else ""
+    traj_in = str(Path(trajectory_file).expanduser().resolve()) if trajectory_file else ""
+    top, traj = _resolve_traj(top_in, traj_in, sim_abs, hpc_dir=hpc_abs)
+    if not top or not traj:
+        return {"success": False, "error": "Missing trajectory"}
 
     original_dir = None
     try:
@@ -197,49 +228,46 @@ def calculate_consensus_dccm_features(
         if feat_path.is_file() and not overwrite:
             return {"success": True, "skipped": True, **json.loads(feat_path.read_text())}
 
-        top, traj = _resolve_traj(
-            topology_file, trajectory_file, sim_directory, hpc_dir=hpc_dir
-        )
-        if not top or not traj:
-            return {"success": False, "error": "Missing trajectory"}
-
-        alignment = load_consensus_alignment(alignment_json)
+        alignment = load_consensus_alignment(alignment_path)
         mapping = mapping_for_label(alignment, label)
-        u = mda.Universe(str(Path(top).resolve()), str(Path(traj).resolve()))
-        ag, meta = _mapped_ca_atomgroup(u, mapping)
-        if ag is None or ag.n_atoms < 5:
-            return {"success": False, "error": "Too few mapped Cα atoms"}
-
-        resids = [m["resid"] for m in meta]
-        sel = " or ".join(f"resid {r}" for r in resids)
-        ref = u.copy()
-        mda_align.AlignTraj(
-            u, ref, select=f"protein and name CA and ({sel})", in_memory=True
-        ).run()
-
-        coords = []
-        for _ts in u.trajectory:
-            coords.append(ag.positions.copy())
-        positions = np.asarray(coords, dtype=float)  # T, N, 3
-        # DCCM: corr of x,y,z fluctuations concatenated is heavy; use per-atom
-        # displacement magnitude correlation (same spirit as ment Cα DCCM).
-        mean_pos = positions.mean(axis=0)
-        fluc = positions - mean_pos
-        # Build 3N vectors
-        T, N, _ = fluc.shape
-        X = fluc.reshape(T, N * 3)
-        X = X - X.mean(axis=0)
-        # Atom-level: average corr over xyz for each atom pair via reshaped cov
-        # Simpler: use distance-from-mean per atom
-        mag = np.linalg.norm(fluc, axis=2)  # T, N
-        mag = mag - mag.mean(axis=0)
-        C = np.corrcoef(mag, rowvar=False)
+        # Paper path: per-frame Kabsch of consensus Cα onto frame 0, atoms kept
+        # in consensus-index order (AlignTraj + stale AtomGroup diluted |corr|).
+        X_flat, _times, keep, n_atoms = _trajectory_coord_matrix_self_aligned(
+            str(Path(top).resolve()),
+            str(Path(traj).resolve()),
+            mapping,
+            frame_interval=1,
+        )
+        if X_flat.shape[0] < 10 or n_atoms < 5:
+            return {
+                "success": False,
+                "error": f"Too few frames/atoms for DCCM (T={X_flat.shape[0]}, n={n_atoms})",
+            }
+        positions = X_flat.reshape(X_flat.shape[0], n_atoms, 3)
+        C = _compute_dccm_matrix(positions)
+        N = int(C.shape[0])
         np.fill_diagonal(C, 1.0)
         np.save(out / "consensus_dccm.npy", C)
 
         iu = np.triu_indices(N, k=1)
         mean_abs = float(np.mean(np.abs(C[iu])))
-        from src.analysis.lobe_split import assign_n_c_lobe_indices
+        keep_arr = np.asarray(keep, dtype=bool)
+        meta: List[Dict[str, Any]] = []
+        for ci, m in enumerate(mapping):
+            if ci >= len(keep_arr) or not keep_arr[ci]:
+                continue
+            meta.append(
+                {
+                    "consensus_index": ci,
+                    "resid": int(m["resid"]) if m and m.get("resid") is not None else None,
+                    "aa": (m or {}).get("aa") if m else None,
+                }
+            )
+        if len(meta) != N:
+            return {
+                "success": False,
+                "error": f"DCCM meta mismatch {len(meta)} vs {N} atoms",
+            }
 
         n_idx, c_idx, lobe_info = assign_n_c_lobe_indices(
             meta,
@@ -264,6 +292,7 @@ def calculate_consensus_dccm_features(
             "C_lobe_n_atoms": len(c_idx),
             "topology_file": str(Path(top).resolve()),
             "trajectory_file": str(Path(traj).resolve()),
+            "align_method": "kabsch_frame0_consensus_ca",
             **lobe_info,
         }
         feat_path.write_text(json.dumps(feat, indent=2) + "\n", encoding="utf-8")

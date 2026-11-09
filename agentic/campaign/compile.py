@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import re
 from typing import Any, Dict, List, Optional
 
 from agentic.campaign.family_recipe import (
@@ -144,7 +145,7 @@ def compile_campaign_spec(state: Optional[Dict[str, Any]] = None) -> CampaignSpe
         ]
 
     family_mode = "auto"
-    pack_name = "paper_sharedpcdyn"
+    pack_name = "from_goal"
     reference_label = ""
     try:
         from agentic.campaign.config import settings_from_state
@@ -153,7 +154,7 @@ def compile_campaign_spec(state: Optional[Dict[str, Any]] = None) -> CampaignSpe
         settings_dict = settings.to_dict()
         gold_override = list(settings.gold_columns or [])
         family_mode = (getattr(settings, "family_modular", None) or "auto").strip().lower()
-        pack_name = getattr(settings, "feature_pack", None) or "paper_sharedpcdyn"
+        pack_name = getattr(settings, "feature_pack", None) or "from_goal"
         reference_label = getattr(settings, "reference_label", None) or ""
     except Exception:
         settings = None
@@ -177,18 +178,28 @@ def compile_campaign_spec(state: Optional[Dict[str, Any]] = None) -> CampaignSpe
             family = False
             detect = {"family": False, "score": 0, "reason": "detector failed", "signals": []}
 
+    from agentic.campaign.family_recipe import build_protocol_from_goal
+
     pack_key, pack = resolve_feature_pack(pack_name)
-    # Custom gold_columns in yaml override the pack when the user listed them
-    # and they differ from the paper default only if feature_pack is not the
-    # implicit paper pack... Prefer explicit yaml gold when feature_pack is
-    # paper_sharedpcdyn and gold was customized; otherwise pack columns win
-    # when feature_pack is a named non-default pack.
-    if pack_key != "paper_sharedpcdyn":
-        gold = list(pack.get("gold_columns") or [])
+    if pack is None:
+        pack = build_protocol_from_goal(original, gold_columns=gold_override or None)
     elif gold_override:
-        gold = list(gold_override)
-    else:
-        gold = list(pack.get("gold_columns") or [])
+        pack = dict(pack)
+        pack["gold_columns"] = list(gold_override)
+    try:
+        from agentic.campaign.feature_plugins import (
+            apply_plugins_to_pack,
+            load_plugins_from_settings,
+        )
+
+        load_plugins_from_settings(
+            (settings_dict or {}).get("feature_plugins")
+            or getattr(settings, "feature_plugins", None)
+        )
+        pack = apply_plugins_to_pack(pack)
+    except Exception:
+        logger.debug("feature plugin merge skipped", exc_info=True)
+    gold = list(pack.get("gold_columns") or [])
 
     settings_dict = dict(settings_dict)
     settings_dict["family_detect"] = {
@@ -200,6 +211,15 @@ def compile_campaign_spec(state: Optional[Dict[str, Any]] = None) -> CampaignSpe
         "feature_pack": pack_key,
     }
     settings_dict["feature_pack"] = pack_key
+    if not reference_label:
+        try:
+            from agentic.planner.planning_guidelines import _resolve_reference_label
+
+            reference_label = _resolve_reference_label(
+                original, labels=labels, default=""
+            )
+        except Exception:
+            reference_label = ""
     settings_dict["reference_label"] = reference_label
 
     allow_partial = bool(state.get("allow_partial_combined"))
@@ -214,11 +234,22 @@ def compile_campaign_spec(state: Optional[Dict[str, Any]] = None) -> CampaignSpe
         # Infer ATP from holo-style labels only as a fallback when components
         # have not declared a ligand.
         if not lig_sel:
-            joined = " ".join(labels).lower()
-            if any(tok in joined for tok in ("_atp", "atp_mg")) or (
-                "holo" in joined and "apo" not in joined
-            ):
+            blob = (" ".join(labels) + "\n" + str(original or "")).lower()
+            # Bare UniProt labels (p17612) do not contain "_atp". The goal
+            # still names the ligand ("protein–ATP holo", "ATP COM distance").
+            has_atp = bool(
+                re.search(r"(?:_atp\b|\batp_mg\b|\bresname\s+atp\b|\batp\b)", blob)
+            )
+            holo_only = ("holo" in blob) and not re.search(r"\bapo\b", blob)
+            if has_atp or holo_only:
                 lig_sel = "resname ATP"
+        if lig_sel and not state.get("ligand_resnames"):
+            token = lig_sel.split()[-1] if lig_sel.lower().startswith("resname ") else lig_sel
+            state["ligand_resnames"] = [token]
+            settings_dict["ligand_resnames"] = [token]
+        elif lig_sel:
+            token = lig_sel.split()[-1] if lig_sel.lower().startswith("resname ") else lig_sel
+            settings_dict.setdefault("ligand_resnames", [token])
         pin = list(pack.get("pin_tools") or REQUIRED_CALCULATIONS)
         pin_pre = list(REQUIRED_SHARED_SETUP)
         if not lig_sel:
@@ -261,7 +292,7 @@ def compile_campaign_spec(state: Optional[Dict[str, Any]] = None) -> CampaignSpe
             post_combined_recipe=post_recipe,
             contract=family_contract(
                 modular_dirs=modular,
-                n_features=len(gold) if gold else None,
+                n_features=len(gold),
             ),
             pin_tools=pin,
             pin_pre_tools=pin_pre,

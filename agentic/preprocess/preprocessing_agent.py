@@ -29,6 +29,11 @@ from src.preprocess.structure_request_parser import (
     resolve_domain_residue_range,
 )
 from src.preprocess.structure_acquisition import acquire_structure_from_request
+from src.preprocess.structure_scope import (
+    allowed_structure_ids,
+    sibling_structure_ids,
+    structure_fetch_skip_reason,
+)
 from src.preprocess.domain_extractor import (
     extract_domain,
     classify_domain_extract,
@@ -686,6 +691,19 @@ class PreprocessingAgent:
             logger.warning(f"LLM planning failed, using fallback: {e}")
             return self._create_fallback_plan(agent_input, analysis)
     
+    def _simulation_scope_note(self, agent_input: PreprocessingAgentInput) -> str:
+        """Tell the planner this directory belongs to one protein."""
+        req = agent_input.structure_request
+        uid = req.uniprot_id if req else ""
+        label = Path(agent_input.working_directory).name if agent_input.working_directory else ""
+        who = uid or label or "the staged structure"
+        return (
+            f"**THIS DIRECTORY IS ONE SIMULATION ONLY ({who}):** "
+            "The study goal may name other proteins. Do not download, extract, "
+            "or write any structure except the one staged for this directory. "
+            "Other proteins are preprocessed in their own directories."
+        )
+
     def _build_planning_prompt(self, agent_input: PreprocessingAgentInput, 
                                analysis: Dict[str, Any]) -> str:
         """Build LLM planning prompt - use planner's detailed instructions if available"""
@@ -779,6 +797,8 @@ IMPORTANT: After separating complex components, ONLY keep the components marked 
   protein.pdb, remodeled.pdb, protein_h.pdb). You choose tool_name and settings only (mode, ph, …).
 - Leave tool_params empty or with non-path options only — never pdb_file, target_pdb, donor_pdb, output_file.
 
+{self._simulation_scope_note(agent_input)}
+
 **CRITICAL INSTRUCTIONS:**
 - You MUST ONLY use the tools listed above - do NOT invent or suggest non-existent tools
 - If a required capability is missing, use the available tools creatively or skip that step
@@ -864,6 +884,8 @@ Available tools:
 {tools_list_str}
 
 **CRITICAL: You MUST ONLY use the tools listed above. Do NOT invent or suggest non-existent tools.**
+
+{self._simulation_scope_note(agent_input)}
 
 Return JSON with: reasoning, overview, steps (name, description, tool_name, tool_params, reason)
 """
@@ -1188,6 +1210,22 @@ Return JSON with: reasoning, overview, steps (name, description, tool_name, tool
                     },
                 )
             
+            scope_ids = allowed_structure_ids(
+                agent_input.working_directory,
+                agent_input.pdb_path,
+                uniprot_id=(
+                    agent_input.structure_request.uniprot_id
+                    if agent_input.structure_request
+                    else None
+                ),
+            )
+            scope_siblings = sibling_structure_ids(agent_input.working_directory)
+            if scope_ids:
+                execution_log.append(
+                    "Structure scope: this directory may only fetch "
+                    + ", ".join(sorted(scope_ids))
+                )
+
             _METADATA_NOOP_TOOLS = {
                 "",
                 "noop",
@@ -1217,6 +1255,31 @@ Return JSON with: reasoning, overview, steps (name, description, tool_name, tool
                     )
                     continue
 
+                raw_params = dict(step.tool_params) if step.tool_params else {}
+                skip_reason = structure_fetch_skip_reason(
+                    step.tool_name,
+                    raw_params,
+                    allowed_ids=scope_ids,
+                    sibling_ids=scope_siblings,
+                    structure_already_staged=bool(
+                        current_pdb and os.path.isfile(current_pdb)
+                    ),
+                )
+                if skip_reason:
+                    execution_log.append(f"\n--- Step {i+1}: {step.name} — skipped ---")
+                    execution_log.append(f"⊘ {skip_reason}")
+                    warnings.append(f"{step.name}: {skip_reason}")
+                    log_agent_action(
+                        "preprocessing",
+                        f"Step {i+1}/{len(plan.steps)} skipped",
+                        {
+                            "step": step.name,
+                            "tool": step.tool_name,
+                            "reason": skip_reason,
+                        },
+                    )
+                    continue
+
                 # Log step start
                 log_agent_action("preprocessing", f"Executing step {i+1}/{len(plan.steps)}", {
                     "step": step.name,
@@ -1231,7 +1294,7 @@ Return JSON with: reasoning, overview, steps (name, description, tool_name, tool
                 # Deterministic paths: LLM supplies tool + settings only
                 tool_params = stage.apply_tool_params(
                     step.tool_name,
-                    dict(step.tool_params) if step.tool_params else {},
+                    raw_params,
                     current_pdb,
                 )
 

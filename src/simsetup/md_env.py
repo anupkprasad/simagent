@@ -21,6 +21,23 @@ logger = logging.getLogger(__name__)
 
 _BOOTSTRAPPED = False
 
+def _current_python_bin_dir() -> Optional[Path]:
+    """``bin/`` next to the running interpreter (e.g. ollama_env/bin)."""
+    try:
+        import sys
+
+        exe = Path(sys.executable).resolve()
+        cand = exe.parent
+        if cand.name == "bin":
+            return cand
+    except Exception:
+        pass
+    prefix = os.environ.get("CONDA_PREFIX", "").strip()
+    if prefix:
+        return Path(prefix) / "bin"
+    return None
+
+
 # Standard conda locations for SimAgentEnv (no machine-specific prefixes).
 def _simagent_conda_bin_dirs() -> List[Path]:
     dirs: List[Path] = []
@@ -31,6 +48,12 @@ def _simagent_conda_bin_dirs() -> List[Path]:
         if key not in seen:
             seen.add(key)
             dirs.append(path)
+
+    # Prefer the active interpreter's env first so LD_LIBRARY_PATH from that
+    # env (set by campaign launchers) matches acpype's OpenBabel build.
+    cur = _current_python_bin_dir()
+    if cur is not None:
+        _add(cur)
 
     if os.environ.get("CONDA_DEFAULT_ENV") == "SimAgentEnv":
         prefix = os.environ.get("CONDA_PREFIX", "").strip()
@@ -46,6 +69,33 @@ def _simagent_conda_bin_dirs() -> List[Path]:
     return dirs
 
 
+def acpype_subprocess_env(acpype_exe: Optional[str] = None) -> dict:
+    """Env for an ``acpype`` child with libraries matching that binary's prefix.
+
+    Campaign scripts often set ``LD_LIBRARY_PATH`` to the agent Python env
+    (e.g. ollama_env) while ``ensure_md_toolchain`` may resolve ``acpype`` from
+    ``SimAgentEnv``. Mixing those OpenBabel builds yields::
+
+        undefined symbol: ...OBPlugin7DisplayERSs...
+
+    Prepend the acpype conda env ``lib/`` so the correct ``libopenbabel`` wins.
+    """
+    env = os.environ.copy()
+    exe = acpype_exe or shutil.which("acpype")
+    if not exe:
+        return env
+    bindir = Path(exe).resolve().parent
+    libdir = bindir.parent / "lib"
+    if not libdir.is_dir():
+        return env
+    old = env.get("LD_LIBRARY_PATH", "")
+    parts = [str(libdir)]
+    if old:
+        parts.extend(p for p in old.split(":") if p and p != str(libdir))
+    env["LD_LIBRARY_PATH"] = ":".join(parts)
+    return env
+
+
 _AMBER_MODULES = (
     "AmberTools/23.6-foss-2023b",
     "AmberTools/23.6-foss-2023a",
@@ -59,12 +109,15 @@ _GROMACS_MODULES = (
 
 
 def _prepend_path(entries: Iterable[Path]) -> None:
-    parts = os.environ.get("PATH", "").split(":")
+    """Move each entry to the front of PATH (last entry in ``entries`` wins)."""
+    parts = [p for p in os.environ.get("PATH", "").split(":") if p]
     for entry in entries:
         s = str(entry)
-        if entry.is_dir() and s not in parts:
-            parts.insert(0, s)
-            logger.info("MD env: prepended %s to PATH", s)
+        if not entry.is_dir():
+            continue
+        parts = [p for p in parts if p != s]
+        parts.insert(0, s)
+        logger.info("MD env: prepended %s to PATH", s)
     os.environ["PATH"] = ":".join(parts)
 
 
@@ -135,7 +188,9 @@ def ensure_md_toolchain(*, force: bool = False) -> dict:
     if _BOOTSTRAPPED and not force:
         return toolchain_status()
 
-    # 1) conda env bins (acpype lives here on this cluster)
+    # 1) conda env bins (acpype lives here on this cluster).
+    # _prepend_path inserts each entry at PATH front, so the *last* entry wins.
+    # Put the active interpreter's bin last so it outranks fallback SimAgentEnv.
     conda_bins: List[Path] = []
     for cand in _simagent_conda_bin_dirs():
         if not cand.is_dir():
@@ -143,7 +198,11 @@ def ensure_md_toolchain(*, force: bool = False) -> dict:
         if (cand / "acpype").is_file() or (cand / "antechamber").is_file():
             conda_bins.append(cand)
     if conda_bins:
-        _prepend_path(conda_bins)
+        cur = _current_python_bin_dir()
+        preferred: List[Path] = [p for p in conda_bins if cur is None or p != cur]
+        if cur is not None and cur in conda_bins:
+            preferred.append(cur)
+        _prepend_path(preferred)
 
     # 2) AmberTools module for antechamber/parmchk2 if still missing
     if not shutil.which("antechamber"):
