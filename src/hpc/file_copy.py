@@ -5,7 +5,7 @@ import os
 import shutil
 import logging
 from pathlib import Path
-from typing import Dict, Any, Optional, List
+from typing import Any, Dict, List, Optional, Union
 from langchain.tools import tool
 
 from src.hpc.force_field_bundle import bundle_force_fields_for_topology
@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 def copy_simulation_files(
     source_dir: str,
     dest_dir: str,
-    file_patterns: Optional[List[str]] = None,
+    file_patterns: Optional[Union[str, List[str]]] = None,
     create_dest: bool = True
 ) -> Dict[str, Any]:
     """
@@ -45,6 +45,7 @@ def copy_simulation_files(
         if create_dest:
             dest_path.mkdir(parents=True, exist_ok=True)
         
+        file_patterns = coerce_file_patterns(file_patterns)
         if file_patterns is None:
             file_patterns = ["*.gro", "*.top", "*.mdp", "*.itp"]
         
@@ -88,3 +89,28 @@ def copy_simulation_files(
             "success": False,
             "error": f"File copy failed: {e}"
         }
+
+
+def coerce_file_patterns(file_patterns: Any) -> Optional[List[str]]:
+    """Accept a pattern string from an LLM plan as well as a list.
+
+    ``copy_simulation_files`` is a LangChain tool. A plan that passes
+    ``file_patterns='*'`` used to fail validation before the copy ran.
+    """
+    if file_patterns is None:
+        return None
+    if isinstance(file_patterns, str):
+        parts = [part.strip() for part in file_patterns.split(",") if part.strip()]
+        return parts or None
+    if isinstance(file_patterns, (list, tuple)):
+        patterns: List[str] = []
+        for item in file_patterns:
+            if isinstance(item, str):
+                patterns.extend(
+                    part.strip() for part in item.split(",") if part.strip()
+                )
+            elif item is not None and str(item).strip():
+                patterns.append(str(item).strip())
+        return patterns or None
+    text = str(file_patterns).strip()
+    return [text] if text else None

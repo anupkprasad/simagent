@@ -106,23 +106,75 @@ def required_metric_files_missing(
     if not search:
         search = [wd / "analysis"]
 
+    # Pocket / ligand metrics are requested for holo systems only.
+    ligand_only = {
+        "com",
+        "contacts",
+        "pocket_sasa",
+        "residence",
+        "pocket_rmsf",
+        "ligand_rmsf",
+        "ligand_rmsd",
+    }
+    try:
+        from src.analysis.combined_analysis import is_holo_simulation
+
+        # Judge the simulation folder name. A study directory such as
+        # pseudo_apo_holo contains "holo" and must not make every apo run
+        # look ligand-bound.
+        holo = is_holo_simulation(wd.name, wd.name)
+    except Exception:
+        holo = True
+
+    def _named_present(names: tuple) -> bool:
+        return any(
+            (d / name).is_file() and (d / name).stat().st_size > 0
+            for d in search
+            for name in names
+            if name
+        )
+
+    def _prefix_present(prefix: str, suffixes: tuple) -> bool:
+        pref = prefix.lower()
+        for d in search:
+            if not d.is_dir():
+                continue
+            for path in d.iterdir():
+                if (
+                    path.is_file()
+                    and path.stat().st_size > 0
+                    and path.suffix.lower() in suffixes
+                    and path.name.lower().startswith(pref)
+                ):
+                    return True
+        return False
+
     missing: List[str] = []
     for metric in sorted(metrics):
+        if metric in ligand_only and not holo:
+            continue
         if metric in {"gyration"}:
             metric = "rg"
         spec = STANDARD_OUTPUT_FILES.get(metric) or {}
         data_name = spec.get("data")
-        if not data_name:
+        prefix = spec.get("data_prefix")
+        plot_name = spec.get("plot")
+        data_alts = (STANDARD_OUTPUT_ALTERNATES.get(metric) or {}).get("data") or ()
+        plot_alts = (STANDARD_OUTPUT_ALTERNATES.get(metric) or {}).get("plot") or ()
+        if prefix:
+            data_ok = _prefix_present(prefix, (".dat", ".csv", ".txt", ".json"))
+            plot_ok = (not plot_name) or _prefix_present(prefix, (".png", ".pdf")) or _named_present((plot_name, *plot_alts))
+            label = f"{prefix}*"
+        elif data_name:
+            data_ok = _named_present((data_name, *data_alts))
+            plot_ok = (not plot_name) or _named_present((plot_name, *plot_alts))
+            label = data_name
+        else:
             continue
-        alts = (STANDARD_OUTPUT_ALTERNATES.get(metric) or {}).get("data") or ()
-        names = (data_name, *alts)
-        found = any(
-            (d / name).is_file() and (d / name).stat().st_size > 0
-            for d in search
-            for name in names
-        )
-        if not found:
-            missing.append(f"requested metric {metric}: {data_name}")
+        if not data_ok:
+            missing.append(f"requested metric {metric}: {label}")
+        elif not plot_ok:
+            missing.append(f"requested metric {metric} plot: {plot_name}")
     return missing
 
 

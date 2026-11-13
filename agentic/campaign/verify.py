@@ -6,6 +6,7 @@ recorded to campaign memory and block stage-done ticks.
 
 from __future__ import annotations
 
+import json
 import logging
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -147,12 +148,52 @@ def verify_combined_analysis(state: Dict[str, Any]) -> Dict[str, Any]:
     }
 
 
+def verify_pre_combined(state: Dict[str, Any]) -> Dict[str, Any]:
+    """Check the shared MSA / pocket step, not the later overlay stage."""
+    from agentic.multi_sim_paths import resolve_multi_sim_base_dir
+    from src.analysis.cross_sim_artifacts import (
+        PRE_COMPLETE_NAME,
+        cross_sim_dir,
+        pre_combined_done_on_disk,
+    )
+
+    base = Path(resolve_multi_sim_base_dir(state))
+    if pre_combined_done_on_disk(base):
+        return {
+            "ok": True,
+            "stage": "pre_combined",
+            "issues": [],
+            "gate": {"ok": True, "pre_combined": True, "base": str(base)},
+        }
+    detail = "pre-combined alignment did not produce cross_sim artifacts"
+    marker = cross_sim_dir(base) / PRE_COMPLETE_NAME
+    if marker.is_file():
+        try:
+            data = json.loads(marker.read_text(encoding="utf-8"))
+            recorded = data.get("issues") or data.get("reason") or data.get("error")
+            if isinstance(recorded, list) and recorded:
+                detail = "; ".join(str(item) for item in recorded[:2])
+            elif recorded:
+                detail = str(recorded)
+        except Exception:
+            pass
+    return {
+        "ok": False,
+        "stage": "pre_combined",
+        "issues": [detail],
+        "gate": {"ok": False, "pre_combined": True, "base": str(base)},
+    }
+
+
 def verify_analysis(state: Dict[str, Any]) -> Dict[str, Any]:
     """Check analysis produced real science artifacts (not stub success).
 
     During combined / post-combined phases, use overlay/stats gates — never
     require per-sim ``hpc/`` or ``rmsd.dat`` at the campaign base directory.
+    The pre-combined phase is the shared alignment, not those overlays.
     """
+    if str(state.get("multi_sim_phase") or "") == "pre_combined":
+        return verify_pre_combined(state)
     if _is_combined_analysis_context(state):
         return verify_combined_analysis(state)
 

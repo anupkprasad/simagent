@@ -195,6 +195,7 @@ class MDState(TypedDict):
     run_combined_analysis: Optional[bool]        # Legacy alias for run_post_combined (post per-sim loop)
     combined_analysis_plan: Optional[str]        # Legacy alias for post_combined_plan
     run_pre_combined: Optional[bool]             # Optional combined tools BEFORE per-sim traj analysis (n_sims>1)
+    pre_combined_attempts: Optional[int]         # Failed shared-setup tries; persisted across supervisor hops
     pre_combined_plan: Optional[str]             # NL plan for pre_combined (pocket/MSA/consensus → base/cross_sim/)
     run_post_combined: Optional[bool]            # Optional combined tools AFTER all per-sim work (n_sims>1)
     post_combined_plan: Optional[str]            # NL plan for post_combined (compare/Ward/overlays)

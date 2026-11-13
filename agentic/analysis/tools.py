@@ -973,8 +973,8 @@ class AnalysisToolExecutor:
                 tool_defaults = {
                     "calculate_rmsd": ["rmsd.dat"],
                     "calculate_rmsf": ["rmsf.dat"],
-                    "calculate_gyration": ["rg.dat", "gyrate.dat"],
-                    "calculate_radius_of_gyration": ["rg.dat"],
+                    "calculate_gyration": ["gyration.dat", "rg.dat", "gyrate.dat"],
+                    "calculate_radius_of_gyration": ["gyration.dat", "rg.dat"],
                     "calculate_sasa": ["sasa.dat"],
                     "calculate_dccm": ["dccm.dat", "dccm.csv", "dccm_matrix.dat"],
                     "calculate_com_distance": ["com_distance.dat", "com_distance.csv"],
@@ -1066,6 +1066,9 @@ class AnalysisToolExecutor:
         Returns:
             Dict with execution result
         """
+        # Older campaign pins used this name; the registered tool is the longer one.
+        if tool_name == "calculate_gyration":
+            tool_name = "calculate_radius_of_gyration"
         if tool_name not in self.tools:
             try:
                 from agentic.utils.sandbox_files import execute_sandbox_tool

@@ -357,10 +357,20 @@ def init_parallel_pool(state: Dict[str, Any], *, phase: str) -> Dict[str, Any]:
                 rec["skip_reason"] = "artifacts on disk after prior failure"
                 rec.pop("error", None)
             elif requeue_failed:
-                rec["status"] = "pending"
-                rec.pop("error", None)
-                rec.pop("completed_at", None)
-                logger.info("Parallel pool: re-queued failed sim %s for retry", label)
+                attempts = int(rec.get("attempts") or 0)
+                max_attempts = _max_sim_attempts(state)
+                if attempts >= max_attempts:
+                    _fail_sim_exhausted(
+                        rec,
+                        attempts=attempts,
+                        max_attempts=max_attempts,
+                        reason="incomplete artifacts",
+                    )
+                else:
+                    rec["status"] = "pending"
+                    rec.pop("error", None)
+                    rec.pop("completed_at", None)
+                    logger.info("Parallel pool: re-queued failed sim %s for retry", label)
             # else: keep terminal failed
         else:
             # Fatal HPC / production failure: never queue analysis/reporter.

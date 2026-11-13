@@ -257,7 +257,7 @@ FAMILY_DESCRIPTORS: List[Dict[str, Any]] = [
         "mean_columns": ("mean_rg_A",),
         "std_columns": ("std_rg_A",),
         "columns": (),
-        "pin_tools": ("calculate_gyration",),
+        "pin_tools": ("calculate_radius_of_gyration",),
         "post_tools": (),
         "metric_groups": ("rg",),
         "modular_dirs": (),

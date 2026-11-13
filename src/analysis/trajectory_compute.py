@@ -319,6 +319,60 @@ FUSED_RAW_STREAMING_TOOLS = frozenset({
 })
 
 
+def _fused_collect_frame(col, ts, box, mda_distances, np, minimum_image_distance):
+    """Record one frame for a fused RAW collector."""
+    if col["type"] == "rg":
+        col["values"].append(float(col["atoms"].radius_of_gyration()))
+        col["frames"].append(int(ts.frame))
+        col["times"].append(float(ts.time))
+    elif col["type"] == "com":
+        d = minimum_image_distance(
+            col["group1"].center_of_mass(),
+            col["group2"].center_of_mass(),
+            box,
+        )
+        col["values"].append(d)
+        col["frames"].append(int(ts.frame))
+        col["times"].append(float(ts.time))
+    elif col["type"] == "pocket":
+        d = minimum_image_distance(
+            col["pocket"].center_of_mass(),
+            col["ligand"].center_of_mass(),
+            box,
+        )
+        col["values"].append(d)
+        col["frames"].append(int(ts.frame))
+        col["times"].append(float(ts.time))
+    elif col["type"] == "residence":
+        pocket_com = col["pocket"].center_of_mass()
+        lig_com = col["ligand"].center_of_mass()
+        com_dist = minimum_image_distance(pocket_com, lig_com, box)
+        dist_arr = mda_distances.distance_array(
+            col["protein_heavy"].positions,
+            col["ligand_heavy"].positions,
+            box=box,
+        )
+        n_contacts = int(np.sum(dist_arr <= col["bound_distance_A"]))
+        min_d = float(np.min(dist_arr)) if dist_arr.size else com_dist
+        is_bound = (
+            n_contacts >= col["min_contacts"]
+            or com_dist <= col["bound_distance_A"]
+        )
+        col["times"].append(float(ts.time) / 1000.0)
+        col["bound_mask"].append(is_bound)
+        col["min_dists"].append(min_d)
+    elif col["type"] == "min_dist":
+        dist_arr = mda_distances.distance_array(
+            col["group1"].positions,
+            col["group2"].positions,
+            box=box,
+        )
+        if dist_arr.size:
+            col["values"].append(float(np.min(dist_arr)))
+            col["frames"].append(int(ts.frame))
+            col["times"].append(float(ts.time))
+
+
 def _build_fused_collector(u, tool_name: str, params: Dict[str, Any], step_idx: int):
     """Create a per-frame collector dict for fused RAW streaming."""
     interval = max(1, int(params.get("frame_interval", 1) or 1))
@@ -487,72 +541,42 @@ def run_fused_raw_streaming_batch(
         except ChainSelectionError as exc:
             results[step_idx] = {"success": False, "error": str(exc)}
             continue
-        col = _build_fused_collector(u, tool_name, params, step_idx)
+        try:
+            col = _build_fused_collector(u, tool_name, params, step_idx)
+        except Exception as exc:
+            # A missing ligand (apo + resname ATP) must not abort RMSD/Rg/DSSP.
+            logger.warning("Fused collector %s skipped: %s", tool_name, exc)
+            results[step_idx] = {"success": False, "error": str(exc)}
+            continue
         if col is None:
-            results[step_idx] = compute_metric_from_session(
-                tool_name, session, TrajectoryPassKind.RAW,
-                topology_file=topology_file, trajectory_file=trajectory_file,
-                working_dir=working_dir, params=params,
-            )
+            try:
+                results[step_idx] = compute_metric_from_session(
+                    tool_name, session, TrajectoryPassKind.RAW,
+                    topology_file=topology_file, trajectory_file=trajectory_file,
+                    working_dir=working_dir, params=params,
+                )
+            except Exception as exc:
+                logger.warning("Fused metric %s failed: %s", tool_name, exc)
+                results[step_idx] = {"success": False, "error": str(exc)}
         else:
             collectors.append(col)
 
     for ts in u.trajectory:
         box = getattr(ts, "dimensions", None)
         for col in collectors:
+            if col.get("failed"):
+                continue
             if ts.frame % col["interval"] != 0:
                 continue
-            if col["type"] == "rg":
-                col["values"].append(float(col["atoms"].radius_of_gyration()))
-                col["frames"].append(int(ts.frame))
-                col["times"].append(float(ts.time))
-            elif col["type"] == "com":
-                # Trust wrapped traj; MI only (no per-group residue wrap).
-                d = minimum_image_distance(
-                    col["group1"].center_of_mass(),
-                    col["group2"].center_of_mass(),
-                    box,
+            try:
+                _fused_collect_frame(col, ts, box, mda_distances, np, minimum_image_distance)
+            except Exception as exc:
+                logger.warning(
+                    "Fused metric %s failed at frame %s: %s",
+                    col.get("tool"), ts.frame, exc,
                 )
-                col["values"].append(d)
-                col["frames"].append(int(ts.frame))
-                col["times"].append(float(ts.time))
-            elif col["type"] == "pocket":
-                d = minimum_image_distance(
-                    col["pocket"].center_of_mass(),
-                    col["ligand"].center_of_mass(),
-                    box,
-                )
-                col["values"].append(d)
-                col["frames"].append(int(ts.frame))
-                col["times"].append(float(ts.time))
-            elif col["type"] == "residence":
-                pocket_com = col["pocket"].center_of_mass()
-                lig_com = col["ligand"].center_of_mass()
-                com_dist = minimum_image_distance(pocket_com, lig_com, box)
-                dist_arr = mda_distances.distance_array(
-                    col["protein_heavy"].positions,
-                    col["ligand_heavy"].positions,
-                    box=box,
-                )
-                n_contacts = int(np.sum(dist_arr <= col["bound_distance_A"]))
-                min_d = float(np.min(dist_arr)) if dist_arr.size else com_dist
-                is_bound = (
-                    n_contacts >= col["min_contacts"]
-                    or com_dist <= col["bound_distance_A"]
-                )
-                col["times"].append(float(ts.time) / 1000.0)
-                col["bound_mask"].append(is_bound)
-                col["min_dists"].append(min_d)
-            elif col["type"] == "min_dist":
-                dist_arr = mda_distances.distance_array(
-                    col["group1"].positions,
-                    col["group2"].positions,
-                    box=box,
-                )
-                if dist_arr.size:
-                    col["values"].append(float(np.min(dist_arr)))
-                    col["frames"].append(int(ts.frame))
-                    col["times"].append(float(ts.time))
+                col["failed"] = str(exc)
+                results[col["step_idx"]] = {"success": False, "error": str(exc)}
 
     original_dir = os.getcwd()
     try:
@@ -561,6 +585,8 @@ def run_fused_raw_streaming_batch(
             os.chdir(working_dir)
 
         for col in collectors:
+            if col.get("failed"):
+                continue
             if col["type"] == "rg":
                 from .gyration_calculator import finalize_rg_result
 

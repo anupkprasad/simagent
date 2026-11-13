@@ -485,13 +485,32 @@ def write_pocket_map(
     return path
 
 
-def pre_combined_done_on_disk(base_dir: str | Path) -> bool:
-    """True only when pre-combined produced usable MSA / pocket artifacts.
+# One retry, then continue into per-sim analysis. The count lives on disk
+# because the in-memory counter does not survive the supervisor hop.
+MAX_PRE_COMBINED_ATTEMPTS = 2
 
-    A ``skipped`` marker without artifacts is treated as **not done** so the
-    pipeline can retry deterministic MSA+pocket instead of running analysis
-    without ``alignment_json``. After repeated failures a give-up sentinel
-    allows the campaign to continue (consensus metrics will be unavailable).
+
+def pre_combined_attempt_count(base_dir: str | Path) -> int:
+    """How many failed pre-combined attempts are recorded in cross_sim/."""
+    marker = cross_sim_dir(base_dir) / PRE_COMPLETE_NAME
+    if not marker.is_file():
+        return 0
+    try:
+        data = json.loads(marker.read_text(encoding="utf-8"))
+    except Exception:
+        return 0
+    try:
+        return max(0, int(data.get("attempts") or 0))
+    except (TypeError, ValueError):
+        return 0
+
+
+def pre_combined_done_on_disk(base_dir: str | Path) -> bool:
+    """True when pre-combined produced artifacts, or failed often enough to move on.
+
+    A single failed marker is not done, so the pipeline can retry the MSA once.
+    After ``MAX_PRE_COMBINED_ATTEMPTS`` the campaign continues without consensus
+    metrics instead of calling the same step until the graph recursion limit.
     """
     root = cross_sim_dir(base_dir)
     if (root / "pre_combined_give_up.json").is_file():
@@ -503,6 +522,12 @@ def pre_combined_done_on_disk(base_dir: str | Path) -> bool:
         data = json.loads(marker.read_text(encoding="utf-8"))
     except Exception:
         return False
+    try:
+        attempts = int(data.get("attempts") or 0)
+    except (TypeError, ValueError):
+        attempts = 0
+    if attempts >= MAX_PRE_COMBINED_ATTEMPTS:
+        return True
     if data.get("success") is False and not data.get("skipped"):
         return False
     return cross_sim_artifacts_ready(base_dir)
@@ -543,11 +568,23 @@ def mark_pre_combined_complete(
 ) -> Path:
     root = ensure_cross_sim_dir(base_dir)
     path = root / PRE_COMPLETE_NAME
+    previous: Dict[str, Any] = {}
+    if path.is_file():
+        try:
+            loaded = json.loads(path.read_text(encoding="utf-8"))
+            if isinstance(loaded, dict):
+                previous = loaded
+        except Exception:
+            previous = {}
     payload = {
         "success": True,
         "labels": labels or [],
         **(extra or {}),
     }
+    # A later harvest that does not mention attempts must not reset the
+    # on-disk retry count back to zero.
+    if "attempts" not in (extra or {}) and previous.get("attempts"):
+        payload["attempts"] = previous["attempts"]
     if extra is not None and "success" in extra:
         payload["success"] = bool(extra["success"])
     # Never claim success when required artifacts are missing.

@@ -374,19 +374,6 @@ class MDWorkflow:
         # Always size floors for at least 50-sim family tasks.
         n_scale = max(n_campaign, 50)
 
-        if state.get("multi_sim_phase") == "hpc_pool":
-            pool = state.get("hpc_pool") or {}
-            interval = int(
-                pool.get("check_interval_sec")
-                or state.get("hpc_check_interval_sec")
-                or 3600
-            )
-            # supervisor + hpc_pool_wait per poll; allow ~7 days of checks.
-            polls = max(48, int(7 * 86400 / max(interval, 60)))
-            # --reuse-hpc uses short waits (≈15s); keep a high family-scale floor.
-            floor = 20 * n_scale + 200 if reuse else 120
-            return min(max(polls * 2 + 40, floor), 50000)
-
         if not state.get("is_multi_simulation"):
             return 40
 
@@ -407,25 +394,10 @@ class MDWorkflow:
         if not sim_order:
             remaining = n_campaign
 
-        steps_per_sim = 12
+        steps_per_sim = 30 if state.get("multi_sim_phase") == "parallel_pool" else 12
         combined_headroom = 50 if state.get("run_combined_analysis") else 0
-        # Parallel prep/analysis: parent only ticks the pool while workers run
-        # for many minutes — each wait cycle burns steps, so budget generously.
         if state.get("multi_sim_phase") == "parallel_pool":
-            steps_per_sim = 30
             combined_headroom = max(combined_headroom, 150)
-            pool = state.get("parallel_pool") or {}
-            interval = int(
-                state.get("parallel_pool_poll_sec")
-                or pool.get("poll_sec")
-                or 30
-            )
-            # supervisor + parallel_pool_wait per poll; allow ~7 days for
-            # family-scale analysis (50 sims × long modular tools).
-            polls = max(48, int(7 * 86400 / max(interval, 15)))
-            poll_budget = polls * 2 + 100
-            family_floor = 30 * n_scale + 500
-            return min(max(poll_budget, family_floor, 5000), 50000)
 
         budget = steps_per_sim * max(remaining, 1) + combined_headroom
         # Family-scale floor: enough for ≥50 sims even if "remaining" is undercounted
@@ -435,7 +407,89 @@ class MDWorkflow:
             floor = max(family_floor, 2000)
         else:
             floor = max(120, 12 * n_campaign + 50)
-        return min(max(budget, floor), 50000)
+        # One invoke walks HPC queue polls and then analysis polls. The limit is
+        # fixed at the start, before multi_sim_phase becomes hpc_pool, so both
+        # budgets are included up front. A 10-minute queue check otherwise
+        # exhausts a 120-step fresh-run floor in about seven hours.
+        total = min(max(budget, floor), 50000)
+        agents = MDWorkflow._planned_agent_names(state)
+        if MDWorkflow._needs_hpc_poll_budget(state, agents):
+            total += MDWorkflow._hpc_poll_step_budget(
+                state, reuse=reuse, n_scale=n_scale
+            )
+        if MDWorkflow._needs_parallel_poll_budget(state, agents):
+            total += MDWorkflow._parallel_poll_step_budget(state, n_scale=n_scale)
+        return min(total, 50000)
+
+    @staticmethod
+    def _planned_agent_names(state: MDState) -> set:
+        """Internal agent names this run will execute (hpc, analysis, …)."""
+        try:
+            from src.supervisor.unified_enricher import get_agent_execution_order
+
+            names = set(
+                get_agent_execution_order(
+                    state.get("subtask_type") or "full_task", state
+                )
+            )
+        except Exception:
+            names = set()
+        phase = state.get("multi_sim_phase")
+        if phase == "hpc_pool" or state.get("hpc_pool"):
+            names.add("hpc")
+        if phase == "parallel_pool" or state.get("parallel_pool"):
+            names.update({"analysis", "reporter"})
+        return names
+
+    @staticmethod
+    def _needs_hpc_poll_budget(state: MDState, agents: set) -> bool:
+        if "hpc" not in agents:
+            return False
+        if state.get("hpc_pool_disabled") or state.get("combined_only"):
+            return False
+        if state.get("pool_phase") == "analysis" or state.get("post_hpc_analysis_only"):
+            return False
+        if state.get("hpc_pool_phase_complete"):
+            return False
+        if state.get("subtask_type") in ("analysis_only", "reporter_only"):
+            return False
+        return True
+
+    @staticmethod
+    def _needs_parallel_poll_budget(state: MDState, agents: set) -> bool:
+        return bool(agents & {"analysis", "reporter"})
+
+    @staticmethod
+    def _hpc_poll_step_budget(state: MDState, *, reuse: bool, n_scale: int) -> int:
+        """supervisor + hpc_pool_wait per poll, for about 7 days of queue checks."""
+        pool = state.get("hpc_pool") or {}
+        interval = pool.get("check_interval_sec") or state.get("hpc_check_interval_sec")
+        if not interval:
+            try:
+                from agentic.multi_sim_hpc_pool import parse_hpc_check_interval
+
+                interval = parse_hpc_check_interval(
+                    state.get("hpc_check_interval"), default_sec=3600
+                )
+            except Exception:
+                interval = 3600
+        polls = max(48, int(7 * 86400 / max(int(interval), 60)))
+        floor = 20 * n_scale + 200 if reuse else 120
+        return min(max(polls * 2 + 40, floor), 50000)
+
+    @staticmethod
+    def _parallel_poll_step_budget(state: MDState, *, n_scale: int) -> int:
+        """supervisor + parallel_pool_wait per poll, for about 7 days."""
+        pool = state.get("parallel_pool") or {}
+        interval = int(
+            state.get("parallel_pool_poll_sec")
+            or pool.get("poll_sec")
+            or 30
+        )
+        polls = max(48, int(7 * 86400 / max(interval, 15)))
+        poll_budget = polls * 2 + 100
+        family_floor = 30 * n_scale + 500
+        return min(max(poll_budget, family_floor, 5000), 50000)
     
     def _build_graph(self) -> StateGraph:
         """Build the LangGraph workflow with proper agent hierarchy."""
@@ -1175,6 +1229,32 @@ Execution Path: {' → '.join(state.get('execution_path', []))}
             logger.debug("campaign state.json overlay skipped: %s", snap_exc)
         return saved_state or None
     
+    def _refresh_campaign_spec(self, state: MDState) -> None:
+        """Recompile when a saved family program no longer matches the goal.
+
+        The on-disk planner spec is what resume uses to decide whether analysis
+        is finished. Leaving a stale family spec there makes an apo/holo study
+        look incomplete and restarts every simulation.
+        """
+        try:
+            from agentic.campaign.compile import compile_campaign_spec
+
+            fresh = compile_campaign_spec(state)
+            saved = state.get("campaign_spec") or {}
+            if saved and bool(saved.get("family_modular")) == bool(fresh.family_modular):
+                return
+            state["campaign_spec"] = fresh.to_dict()
+            base = state.get("multi_sim_base_dir") or state.get("working_directory")
+            if base:
+                spec_path = Path(base) / "planner" / "campaign_spec.json"
+                spec_path.parent.mkdir(parents=True, exist_ok=True)
+                spec_path.write_text(
+                    json.dumps(state["campaign_spec"], indent=2),
+                    encoding="utf-8",
+                )
+        except Exception:
+            logger.debug("Campaign spec refresh skipped", exc_info=True)
+
     def _initialize_state(self, user_goal: str, config: Optional[Dict[str, Any]]) -> MDState:
         """Create initial workflow state with config overrides applied."""
         # Note: TypedDict is a type hint only, cannot be instantiated as a class.
@@ -1569,6 +1649,7 @@ Execution Path: {' → '.join(state.get('execution_path', []))}
                 )
 
                 if state.get("resume_failed_only") and not state.get("combined_only"):
+                    self._refresh_campaign_spec(state)
                     reconcile_multisim_progress_from_disk(state, working_dir)
                     # If HPC is in the CLI pipeline, reopen failed/unhealthy sims even
                     # when a prior run left hpc_pool_phase_complete=True.
@@ -1592,6 +1673,12 @@ Execution Path: {' → '.join(state.get('execution_path', []))}
                         # Allow parallel prep to restart for remaining pending sims.
                         state.pop("hpc_pool_prep_parallel", None)
                         state["requeue_failed_sims"] = True
+                        # A new resume gets a fresh attempt budget. The previous
+                        # run can burn the counter by treating finished analysis
+                        # as incomplete.
+                        for rec in ((state.get("parallel_pool") or {}).get("sims") or {}).values():
+                            if isinstance(rec, dict):
+                                rec["attempts"] = 0
                         pool = state.get("hpc_pool") or {}
                         if pool.get("awaiting_hitl"):
                             logger.warning(
@@ -1787,13 +1874,7 @@ Execution Path: {' → '.join(state.get('execution_path', []))}
         # verbatim, regardless of later state mutations (enrichment, combined goals).
         if not state.get("user_goal_original"):
             state["user_goal_original"] = user_goal
-        if not state.get("campaign_spec"):
-            try:
-                from agentic.campaign.compile import compile_campaign_spec
-
-                state["campaign_spec"] = compile_campaign_spec(state).to_dict()
-            except Exception:
-                pass
+        self._refresh_campaign_spec(state)
         return state
 
     def run(self, user_goal: str, config: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:

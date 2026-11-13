@@ -2566,8 +2566,10 @@ Return ONLY JSON:
         )
 
         from src.analysis.cross_sim_artifacts import (
+            MAX_PRE_COMBINED_ATTEMPTS,
             cross_sim_artifacts_ready,
             mark_pre_combined_complete,
+            pre_combined_attempt_count,
             pre_combined_done_on_disk,
         )
 
@@ -2578,22 +2580,22 @@ Return ONLY JSON:
                 extra={"success": True, "mode": "deterministic"},
             )
         else:
-            # Do NOT mark skipped-as-done: leave marker as failed so supervisor
-            # can retry, but bump a counter to avoid infinite loops.
-            n_try = int(state.get("pre_combined_deterministic_attempts") or 0) + 1
-            state["pre_combined_deterministic_attempts"] = n_try
+            # Count on disk. The in-memory counter is dropped between supervisor
+            # hops, which retried this step until the graph recursion limit.
+            n_try = pre_combined_attempt_count(base) + 1
+            state["pre_combined_attempts"] = n_try
             mark_pre_combined_complete(
                 base,
                 labels=labels,
                 extra={
                     "success": False,
-                    "skipped": n_try >= 3,
+                    "skipped": n_try >= MAX_PRE_COMBINED_ATTEMPTS,
                     "reason": "deterministic_failed",
                     "issues": issues,
                     "attempts": n_try,
                 },
             )
-            if n_try >= 3:
+            if n_try >= MAX_PRE_COMBINED_ATTEMPTS:
                 # Force-done escape: write a marker file that supervisor checks
                 # via attempts, while still exposing failure in JSON.
                 logger.error(
@@ -5266,38 +5268,93 @@ Return ONLY JSON:
         return params
 
     def _is_holo_simulation(self, state: MDState, agent_input: AnalysisAgentInput) -> bool:
-        """True when the current per-simulation run is a ligand-bound (holo) system."""
-        from src.analysis.combined_analysis import is_holo_simulation
+        """True when this simulation's own folder is ligand-bound.
+
+        The campaign goal often mentions both apo and holo, and the study
+        directory may be named ``pseudo_apo_holo``. Neither of those makes a
+        protein-only trajectory ATP-bound.
+        """
+        from src.analysis.combined_analysis import label_is_holo
 
         label = ""
         sim_prompts = state.get("sim_prompts") or []
         idx = state.get("current_sim_index")
         if idx is not None and 0 <= idx < len(sim_prompts):
-            label = sim_prompts[idx].get("label", "")
+            label = str(sim_prompts[idx].get("label") or "")
+        if not label:
+            for key in ("active_sim_label", "current_sim_label", "sim_label", "label"):
+                label = str(state.get(key) or "")
+                if label:
+                    break
         if not label:
             label = Path(state.get("working_directory", "")).name
-        sim_dir = state.get("working_directory", "")
-        if is_holo_simulation(sim_dir, label):
+        if label_is_holo(label):
             return True
-
-        goal_text = " ".join(
-            t for t in (
-                state.get("user_goal"),
-                state.get("user_goal_original"),
-                getattr(agent_input, "user_goal", None),
-            )
-            if t
-        ).lower()
-        if any(kw in goal_text for kw in ("holo", "protein–atp", "protein-atp", "atp", "ligand")):
-            return True
-
-        requested = self._intent_metrics(state, agent_input)
-        binding_metrics = frozenset({
-            "com", "contacts", "pocket_sasa", "residence", "pocket_rmsf", "ligand_rmsf",
-        })
-        if requested and requested & binding_metrics:
+        # A worker whose state lost the label still has the sim folder path.
+        wd_name = Path(state.get("working_directory") or "").name
+        if wd_name and wd_name != label and label_is_holo(wd_name):
             return True
         return False
+
+    @staticmethod
+    def _step_requires_bound_ligand(step: Any) -> bool:
+        """Ligand metrics that cannot succeed on a protein-only trajectory."""
+        tool = str(getattr(step, "tool_name", "") or "")
+        if tool in {
+            "calculate_ligand_pocket_distance",
+            "calculate_consensus_pocket_metrics",
+            "calculate_ligand_axis_angle",
+            "calculate_protein_ligand_contacts",
+            "calculate_pocket_sasa",
+            "analyze_ligand_residence",
+            "calculate_pocket_rmsf",
+            "calculate_ligand_rmsf",
+            "calculate_ligand_rmsd",
+        }:
+            return True
+        if tool != "calculate_com_distance":
+            return False
+        params = getattr(step, "tool_params", None) or {}
+        sel = str(params.get("selection2") or params.get("ligand_selection") or "")
+        return (not sel) or "resname" in sel.lower()
+
+    def _retarget_dssp_plot_inputs(self, tool_params: Dict[str, Any], analysis_dir: str):
+        """Point a DSSP plot at the files ``analyze_secondary_structure`` writes.
+
+        The planner often asks ``plot_md_data`` to read ``dssp.dat``. DSSP writes
+        ``dssp_percentages.dat`` and ``dssp_heatmap.png`` instead. Returns
+        ``"skip"`` when that figure is already on disk.
+        """
+        params = dict(tool_params or {})
+        files = list(params.get("data_files") or [])
+        if not files:
+            return params
+        root = Path(analysis_dir)
+        rewritten = []
+        for raw in files:
+            name = Path(str(raw)).name
+            stem = Path(name).stem.lower()
+            if not stem.startswith("dssp"):
+                rewritten.append(name)
+                continue
+            if (root / name).is_file():
+                rewritten.append(name)
+                continue
+            if (root / f"{stem}_heatmap.png").is_file() or (root / f"{stem}_timeseries.png").is_file():
+                return "skip"
+            substitute = None
+            for cand in (f"{stem}_percentages.dat", f"{stem}_raw_data.dat"):
+                if (root / cand).is_file() and (root / cand).stat().st_size > 0:
+                    substitute = cand
+                    break
+            if substitute:
+                rewritten.append(substitute)
+                continue
+            if any(root.glob(f"{stem}*.png")):
+                return "skip"
+            rewritten.append(name)
+        params["data_files"] = rewritten
+        return params
 
     @staticmethod
     def _analysis_step_to_dict(step: AnalysisStep) -> Dict[str, Any]:
@@ -5324,6 +5381,17 @@ Return ONLY JSON:
             return plan_dict
 
         existing_tools = {s.get("tool_name", "") for s in plan_dict.get("steps", [])}
+        existing_sigs = {
+            (
+                s.get("tool_name", ""),
+                str(
+                    (s.get("tool_params") or {}).get("output_prefix")
+                    or (s.get("tool_params") or {}).get("output_file")
+                    or ""
+                ),
+            )
+            for s in plan_dict.get("steps", [])
+        }
         missing_metrics: Set[str] = set()
         binding_rmsf = (requested or frozenset()) & {"pocket_rmsf", "ligand_rmsf"}
         for metric in requested:
@@ -5358,9 +5426,18 @@ Return ONLY JSON:
         for fb_step in fallback.steps:
             tool = fb_step.tool_name
             metric = _CALC_TOOL_TO_METRIC.get(tool)
-            if metric and metric in missing_metrics and tool not in existing_tools:
+            sig = (
+                tool,
+                str(
+                    fb_step.tool_params.get("output_prefix")
+                    or fb_step.tool_params.get("output_file")
+                    or ""
+                ),
+            )
+            if metric and metric in missing_metrics and sig not in existing_sigs:
                 merged.append(self._analysis_step_to_dict(fb_step))
                 existing_tools.add(tool)
+                existing_sigs.add(sig)
                 out = str(fb_step.tool_params.get("output_file", ""))
                 if out:
                     merged_outputs.add(out)
@@ -5988,6 +6065,42 @@ Return ONLY JSON:
         if not name.lower().endswith((".png", ".pdf", ".svg", ".jpg", ".jpeg")):
             return False
         return (Path(analysis_dir) / name).is_file()
+
+    def _metric_step_output_present(self, step: Any, analysis_dir: str) -> bool:
+        """True when this step's data or plot file is already written.
+
+        A retry then fills the missing plots and DSSP instead of recomputing
+        RMSD, RMSF, and DCCM on every pass.
+        """
+        if self._plot_step_output_present(step, analysis_dir):
+            return True
+        params = getattr(step, "tool_params", None) or {}
+        if not isinstance(params, dict):
+            return False
+        root = Path(analysis_dir)
+        if not root.is_dir():
+            return False
+        out = params.get("output_file")
+        if out:
+            path = root / Path(str(out)).name
+            if path.is_file() and path.stat().st_size > 0:
+                return True
+        tool = str(getattr(step, "tool_name", "") or "")
+        prefix = str(params.get("output_prefix") or "")
+        if tool == "analyze_secondary_structure" and prefix:
+            return any(
+                p.is_file()
+                and p.stat().st_size > 0
+                and p.suffix.lower() == ".png"
+                and p.name.startswith(prefix)
+                for p in root.iterdir()
+            )
+        if tool == "calculate_dccm":
+            prefix = prefix or "dccm"
+            return (root / f"{prefix}.csv").is_file() and (
+                root / f"{prefix}_heatmap.png"
+            ).is_file()
+        return False
 
     def _ensure_plots_for_dat_on_disk(
         self,
@@ -6771,6 +6884,59 @@ Return JSON with: reasoning, overview, steps (name, description, tool_name, tool
                         reason="Visualise compactness over time",
                     ),
                 ])
+            if "dccm" in requested:
+                steps.append(
+                    AnalysisStep(
+                        name="Calculate DCCM",
+                        description="Cα dynamic cross-correlation matrix",
+                        tool_name="calculate_dccm",
+                        tool_params={
+                            "topology_file": topo_name,
+                            "trajectory_file": traj_name,
+                            "selection": "protein and name CA",
+                            "output_prefix": "dccm",
+                            "create_heatmap": True,
+                        },
+                        reason="User requested a Cα DCCM",
+                    )
+                )
+            if "dssp" in requested:
+                steps.append(
+                    AnalysisStep(
+                        name="Secondary structure",
+                        description="DSSP assignment over the whole protein",
+                        tool_name="analyze_secondary_structure",
+                        tool_params={
+                            "topology_file": topo_name,
+                            "trajectory_file": traj_name,
+                            "selection": "protein",
+                            "output_prefix": "dssp",
+                            "create_heatmap": True,
+                        },
+                        reason="User requested DSSP time evolution",
+                    )
+                )
+                window = re.search(
+                    r"residues?\s+(\d+)\s*[\u2013\-]\s*(\d+)",
+                    _goal_lower,
+                )
+                if window:
+                    start, end = window.group(1), window.group(2)
+                    steps.append(
+                        AnalysisStep(
+                            name=f"Secondary structure {start}-{end}",
+                            description=f"DSSP for residues {start}-{end}",
+                            tool_name="analyze_secondary_structure",
+                            tool_params={
+                                "topology_file": topo_name,
+                                "trajectory_file": traj_name,
+                                "selection": f"protein and resid {start}:{end}",
+                                "output_prefix": f"dssp_{start}to{end}",
+                                "create_heatmap": True,
+                            },
+                            reason="User requested DSSP for a residue window",
+                        )
+                    )
 
             _lig_resname = (
                 self._detect_ligand_resname(agent_input, state)
@@ -7343,13 +7509,20 @@ Return JSON with: reasoning, overview, steps (name, description, tool_name, tool
             prepared[idx] = apply_selection_from_files(params, working_dir=analysis_dir)
 
         logger.info(summarize_batch_plan(plan.steps))
-        batch_results = run_plan_trajectory_batches(
-            plan.steps,
-            topology_file=topology,
-            trajectory_file=trajectory,
-            working_dir=str(self.file_manager.agent_dir),
-            prepared_params=prepared,
-        )
+        try:
+            batch_results = run_plan_trajectory_batches(
+                plan.steps,
+                topology_file=topology,
+                trajectory_file=trajectory,
+                working_dir=str(self.file_manager.agent_dir),
+                prepared_params=prepared,
+            )
+        except Exception as exc:
+            logger.exception(
+                "Trajectory batch failed; continuing with per-step execution: %s",
+                exc,
+            )
+            batch_results = {}
         batch_results.update(pre_results)
         return batch_results
 
@@ -7457,6 +7630,22 @@ Return JSON with: reasoning, overview, steps (name, description, tool_name, tool
                     execution_log.append(f"\n⚠ {skip_msg}")
                     warnings.append(skip_msg)
                     continue
+                if (
+                    not self._is_holo_simulation(state, agent_input)
+                    and self._step_requires_bound_ligand(step)
+                ):
+                    skip_msg = (
+                        f"Skipping step {i+1} '{step.name}': "
+                        "protein-only simulation has no bound ligand"
+                    )
+                    execution_log.append(f"\n⚠ {skip_msg}")
+                    warnings.append(skip_msg)
+                    results[step.name] = {
+                        "success": True,
+                        "skipped": True,
+                        "message": "apo simulation",
+                    }
+                    continue
                 if family_tool_already_done(str(analysis_dir), step.tool_name):
                     skip_msg = (
                         f"Skipping step {i+1} '{step.name}': "
@@ -7464,6 +7653,12 @@ Return JSON with: reasoning, overview, steps (name, description, tool_name, tool
                     )
                     execution_log.append(f"\n⚠ {skip_msg}")
                     warnings.append(skip_msg)
+                    continue
+                if self._metric_step_output_present(step, str(analysis_dir)):
+                    skip_msg = (
+                        f"Skipping step {i+1} '{step.name}': output already on disk"
+                    )
+                    execution_log.append(f"\n⚠ {skip_msg}")
                     continue
                 
                 # Log step start
@@ -7501,6 +7696,8 @@ Return JSON with: reasoning, overview, steps (name, description, tool_name, tool
                     resolved_lig = resolve_ligand_selection(
                         tool_params.get("ligand_selection"), state
                     )
+                    if resolved_lig and not self._is_holo_simulation(state, agent_input):
+                        resolved_lig = None
                     if resolved_lig:
                         tool_params["ligand_selection"] = resolved_lig
                     elif step.tool_name in {
@@ -7615,6 +7812,22 @@ Return JSON with: reasoning, overview, steps (name, description, tool_name, tool
                             before,
                             tool_params["selection"],
                         )
+
+                if step.tool_name == "plot_md_data":
+                    rewritten = self._retarget_dssp_plot_inputs(
+                        tool_params, str(analysis_dir)
+                    )
+                    if rewritten == "skip":
+                        execution_log.append(
+                            f"⚠ Skipped {step.name}: DSSP already wrote its own figure"
+                        )
+                        results[step.name] = {
+                            "success": True,
+                            "skipped": True,
+                            "message": "DSSP heatmap already on disk",
+                        }
+                        continue
+                    tool_params = rewritten
 
                 # Resolve list-type file parameters (e.g. data_files for plot tools).
                 # LLMs often pass wrong absolute paths; normalise to agent_dir/<basename>.
@@ -7734,6 +7947,11 @@ Return JSON with: reasoning, overview, steps (name, description, tool_name, tool
                     execution_log.append(f"✗ Failed after {retry_count} attempts: {error_msg}")
                     if is_noncritical_analysis_tool(step.tool_name):
                         warnings.append(f"{step.name}: {error_msg}")
+                    elif (
+                        "matched 0 atoms" in error_msg.lower()
+                        and not self._is_holo_simulation(state, agent_input)
+                    ):
+                        warnings.append(f"{step.name}: {error_msg} (apo, ignored)")
                     else:
                         issues.append(f"{step.name}: {error_msg}")
                     
@@ -7832,6 +8050,15 @@ Return JSON with: reasoning, overview, steps (name, description, tool_name, tool
             )
             
         except Exception as e:
+            try:
+                self._ensure_plots_for_dat_on_disk(
+                    str(analysis_dir),
+                    execution_log,
+                    generated_files,
+                    warnings,
+                )
+            except Exception:
+                logger.debug("Post-hoc plots after analysis error skipped", exc_info=True)
             return AnalysisExecutionResult(
                 success=False,
                 output_directory=analysis_dir,

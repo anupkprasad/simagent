@@ -4,7 +4,7 @@ HPC Results Downloader - Download simulation results from HPC systems
 import os
 import logging
 from pathlib import Path
-from typing import Dict, Any, Optional, List
+from typing import Dict, Any, List, Optional, Union
 from langchain.tools import tool
 
 logger = logging.getLogger(__name__)
@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 def download_results(
     remote_dir: str,
     local_dir: str,
-    file_patterns: Optional[List[str]] = None,
+    file_patterns: Optional[Union[str, List[str]]] = None,
     remote_host: Optional[str] = None,
     remote_user: Optional[str] = None,
     ssh_key_path: Optional[str] = None
@@ -34,6 +34,9 @@ def download_results(
         Dict with downloaded file information
     """
     try:
+        from src.hpc.file_copy import coerce_file_patterns
+
+        file_patterns = coerce_file_patterns(file_patterns)
         if file_patterns is None:
             file_patterns = ["*.xtc", "*.gro", "*.edr", "*.log", "*.cpt", "*.xvg"]
         

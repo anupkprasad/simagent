@@ -390,6 +390,45 @@ def _series_label(column_names: List[str], y_idx: int, file_label: str) -> str:
     return file_label
 
 
+def _is_dccm_difference_table(data_file: str, column_names: List[str]) -> bool:
+    """True for a flattened apo/holo ΔDCCM table, not a time series."""
+    name = Path(data_file).name.lower()
+    if "dccm" not in name:
+        return False
+    if any(tok in name for tok in ("diff", "delta", "difference")):
+        return True
+    lower = {n.strip().lower() for n in column_names}
+    return "correlation" in lower and "residue_i" in lower
+
+
+def _running_average(values: List[float], window: int) -> List[float]:
+    """Centered moving average. Edges use the points that exist."""
+    n = len(values)
+    if n == 0 or window < 3 or n < 3:
+        return list(values)
+    if window % 2 == 0:
+        window += 1
+    window = min(window, n if n % 2 else n - 1)
+    half = window // 2
+    cumulative = [0.0]
+    for value in values:
+        cumulative.append(cumulative[-1] + float(value))
+    averaged = []
+    for i in range(n):
+        start = max(0, i - half)
+        end = min(n, i + half + 1)
+        averaged.append((cumulative[end] - cumulative[start]) / (end - start))
+    return averaged
+
+
+def _dccm_running_window(n_points: int) -> int:
+    """Wide enough to stand out from the raw pair-by-pair trace."""
+    window = max(51, n_points // 120)
+    if window % 2 == 0:
+        window += 1
+    return window
+
+
 def _time_axis_is_picoseconds(column_name: str) -> bool:
     """True when a time column header indicates picoseconds."""
     low = (column_name or "").strip().lower()
@@ -821,7 +860,52 @@ def plot_data(
                 else:
                     series_color = colors[idx] if idx < len(colors) else None
 
-                if plot_type == "line":
+                if plot_type == "line" and _is_dccm_difference_table(abs_file, column_names):
+                    # Raw ΔC is a dense vertical band. Keep that trace light
+                    # and draw the running average on top so the trend can be read.
+                    ax.plot(
+                        x_data,
+                        y_data,
+                        label="_nolegend_",
+                        color="#9ecae1",
+                        linewidth=0.45,
+                        alpha=0.18,
+                        zorder=1,
+                    )
+                    averaged = _running_average(y_data, _dccm_running_window(len(y_data)))
+                    ax.plot(
+                        x_data,
+                        averaged,
+                        label="_nolegend_",
+                        color="white",
+                        linewidth=5.0,
+                        solid_capstyle="round",
+                        zorder=2,
+                    )
+                    ax.plot(
+                        x_data,
+                        averaged,
+                        label="_nolegend_",
+                        color="#a50f15",
+                        linewidth=2.2,
+                        solid_capstyle="round",
+                        zorder=3,
+                    )
+                    from matplotlib.lines import Line2D
+                    ax.legend(
+                        handles=[
+                            Line2D([0], [0], color="#9ecae1", linewidth=2.0, label="ΔC"),
+                            Line2D([0], [0], color="#a50f15", linewidth=2.4, label="Running average"),
+                        ],
+                        frameon=True,
+                        fontsize=10,
+                    )
+                    multi_series = True
+                    if not xlabel or "time" in str(xlabel).lower():
+                        xlabel = "Residue"
+                    if not ylabel or str(ylabel).lower() in {"value", "correlation"}:
+                        ylabel = "Δ correlation"
+                elif plot_type == "line":
                     ax.plot(x_data, y_data, label=label, color=series_color, linewidth=2)
                 elif plot_type == "scatter":
                     ax.scatter(x_data, y_data, label=label, color=series_color, alpha=0.6)

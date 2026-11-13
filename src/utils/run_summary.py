@@ -32,6 +32,28 @@ def _sim_succeeded(sim: Dict[str, Any]) -> bool:
     )
 
 
+def _analysis_in_pipeline(state: Dict[str, Any]) -> bool:
+    """True when this run was supposed to produce per-simulation analysis."""
+    names: List[str] = []
+    for key in ("agent_list", "pipeline_agent_list"):
+        value = state.get(key) or []
+        if isinstance(value, str):
+            names.append(value)
+        else:
+            names.extend(str(item) for item in value)
+    blob = " ".join(names).lower()
+    if "analysis" in blob:
+        return True
+    sub = str(
+        state.get("subtask_type") or state.get("pipeline_subtask_type") or ""
+    ).lower()
+    if "analysis" in sub:
+        return True
+    phase = str(state.get("multi_sim_phase") or "")
+    pool_phase = str((state.get("parallel_pool") or {}).get("phase") or "")
+    return phase.startswith("combined") or pool_phase == "analysis"
+
+
 def _expected_simulation_count(final_state: Dict[str, Any], pdb_list: List[str]) -> int:
     sim_prompts = final_state.get("sim_prompts") or []
     source_count = len(final_state.get("pdb_list") or pdb_list)
@@ -184,6 +206,17 @@ def _simulations_merged_from_state(final_state: Dict[str, Any]) -> List[Dict[str
             health = "failed"
             fatal_reason = fatal_reason or rec.get("error") or "simulation failed"
 
+        analysis_requested = _analysis_in_pipeline(final_state)
+        analysis_ok = True
+        if analysis_requested and wd:
+            try:
+                from agentic.multi_sim_progress import per_sim_analysis_done_on_disk
+
+                analysis_ok = bool(
+                    per_sim_analysis_done_on_disk(wd, state=final_state)
+                )
+            except Exception:
+                analysis_ok = agents.get("analysis") == "done"
         disk_done = (
             rec.get("status") == "done"
             or (
@@ -192,11 +225,25 @@ def _simulations_merged_from_state(final_state: Dict[str, Any]) -> List[Dict[str
             )
             or bool(job_info and job_info.get("complete"))
         )
-        # Analysis artifacts alone do not make a dead MD "success".
+        if analysis_requested:
+            disk_done = bool(disk_done and analysis_ok)
+        # A finished trajectory is not a successful study when the requested
+        # analysis files were never written. Analysis artifacts alone do not
+        # make a dead MD "success".
         success = False
         if health == "failed":
             status = "failed"
             success = False
+        elif analysis_requested and not analysis_ok:
+            status = "failed"
+            success = False
+            if health == "healthy":
+                health = "incomplete"
+            fatal_reason = (
+                fatal_reason
+                or rec.get("error")
+                or "analysis incomplete"
+            )
         elif job_info and job_info.get("complete"):
             status = "success"
             success = True

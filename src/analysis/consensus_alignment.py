@@ -455,7 +455,7 @@ def _column_conservation(
 
 
 def find_mafft_executable() -> Optional[str]:
-    """Locate a usable ``mafft`` binary (sets MAFFT_BINARIES when needed)."""
+    """Locate a usable ``mafft`` binary."""
     env_bin = os.environ.get("MAFFT") or os.environ.get("MAFFT_BIN")
     which = shutil.which("mafft")
     for cand in (env_bin, which, *_MAFFT_CANDIDATES):
@@ -529,19 +529,29 @@ def build_mafft_msa_to_reference(
                 for i in range(0, len(seq), 80):
                     fh.write(seq[i : i + 80] + "\n")
 
+        # A normal install (conda MAFFT 7.526) exits when MAFFT_BINARIES
+        # points at its bin directory ("v0.000 != v7.x"). A bundled plugin
+        # (T-Coffee) needs that variable set to its own directory. Try the
+        # unset environment first, then the binary's directory.
         env = os.environ.copy()
-        # Older mafft wrappers require sibling binaries via MAFFT_BINARIES.
-        env.setdefault("MAFFT_BINARIES", str(Path(exe).resolve().parent))
+        env.pop("MAFFT_BINARIES", None)
         cmd = [exe, "--auto", "--quiet", str(in_fa)]
-        try:
-            proc = subprocess.run(
+
+        def _invoke(run_env: Dict[str, str]) -> subprocess.CompletedProcess:
+            return subprocess.run(
                 cmd,
                 check=False,
                 capture_output=True,
                 text=True,
-                env=env,
+                env=run_env,
                 timeout=600,
             )
+
+        def _ok(result: subprocess.CompletedProcess) -> bool:
+            return result.returncode == 0 and bool((result.stdout or "").strip())
+
+        try:
+            proc = _invoke(env)
         except Exception as exc:
             return _star_fallback_or_raise(
                 chains,
@@ -549,13 +559,31 @@ def build_mafft_msa_to_reference(
                 reason=f"MAFFT failed ({exc})",
                 allow_star_fallback=allow_star_fallback,
             )
+        err = proc.stderr or ""
+        if not _ok(proc):
+            env_retry = dict(env)
+            env_retry["MAFFT_BINARIES"] = str(Path(exe).resolve().parent)
+            try:
+                retried = _invoke(env_retry)
+            except Exception:
+                retried = None
+            if retried is not None and _ok(retried):
+                proc = retried
+                err = retried.stderr or ""
+            elif retried is not None:
+                retry_err = retried.stderr or ""
+                # The directory retry is the wrong config for a normal install.
+                # Keep the first error unless that one is the config message.
+                if "MAFFT_BINARIES" not in retry_err and "v0.000" not in retry_err:
+                    err = retry_err
+                    proc = retried
         if proc.returncode != 0 or not (proc.stdout or "").strip():
             return _star_fallback_or_raise(
                 chains,
                 reference_label,
                 reason=(
                     f"MAFFT exit={proc.returncode} "
-                    f"stderr={(proc.stderr or '')[:300]}"
+                    f"stderr={(err or proc.stderr or '')[:300]}"
                 ),
                 allow_star_fallback=allow_star_fallback,
             )

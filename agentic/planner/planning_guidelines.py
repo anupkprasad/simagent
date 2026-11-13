@@ -745,13 +745,15 @@ def detect_requested_metrics(goal: str) -> Optional[FrozenSet[str]]:
                 return frozenset(found)
             return frozenset({token})
 
-    if found and not any(phrase in text for phrase in _BROAD_DYNAMICS_PATTERNS):
+    # Named metrics are the request. "Protein dynamics" only leaves the
+    # choice open when the goal does not list measurements.
+    if found:
         return frozenset(found)
 
     if any(phrase in text for phrase in _BROAD_DYNAMICS_PATTERNS):
         return None
 
-    return frozenset(found) if found else None
+    return None
 
 
 _PHYLO_GENERIC_PATTERNS: tuple[str, ...] = (
@@ -864,7 +866,8 @@ def score_family_modular_dynamics(*goal_texts: str) -> Dict[str, Any]:
 
     Returns ``family`` (bool), ``score`` (0–6 scientific signals), ``signals``,
     and ``reason``. Explicit modular tool names force ``family=True``.
-    Auto threshold is ≥2 signals, or a comparative/family phrase plus ≥1 signal.
+    Auto threshold is ≥2 signals, or a family phrase plus ≥1 signal.
+    A request for comparative plots is not itself a family study.
     """
     text = _normalize_goal_text(*goal_texts)
     empty = {
@@ -881,9 +884,12 @@ def score_family_modular_dynamics(*goal_texts: str) -> Dict[str, Any]:
     flags = {
         "pocket": bool(
             re.search(
-                r"pocket.{0,40}(?:distance|\bcom\b)|how far .*(atp|ligand)|"
-                r"(?:atp|ligand).*(?:center\s+of\s+mass|\bcom\b).*pocket|"
-                r"distance of the (?:atp|ligand)",
+                r"consensus\s+pocket|mapped\s+pocket|reference\s+pocket|"
+                r"how far .*(?:atp|ligand)|"
+                r"distance of the (?:atp|ligand)|"
+                r"(?:atp|ligand)\s+\bcom\b.{0,40}pocket|"
+                r"pocket\s+\bcom\b|"
+                r"\bcom\b.{0,40}consensus",
                 text,
             )
         ),
@@ -920,7 +926,7 @@ def score_family_modular_dynamics(*goal_texts: str) -> Dict[str, Any]:
     score = len(signals)
     comparative = bool(
         re.search(
-            r"\bfamily\b|comparative|across (?:the )?family|kinase family|"
+            r"\bfamily\b|across (?:the )?family|kinase family|"
             r"ward|classification feature|shared protocol",
             text,
         )

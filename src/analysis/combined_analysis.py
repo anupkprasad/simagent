@@ -826,6 +826,16 @@ def is_holo_simulation(sim_dir: str, label: str) -> bool:
     return any(kw in key for kw in _HOLO_KEYWORDS)
 
 
+def label_is_holo(label: str) -> bool:
+    """True when this simulation's own name is ligand-bound.
+
+    A campaign folder such as ``pseudo_apo_holo`` contains "holo" and must not
+    make every protein-only run look ligand-bound.
+    """
+    name = Path(str(label or "")).name
+    return is_holo_simulation(name, name)
+
+
 def _get_label_name_map(
     label_name_map: Optional[Dict[str, str]] = None,
     user_goal: Optional[str] = None,
@@ -1263,7 +1273,13 @@ def _ensure_ligand_pocket_distance_csv(sim_dir: str) -> Optional[str]:
             f"_ensure_ligand_pocket_distance_csv: computing for {sim_dir} "
             f"from {Path(traj).name}"
         )
-        ligand_selection = _infer_ligand_selection(topo, traj) or "resname ATP"
+        ligand_selection = _infer_ligand_selection(topo, traj)
+        if not ligand_selection:
+            logger.info(
+                "_ensure_ligand_pocket_distance_csv: no ligand in %s; skipping",
+                sim_dir,
+            )
+            return None
         res = calculate_ligand_pocket_distance.func(
             topology_file=topo,
             trajectory_file=traj,

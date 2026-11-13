@@ -42,12 +42,12 @@ _SOFT_METRIC_STEPS: Dict[str, Dict[str, Any]] = {
     },
     "rg": {
         "name": "Radius of gyration",
-        "tool_name": "calculate_gyration",
+        "tool_name": "calculate_radius_of_gyration",
         "tool_params": {"output_file": "gyration.dat"},
     },
     "gyration": {
         "name": "Radius of gyration",
-        "tool_name": "calculate_gyration",
+        "tool_name": "calculate_radius_of_gyration",
         "tool_params": {"output_file": "gyration.dat"},
     },
     "sasa": {
@@ -325,7 +325,15 @@ def compile_campaign_spec(state: Optional[Dict[str, Any]] = None) -> CampaignSpe
             settings=settings_dict,
         )
     # Keep an LLM-compiled pre_combined recipe across spec refreshes.
-    if existing and existing.pre_combined_compiled and existing.pre_combined_recipe.steps:
+    # A family MSA recipe must not stick after the goal is recognized as
+    # apo/holo or another non-family study.
+    keep_compiled_pre = bool(
+        existing
+        and existing.pre_combined_compiled
+        and existing.pre_combined_recipe.steps
+        and (spec.family_modular or not existing.family_modular)
+    )
+    if keep_compiled_pre:
         spec.pre_combined_recipe = existing.pre_combined_recipe
         spec.pre_combined_compiled = True
         spec.pin_pre_tools = list(existing.pin_pre_tools or spec.pin_pre_tools)

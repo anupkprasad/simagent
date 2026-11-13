@@ -1222,6 +1222,18 @@ def _reconcile_sim_agents_from_disk(rec: Dict[str, Any], agents: List[str]) -> N
     if not sim_dir.is_dir():
         return
     rec.setdefault("agents", {})
+    # A finished production trajectory means prep and HPC succeeded. Leaving
+    # those stages at "in_progress" made resume restart preprocessing and
+    # re-queue the simulation after analysis had already written its report.
+    try:
+        from agentic.multi_sim_hpc_pool import _sim_production_trajectory_ready
+
+        if _sim_production_trajectory_ready(str(sim_dir)):
+            for stage in ("preprocessing", "simsetup", "hpc"):
+                if stage in agents:
+                    rec["agents"][stage] = "done"
+    except Exception:
+        pass
     for agent in agents:
         sub = {
             "preprocessing": "preprocess",
@@ -1241,7 +1253,10 @@ def _reconcile_sim_agents_from_disk(rec: Dict[str, Any], agents: List[str]) -> N
                 # Prior production files alone do not mean this run's HPC started.
                 rec["agents"][agent] = "pending"
         elif agent == "analysis" and (marker / "analysis_summary.jsonl").is_file():
-            rec["agents"][agent] = "done"
+            if per_sim_analysis_done_on_disk(str(sim_dir)):
+                rec["agents"][agent] = "done"
+            elif rec["agents"].get(agent) != "done":
+                rec["agents"][agent] = "in_progress"
         elif agent == "reporter" and per_sim_reporter_done_on_disk(str(sim_dir)):
             rec["agents"][agent] = "done"
         elif agent == "reporter" and list(marker.glob("*.html")):
@@ -1532,6 +1547,12 @@ def reconcile_multisim_progress_from_disk(
         init_multi_sim_progress(state)
 
     progress = state.get("multi_sim_progress") or {}
+    # A compacted checkpoint can keep the phase and drop the per-sim list.
+    # Rebuild that list from the master plan before resume routing, or an
+    # empty queue is treated as "per-sim work finished."
+    if not progress.get("sim_order") and state.get("sim_prompts"):
+        init_multi_sim_progress(state)
+        progress = state.get("multi_sim_progress") or {}
     agents = progress.get("required_agents") or _required_agents(state)
 
     # Combined-only skips the per-sim loop; treat planned sims as done so we

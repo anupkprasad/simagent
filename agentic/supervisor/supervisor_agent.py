@@ -525,14 +525,48 @@ class MDSupervisor:
             base = Path(_get_multi_sim_base_dir(state))
 
             if multi_sim_phase == "pre_combined":
-                if pre_combined_done_on_disk(base):
+                if not _should_run_pre_combined(state):
                     logger.info(
-                        "SUPERVISOR [multi-sim]: Pre-combined on disk — "
-                        "starting post-HPC / per-sim execution"
+                        "SUPERVISOR [multi-sim]: Shared setup is not part of "
+                        "this goal — starting post-HPC / per-sim execution"
+                    )
+                    state["run_pre_combined"] = False
+                    return self._start_per_sim_execution_after_pre(state)
+                if pre_combined_done_on_disk(base):
+                    gave_up = (base / "cross_sim" / "pre_combined_give_up.json").is_file()
+                    logger.info(
+                        "SUPERVISOR [multi-sim]: Pre-combined %s — "
+                        "starting post-HPC / per-sim execution",
+                        "failed; continuing without consensus artifacts"
+                        if gave_up
+                        else "on disk",
                     )
                     return self._start_per_sim_execution_after_pre(state)
+                attempts = int(state.get("pre_combined_attempts") or 0) + 1
+                state["pre_combined_attempts"] = attempts
+                from src.analysis.cross_sim_artifacts import MAX_PRE_COMBINED_ATTEMPTS
+
+                if attempts > MAX_PRE_COMBINED_ATTEMPTS:
+                    logger.error(
+                        "SUPERVISOR [multi-sim]: Pre-combined failed %s times — "
+                        "continuing to per-sim analysis",
+                        attempts - 1,
+                    )
+                    state.setdefault("warnings", []).append(
+                        "Pre-combined failed; consensus metrics may be unavailable"
+                    )
+                    give_up = base / "cross_sim" / "pre_combined_give_up.json"
+                    give_up.parent.mkdir(parents=True, exist_ok=True)
+                    if not give_up.is_file():
+                        give_up.write_text(
+                            '{"reason": "supervisor_attempt_cap"}\n',
+                            encoding="utf-8",
+                        )
+                    return self._start_per_sim_execution_after_pre(state)
                 logger.info(
-                    "SUPERVISOR [multi-sim]: Pre-combined pending — entering setup"
+                    "SUPERVISOR [multi-sim]: Pre-combined pending — "
+                    "entering setup (attempt %s)",
+                    attempts,
                 )
                 return self._setup_combined_analysis(state, mode="pre")
 
