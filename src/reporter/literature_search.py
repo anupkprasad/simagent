@@ -61,6 +61,9 @@ def extract_research_context(
         "domain", "kinase", "pseudokinase", "protein", "system", "apo", "holo",
         "preprocess", "preprocessing", "setup", "simsetup", "analysis",
         "reporter", "planner", "supervisor", "gyration", "structure",
+        "dynamics", "dynamic", "binding", "effect", "study", "simulation",
+        "molecular", "conformational", "activation", "allosteric", "regulation",
+        "overlay", "comparative", "literature", "flexibility", "human",
     }
 
     def _ok_protein_token(part: str) -> bool:
@@ -84,7 +87,7 @@ def extract_research_context(
         if p not in context["aliases"]:
             context["aliases"].append(p)
 
-    if gene_name:
+    if gene_name and _ok_protein_token(gene_name):
         _add_name(gene_name)
         context["primary_gene"] = gene_name.strip()
 
@@ -130,12 +133,20 @@ def extract_research_context(
         if not context["primary_gene"]:
             context["primary_gene"] = context["protein_names"][0]
 
+    study_genes: List[str] = []
     for match in _PROTEIN_MAP_RE.finditer(goal):
         pid, pname = match.group(1).strip(), match.group(2).strip()
-        if len(pid) >= 3 and pname[0].isalpha() and _ok_protein_token(pname):
+        if len(pid) >= 3 and any(c.isdigit() for c in pid) and pname[0].isalpha() and _ok_protein_token(pname):
             if pid not in context["protein_ids"]:
                 context["protein_ids"].append(pid)
             _add_name(pname)
+            if pname not in study_genes:
+                study_genes.append(pname)
+    context["study_genes"] = study_genes
+    if len(study_genes) >= 2:
+        # Every named protein is a search target. Do not crown one of them,
+        # or a generic word such as "dynamics", as the only gene.
+        context["primary_gene"] = ""
 
     apo_only = bool(
         re.search(
@@ -578,13 +589,17 @@ def rank_literature_refs(
     else:
         n_protein_slots = 0
     n_theme_slots = max_refs - n_protein_slots
+    # A named multi-protein study should cite those proteins, not a generic
+    # dynamics review that happens to share a method word.
+    if len(context.get("study_genes") or []) >= 2:
+        n_theme_slots = 0
 
     filtered: List[Dict[str, Any]] = []
     filtered.extend(protein_hits[:n_protein_slots])
     filtered.extend(theme_hits[:n_theme_slots])
 
     # If either bucket under-filled, top up from remaining high scores.
-    if len(filtered) < max_refs:
+    if len(filtered) < max_refs and len(context.get("study_genes") or []) < 2:
         seen = {id(r) for r in filtered}
         for _, r in scored:
             if id(r) in seen:
@@ -596,7 +611,7 @@ def rank_literature_refs(
             if len(filtered) >= max_refs:
                 break
 
-    if not filtered:
+    if not filtered and len(context.get("study_genes") or []) < 2:
         filtered = [r for _, r in scored[:max_refs]]
 
     for r in filtered:
@@ -735,16 +750,33 @@ def search_pubmed(
             search_term += f" AND {min_year}[PDAT]:{current_year}[PDAT]"
         
         logger.info(f"Searching PubMed: {search_term}")
-        
-        # Search PubMed
-        handle = Entrez.esearch(
-            db="pubmed",
-            term=search_term,
-            retmax=max_results,
-            sort="relevance"
-        )
-        search_results = Entrez.read(handle)
-        handle.close()
+
+        import time
+        from urllib.error import HTTPError
+
+        search_results = None
+        last_error: Optional[Exception] = None
+        for attempt in range(4):
+            try:
+                time.sleep(0.4)
+                handle = Entrez.esearch(
+                    db="pubmed",
+                    term=search_term,
+                    retmax=max_results,
+                    sort="relevance"
+                )
+                search_results = Entrez.read(handle)
+                handle.close()
+                break
+            except HTTPError as http_exc:
+                last_error = http_exc
+                if getattr(http_exc, "code", None) != 429 or attempt == 3:
+                    raise
+                wait = (2, 5, 12)[attempt]
+                logger.warning("PubMed rate limit (429); retrying in %ss", wait)
+                time.sleep(wait)
+        if search_results is None:
+            raise last_error or RuntimeError("PubMed search failed")
         
         pmids = search_results.get("IdList", [])
         logger.info(f"Found {len(pmids)} results")
@@ -1245,6 +1277,9 @@ def generate_literature_queries(
         "target", "query", "residue", "residues",
         "preprocess", "preprocessing", "setup", "simsetup", "analysis",
         "reporter", "planner", "supervisor", "gyration",
+        "dynamics", "dynamic", "binding", "effect", "study", "simulation",
+        "molecular", "conformational", "activation", "allosteric",
+        "regulation", "overlay", "comparative", "flexibility", "human",
     }
 
     def _usable_name(name: Optional[str]) -> str:
@@ -1352,6 +1387,31 @@ def generate_literature_queries(
         return (0 if is_gene else 1 if not is_acc else 2, len(n))
 
     alias_candidates.sort(key=_alias_rank)
+    study_genes = [
+        n for n in (context.get("study_genes") or []) if _usable_name(n)
+    ]
+    # A multi-protein study searches each named protein, not the word "dynamics"
+    # and not a stack of generic family reviews.
+    if len(study_genes) >= 2:
+        queries: Dict[str, str] = {}
+        for pname in study_genes:
+            quoted = f'"{pname}"' if " " in pname else pname
+            queries[f"{pname}_md"] = (
+                f"{quoted} (pseudokinase OR kinase) "
+                f"(\"molecular dynamics\" OR \"activation loop\" OR allosteric OR ATP)"
+            )
+            queries[f"{pname}_function"] = (
+                f"{quoted} (structure OR conformation OR dynamics) "
+                f"(activation OR allosteric OR regulation)"
+            )
+        return {
+            "success": True,
+            "queries": queries,
+            "protein_name": ", ".join(study_genes),
+            "aliases": study_genes,
+            "research_context": context,
+        }
+
     usable_names = alias_candidates[:6]
     if _name and _name not in usable_names:
         usable_names.insert(0, _name)

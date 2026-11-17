@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0",
+  "timestamp": "2026-11-11T11:48:30.864193",
+  "stage": "preprocess",
+  "label": "p21860",
+  "sim_root": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860",
+  "stage_dir": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860/preprocess",
+  "pocket_mapped": "",
+  "global_mapped": "",
+  "files": {
+    "ions.pdb": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860/preprocess/ions.pdb",
+    "ligand.pdb": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860/preprocess/ligand.pdb",
+    "protein.pdb": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860/preprocess/protein.pdb",
+    "raw.pdb": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860/preprocess/raw.pdb"
+  },
+  "cleaned_pdb": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860/preprocess/protein.pdb"
+}

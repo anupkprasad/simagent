@@ -1,0 +1,1119 @@
+{
+  "pipeline": "evidence_grounded_literature_v1",
+  "steps": {
+    "1_observations": {
+      "n": 6,
+      "observations": [
+        {
+          "id": "obs_dccm_1",
+          "kind": "correlated_motions",
+          "analysis_type": "DCCM",
+          "statement": "dynamics: correlated motions / allosteric coupling observed",
+          "metrics": {
+            "n_atoms": 258,
+            "n_residues": 258,
+            "n_frames_used": 3,
+            "mean_abs_correlation": 0.351,
+            "n_strongly_correlated_pairs": 50
+          },
+          "keywords": [
+            "dccm",
+            "correlated motion",
+            "allosteric",
+            "communication"
+          ]
+        },
+        {
+          "id": "obs_rmsd_2",
+          "kind": "rmsd_stability",
+          "analysis_type": "RMSD",
+          "statement": "dynamics: modest backbone RMSD / local conformational stability (mean 1.36 \u00c5, max 1.84 \u00c5)",
+          "metrics": {
+            "mean_rmsd_angstrom": 1.361,
+            "std_rmsd_angstrom": 0.484,
+            "min_rmsd_angstrom": 0.0,
+            "max_rmsd_angstrom": 1.843
+          },
+          "keywords": [
+            "rmsd",
+            "conformational stability",
+            "backbone",
+            "molecular dynamics"
+          ]
+        },
+        {
+          "id": "obs_rmsf_3",
+          "kind": "rmsf_hotspots",
+          "analysis_type": "RMSF",
+          "statement": "dynamics: RMSF hotspots / flexible sites: GLY24 (2.40 \u00c5), THR258 (2.10 \u00c5), SER26 (1.98 \u00c5), GLU23 (1.89 \u00c5), GLU25 (1.88 \u00c5)",
+          "metrics": {
+            "mean_rmsf_angstrom": 0.749,
+            "most_flexible_residue": 24,
+            "most_flexible_rmsf": 2.397,
+            "top_flexible": [
+              "GLY24 (2.40 \u00c5)",
+              "THR258 (2.10 \u00c5)",
+              "SER26 (1.98 \u00c5)",
+              "GLU23 (1.89 \u00c5)",
+              "GLU25 (1.88 \u00c5)"
+            ]
+          },
+          "keywords": [
+            "rmsf",
+            "flexibility",
+            "flexible loop",
+            "hotspot",
+            "residue fluctuation",
+            "GLY24",
+            "THR258",
+            "SER26"
+          ]
+        },
+        {
+          "id": "obs_ligand_4",
+          "kind": "ligand_or_pocket",
+          "analysis_type": "Ligand_Pocket_COM_Distance",
+          "statement": "dynamics: ligand/pocket dynamics from Ligand_Pocket_COM_Distance",
+          "metrics": {
+            "n_frames": 11,
+            "cutoff_angstrom": 5.0,
+            "n_pocket_atoms": 220,
+            "mean_distance_angstrom": 2.103,
+            "std_distance_angstrom": 0.191,
+            "min_distance_angstrom": 1.853,
+            "max_distance_angstrom": 2.468
+          },
+          "keywords": [
+            "ligand",
+            "binding",
+            "pocket",
+            "displacement",
+            "residence"
+          ]
+        },
+        {
+          "id": "obs_ligand_5",
+          "kind": "ligand_or_pocket",
+          "analysis_type": "INTER_COM_Distance_Protein_vs_ATP",
+          "statement": "dynamics: ligand/pocket dynamics from INTER_COM_Distance_Protein_vs_ATP",
+          "metrics": {
+            "n_frames": 11,
+            "mean_distance_angstrom": 9.903,
+            "std_distance_angstrom": 0.224,
+            "min_distance_angstrom": 9.6,
+            "max_distance_angstrom": 10.209
+          },
+          "keywords": [
+            "ligand",
+            "binding",
+            "pocket",
+            "displacement",
+            "residence"
+          ]
+        },
+        {
+          "id": "obs_rg_6",
+          "kind": "compactness",
+          "analysis_type": "Radius_of_Gyration",
+          "statement": "dynamics: radius of gyration / compactness (mean 18.729 \u00c5)",
+          "metrics": {
+            "n_frames": 11,
+            "mean_rg_angstrom": 18.729,
+            "std_rg_angstrom": 0.152,
+            "min_rg_angstrom": 18.345,
+            "max_rg_angstrom": 18.899
+          },
+          "keywords": [
+            "radius of gyration",
+            "compactness",
+            "folding",
+            "stability",
+            "molecular dynamics"
+          ]
+        }
+      ]
+    },
+    "2_queries": {
+      "n": 61,
+      "queries": {
+        "alias_0_dynamics": "ERBB3 molecular dynamics",
+        "alias_0_flexibility": "ERBB3 conformational flexibility",
+        "alias_0_functional": "ERBB3 functional study",
+        "alias_0_computational": "ERBB3 (computational OR \"molecular dynamics\" OR simulation)",
+        "protein_0_dynamics": "ERBB3 protein dynamics molecular dynamics",
+        "protein_0_mechanism": "ERBB3 mechanism structure function molecular dynamics",
+        "protein_0_function": "ERBB3 ligand allosteric structure dynamics",
+        "alias_1_dynamics": "dynamics molecular dynamics",
+        "alias_1_flexibility": "dynamics conformational flexibility",
+        "alias_1_functional": "dynamics functional study",
+        "alias_1_computational": "dynamics (computational OR \"molecular dynamics\" OR simulation)",
+        "protein_1_dynamics": "dynamics protein dynamics molecular dynamics",
+        "protein_1_mechanism": "dynamics mechanism structure function molecular dynamics",
+        "protein_1_function": "dynamics ligand allosteric structure dynamics",
+        "alias_2_dynamics": "backbone molecular dynamics",
+        "alias_2_flexibility": "backbone conformational flexibility",
+        "alias_2_functional": "backbone functional study",
+        "alias_2_computational": "backbone (computational OR \"molecular dynamics\" OR simulation)",
+        "protein_2_dynamics": "backbone protein dynamics molecular dynamics",
+        "protein_2_mechanism": "backbone mechanism structure function molecular dynamics",
+        "protein_2_function": "backbone ligand allosteric structure dynamics",
+        "protein_dynamics": "dynamics molecular dynamics simulation",
+        "protein_function": "dynamics structure function",
+        "protein_functional_study": "dynamics functional study OR deficiency OR knockout",
+        "protein_computational_study": "dynamics computational study OR molecular dynamics OR simulation",
+        "protein_context": "dynamics ligand allosteric molecular dynamics",
+        "protein_goal_context": "dynamics alloster holo",
+        "protein_biology": "dynamics allosteric",
+        "protein_family_review": "dynamics pseudokinase structure function review",
+        "theme_family_dynamics": "pseudokinase ligand domain molecular dynamics simulation",
+        "theme_family_flexibility": "pseudokinase apo flexibility residue dynamics",
+        "theme_related_kinase": "kinase molecular dynamics conformational",
+        "theme_related_allosteric": "allosteric molecular dynamics conformational",
+        "ligand_effect": "dynamics atp binding protein dynamics simulation",
+        "allosteric_dccm": "dynamics allosteric communication correlated motion molecular dynamics",
+        "method_RMSD": "dynamics RMSD stability molecular dynamics",
+        "theme_method_RMSD": "pseudokinase RMSD stability molecular dynamics",
+        "method_RMSF": "dynamics RMSF residue flexibility dynamics",
+        "theme_method_RMSF": "pseudokinase RMSF residue flexibility dynamics",
+        "method_Ligand_Pocket_COM_Distance": "dynamics Ligand_Pocket_COM_Distance molecular dynamics",
+        "theme_method_Ligand_Pocket_COM_Distance": "pseudokinase Ligand_Pocket_COM_Distance molecular dynamics",
+        "method_INTER_COM_Distance_Protein_vs_ATP": "dynamics INTER_COM_Distance_Protein_vs_ATP molecular dynamics",
+        "theme_method_INTER_COM_Distance_Protein_vs_ATP": "pseudokinase INTER_COM_Distance_Protein_vs_ATP molecular dynamics",
+        "method_Radius_of_Gyration": "dynamics radius of gyration compactness",
+        "theme_method_Radius_of_Gyration": "pseudokinase radius of gyration compactness",
+        "method_DSSP_SecondaryStructure": "dynamics DSSP_SecondaryStructure molecular dynamics",
+        "theme_method_DSSP_SecondaryStructure": "pseudokinase DSSP_SecondaryStructure molecular dynamics",
+        "result_rmsd": "dynamics pseudokinase conformational stability RMSD molecular dynamics",
+        "theme_result_rmsd": "pseudokinase conformational stability RMSD molecular dynamics",
+        "result_rmsf": "dynamics pseudokinase residue flexibility RMSF domain molecular dynamics",
+        "theme_result_rmsf": "pseudokinase residue flexibility RMSF domain molecular dynamics",
+        "result_rg": "dynamics pseudokinase radius of gyration domain stability molecular dynamics",
+        "theme_result_rg": "pseudokinase radius of gyration domain stability molecular dynamics",
+        "hypothesis_objective": "dynamics alloster holo molecular dynamics",
+        "theme_objective": "alloster holo molecular dynamics protein structure",
+        "theme_family_structure": "pseudokinase ligand structure function conformational dynamics",
+        "theme_ligand": "atp binding protein molecular dynamics simulation",
+        "_fallback_general": "molecular dynamics protein conformational stability review",
+        "theme_obs_allostery": "dynamics allosteric correlated motions molecular dynamics",
+        "obs_rmsf_hotspots": "dynamics GLY24 THR258 SER26 flexibility molecular dynamics",
+        "theme_obs_flexibility": "protein residue flexibility RMSF activation loop molecular dynamics"
+      }
+    },
+    "2_gather": {
+      "n_candidates": 28,
+      "source_counts": {
+        "unknown": 28
+      },
+      "candidates": [
+        {
+          "title": "Structures of the HER2-HER3-NRG1\u03b2 complex reveal a dynamic dimer interface.",
+          "year": 2021,
+          "pmid": "34759323",
+          "doi": "10.1038/s41586-021-04084-z",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/34759323/",
+          "query_key": "pubmed:alias_0_dynamics"
+        },
+        {
+          "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+          "year": 2022,
+          "pmid": "35108525",
+          "doi": "10.1016/j.celrep.2021.110291",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35108525/",
+          "query_key": "pubmed:alias_0_dynamics"
+        },
+        {
+          "title": "Self-inhibition of HER2 and HER3 at fever temperatures may prevent their hetero-dimerization.",
+          "year": 2024,
+          "pmid": "37342980",
+          "doi": "10.1080/07391102.2023.2227700",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37342980/",
+          "query_key": "pubmed:alias_0_dynamics"
+        },
+        {
+          "title": "Modulating pseudokinase conformation from the ATP-binding site.",
+          "year": 2026,
+          "pmid": "42759518",
+          "doi": "10.1016/j.str.2026.08.013",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42759518/",
+          "query_key": "pubmed:alias_0_dynamics"
+        },
+        {
+          "title": "Extensive conformational and physical plasticity protects HER2-HER3 tumorigenic signaling.",
+          "year": 2022,
+          "pmid": "35108526",
+          "doi": "10.1016/j.celrep.2021.110285",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35108526/",
+          "query_key": "pubmed:alias_0_flexibility"
+        },
+        {
+          "title": "HER kinase inhibition in patients with HER2- and HER3-mutant cancers.",
+          "year": 2018,
+          "pmid": "29420467",
+          "doi": "10.1038/nature25475",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/29420467/",
+          "query_key": "pubmed:alias_0_functional"
+        },
+        {
+          "title": "Targeting PI3K/AKT/mTOR and MAPK Signaling Pathways in Gastric Cancer.",
+          "year": 2024,
+          "pmid": "38339127",
+          "doi": "10.3390/ijms25031848",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/38339127/",
+          "query_key": "pubmed:alias_0_functional"
+        },
+        {
+          "title": "ErbB3 Governs Endothelial Dysfunction in Hypoxia-Induced Pulmonary Hypertension.",
+          "year": 2024,
+          "pmid": "38214194",
+          "doi": "10.1161/CIRCULATIONAHA.123.067005",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/38214194/",
+          "query_key": "pubmed:alias_0_functional"
+        },
+        {
+          "title": "Mechanisms of GZ17-6.02 resistance.",
+          "year": 2022,
+          "pmid": "35276694",
+          "doi": "10.1097/CAD.0000000000001203",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35276694/",
+          "query_key": "pubmed:alias_0_functional"
+        },
+        {
+          "title": "Full-length transcriptome atlas of gallbladder cancer reveals trastuzumab resistance conferred by ERBB2 alternative splicing.",
+          "year": 2025,
+          "pmid": "39948369",
+          "doi": "10.1038/s41392-025-02150-w",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39948369/",
+          "query_key": "pubmed:alias_0_computational"
+        },
+        {
+          "title": "Circulating tumor cell plasticity determines breast cancer therapy resistance via neuregulin 1-HER3 signaling.",
+          "year": 2025,
+          "pmid": "39753722",
+          "doi": "10.1038/s43018-024-00882-2",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39753722/",
+          "query_key": "pubmed:alias_0_computational"
+        },
+        {
+          "title": "Stromal-derived NRG1 enables oncogenic KRAS bypass in pancreas cancer.",
+          "year": 2023,
+          "pmid": "37775182",
+          "doi": "10.1101/gad.351037.123",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37775182/",
+          "query_key": "pubmed:alias_0_computational"
+        },
+        {
+          "title": "ErbB family receptor dimerization dynamics and dysregulation via long-term single-molecule imaging.",
+          "year": 2026,
+          "pmid": "42054992",
+          "doi": "10.1016/j.cell.2026.04.010",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42054992/",
+          "query_key": "pubmed:protein_0_dynamics"
+        },
+        {
+          "title": "HER3-targeted protein chimera forms endosomolytic capsomeres and self-assembles into stealth nucleocapsids for systemic tumor homing of RNA interference in vivo.",
+          "year": 2019,
+          "pmid": "31617560",
+          "doi": "10.1093/nar/gkz900",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31617560/",
+          "query_key": "pubmed:protein_0_mechanism"
+        },
+        {
+          "title": "Hydrogen bond analysis of the EGFR-ErbB3 heterodimer related to non-small cell lung cancer and drug resistance.",
+          "year": 2019,
+          "pmid": "30593826",
+          "doi": "10.1016/j.jtbi.2018.12.035",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/30593826/",
+          "query_key": "pubmed:protein_0_mechanism"
+        },
+        {
+          "title": "Exploring the Binding Mechanism of NRG1-ERBB3 Complex and Discovery of Potent Natural Products to Reduce Diabetes-Assisted Breast Cancer Progression.",
+          "year": 2023,
+          "pmid": "37389721",
+          "doi": "10.1007/s12539-023-00566-y",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37389721/",
+          "query_key": "pubmed:protein_0_mechanism"
+        },
+        {
+          "title": "Atomistic Simulations of Sarcomere Proteins.",
+          "year": 2024,
+          "pmid": "38038842",
+          "doi": "10.1007/978-1-0716-3527-8_3",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/38038842/",
+          "query_key": "pubmed:alias_1_dynamics"
+        },
+        {
+          "title": "Generative molecular dynamics.",
+          "year": 2026,
+          "pmid": "41544599",
+          "doi": "10.1016/j.sbi.2025.103213",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/41544599/",
+          "query_key": "pubmed:alias_1_dynamics"
+        },
+        {
+          "title": "Computer-Assisted Design and Characterization of RNA Nanostructures.",
+          "year": 2023,
+          "pmid": "37572271",
+          "doi": "10.1007/978-1-0716-3417-2_2",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37572271/",
+          "query_key": "pubmed:alias_1_dynamics"
+        },
+        {
+          "title": "Ligand-Binding Calculations with Metadynamics.",
+          "year": 2019,
+          "pmid": "31396906",
+          "doi": "10.1007/978-1-4939-9608-7_10",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31396906/",
+          "query_key": "pubmed:alias_1_dynamics"
+        },
+        {
+          "title": "Discrete analyses of protein dynamics.",
+          "year": 2020,
+          "pmid": "31361191",
+          "doi": "10.1080/07391102.2019.1650112",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31361191/",
+          "query_key": "pubmed:alias_1_flexibility"
+        },
+        {
+          "title": "Carbohydrate Structure Database oligosaccharide conformation tool.",
+          "year": 2022,
+          "pmid": "35275211",
+          "doi": "10.1093/glycob/cwac011",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35275211/",
+          "query_key": "pubmed:alias_1_flexibility"
+        },
+        {
+          "title": "Ensemble determination by NMR data deconvolution.",
+          "year": 2023,
+          "pmid": "37169885",
+          "doi": "10.1038/s41570-023-00494-x",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37169885/",
+          "query_key": "pubmed:alias_1_flexibility"
+        },
+        {
+          "title": "Dynamic allostery in substrate binding by human thymidylate synthase.",
+          "year": 2022,
+          "pmid": "36200982",
+          "doi": "10.7554/eLife.79915",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/36200982/",
+          "query_key": "pubmed:alias_1_flexibility"
+        },
+        {
+          "title": "Society for Endocrinology Clinical Practice Guideline for the Evaluation of Androgen Excess in Women.",
+          "year": 2025,
+          "pmid": "40364581",
+          "doi": "10.1111/cen.15265",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/40364581/",
+          "query_key": "pubmed:alias_1_functional"
+        },
+        {
+          "title": "Adaptive Deep Brain Stimulation: From Experimental Evidence Toward Practical Implementation.",
+          "year": 2023,
+          "pmid": "37148553",
+          "doi": "10.1002/mds.29415",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37148553/",
+          "query_key": "pubmed:alias_1_functional"
+        },
+        {
+          "title": "Shared structural mechanisms of general anaesthetics and benzodiazepines.",
+          "year": 2020,
+          "pmid": "32879488",
+          "doi": "10.1038/s41586-020-2654-5",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32879488/",
+          "query_key": "pubmed:alias_1_functional"
+        },
+        {
+          "title": "Cingulate dynamics track depression recovery with deep brain stimulation.",
+          "year": 2023,
+          "pmid": "37730990",
+          "doi": "10.1038/s41586-023-06541-3",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37730990/",
+          "query_key": "pubmed:alias_1_functional"
+        }
+      ]
+    },
+    "3_rank_screen": {
+      "n_ranked": 12,
+      "max_refs": 12,
+      "aliases_used": [
+        "dynamics",
+        "ERBB3",
+        "backbone"
+      ],
+      "ranked": [
+        {
+          "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+          "year": 2022,
+          "pmid": "35108525",
+          "doi": "10.1016/j.celrep.2021.110291",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35108525/",
+          "relevance_note": "Mentions: dynamics",
+          "query_key": "pubmed:alias_0_dynamics",
+          "score": 96,
+          "matched_aliases": [
+            "dynamics"
+          ]
+        },
+        {
+          "title": "Structures of the HER2-HER3-NRG1\u03b2 complex reveal a dynamic dimer interface.",
+          "year": 2021,
+          "pmid": "34759323",
+          "doi": "10.1038/s41586-021-04084-z",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/34759323/",
+          "relevance_note": "Mentions: dynamics",
+          "query_key": "pubmed:alias_0_dynamics",
+          "score": 70,
+          "matched_aliases": [
+            "dynamics"
+          ]
+        },
+        {
+          "title": "Discrete analyses of protein dynamics.",
+          "year": 2020,
+          "pmid": "31361191",
+          "doi": "10.1080/07391102.2019.1650112",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31361191/",
+          "relevance_note": "Mentions: dynamics, proteins",
+          "query_key": "pubmed:alias_1_flexibility",
+          "score": 69,
+          "matched_aliases": [
+            "dynamics",
+            "proteins"
+          ]
+        },
+        {
+          "title": "Modulating pseudokinase conformation from the ATP-binding site.",
+          "year": 2026,
+          "pmid": "42759518",
+          "doi": "10.1016/j.str.2026.08.013",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42759518/",
+          "relevance_note": "Mentions: dynamics, ERBB3",
+          "query_key": "pubmed:alias_0_dynamics",
+          "score": 64,
+          "matched_aliases": [
+            "dynamics",
+            "ERBB3"
+          ]
+        },
+        {
+          "title": "Atomistic Simulations of Sarcomere Proteins.",
+          "year": 2024,
+          "pmid": "38038842",
+          "doi": "10.1007/978-1-0716-3527-8_3",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/38038842/",
+          "relevance_note": "Mentions: dynamics, proteins",
+          "query_key": "pubmed:alias_1_dynamics",
+          "score": 63,
+          "matched_aliases": [
+            "dynamics",
+            "proteins"
+          ]
+        },
+        {
+          "title": "Shared structural mechanisms of general anaesthetics and benzodiazepines.",
+          "year": 2020,
+          "pmid": "32879488",
+          "doi": "10.1038/s41586-020-2654-5",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32879488/",
+          "relevance_note": "Mentions: dynamics",
+          "query_key": "pubmed:alias_1_functional",
+          "score": 60,
+          "matched_aliases": [
+            "dynamics"
+          ]
+        },
+        {
+          "title": "Exploring the Binding Mechanism of NRG1-ERBB3 Complex and Discovery of Potent Natural Products to Reduce Diabetes-Assisted Breast Cancer Progression.",
+          "year": 2023,
+          "pmid": "37389721",
+          "doi": "10.1007/s12539-023-00566-y",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37389721/",
+          "relevance_note": "Mentions: dynamics, ERBB3",
+          "query_key": "pubmed:protein_0_mechanism",
+          "score": 55,
+          "matched_aliases": [
+            "dynamics",
+            "ERBB3"
+          ]
+        },
+        {
+          "title": "HER3-targeted protein chimera forms endosomolytic capsomeres and self-assembles into stealth nucleocapsids for systemic tumor homing of RNA interference in vivo.",
+          "year": 2019,
+          "pmid": "31617560",
+          "doi": "10.1093/nar/gkz900",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31617560/",
+          "relevance_note": "Mentions: dynamics, ERBB3",
+          "query_key": "pubmed:protein_0_mechanism",
+          "score": 54,
+          "matched_aliases": [
+            "dynamics",
+            "ERBB3"
+          ]
+        },
+        {
+          "title": "Dynamic allostery in substrate binding by human thymidylate synthase.",
+          "year": 2022,
+          "pmid": "36200982",
+          "doi": "10.7554/eLife.79915",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/36200982/",
+          "relevance_note": "Matches family / dynamics / analysis themes",
+          "query_key": "pubmed:alias_1_flexibility",
+          "score": 39
+        },
+        {
+          "title": "Hydrogen bond analysis of the EGFR-ErbB3 heterodimer related to non-small cell lung cancer and drug resistance.",
+          "year": 2019,
+          "pmid": "30593826",
+          "doi": "10.1016/j.jtbi.2018.12.035",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/30593826/",
+          "relevance_note": "Mentions: dynamics, ERBB3",
+          "query_key": "pubmed:protein_0_mechanism",
+          "score": 52,
+          "matched_aliases": [
+            "dynamics",
+            "ERBB3"
+          ]
+        },
+        {
+          "title": "Computer-Assisted Design and Characterization of RNA Nanostructures.",
+          "year": 2023,
+          "pmid": "37572271",
+          "doi": "10.1007/978-1-0716-3417-2_2",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37572271/",
+          "relevance_note": "Mentions: dynamics, compute",
+          "query_key": "pubmed:alias_1_dynamics",
+          "score": 52,
+          "matched_aliases": [
+            "dynamics",
+            "compute"
+          ]
+        },
+        {
+          "title": "Cingulate dynamics track depression recovery with deep brain stimulation.",
+          "year": 2023,
+          "pmid": "37730990",
+          "doi": "10.1038/s41586-023-06541-3",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37730990/",
+          "relevance_note": "Mentions: dynamics",
+          "query_key": "pubmed:alias_1_functional",
+          "score": 51,
+          "matched_aliases": [
+            "dynamics"
+          ]
+        }
+      ]
+    },
+    "4_evidence_passages": {
+      "n_refs_examined": 5,
+      "evidence": [
+        {
+          "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+          "pmid": "35108525",
+          "doi": "10.1016/j.celrep.2021.110291",
+          "pmcid": "PMC8889928",
+          "source": null,
+          "evidence_source": "europe_pmc_fulltext",
+          "passages": [
+            "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors.",
+            "ATP binding within the catalytically inactive HER3 KD provides structural rigidity that is important for signaling, but this is mimicked, not opposed, by small molecule ATP analogs, reported here in a bosutinib-bound crystal structure.",
+            "Mutational disruption of ATP binding and molecular dynamics simulation of the apo KD of HER3 identify a conformational coupling of the ATP pocket with a hydrophobic AP-2 pocket, analogous to EGFR, that is critical for tumorigenic signaling and feasible for targeting."
+          ],
+          "relevance_note": "Mentions: dynamics"
+        },
+        {
+          "title": "Structures of the HER2-HER3-NRG1\u03b2 complex reveal a dynamic dimer interface.",
+          "pmid": "34759323",
+          "doi": "10.1038/s41586-021-04084-z",
+          "pmcid": "PMC9298180",
+          "source": null,
+          "evidence_source": "abstract",
+          "passages": [
+            "Human epidermal growth factor receptor 2 (HER2) and HER3 form a potent pro-oncogenic heterocomplex<sup>1-3</sup> upon binding of growth factor neuregulin-1\u03b2 (NRG1\u03b2).",
+            "We show that the dimerization arm of NRG1\u03b2-bound HER3 is unresolved because the apo HER2 monomer does not undergo a ligand-induced conformational change needed to establish a HER3 dimerization arm-binding pocket.",
+            "The unique features of a singly liganded HER2-HER3 heterodimer underscore the allosteric sensing of ligand occupancy by the dimerization interface and explain why extracellular domains of HER2 do not homo-associate via a canonical active dimer interface."
+          ],
+          "relevance_note": "Mentions: dynamics"
+        },
+        {
+          "title": "Discrete analyses of protein dynamics.",
+          "pmid": "31361191",
+          "doi": "10.1080/07391102.2019.1650112",
+          "pmcid": null,
+          "source": null,
+          "evidence_source": "abstract",
+          "passages": [
+            "We analysed molecular dynamics to investigate protein flexibility locally, using classical approaches such as RMSf, solvent accessibility, but also innovative approaches such as local entropy.",
+            "Abbreviations<i>N</i><sub>eq</sub>number of equivalentPBProtein BlocksPDBProtein DataBankRMSfroot mean square fluctuationsCommunicated by Ramaswamy H."
+          ],
+          "relevance_note": "Mentions: dynamics, proteins"
+        },
+        {
+          "title": "Modulating pseudokinase conformation from the ATP-binding site.",
+          "pmid": "42759518",
+          "doi": "10.1016/j.str.2026.08.013",
+          "pmcid": "PMC13618211",
+          "source": null,
+          "evidence_source": "abstract",
+          "passages": [
+            "Focusing on the three PsKDs in receptor tyrosine kinases (RTKs) that retain nucleotide binding (ErbB3, EphB6, and EphA10), we used hydrogen-deuterium exchange mass spectrometry (HDX-MS) to ask whether different small molecules can promote distinct changes in conformation or dynamics.",
+            "We detected distinct conformational effects in different locations within the PsKDs when different small molecules bind their respective ATP-binding sites."
+          ],
+          "relevance_note": "Mentions: dynamics, ERBB3"
+        },
+        {
+          "title": "Atomistic Simulations of Sarcomere Proteins.",
+          "pmid": "38038842",
+          "doi": "10.1007/978-1-0716-3527-8_3",
+          "pmcid": null,
+          "source": null,
+          "evidence_source": "abstract",
+          "passages": [
+            "Computational approaches such as molecular dynamics simulation can resolve such dynamics with unrivalled spatial and temporal resolution."
+          ],
+          "relevance_note": "Mentions: dynamics, proteins"
+        }
+      ]
+    },
+    "5_compare_evidence": {
+      "n_observations": 6,
+      "comparisons": [
+        {
+          "observation_id": "obs_dccm_1",
+          "observation": "dynamics: correlated motions / allosteric coupling observed",
+          "kind": "correlated_motions",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            },
+            {
+              "title": "Structures of the HER2-HER3-NRG1\u03b2 complex reveal a dynamic dimer interface.",
+              "pmid": "34759323",
+              "doi": "10.1038/s41586-021-04084-z",
+              "evidence_source": "abstract",
+              "passage": "Human epidermal growth factor receptor 2 (HER2) and HER3 form a potent pro-oncogenic heterocomplex<sup>1-3</sup> upon binding of growth factor neuregulin-1\u03b2 (NRG1\u03b2)."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsd_2",
+          "observation": "dynamics: modest backbone RMSD / local conformational stability (mean 1.36 \u00c5, max 1.84 \u00c5)",
+          "kind": "rmsd_stability",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            },
+            {
+              "title": "Discrete analyses of protein dynamics.",
+              "pmid": "31361191",
+              "doi": "10.1080/07391102.2019.1650112",
+              "evidence_source": "abstract",
+              "passage": "We analysed molecular dynamics to investigate protein flexibility locally, using classical approaches such as RMSf, solvent accessibility, but also innovative approaches such as local entropy."
+            },
+            {
+              "title": "Atomistic Simulations of Sarcomere Proteins.",
+              "pmid": "38038842",
+              "doi": "10.1007/978-1-0716-3527-8_3",
+              "evidence_source": "abstract",
+              "passage": "Computational approaches such as molecular dynamics simulation can resolve such dynamics with unrivalled spatial and temporal resolution."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsf_3",
+          "observation": "dynamics: RMSF hotspots / flexible sites: GLY24 (2.40 \u00c5), THR258 (2.10 \u00c5), SER26 (1.98 \u00c5), GLU23 (1.89 \u00c5), GLU25 (1.88 \u00c5)",
+          "kind": "rmsf_hotspots",
+          "category": "plausible",
+          "supporting": [
+            {
+              "title": "Discrete analyses of protein dynamics.",
+              "pmid": "31361191",
+              "doi": "10.1080/07391102.2019.1650112",
+              "evidence_source": "abstract",
+              "passage": "We analysed molecular dynamics to investigate protein flexibility locally, using classical approaches such as RMSf, solvent accessibility, but also innovative approaches such as local entropy."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_ligand_4",
+          "observation": "dynamics: ligand/pocket dynamics from Ligand_Pocket_COM_Distance",
+          "kind": "ligand_or_pocket",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            },
+            {
+              "title": "Structures of the HER2-HER3-NRG1\u03b2 complex reveal a dynamic dimer interface.",
+              "pmid": "34759323",
+              "doi": "10.1038/s41586-021-04084-z",
+              "evidence_source": "abstract",
+              "passage": "Human epidermal growth factor receptor 2 (HER2) and HER3 form a potent pro-oncogenic heterocomplex<sup>1-3</sup> upon binding of growth factor neuregulin-1\u03b2 (NRG1\u03b2)."
+            },
+            {
+              "title": "Modulating pseudokinase conformation from the ATP-binding site.",
+              "pmid": "42759518",
+              "doi": "10.1016/j.str.2026.08.013",
+              "evidence_source": "abstract",
+              "passage": "Focusing on the three PsKDs in receptor tyrosine kinases (RTKs) that retain nucleotide binding (ErbB3, EphB6, and EphA10), we used hydrogen-deuterium exchange mass spectrometry (HDX-MS) to ask whether different small molecules can promote distinct changes in conformation or dynamics."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_ligand_5",
+          "observation": "dynamics: ligand/pocket dynamics from INTER_COM_Distance_Protein_vs_ATP",
+          "kind": "ligand_or_pocket",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            },
+            {
+              "title": "Structures of the HER2-HER3-NRG1\u03b2 complex reveal a dynamic dimer interface.",
+              "pmid": "34759323",
+              "doi": "10.1038/s41586-021-04084-z",
+              "evidence_source": "abstract",
+              "passage": "Human epidermal growth factor receptor 2 (HER2) and HER3 form a potent pro-oncogenic heterocomplex<sup>1-3</sup> upon binding of growth factor neuregulin-1\u03b2 (NRG1\u03b2)."
+            },
+            {
+              "title": "Modulating pseudokinase conformation from the ATP-binding site.",
+              "pmid": "42759518",
+              "doi": "10.1016/j.str.2026.08.013",
+              "evidence_source": "abstract",
+              "passage": "Focusing on the three PsKDs in receptor tyrosine kinases (RTKs) that retain nucleotide binding (ErbB3, EphB6, and EphA10), we used hydrogen-deuterium exchange mass spectrometry (HDX-MS) to ask whether different small molecules can promote distinct changes in conformation or dynamics."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rg_6",
+          "observation": "dynamics: radius of gyration / compactness (mean 18.729 \u00c5)",
+          "kind": "compactness",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            },
+            {
+              "title": "Discrete analyses of protein dynamics.",
+              "pmid": "31361191",
+              "doi": "10.1080/07391102.2019.1650112",
+              "evidence_source": "abstract",
+              "passage": "We analysed molecular dynamics to investigate protein flexibility locally, using classical approaches such as RMSf, solvent accessibility, but also innovative approaches such as local entropy."
+            },
+            {
+              "title": "Atomistic Simulations of Sarcomere Proteins.",
+              "pmid": "38038842",
+              "doi": "10.1007/978-1-0716-3527-8_3",
+              "evidence_source": "abstract",
+              "passage": "Computational approaches such as molecular dynamics simulation can resolve such dynamics with unrivalled spatial and temporal resolution."
+            }
+          ],
+          "conflicting": []
+        }
+      ]
+    },
+    "6_candidates_for_report": {
+      "n": 12,
+      "note": "These ranked candidates are passed to the literature-review LLM; uncited papers are pruned after writing (see Step 6 final selection).",
+      "candidates": [
+        {
+          "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+          "year": 2022,
+          "pmid": "35108525",
+          "doi": "10.1016/j.celrep.2021.110291",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35108525/",
+          "relevance_note": "Mentions: dynamics",
+          "query_key": "pubmed:alias_0_dynamics",
+          "score": 96,
+          "matched_aliases": [
+            "dynamics"
+          ]
+        },
+        {
+          "title": "Structures of the HER2-HER3-NRG1\u03b2 complex reveal a dynamic dimer interface.",
+          "year": 2021,
+          "pmid": "34759323",
+          "doi": "10.1038/s41586-021-04084-z",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/34759323/",
+          "relevance_note": "Mentions: dynamics",
+          "query_key": "pubmed:alias_0_dynamics",
+          "score": 70,
+          "matched_aliases": [
+            "dynamics"
+          ]
+        },
+        {
+          "title": "Discrete analyses of protein dynamics.",
+          "year": 2020,
+          "pmid": "31361191",
+          "doi": "10.1080/07391102.2019.1650112",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31361191/",
+          "relevance_note": "Mentions: dynamics, proteins",
+          "query_key": "pubmed:alias_1_flexibility",
+          "score": 69,
+          "matched_aliases": [
+            "dynamics",
+            "proteins"
+          ]
+        },
+        {
+          "title": "Modulating pseudokinase conformation from the ATP-binding site.",
+          "year": 2026,
+          "pmid": "42759518",
+          "doi": "10.1016/j.str.2026.08.013",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42759518/",
+          "relevance_note": "Mentions: dynamics, ERBB3",
+          "query_key": "pubmed:alias_0_dynamics",
+          "score": 64,
+          "matched_aliases": [
+            "dynamics",
+            "ERBB3"
+          ]
+        },
+        {
+          "title": "Atomistic Simulations of Sarcomere Proteins.",
+          "year": 2024,
+          "pmid": "38038842",
+          "doi": "10.1007/978-1-0716-3527-8_3",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/38038842/",
+          "relevance_note": "Mentions: dynamics, proteins",
+          "query_key": "pubmed:alias_1_dynamics",
+          "score": 63,
+          "matched_aliases": [
+            "dynamics",
+            "proteins"
+          ]
+        },
+        {
+          "title": "Shared structural mechanisms of general anaesthetics and benzodiazepines.",
+          "year": 2020,
+          "pmid": "32879488",
+          "doi": "10.1038/s41586-020-2654-5",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32879488/",
+          "relevance_note": "Mentions: dynamics",
+          "query_key": "pubmed:alias_1_functional",
+          "score": 60,
+          "matched_aliases": [
+            "dynamics"
+          ]
+        },
+        {
+          "title": "Exploring the Binding Mechanism of NRG1-ERBB3 Complex and Discovery of Potent Natural Products to Reduce Diabetes-Assisted Breast Cancer Progression.",
+          "year": 2023,
+          "pmid": "37389721",
+          "doi": "10.1007/s12539-023-00566-y",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37389721/",
+          "relevance_note": "Mentions: dynamics, ERBB3",
+          "query_key": "pubmed:protein_0_mechanism",
+          "score": 55,
+          "matched_aliases": [
+            "dynamics",
+            "ERBB3"
+          ]
+        },
+        {
+          "title": "HER3-targeted protein chimera forms endosomolytic capsomeres and self-assembles into stealth nucleocapsids for systemic tumor homing of RNA interference in vivo.",
+          "year": 2019,
+          "pmid": "31617560",
+          "doi": "10.1093/nar/gkz900",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31617560/",
+          "relevance_note": "Mentions: dynamics, ERBB3",
+          "query_key": "pubmed:protein_0_mechanism",
+          "score": 54,
+          "matched_aliases": [
+            "dynamics",
+            "ERBB3"
+          ]
+        },
+        {
+          "title": "Dynamic allostery in substrate binding by human thymidylate synthase.",
+          "year": 2022,
+          "pmid": "36200982",
+          "doi": "10.7554/eLife.79915",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/36200982/",
+          "relevance_note": "Matches family / dynamics / analysis themes",
+          "query_key": "pubmed:alias_1_flexibility",
+          "score": 39
+        },
+        {
+          "title": "Hydrogen bond analysis of the EGFR-ErbB3 heterodimer related to non-small cell lung cancer and drug resistance.",
+          "year": 2019,
+          "pmid": "30593826",
+          "doi": "10.1016/j.jtbi.2018.12.035",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/30593826/",
+          "relevance_note": "Mentions: dynamics, ERBB3",
+          "query_key": "pubmed:protein_0_mechanism",
+          "score": 52,
+          "matched_aliases": [
+            "dynamics",
+            "ERBB3"
+          ]
+        },
+        {
+          "title": "Computer-Assisted Design and Characterization of RNA Nanostructures.",
+          "year": 2023,
+          "pmid": "37572271",
+          "doi": "10.1007/978-1-0716-3417-2_2",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37572271/",
+          "relevance_note": "Mentions: dynamics, compute",
+          "query_key": "pubmed:alias_1_dynamics",
+          "score": 52,
+          "matched_aliases": [
+            "dynamics",
+            "compute"
+          ]
+        },
+        {
+          "title": "Cingulate dynamics track depression recovery with deep brain stimulation.",
+          "year": 2023,
+          "pmid": "37730990",
+          "doi": "10.1038/s41586-023-06541-3",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37730990/",
+          "relevance_note": "Mentions: dynamics",
+          "query_key": "pubmed:alias_1_functional",
+          "score": 51,
+          "matched_aliases": [
+            "dynamics"
+          ]
+        }
+      ]
+    },
+    "6_final_cited": {
+      "n_cited": 5,
+      "cited": [
+        {
+          "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+          "year": 2022,
+          "pmid": "35108525",
+          "doi": "10.1016/j.celrep.2021.110291",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35108525/",
+          "query_key": "pubmed:alias_0_dynamics"
+        },
+        {
+          "title": "Discrete analyses of protein dynamics.",
+          "year": 2020,
+          "pmid": "31361191",
+          "doi": "10.1080/07391102.2019.1650112",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31361191/",
+          "query_key": "pubmed:alias_1_flexibility"
+        },
+        {
+          "title": "Modulating pseudokinase conformation from the ATP-binding site.",
+          "year": 2026,
+          "pmid": "42759518",
+          "doi": "10.1016/j.str.2026.08.013",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42759518/",
+          "query_key": "pubmed:alias_0_dynamics"
+        },
+        {
+          "title": "Atomistic Simulations of Sarcomere Proteins.",
+          "year": 2024,
+          "pmid": "38038842",
+          "doi": "10.1007/978-1-0716-3527-8_3",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/38038842/",
+          "query_key": "pubmed:alias_1_dynamics"
+        },
+        {
+          "title": "Exploring the Binding Mechanism of NRG1-ERBB3 Complex and Discovery of Potent Natural Products to Reduce Diabetes-Assisted Breast Cancer Progression.",
+          "year": 2023,
+          "pmid": "37389721",
+          "doi": "10.1007/s12539-023-00566-y",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37389721/",
+          "query_key": "pubmed:protein_0_mechanism"
+        }
+      ]
+    }
+  },
+  "identity": {
+    "protein": "dynamics",
+    "gene": "dynamics",
+    "aliases": [
+      "dynamics"
+    ],
+    "family": "pseudokinase",
+    "uniprot_id": "p21860_ATP_MG",
+    "source": "goal_text"
+  }
+}

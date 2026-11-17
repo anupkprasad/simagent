@@ -176,8 +176,9 @@ Paid API: add `--llm-provider openai --llm-api-key "$OPENAI_API_KEY"` (and a
 matching `--llm-model` / `--llm-base-url`). Offline heuristic plans: `--no-llm`.
 
 Hands-on walkthrough (apo/holo panel, status, reports, provenance):
-[tutorial/TUTORIAL.md](tutorial/TUTORIAL.md). The tutorial folder ships the goal,
-launcher, and starting PDBs. Reports and trajectories are created when you run it.
+[tutorial/TUTORIAL.md](tutorial/TUTORIAL.md). The published tutorial includes the
+goal, launcher, starting PDBs, analysis plots, tables, and HTML reports.
+Trajectories, coordinates, topologies, and force-field files stay local.
 
 ---
 
@@ -408,7 +409,7 @@ src/
   simsetup/                # GROMACS system builder
   analysis/                # Combined cross-sim analysis
   reporter/                # Report generation
-tutorial/                  # Fresh apo/holo starter (goal, launcher, four PDBs)
+tutorial/                  # Apo/holo tutorial: starter, plots, tables, and reports
 tutorial/TUTORIAL.md       # How to run that tutorial and where results appear
 docs/
   PROJECT.md               # Product overview, layout, CLI, run outputs

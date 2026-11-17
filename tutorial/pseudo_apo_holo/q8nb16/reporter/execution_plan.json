@@ -1,0 +1,75 @@
+{
+  "timestamp": "N/A",
+  "reasoning": "The user wants a comprehensive HTML report for a single\u2011simulation analysis. The workflow requires parsing the pre\u2011generated analysis_summary.jsonl, extracting all relevant metrics and image paths, optionally enriching the content with literature that discusses activation\u2011loop dynamics and allosteric regulation for ERBB3, VRK3, MLKL, and TITIN, and finally generating a professional report that embeds the plots and key statistics. Because the user explicitly asked not to use the combined report tool, we will only generate one per\u2011simulation report and leave further merging to a higher\u2011level step if needed.",
+  "overview": "1\ufe0f\u20e3 Read the analysis summary. 2\ufe0f\u20e3 Build literature queries tailored to each protein and the analysis types. 3\ufe0f\u20e3 Retrieve top PubMed hits for each query. 4\ufe0f\u20e3 Pass the parsed analysis data and literature references to `generate_html_report` to produce `report.html`. This keeps the workflow modular, reproducible, and easy to extend.",
+  "report_focus": [
+    "Activation\u2011loop conformations in ERBB3, VRK3, MLKL, TITIN",
+    "Allosteric regulation revealed by DCCM and RMSF",
+    "Comparison of apo vs holo dynamics",
+    "MD/experimental dynamics context"
+  ],
+  "literature_queries": [
+    "ERBB3 activation loop dynamics AND (RMSD OR RMSF)",
+    "VRK3 allosteric regulation AND kinase loop",
+    "MLKL phosphorylation and activation loop conformation",
+    "TITIN domain flexibility AND MD simulations",
+    "C\u03b1 DCCM analysis in protein kinases"
+  ],
+  "estimated_complexity": "medium",
+  "steps": [
+    {
+      "name": "Read Analysis Summary",
+      "description": "Parse the JSONL file containing all computed metrics, statistics, and image paths for the current system.",
+      "tool_name": "read_analysis_summary",
+      "tool_params": {
+        "summary_file": "analysis_summary.jsonl"
+      },
+      "reason": "We need the raw data to feed into the report generator and to identify which literature searches are relevant."
+    },
+    {
+      "name": "Generate Literature Queries",
+      "description": "Create PubMed search queries that combine protein aliases, family terms, and the specific analysis metrics (e.g., RMSD, RMSF, DSSP) to fetch papers describing activation\u2011loop conformations and allosteric regulation.",
+      "tool_name": "generate_literature_queries",
+      "tool_params": {
+        "analysis_types": [
+          "RMSD",
+          "RMSF",
+          "DSSP",
+          "C\u03b1 DCCM",
+          "Radius of Gyration"
+        ],
+        "user_goal": "Compare backbone and loop dynamics across apo/holo states and relate to known allosteric mechanisms.",
+        "protein_name": "Protein name inferred from the PDB ID in the directory name (e.g., ERBB3, VRK3, MLKL, TITIN)",
+        "aliases": [],
+        "gene_name": "",
+        "uniprot_id": "",
+        "analysis_stats": {}
+      },
+      "reason": "Targeted literature queries maximize the relevance of retrieved papers."
+    },
+    {
+      "name": "Search PubMed for Relevant Literature",
+      "description": "Execute each query from the previous step, retrieve up to 5 recent papers (last 10 years) per query, and collect titles, authors, abstracts, PubMed IDs, and DOI links.",
+      "tool_name": "search_pubmed",
+      "tool_params": {
+        "query": "placeholder",
+        "max_results": 5,
+        "include_abstracts": true,
+        "max_age_years": 10
+      },
+      "reason": "We need actual literature references to embed in the report."
+    },
+    {
+      "name": "Generate HTML Report",
+      "description": "Create a comprehensive HTML report named `report.html` that embeds all analysis plots, presents key statistics, and lists the curated literature references.",
+      "tool_name": "generate_html_report",
+      "tool_params": {
+        "analysis_data": "placeholder",
+        "literature_refs": "placeholder",
+        "report_type": "comprehensive",
+        "output_file": "report.html"
+      },
+      "reason": "This is the final deliverable the user requested."
+    }
+  ]
+}

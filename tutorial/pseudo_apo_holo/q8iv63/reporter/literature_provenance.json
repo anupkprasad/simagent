@@ -1,0 +1,1026 @@
+{
+  "pipeline": "evidence_grounded_literature_v1",
+  "steps": {
+    "1_observations": {
+      "n": 5,
+      "observations": [
+        {
+          "id": "obs_rmsd_1",
+          "kind": "rmsd_stability",
+          "analysis_type": "RMSD",
+          "statement": "Serine/threonine-protein kinase VRK3: modest backbone RMSD / local conformational stability (mean 1.33 \u00c5, max 1.86 \u00c5)",
+          "metrics": {
+            "mean_rmsd_angstrom": 1.33,
+            "std_rmsd_angstrom": 0.479,
+            "min_rmsd_angstrom": 0.0,
+            "max_rmsd_angstrom": 1.865
+          },
+          "keywords": [
+            "rmsd",
+            "conformational stability",
+            "backbone",
+            "molecular dynamics"
+          ]
+        },
+        {
+          "id": "obs_rmsf_2",
+          "kind": "rmsf_hotspots",
+          "analysis_type": "RMSF",
+          "statement": "Serine/threonine-protein kinase VRK3: RMSF hotspots / flexible sites: PRO30 (2.88 \u00c5), SER171 (2.77 \u00c5), ASP27 (2.68 \u00c5), GLY29 (2.67 \u00c5), GLN31 (2.62 \u00c5)",
+          "metrics": {
+            "mean_rmsf_angstrom": 0.834,
+            "most_flexible_residue": 30,
+            "most_flexible_rmsf": 2.875,
+            "top_flexible": [
+              "PRO30 (2.88 \u00c5)",
+              "SER171 (2.77 \u00c5)",
+              "ASP27 (2.68 \u00c5)",
+              "GLY29 (2.67 \u00c5)",
+              "GLN31 (2.62 \u00c5)"
+            ]
+          },
+          "keywords": [
+            "rmsf",
+            "flexibility",
+            "flexible loop",
+            "hotspot",
+            "residue fluctuation",
+            "PRO30",
+            "SER171",
+            "ASP27"
+          ]
+        },
+        {
+          "id": "obs_dccm_3",
+          "kind": "correlated_motions",
+          "analysis_type": "DCCM",
+          "statement": "Serine/threonine-protein kinase VRK3: correlated motions / allosteric coupling observed",
+          "metrics": {
+            "n_atoms": 292,
+            "n_residues": 292,
+            "n_frames_used": 3,
+            "mean_abs_correlation": 0.358,
+            "n_strongly_correlated_pairs": 50
+          },
+          "keywords": [
+            "dccm",
+            "correlated motion",
+            "allosteric",
+            "communication"
+          ]
+        },
+        {
+          "id": "obs_rg_4",
+          "kind": "compactness",
+          "analysis_type": "Radius_of_Gyration",
+          "statement": "Serine/threonine-protein kinase VRK3: radius of gyration / compactness (mean 19.739 \u00c5)",
+          "metrics": {
+            "n_frames": 11,
+            "mean_rg_angstrom": 19.739,
+            "std_rg_angstrom": 0.102,
+            "min_rg_angstrom": 19.523,
+            "max_rg_angstrom": 19.898
+          },
+          "keywords": [
+            "radius of gyration",
+            "compactness",
+            "folding",
+            "stability",
+            "molecular dynamics"
+          ]
+        },
+        {
+          "id": "obs_goal_ligand",
+          "kind": "ligand_or_pocket",
+          "analysis_type": "goal",
+          "statement": "User objective involves apo/holo or ligand-related interpretation",
+          "metrics": {},
+          "keywords": [
+            "apo",
+            "holo",
+            "ligand",
+            "atp",
+            "binding"
+          ]
+        }
+      ]
+    },
+    "2_queries": {
+      "n": 71,
+      "queries": {
+        "alias_0_dynamics": "VRK3 molecular dynamics",
+        "alias_0_flexibility": "VRK3 conformational flexibility",
+        "alias_0_functional": "VRK3 functional study",
+        "alias_0_computational": "VRK3 (computational OR \"molecular dynamics\" OR simulation)",
+        "protein_0_dynamics": "VRK3 protein dynamics molecular dynamics",
+        "protein_0_mechanism": "VRK3 mechanism structure function molecular dynamics",
+        "protein_0_function": "VRK3 kinase allosteric structure dynamics",
+        "alias_1_dynamics": "Serine molecular dynamics",
+        "alias_1_flexibility": "Serine conformational flexibility",
+        "alias_1_functional": "Serine functional study",
+        "alias_1_computational": "Serine (computational OR \"molecular dynamics\" OR simulation)",
+        "protein_1_dynamics": "Serine protein dynamics molecular dynamics",
+        "protein_1_mechanism": "Serine mechanism structure function molecular dynamics",
+        "protein_1_function": "Serine kinase allosteric structure dynamics",
+        "alias_2_dynamics": "dynamics molecular dynamics",
+        "alias_2_flexibility": "dynamics conformational flexibility",
+        "alias_2_functional": "dynamics functional study",
+        "alias_2_computational": "dynamics (computational OR \"molecular dynamics\" OR simulation)",
+        "protein_2_dynamics": "dynamics protein dynamics molecular dynamics",
+        "protein_2_mechanism": "dynamics mechanism structure function molecular dynamics",
+        "protein_2_function": "dynamics kinase allosteric structure dynamics",
+        "alias_3_dynamics": "\"Vaccinia-related kinase 3\" molecular dynamics",
+        "alias_3_flexibility": "\"Vaccinia-related kinase 3\" conformational flexibility",
+        "alias_3_functional": "\"Vaccinia-related kinase 3\" functional study",
+        "alias_3_computational": "\"Vaccinia-related kinase 3\" (computational OR \"molecular dynamics\" OR simulation)",
+        "protein_3_dynamics": "Vaccinia-related kinase 3 protein dynamics molecular dynamics",
+        "protein_3_mechanism": "Vaccinia-related kinase 3 mechanism structure function molecular dynamics",
+        "protein_3_function": "Vaccinia-related kinase 3 kinase allosteric structure dynamics",
+        "alias_4_dynamics": "\"threonine-protein kinase VRK3\" molecular dynamics",
+        "alias_4_flexibility": "\"threonine-protein kinase VRK3\" conformational flexibility",
+        "alias_4_functional": "\"threonine-protein kinase VRK3\" functional study",
+        "alias_4_computational": "\"threonine-protein kinase VRK3\" (computational OR \"molecular dynamics\" OR simulation)",
+        "protein_4_dynamics": "threonine-protein kinase VRK3 protein dynamics molecular dynamics",
+        "protein_4_mechanism": "threonine-protein kinase VRK3 mechanism structure function molecular dynamics",
+        "protein_4_function": "threonine-protein kinase VRK3 kinase allosteric structure dynamics",
+        "protein_dynamics": "\"Serine/threonine-protein kinase VRK3\" molecular dynamics simulation",
+        "protein_function": "\"Serine/threonine-protein kinase VRK3\" structure function",
+        "protein_functional_study": "\"Serine/threonine-protein kinase VRK3\" functional study OR deficiency OR knockout",
+        "protein_computational_study": "\"Serine/threonine-protein kinase VRK3\" computational study OR molecular dynamics OR simulation",
+        "protein_context": "\"Serine/threonine-protein kinase VRK3\" kinase allosteric molecular dynamics",
+        "protein_goal_context": "Serine/threonine-protein kinase VRK3 alloster compare holo",
+        "protein_biology": "Serine/threonine-protein kinase VRK3 allosteric phosphorylation",
+        "protein_family_review": "Serine/threonine-protein kinase VRK3 pseudokinase structure function review",
+        "theme_family_dynamics": "pseudokinase kinase domain molecular dynamics simulation",
+        "theme_family_flexibility": "pseudokinase apo flexibility residue dynamics",
+        "theme_related_kinase": "kinase molecular dynamics conformational",
+        "theme_related_allosteric": "allosteric molecular dynamics conformational",
+        "ligand_effect": "Serine/threonine-protein kinase VRK3 atp binding protein dynamics simulation",
+        "allosteric_dccm": "Serine/threonine-protein kinase VRK3 allosteric communication correlated motion molecular dynamics",
+        "method_RMSD": "Serine/threonine-protein kinase VRK3 RMSD stability molecular dynamics",
+        "theme_method_RMSD": "pseudokinase RMSD stability molecular dynamics",
+        "method_RMSF": "Serine/threonine-protein kinase VRK3 RMSF residue flexibility dynamics",
+        "theme_method_RMSF": "pseudokinase RMSF residue flexibility dynamics",
+        "method_Radius_of_Gyration": "Serine/threonine-protein kinase VRK3 radius of gyration compactness",
+        "theme_method_Radius_of_Gyration": "pseudokinase radius of gyration compactness",
+        "method_DSSP_SecondaryStructure": "Serine/threonine-protein kinase VRK3 DSSP_SecondaryStructure molecular dynamics",
+        "theme_method_DSSP_SecondaryStructure": "pseudokinase DSSP_SecondaryStructure molecular dynamics",
+        "result_rmsd": "Serine/threonine-protein kinase VRK3 pseudokinase conformational stability RMSD molecular dynamics",
+        "theme_result_rmsd": "pseudokinase conformational stability RMSD molecular dynamics",
+        "result_rmsf": "Serine/threonine-protein kinase VRK3 pseudokinase residue flexibility RMSF domain molecular dynamics",
+        "theme_result_rmsf": "pseudokinase residue flexibility RMSF domain molecular dynamics",
+        "result_rg": "Serine/threonine-protein kinase VRK3 pseudokinase radius of gyration domain stability molecular dynamics",
+        "theme_result_rg": "pseudokinase radius of gyration domain stability molecular dynamics",
+        "hypothesis_objective": "Serine/threonine-protein kinase VRK3 alloster compare holo molecular dynamics",
+        "theme_objective": "alloster compare holo molecular dynamics protein structure",
+        "theme_family_structure": "pseudokinase kinase structure function conformational dynamics",
+        "theme_ligand": "atp binding protein molecular dynamics simulation",
+        "_fallback_general": "molecular dynamics protein conformational stability review",
+        "obs_rmsf_hotspots": "dynamics PRO30 SER171 ASP27 flexibility molecular dynamics",
+        "theme_obs_flexibility": "protein residue flexibility RMSF activation loop molecular dynamics",
+        "theme_obs_allostery": "dynamics allosteric correlated motions molecular dynamics"
+      }
+    },
+    "2b_uniprot_seed": {
+      "n": 8
+    },
+    "2_gather": {
+      "n_candidates": 28,
+      "source_counts": {
+        "uniprot_curated": 8,
+        "unknown": 20
+      },
+      "candidates": [
+        {
+          "title": "Complete sequencing and characterization of 21,243 full-length human cDNAs.",
+          "year": 2004,
+          "pmid": "14702039",
+          "doi": "10.1038/ng1285",
+          "source": "uniprot_curated",
+          "url": null,
+          "query_key": "uniprot:key_references"
+        },
+        {
+          "title": "The DNA sequence and biology of human chromosome 19.",
+          "year": 2004,
+          "pmid": "15057824",
+          "doi": "10.1038/nature02399",
+          "source": "uniprot_curated",
+          "url": null,
+          "query_key": "uniprot:key_references"
+        },
+        {
+          "title": "The status, quality, and expansion of the NIH full-length cDNA project: the Mammalian Gene Collection (MGC).",
+          "year": 2004,
+          "pmid": "15489334",
+          "doi": "10.1101/gr.2596504",
+          "source": "uniprot_curated",
+          "url": null,
+          "query_key": "uniprot:key_references"
+        },
+        {
+          "title": "Characterization of three paralogous members of the Mammalian vaccinia related kinase family.",
+          "year": 2004,
+          "pmid": "14645249",
+          "doi": "10.1074/jbc.m310813200",
+          "source": "uniprot_curated",
+          "url": null,
+          "query_key": "uniprot:key_references"
+        },
+        {
+          "title": "Proteomics identification of nuclear Ran GTPase as an inhibitor of human VRK1 and VRK2 (vaccinia-related kinase) activities.",
+          "year": 2008,
+          "pmid": "18617507",
+          "doi": "10.1074/mcp.m700586-mcp200",
+          "source": "uniprot_curated",
+          "url": null,
+          "query_key": "uniprot:key_references"
+        },
+        {
+          "title": "A quantitative atlas of mitotic phosphorylation.",
+          "year": 2008,
+          "pmid": "18669648",
+          "doi": "10.1073/pnas.0805139105",
+          "source": "uniprot_curated",
+          "url": null,
+          "query_key": "uniprot:key_references"
+        },
+        {
+          "title": "Quantitative phosphoproteomic analysis of T cell receptor signaling reveals system-wide modulation of protein-protein interactions.",
+          "year": 2009,
+          "pmid": "19690332",
+          "doi": "10.1126/scisignal.2000007",
+          "source": "uniprot_curated",
+          "url": null,
+          "query_key": "uniprot:key_references"
+        },
+        {
+          "title": "Quantitative phosphoproteomics reveals widespread full phosphorylation site occupancy during mitosis.",
+          "year": 2010,
+          "pmid": "20068231",
+          "doi": "10.1126/scisignal.2000475",
+          "source": "uniprot_curated",
+          "url": null,
+          "query_key": "uniprot:key_references"
+        },
+        {
+          "title": "VRK3 depletion induces cell cycle arrest and metabolic reprogramming of pontine diffuse midline glioma - H3K27 altered cells.",
+          "year": 2023,
+          "pmid": "37886173",
+          "doi": "10.3389/fonc.2023.1229312",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37886173/",
+          "query_key": "pubmed:alias_0_functional"
+        },
+        {
+          "title": "SERPINI1 functions as a tumor suppressor in glioma.",
+          "year": 2026,
+          "pmid": "42230926",
+          "doi": "10.1038/s41598-026-55196-3",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42230926/",
+          "query_key": "pubmed:alias_0_functional"
+        },
+        {
+          "title": "Characterization of the Testis-Specific Angiotensin Converting Enzyme (tACE)-Interactome during Bovine Sperm Capacitation.",
+          "year": 2022,
+          "pmid": "35723410",
+          "doi": "10.3390/cimb44010031",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35723410/",
+          "query_key": "pubmed:alias_0_functional"
+        },
+        {
+          "title": "Phosphoproteomic analyses of kidneys of Atlantic salmon infected with Aeromonas salmonicida.",
+          "year": 2019,
+          "pmid": "30765835",
+          "doi": "10.1038/s41598-019-38890-3",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/30765835/",
+          "query_key": "pubmed:alias_0_functional"
+        },
+        {
+          "title": "Novel Alzheimer Disease Risk Loci and Pathways in African American Individuals Using the African Genome Resources Panel: A Meta-analysis.",
+          "year": 2021,
+          "pmid": "33074286",
+          "doi": "10.1001/jamaneurol.2020.3536",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/33074286/",
+          "query_key": "pubmed:alias_0_computational"
+        },
+        {
+          "title": "Comparative Interactomes of VRK1 and VRK3 with Their Distinct Roles in the Cell Cycle of Liver Cancer.",
+          "year": 2017,
+          "pmid": "28927264",
+          "doi": "10.14348/molcells.2017.0108",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/28927264/",
+          "query_key": "pubmed:alias_0_computational"
+        },
+        {
+          "title": "Differential gene expression profile in <i>Porphyromonas gingivalis</i> treated human gingival keratinocytes and their role in the development of HNSCC.",
+          "year": 2025,
+          "pmid": "39717877",
+          "doi": "10.1016/j.jobcr.2024.11.007",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39717877/",
+          "query_key": "pubmed:alias_0_computational"
+        },
+        {
+          "title": "Combining network pharmacology, molecular docking, molecular dynamics simulation, and experimental verification to examine the efficacy and immunoregulation mechanism of FHB granul",
+          "year": 2023,
+          "pmid": "37575231",
+          "doi": "10.3389/fimmu.2023.1194823",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37575231/",
+          "query_key": "pubmed:alias_1_dynamics"
+        },
+        {
+          "title": "Acetylcholinesterase: Structure, dynamics, and interactions with organophosphorus compounds.",
+          "year": 2025,
+          "pmid": "40970461",
+          "doi": "10.1002/pro.70297",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/40970461/",
+          "query_key": "pubmed:alias_1_dynamics"
+        },
+        {
+          "title": "Nucleotide-dependent dynamics of the Dengue NS3 helicase.",
+          "year": 2020,
+          "pmid": "32371149",
+          "doi": "10.1016/j.bbapap.2020.140441",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32371149/",
+          "query_key": "pubmed:alias_1_dynamics"
+        },
+        {
+          "title": "Analysis of AlphaFold and molecular dynamics structure predictions of mutations in serpins.",
+          "year": 2024,
+          "pmid": "38968282",
+          "doi": "10.1371/journal.pone.0304451",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/38968282/",
+          "query_key": "pubmed:alias_1_dynamics"
+        },
+        {
+          "title": "Crystal structure of nafamostat dimesylate.",
+          "year": 2021,
+          "pmid": "34667626",
+          "doi": "10.1107/S2056989021009245",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/34667626/",
+          "query_key": "pubmed:alias_1_flexibility"
+        },
+        {
+          "title": "Human DNA-dependent protein kinase activation mechanism.",
+          "year": 2023,
+          "pmid": "36604499",
+          "doi": "10.1038/s41594-022-00881-w",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/36604499/",
+          "query_key": "pubmed:alias_1_flexibility"
+        },
+        {
+          "title": "Structures of KEOPS bound to tRNA reveal functional roles of the kinase Bud32.",
+          "year": 2024,
+          "pmid": "39639027",
+          "doi": "10.1038/s41467-024-54787-w",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39639027/",
+          "query_key": "pubmed:alias_1_flexibility"
+        },
+        {
+          "title": "Exploring the multifunctionality of SR proteins.",
+          "year": 2022,
+          "pmid": "34940860",
+          "doi": "10.1042/BST20210325",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/34940860/",
+          "query_key": "pubmed:alias_1_functional"
+        },
+        {
+          "title": "Identification of PSD-95 Depalmitoylating Enzymes.",
+          "year": 2016,
+          "pmid": "27307232",
+          "doi": "10.1523/JNEUROSCI.0419-16.2016",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/27307232/",
+          "query_key": "pubmed:alias_1_functional"
+        },
+        {
+          "title": "Fluorescent Probes for Monitoring Serine Ubiquitination.",
+          "year": 2020,
+          "pmid": "32207972",
+          "doi": "10.1021/acs.biochem.0c00067",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32207972/",
+          "query_key": "pubmed:alias_1_functional"
+        },
+        {
+          "title": "l-Serine links metabolism with neurotransmission.",
+          "year": 2021,
+          "pmid": "32798642",
+          "doi": "10.1016/j.pneurobio.2020.101896",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32798642/",
+          "query_key": "pubmed:alias_1_functional"
+        },
+        {
+          "title": "An atlas of substrate specificities for the human serine/threonine kinome.",
+          "year": 2023,
+          "pmid": "36631611",
+          "doi": "10.1038/s41586-022-05575-3",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/36631611/",
+          "query_key": "pubmed:alias_1_computational"
+        },
+        {
+          "title": "Serine-129 phosphorylation of \u03b1-synuclein is an activity-dependent trigger for physiologic protein-protein interactions and synaptic function.",
+          "year": 2023,
+          "pmid": "38128479",
+          "doi": "10.1016/j.neuron.2023.11.020",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/38128479/",
+          "query_key": "pubmed:alias_1_computational"
+        }
+      ]
+    },
+    "3_rank_screen": {
+      "n_ranked": 12,
+      "max_refs": 12,
+      "aliases_used": [
+        "dynamics",
+        "Serine/threonine-protein kinase VRK3",
+        "VRK3",
+        "Vaccinia-related kinase 3",
+        "Q8IV63",
+        "Serine",
+        "threonine-protein kinase VRK3"
+      ],
+      "ranked": [
+        {
+          "title": "Nucleotide-dependent dynamics of the Dengue NS3 helicase.",
+          "year": 2020,
+          "pmid": "32371149",
+          "doi": "10.1016/j.bbapap.2020.140441",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32371149/",
+          "relevance_note": "Mentions: dynamics",
+          "query_key": "pubmed:alias_1_dynamics",
+          "score": 63,
+          "matched_aliases": [
+            "dynamics"
+          ]
+        },
+        {
+          "title": "Acetylcholinesterase: Structure, dynamics, and interactions with organophosphorus compounds.",
+          "year": 2025,
+          "pmid": "40970461",
+          "doi": "10.1002/pro.70297",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/40970461/",
+          "relevance_note": "Mentions: dynamics, Serine",
+          "query_key": "pubmed:alias_1_dynamics",
+          "score": 60,
+          "matched_aliases": [
+            "dynamics",
+            "Serine"
+          ]
+        },
+        {
+          "title": "Analysis of AlphaFold and molecular dynamics structure predictions of mutations in serpins.",
+          "year": 2024,
+          "pmid": "38968282",
+          "doi": "10.1371/journal.pone.0304451",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/38968282/",
+          "relevance_note": "Mentions: dynamics, Serine",
+          "query_key": "pubmed:alias_1_dynamics",
+          "score": 60,
+          "matched_aliases": [
+            "dynamics",
+            "Serine"
+          ]
+        },
+        {
+          "title": "Combining network pharmacology, molecular docking, molecular dynamics simulation, and experimental verification to examine the efficacy and immunoregulation mechanism of FHB granul",
+          "year": 2023,
+          "pmid": "37575231",
+          "doi": "10.3389/fimmu.2023.1194823",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37575231/",
+          "relevance_note": "Mentions: dynamics, Serine",
+          "query_key": "pubmed:alias_1_dynamics",
+          "score": 54,
+          "matched_aliases": [
+            "dynamics",
+            "Serine"
+          ]
+        },
+        {
+          "title": "Serine-129 phosphorylation of \u03b1-synuclein is an activity-dependent trigger for physiologic protein-protein interactions and synaptic function.",
+          "year": 2023,
+          "pmid": "38128479",
+          "doi": "10.1016/j.neuron.2023.11.020",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/38128479/",
+          "relevance_note": "Mentions: Serine",
+          "query_key": "pubmed:alias_1_computational",
+          "score": 38,
+          "matched_aliases": [
+            "Serine"
+          ]
+        },
+        {
+          "title": "Identification of PSD-95 Depalmitoylating Enzymes.",
+          "year": 2016,
+          "pmid": "27307232",
+          "doi": "10.1523/JNEUROSCI.0419-16.2016",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/27307232/",
+          "relevance_note": "Mentions: dynamics, Serine",
+          "query_key": "pubmed:alias_1_functional",
+          "score": 35,
+          "matched_aliases": [
+            "dynamics",
+            "Serine"
+          ]
+        },
+        {
+          "title": "VRK3 depletion induces cell cycle arrest and metabolic reprogramming of pontine diffuse midline glioma - H3K27 altered cells.",
+          "year": 2023,
+          "pmid": "37886173",
+          "doi": "10.3389/fonc.2023.1229312",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37886173/",
+          "relevance_note": "Mentions: VRK3, Serine",
+          "query_key": "pubmed:alias_0_functional",
+          "score": 32,
+          "matched_aliases": [
+            "VRK3",
+            "Serine"
+          ]
+        },
+        {
+          "title": "Comparative Interactomes of VRK1 and VRK3 with Their Distinct Roles in the Cell Cycle of Liver Cancer.",
+          "year": 2017,
+          "pmid": "28927264",
+          "doi": "10.14348/molcells.2017.0108",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/28927264/",
+          "relevance_note": "Mentions: VRK3, Serine",
+          "query_key": "pubmed:alias_0_computational",
+          "score": 32,
+          "matched_aliases": [
+            "VRK3",
+            "Serine"
+          ]
+        },
+        {
+          "title": "Structures of KEOPS bound to tRNA reveal functional roles of the kinase Bud32.",
+          "year": 2024,
+          "pmid": "39639027",
+          "doi": "10.1038/s41467-024-54787-w",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39639027/",
+          "relevance_note": "Matches family / dynamics / analysis themes",
+          "query_key": "pubmed:alias_1_flexibility",
+          "score": 44
+        },
+        {
+          "title": "Human DNA-dependent protein kinase activation mechanism.",
+          "year": 2023,
+          "pmid": "36604499",
+          "doi": "10.1038/s41594-022-00881-w",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/36604499/",
+          "relevance_note": "Matches family / dynamics / analysis themes",
+          "query_key": "pubmed:alias_1_flexibility",
+          "score": 21
+        },
+        {
+          "title": "A quantitative atlas of mitotic phosphorylation.",
+          "year": 2008,
+          "pmid": "18669648",
+          "doi": "10.1073/pnas.0805139105",
+          "source": "uniprot_curated",
+          "url": null,
+          "relevance_note": "Identity: uniprot_curated, phosphorylation",
+          "query_key": "uniprot:key_references",
+          "score": 18
+        },
+        {
+          "title": "Quantitative phosphoproteomics reveals widespread full phosphorylation site occupancy during mitosis.",
+          "year": 2010,
+          "pmid": "20068231",
+          "doi": "10.1126/scisignal.2000475",
+          "source": "uniprot_curated",
+          "url": null,
+          "relevance_note": "Identity: uniprot_curated, phosphorylation",
+          "query_key": "uniprot:key_references",
+          "score": 18
+        }
+      ]
+    },
+    "4_evidence_passages": {
+      "n_refs_examined": 5,
+      "evidence": [
+        {
+          "title": "Nucleotide-dependent dynamics of the Dengue NS3 helicase.",
+          "pmid": "32371149",
+          "doi": "10.1016/j.bbapap.2020.140441",
+          "pmcid": null,
+          "source": null,
+          "evidence_source": "abstract",
+          "passages": [
+            "Here we use molecular dynamics simulations to explore the nucleotide-dependent conformational landscape of the Dengue virus NS3 helicase and identify substantial changes in the protein flexibility during the ATP hydrolysis cycle."
+          ],
+          "relevance_note": "Mentions: dynamics"
+        },
+        {
+          "title": "Acetylcholinesterase: Structure, dynamics, and interactions with organophosphorus compounds.",
+          "pmid": "40970461",
+          "doi": "10.1002/pro.70297",
+          "pmcid": "PMC12447245",
+          "source": null,
+          "evidence_source": "europe_pmc_fulltext",
+          "passages": [
+            "We conclude that while the majority of the conformational changes needed to accommodate the OP compounds are localized to the acyl loop in the crystal structures, molecular dynamics simulations highlight the potential for a far more dynamic enzyme.",
+            "acetylcholinesterase molecular dynamics nerve agent organophosphorus protein dynamics structure Laboratory Directed Research and Development 10.13039/100007000 20240384ER pmc-status-qastatus 0 pmc-status-live yes pmc-status-embargo no pmc-status-released yes pmc-prop-open-access yes pmc-prop-olf no pmc-prop-manuscript no pmc-prop-legally-suppressed no pmc-prop-has-pdf yes pmc-prop-has-supplement yes pmc-prop-pdf-only no pmc-prop-suppress-copyright no pmc-prop-is-real-version no pmc-prop-is-scanned-article no pmc-prop-preprint no pmc-prop-in-epmc yes pmc-license-ref CC BY-NC-ND source-schema-ve",
+            "TABLE 2 Pairwise C\u03b1 RMSD (\u00c5) of AChE structures from different organisms."
+          ],
+          "relevance_note": "Mentions: dynamics, Serine"
+        },
+        {
+          "title": "Analysis of AlphaFold and molecular dynamics structure predictions of mutations in serpins.",
+          "pmid": "38968282",
+          "doi": "10.1371/journal.pone.0304451",
+          "pmcid": "PMC11226102",
+          "source": null,
+          "evidence_source": "europe_pmc_fulltext",
+          "passages": [
+            "pmc PLoS One PLoS One 440 plosone 101285081 plos PLOS ONE 1932-6203 PLOS PMC11226102 PMC11226102.1 11226102 11226102 38968282 10.1371/journal.pone.0304451 PONE-D-23-28110 1 Research Article Biology and Life Sciences Molecular Biology Macromolecular Structure Analysis Protein Structure Protein Structure Prediction Biology and Life Sciences Biochemistry Proteins Protein Structure Protein Structure Prediction Physical Sciences Chemistry Computational Chemistry Molecular Dynamics Physical Sciences Physics Condensed Matter Physics Solid State Physics Crystallography Crystal Structure Biology and Li",
+            "Analysis of AlphaFold and molecular dynamics structure predictions of mutations in serpins.",
+            "19 7 5 7 2024 e0304451 e0304451 PLoS One 10.1371/journal.pone.0304451 38968282 Analysis of AlphaFold and molecular dynamics structure predictions of mutations in serpins."
+          ],
+          "relevance_note": "Mentions: dynamics, Serine"
+        },
+        {
+          "title": "Combining network pharmacology, molecular docking, molecular dynamics simulation, and experimental verification to examine the efficacy and immunoregulation mechanism of FHB granules on vitiligo.",
+          "pmid": "37575231",
+          "doi": "10.3389/fimmu.2023.1194823",
+          "pmcid": "PMC10414113",
+          "source": null,
+          "evidence_source": "europe_pmc_fulltext",
+          "passages": [
+            "1754 frontimmu Frontiers in Immunology Front Immunol Frontiers Media SA PMC10414113 10414113 10414113 37575231 10.3389/fimmu.2023.1194823 Combining network pharmacology, molecular docking, molecular dynamics simulation, and experimental verification to examine the efficacy and immunoregulation mechanism of FHB granules on vitiligo Li Xiaolong 1 2 \u2020 Miao Fengze 1 2 \u2020 Xin Rujuan 1 2 \u2020 Tai Zongguang 1 2 Pan Huijun 1 2 Huang Hao 1 2 Yu Junxia 1 2 Chen Zhongjian 1 2 * Zhu Quangang 1 2 * 1 Shanghai Skin Disease Hospital, Tongji University School of Medicine, Shanghai, China 2 Shanghai Engineering Re",
+            "The purpose of this study was to confirm the molecular mechanism of FHB\u2019s therapeutic effect on vitiligo utilizing network pharmacology, molecular docking, and molecular dynamics simulation prediction, as well as experimental verification.",
+            "Keywords: Fufang Honghua Buji granules, vitiligo, network pharmacology, molecular docking, molecular dynamics simulation, anti-inflammation, JAK-STAT pathway status released display-pdf yes is-olf no is-manuscript no is-preprint no is-journal-matter no is-scanned no is-retracted no Received 2023 Mar 27; Accepted 2023 Jul 11; Collection date 2023."
+          ],
+          "relevance_note": "Mentions: dynamics, Serine"
+        },
+        {
+          "title": "Serine-129 phosphorylation of \u03b1-synuclein is an activity-dependent trigger for physiologic protein-protein interactions and synaptic function.",
+          "pmid": "38128479",
+          "doi": "10.1016/j.neuron.2023.11.020",
+          "pmcid": "PMC10766085",
+          "source": null,
+          "evidence_source": "abstract",
+          "passages": [
+            "Phosphorylation of \u03b1-synuclein at the serine-129 site (\u03b1-syn Ser129P) is an established pathologic hallmark of synucleinopathies and a therapeutic target.",
+            "In physiologic states, only a fraction of \u03b1-syn is phosphorylated at this site, and most studies have focused on the pathologic roles of this post-translational modification."
+          ],
+          "relevance_note": "Mentions: Serine"
+        }
+      ]
+    },
+    "5_compare_evidence": {
+      "n_observations": 5,
+      "comparisons": [
+        {
+          "observation_id": "obs_rmsd_1",
+          "observation": "Serine/threonine-protein kinase VRK3: modest backbone RMSD / local conformational stability (mean 1.33 \u00c5, max 1.86 \u00c5)",
+          "kind": "rmsd_stability",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Nucleotide-dependent dynamics of the Dengue NS3 helicase.",
+              "pmid": "32371149",
+              "doi": "10.1016/j.bbapap.2020.140441",
+              "evidence_source": "abstract",
+              "passage": "Here we use molecular dynamics simulations to explore the nucleotide-dependent conformational landscape of the Dengue virus NS3 helicase and identify substantial changes in the protein flexibility during the ATP hydrolysis cycle."
+            },
+            {
+              "title": "Acetylcholinesterase: Structure, dynamics, and interactions with organophosphorus compounds.",
+              "pmid": "40970461",
+              "doi": "10.1002/pro.70297",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "We conclude that while the majority of the conformational changes needed to accommodate the OP compounds are localized to the acyl loop in the crystal structures, molecular dynamics simulations highlight the potential for a far more dynamic enzyme."
+            },
+            {
+              "title": "Analysis of AlphaFold and molecular dynamics structure predictions of mutations in serpins.",
+              "pmid": "38968282",
+              "doi": "10.1371/journal.pone.0304451",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "pmc PLoS One PLoS One 440 plosone 101285081 plos PLOS ONE 1932-6203 PLOS PMC11226102 PMC11226102.1 11226102 11226102 38968282 10.1371/journal.pone.0304451 PONE-D-23-28110 1 Research Article Biology and Life Sciences Molecular Biology Macromolecular Structure Analysis Protein Structure Protein Struct"
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsf_2",
+          "observation": "Serine/threonine-protein kinase VRK3: RMSF hotspots / flexible sites: PRO30 (2.88 \u00c5), SER171 (2.77 \u00c5), ASP27 (2.68 \u00c5), GLY29 (2.67 \u00c5), GLN31 (2.62 \u00c5)",
+          "kind": "rmsf_hotspots",
+          "category": "plausible",
+          "supporting": [
+            {
+              "title": "Nucleotide-dependent dynamics of the Dengue NS3 helicase.",
+              "pmid": "32371149",
+              "doi": "10.1016/j.bbapap.2020.140441",
+              "evidence_source": "abstract",
+              "passage": "Here we use molecular dynamics simulations to explore the nucleotide-dependent conformational landscape of the Dengue virus NS3 helicase and identify substantial changes in the protein flexibility during the ATP hydrolysis cycle."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_dccm_3",
+          "observation": "Serine/threonine-protein kinase VRK3: correlated motions / allosteric coupling observed",
+          "kind": "correlated_motions",
+          "category": "not_addressed",
+          "supporting": [],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rg_4",
+          "observation": "Serine/threonine-protein kinase VRK3: radius of gyration / compactness (mean 19.739 \u00c5)",
+          "kind": "compactness",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Nucleotide-dependent dynamics of the Dengue NS3 helicase.",
+              "pmid": "32371149",
+              "doi": "10.1016/j.bbapap.2020.140441",
+              "evidence_source": "abstract",
+              "passage": "Here we use molecular dynamics simulations to explore the nucleotide-dependent conformational landscape of the Dengue virus NS3 helicase and identify substantial changes in the protein flexibility during the ATP hydrolysis cycle."
+            },
+            {
+              "title": "Acetylcholinesterase: Structure, dynamics, and interactions with organophosphorus compounds.",
+              "pmid": "40970461",
+              "doi": "10.1002/pro.70297",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "We conclude that while the majority of the conformational changes needed to accommodate the OP compounds are localized to the acyl loop in the crystal structures, molecular dynamics simulations highlight the potential for a far more dynamic enzyme."
+            },
+            {
+              "title": "Analysis of AlphaFold and molecular dynamics structure predictions of mutations in serpins.",
+              "pmid": "38968282",
+              "doi": "10.1371/journal.pone.0304451",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "pmc PLoS One PLoS One 440 plosone 101285081 plos PLOS ONE 1932-6203 PLOS PMC11226102 PMC11226102.1 11226102 11226102 38968282 10.1371/journal.pone.0304451 PONE-D-23-28110 1 Research Article Biology and Life Sciences Molecular Biology Macromolecular Structure Analysis Protein Structure Protein Struct"
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_goal_ligand",
+          "observation": "User objective involves apo/holo or ligand-related interpretation",
+          "kind": "ligand_or_pocket",
+          "category": "plausible",
+          "supporting": [
+            {
+              "title": "Serine-129 phosphorylation of \u03b1-synuclein is an activity-dependent trigger for physiologic protein-protein interactions and synaptic function.",
+              "pmid": "38128479",
+              "doi": "10.1016/j.neuron.2023.11.020",
+              "evidence_source": "abstract",
+              "passage": "Phosphorylation of \u03b1-synuclein at the serine-129 site (\u03b1-syn Ser129P) is an established pathologic hallmark of synucleinopathies and a therapeutic target."
+            }
+          ],
+          "conflicting": []
+        }
+      ]
+    },
+    "6_candidates_for_report": {
+      "n": 12,
+      "note": "These ranked candidates are passed to the literature-review LLM; uncited papers are pruned after writing (see Step 6 final selection).",
+      "candidates": [
+        {
+          "title": "Nucleotide-dependent dynamics of the Dengue NS3 helicase.",
+          "year": 2020,
+          "pmid": "32371149",
+          "doi": "10.1016/j.bbapap.2020.140441",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32371149/",
+          "relevance_note": "Mentions: dynamics",
+          "query_key": "pubmed:alias_1_dynamics",
+          "score": 63,
+          "matched_aliases": [
+            "dynamics"
+          ]
+        },
+        {
+          "title": "Acetylcholinesterase: Structure, dynamics, and interactions with organophosphorus compounds.",
+          "year": 2025,
+          "pmid": "40970461",
+          "doi": "10.1002/pro.70297",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/40970461/",
+          "relevance_note": "Mentions: dynamics, Serine",
+          "query_key": "pubmed:alias_1_dynamics",
+          "score": 60,
+          "matched_aliases": [
+            "dynamics",
+            "Serine"
+          ]
+        },
+        {
+          "title": "Analysis of AlphaFold and molecular dynamics structure predictions of mutations in serpins.",
+          "year": 2024,
+          "pmid": "38968282",
+          "doi": "10.1371/journal.pone.0304451",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/38968282/",
+          "relevance_note": "Mentions: dynamics, Serine",
+          "query_key": "pubmed:alias_1_dynamics",
+          "score": 60,
+          "matched_aliases": [
+            "dynamics",
+            "Serine"
+          ]
+        },
+        {
+          "title": "Combining network pharmacology, molecular docking, molecular dynamics simulation, and experimental verification to examine the efficacy and immunoregulation mechanism of FHB granul",
+          "year": 2023,
+          "pmid": "37575231",
+          "doi": "10.3389/fimmu.2023.1194823",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37575231/",
+          "relevance_note": "Mentions: dynamics, Serine",
+          "query_key": "pubmed:alias_1_dynamics",
+          "score": 54,
+          "matched_aliases": [
+            "dynamics",
+            "Serine"
+          ]
+        },
+        {
+          "title": "Serine-129 phosphorylation of \u03b1-synuclein is an activity-dependent trigger for physiologic protein-protein interactions and synaptic function.",
+          "year": 2023,
+          "pmid": "38128479",
+          "doi": "10.1016/j.neuron.2023.11.020",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/38128479/",
+          "relevance_note": "Mentions: Serine",
+          "query_key": "pubmed:alias_1_computational",
+          "score": 38,
+          "matched_aliases": [
+            "Serine"
+          ]
+        },
+        {
+          "title": "Identification of PSD-95 Depalmitoylating Enzymes.",
+          "year": 2016,
+          "pmid": "27307232",
+          "doi": "10.1523/JNEUROSCI.0419-16.2016",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/27307232/",
+          "relevance_note": "Mentions: dynamics, Serine",
+          "query_key": "pubmed:alias_1_functional",
+          "score": 35,
+          "matched_aliases": [
+            "dynamics",
+            "Serine"
+          ]
+        },
+        {
+          "title": "VRK3 depletion induces cell cycle arrest and metabolic reprogramming of pontine diffuse midline glioma - H3K27 altered cells.",
+          "year": 2023,
+          "pmid": "37886173",
+          "doi": "10.3389/fonc.2023.1229312",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37886173/",
+          "relevance_note": "Mentions: VRK3, Serine",
+          "query_key": "pubmed:alias_0_functional",
+          "score": 32,
+          "matched_aliases": [
+            "VRK3",
+            "Serine"
+          ]
+        },
+        {
+          "title": "Comparative Interactomes of VRK1 and VRK3 with Their Distinct Roles in the Cell Cycle of Liver Cancer.",
+          "year": 2017,
+          "pmid": "28927264",
+          "doi": "10.14348/molcells.2017.0108",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/28927264/",
+          "relevance_note": "Mentions: VRK3, Serine",
+          "query_key": "pubmed:alias_0_computational",
+          "score": 32,
+          "matched_aliases": [
+            "VRK3",
+            "Serine"
+          ]
+        },
+        {
+          "title": "Structures of KEOPS bound to tRNA reveal functional roles of the kinase Bud32.",
+          "year": 2024,
+          "pmid": "39639027",
+          "doi": "10.1038/s41467-024-54787-w",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39639027/",
+          "relevance_note": "Matches family / dynamics / analysis themes",
+          "query_key": "pubmed:alias_1_flexibility",
+          "score": 44
+        },
+        {
+          "title": "Human DNA-dependent protein kinase activation mechanism.",
+          "year": 2023,
+          "pmid": "36604499",
+          "doi": "10.1038/s41594-022-00881-w",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/36604499/",
+          "relevance_note": "Matches family / dynamics / analysis themes",
+          "query_key": "pubmed:alias_1_flexibility",
+          "score": 21
+        },
+        {
+          "title": "A quantitative atlas of mitotic phosphorylation.",
+          "year": 2008,
+          "pmid": "18669648",
+          "doi": "10.1073/pnas.0805139105",
+          "source": "uniprot_curated",
+          "url": null,
+          "relevance_note": "Identity: uniprot_curated, phosphorylation",
+          "query_key": "uniprot:key_references",
+          "score": 18
+        },
+        {
+          "title": "Quantitative phosphoproteomics reveals widespread full phosphorylation site occupancy during mitosis.",
+          "year": 2010,
+          "pmid": "20068231",
+          "doi": "10.1126/scisignal.2000475",
+          "source": "uniprot_curated",
+          "url": null,
+          "relevance_note": "Identity: uniprot_curated, phosphorylation",
+          "query_key": "uniprot:key_references",
+          "score": 18
+        }
+      ]
+    },
+    "6_final_cited": {
+      "n_cited": 4,
+      "cited": [
+        {
+          "title": "VRK3 depletion induces cell cycle arrest and metabolic reprogramming of pontine diffuse midline glioma - H3K27 altered cells.",
+          "year": 2023,
+          "pmid": "37886173",
+          "doi": "10.3389/fonc.2023.1229312",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37886173/",
+          "query_key": "pubmed:alias_0_functional"
+        },
+        {
+          "title": "Comparative Interactomes of VRK1 and VRK3 with Their Distinct Roles in the Cell Cycle of Liver Cancer.",
+          "year": 2017,
+          "pmid": "28927264",
+          "doi": "10.14348/molcells.2017.0108",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/28927264/",
+          "query_key": "pubmed:alias_0_computational"
+        },
+        {
+          "title": "Nucleotide-dependent dynamics of the Dengue NS3 helicase.",
+          "year": 2020,
+          "pmid": "32371149",
+          "doi": "10.1016/j.bbapap.2020.140441",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32371149/",
+          "query_key": "pubmed:alias_1_dynamics"
+        },
+        {
+          "title": "Acetylcholinesterase: Structure, dynamics, and interactions with organophosphorus compounds.",
+          "year": 2025,
+          "pmid": "40970461",
+          "doi": "10.1002/pro.70297",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/40970461/",
+          "query_key": "pubmed:alias_1_dynamics"
+        }
+      ]
+    }
+  },
+  "identity": {
+    "protein": "Serine/threonine-protein kinase VRK3",
+    "gene": "dynamics",
+    "aliases": [
+      "dynamics",
+      "Serine/threonine-protein kinase VRK3",
+      "VRK3",
+      "Vaccinia-related kinase 3",
+      "Q8IV63"
+    ],
+    "family": "pseudokinase",
+    "uniprot_id": "q8iv63",
+    "source": "goal_text"
+  }
+}

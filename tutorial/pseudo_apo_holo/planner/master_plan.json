@@ -1,0 +1,195 @@
+{
+  "title": "Multi-Simulation Master Plan",
+  "format": "master_plan",
+  "phase": "master",
+  "workflow_pipeline": "preprocess -> simsetup -> hpcjob -> analysis -> reporter",
+  "task_scope": "full_pipeline",
+  "enriched_prompt": "Preprocess the four PDBs (p21860, q8iv63, q8nb16, q8wz42) by extracting the protein only for the apo case (case_id\u202f=\u202fprotein_only, no ligand or ions) and extracting protein + ATP + Mg\u00b2\u207a for the holo case (case_id\u202f=\u202fprotein_with_ligand). Prepare GROMACS input files (topology, coordinates, .mdp, .tpr) using amber99sb-ildn, TIP3P water, 310\u202fK, 1\u202fbar, 0.15\u202fM NaCl, cubic box with 1.2\u202fnm buffer, and submit all eight 1\u2011ns production runs to the HPC cluster. After trajectory generation, analyze each system to compute backbone RMSD, per\u2011residue RMSF (including a bar plot for residues\u202f150\u2013200 where present), radius of gyration, COM distance between ATP and the catalytic pocket (holo only), C\u03b1 DCCM and apo\u2011vs\u2011holo differences, and DSSP time evolution for the full protein and residues\u202f150\u2013200; then generate comparative overlay plots and statistical tables across all systems. In the final report, retrieve literature on activation\u2011loop conformations and allosteric regulation for ERBB3, VRK3, MLKL, and TITIN, and correlate these findings with the simulation results.",
+  "shared_per_sim_intent": null,
+  "sim_entries": [
+    {
+      "label": "p21860",
+      "protein_name": "dynamics",
+      "pdb": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860.pdb",
+      "working_dir": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860",
+      "case_description": "Protein only (apo)",
+      "prompt_preview": "label p21860, ERBB3, p21860.pdb, /home/.../p21860, apo. Follow the workflow: preprocess, simsetup, hpcjob, analysis, reporter. Compute backbone RMSD, per\u2011residu"
+    },
+    {
+      "label": "p21860_ATP_MG",
+      "protein_name": "dynamics",
+      "pdb": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860.pdb",
+      "working_dir": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG",
+      "case_description": "Protein + ATP + Mg (holo)",
+      "prompt_preview": "label p21860_ATP_MG, ERBB3, p21860.pdb, /home/.../p21860_ATP_MG, holo. Follow the workflow: preprocess, simsetup, hpcjob, analysis, reporter. Compute backbone R"
+    },
+    {
+      "label": "q8iv63",
+      "protein_name": "dynamics",
+      "pdb": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8iv63.pdb",
+      "working_dir": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8iv63",
+      "case_description": "Protein only (apo)",
+      "prompt_preview": "label q8iv63, VRK3, q8iv63.pdb, /home/.../q8iv63, apo. Follow the workflow: preprocess, simsetup, hpcjob, analysis, reporter. Compute backbone RMSD, per\u2011residue"
+    },
+    {
+      "label": "q8iv63_ATP_MG",
+      "protein_name": "dynamics",
+      "pdb": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8iv63.pdb",
+      "working_dir": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8iv63_ATP_MG",
+      "case_description": "Protein + ATP + Mg (holo)",
+      "prompt_preview": "label q8iv63_ATP_MG, VRK3, q8iv63.pdb, /home/.../q8iv63_ATP_MG, holo. Follow the workflow: preprocess, simsetup, hpcjob, analysis, reporter. Compute backbone RM"
+    },
+    {
+      "label": "q8nb16",
+      "protein_name": "dynamics",
+      "pdb": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8nb16.pdb",
+      "working_dir": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8nb16",
+      "case_description": "Protein only (apo)",
+      "prompt_preview": "label q8nb16, MLKL, q8nb16.pdb, /home/.../q8nb16, apo. Follow the workflow: preprocess, simsetup, hpcjob, analysis, reporter. Compute backbone RMSD, per\u2011residue"
+    },
+    {
+      "label": "q8nb16_ATP_MG",
+      "protein_name": "dynamics",
+      "pdb": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8nb16.pdb",
+      "working_dir": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8nb16_ATP_MG",
+      "case_description": "Protein + ATP + Mg (holo)",
+      "prompt_preview": "label q8nb16_ATP_MG, MLKL, q8nb16.pdb, /home/.../q8nb16_ATP_MG, holo. Follow the workflow: preprocess, simsetup, hpcjob, analysis, reporter. Compute backbone RM"
+    },
+    {
+      "label": "q8wz42",
+      "protein_name": "dynamics",
+      "pdb": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42.pdb",
+      "working_dir": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42",
+      "case_description": "Protein only (apo)",
+      "prompt_preview": "label q8wz42, TITIN, q8wz42.pdb, /home/.../q8wz42, apo. Follow the workflow: preprocess, simsetup, hpcjob, analysis, reporter. Compute backbone RMSD, per\u2011residu"
+    },
+    {
+      "label": "q8wz42_ATP_MG",
+      "protein_name": "dynamics",
+      "pdb": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42.pdb",
+      "working_dir": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42_ATP_MG",
+      "case_description": "Protein + ATP + Mg (holo)",
+      "prompt_preview": "label q8wz42_ATP_MG, TITIN, q8wz42.pdb, /home/.../q8wz42_ATP_MG, holo. Follow the workflow: preprocess, simsetup, hpcjob, analysis, reporter. Compute backbone R"
+    }
+  ],
+  "sim_prompts": [
+    {
+      "pdb": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860.pdb",
+      "label": "p21860",
+      "prompt": "label p21860, ERBB3, p21860.pdb, /home/.../p21860, apo. Follow the workflow: preprocess, simsetup, hpcjob, analysis, reporter. Compute backbone RMSD, per\u2011residue RMSF, radius of gyration, C\u03b1 DCCM, DSSP, and generate plots for comparison with holo. Case requirement: case_id=protein_only Protein only (apo) Preprocess and set up a 1 ns MD simulation for each PDB using AMBER99SB-ILDN, TIP3P water, 310 K, 1 bar, 0.15 M NaCl, and perform analysis of backbone RMSD, per-residue RMSF (including residues 150\u2013200 when present), radius of gyration, C\u03b1 DCCM, and DSSP time evolution. Use protein only: exclude ligand and crystallographic ions from the source PDB.",
+      "analysis_prompt": null,
+      "task_scope": "full_pipeline",
+      "working_dir": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860",
+      "case_id": "protein_only",
+      "case_description": "Protein only (apo)",
+      "case_directive": "Preprocess and set up a 1 ns MD simulation for each PDB using AMBER99SB-ILDN, TIP3P water, 310 K, 1 bar, 0.15 M NaCl, and perform analysis of backbone RMSD, per-residue RMSF (including residues 150\u2013200 when present), radius of gyration, C\u03b1 DCCM, and DSSP time evolution.",
+      "protein_name": "dynamics"
+    },
+    {
+      "pdb": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860.pdb",
+      "label": "p21860_ATP_MG",
+      "prompt": "label p21860_ATP_MG, ERBB3, p21860.pdb, /home/.../p21860_ATP_MG, holo. Follow the workflow: preprocess, simsetup, hpcjob, analysis, reporter. Compute backbone RMSD, per\u2011residue RMSF, radius of gyration, C\u03b1 DCCM, DSSP, ligand\u2011pocket COM distance, and generate plots for comparison with apo. Case requirement: case_id=protein_with_ligand Protein + ATP + Mg (holo) Preprocess and set up a 1 ns MD simulation for each PDB using AMBER99SB-ILDN, TIP3P water, 310 K, 1 bar, 0.15 M NaCl, and perform analysis of backbone RMSD, per-residue RMSF (including residues 150\u2013200 when present), radius of gyration, COM distance between bound ATP and the catalytic pocket, C\u03b1 DCCM, and DSSP time evolution. Include the ligand and crystallographic Mg/ions from the source PDB.",
+      "analysis_prompt": null,
+      "task_scope": "full_pipeline",
+      "working_dir": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG",
+      "case_id": "protein_with_ligand",
+      "case_description": "Protein + ATP + Mg (holo)",
+      "case_directive": "Preprocess and set up a 1 ns MD simulation for each PDB using AMBER99SB-ILDN, TIP3P water, 310 K, 1 bar, 0.15 M NaCl, and perform analysis of backbone RMSD, per-residue RMSF (including residues 150\u2013200 when present), radius of gyration, COM distance between bound ATP and the catalytic pocket, C\u03b1 DCCM, and DSSP time evolution.",
+      "protein_name": "dynamics"
+    },
+    {
+      "pdb": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8iv63.pdb",
+      "label": "q8iv63",
+      "prompt": "label q8iv63, VRK3, q8iv63.pdb, /home/.../q8iv63, apo. Follow the workflow: preprocess, simsetup, hpcjob, analysis, reporter. Compute backbone RMSD, per\u2011residue RMSF, radius of gyration, C\u03b1 DCCM, DSSP, and generate plots for comparison with holo. Case requirement: case_id=protein_only Protein only (apo) Preprocess and set up a 1 ns MD simulation for each PDB using AMBER99SB-ILDN, TIP3P water, 310 K, 1 bar, 0.15 M NaCl, and perform analysis of backbone RMSD, per-residue RMSF (including residues 150\u2013200 when present), radius of gyration, C\u03b1 DCCM, and DSSP time evolution. Use protein only: exclude ligand and crystallographic ions from the source PDB.",
+      "analysis_prompt": null,
+      "task_scope": "full_pipeline",
+      "working_dir": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8iv63",
+      "case_id": "protein_only",
+      "case_description": "Protein only (apo)",
+      "case_directive": "Preprocess and set up a 1 ns MD simulation for each PDB using AMBER99SB-ILDN, TIP3P water, 310 K, 1 bar, 0.15 M NaCl, and perform analysis of backbone RMSD, per-residue RMSF (including residues 150\u2013200 when present), radius of gyration, C\u03b1 DCCM, and DSSP time evolution.",
+      "protein_name": "dynamics"
+    },
+    {
+      "pdb": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8iv63.pdb",
+      "label": "q8iv63_ATP_MG",
+      "prompt": "label q8iv63_ATP_MG, VRK3, q8iv63.pdb, /home/.../q8iv63_ATP_MG, holo. Follow the workflow: preprocess, simsetup, hpcjob, analysis, reporter. Compute backbone RMSD, per\u2011residue RMSF, radius of gyration, C\u03b1 DCCM, DSSP, ligand\u2011pocket COM distance, and generate plots for comparison with apo. Case requirement: case_id=protein_with_ligand Protein + ATP + Mg (holo) Preprocess and set up a 1 ns MD simulation for each PDB using AMBER99SB-ILDN, TIP3P water, 310 K, 1 bar, 0.15 M NaCl, and perform analysis of backbone RMSD, per-residue RMSF (including residues 150\u2013200 when present), radius of gyration, COM distance between bound ATP and the catalytic pocket, C\u03b1 DCCM, and DSSP time evolution. Include the ligand and crystallographic Mg/ions from the source PDB.",
+      "analysis_prompt": null,
+      "task_scope": "full_pipeline",
+      "working_dir": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8iv63_ATP_MG",
+      "case_id": "protein_with_ligand",
+      "case_description": "Protein + ATP + Mg (holo)",
+      "case_directive": "Preprocess and set up a 1 ns MD simulation for each PDB using AMBER99SB-ILDN, TIP3P water, 310 K, 1 bar, 0.15 M NaCl, and perform analysis of backbone RMSD, per-residue RMSF (including residues 150\u2013200 when present), radius of gyration, COM distance between bound ATP and the catalytic pocket, C\u03b1 DCCM, and DSSP time evolution.",
+      "protein_name": "dynamics"
+    },
+    {
+      "pdb": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8nb16.pdb",
+      "label": "q8nb16",
+      "prompt": "label q8nb16, MLKL, q8nb16.pdb, /home/.../q8nb16, apo. Follow the workflow: preprocess, simsetup, hpcjob, analysis, reporter. Compute backbone RMSD, per\u2011residue RMSF, radius of gyration, C\u03b1 DCCM, DSSP, and generate plots for comparison with holo. Case requirement: case_id=protein_only Protein only (apo) Preprocess and set up a 1 ns MD simulation for each PDB using AMBER99SB-ILDN, TIP3P water, 310 K, 1 bar, 0.15 M NaCl, and perform analysis of backbone RMSD, per-residue RMSF (including residues 150\u2013200 when present), radius of gyration, C\u03b1 DCCM, and DSSP time evolution. Use protein only: exclude ligand and crystallographic ions from the source PDB.",
+      "analysis_prompt": null,
+      "task_scope": "full_pipeline",
+      "working_dir": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8nb16",
+      "case_id": "protein_only",
+      "case_description": "Protein only (apo)",
+      "case_directive": "Preprocess and set up a 1 ns MD simulation for each PDB using AMBER99SB-ILDN, TIP3P water, 310 K, 1 bar, 0.15 M NaCl, and perform analysis of backbone RMSD, per-residue RMSF (including residues 150\u2013200 when present), radius of gyration, C\u03b1 DCCM, and DSSP time evolution.",
+      "protein_name": "dynamics"
+    },
+    {
+      "pdb": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8nb16.pdb",
+      "label": "q8nb16_ATP_MG",
+      "prompt": "label q8nb16_ATP_MG, MLKL, q8nb16.pdb, /home/.../q8nb16_ATP_MG, holo. Follow the workflow: preprocess, simsetup, hpcjob, analysis, reporter. Compute backbone RMSD, per\u2011residue RMSF, radius of gyration, C\u03b1 DCCM, DSSP, ligand\u2011pocket COM distance, and generate plots for comparison with apo. Case requirement: case_id=protein_with_ligand Protein + ATP + Mg (holo) Preprocess and set up a 1 ns MD simulation for each PDB using AMBER99SB-ILDN, TIP3P water, 310 K, 1 bar, 0.15 M NaCl, and perform analysis of backbone RMSD, per-residue RMSF (including residues 150\u2013200 when present), radius of gyration, COM distance between bound ATP and the catalytic pocket, C\u03b1 DCCM, and DSSP time evolution. Include the ligand and crystallographic Mg/ions from the source PDB.",
+      "analysis_prompt": null,
+      "task_scope": "full_pipeline",
+      "working_dir": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8nb16_ATP_MG",
+      "case_id": "protein_with_ligand",
+      "case_description": "Protein + ATP + Mg (holo)",
+      "case_directive": "Preprocess and set up a 1 ns MD simulation for each PDB using AMBER99SB-ILDN, TIP3P water, 310 K, 1 bar, 0.15 M NaCl, and perform analysis of backbone RMSD, per-residue RMSF (including residues 150\u2013200 when present), radius of gyration, COM distance between bound ATP and the catalytic pocket, C\u03b1 DCCM, and DSSP time evolution.",
+      "protein_name": "dynamics"
+    },
+    {
+      "pdb": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42.pdb",
+      "label": "q8wz42",
+      "prompt": "label q8wz42, TITIN, q8wz42.pdb, /home/.../q8wz42, apo. Follow the workflow: preprocess, simsetup, hpcjob, analysis, reporter. Compute backbone RMSD, per\u2011residue RMSF, radius of gyration, C\u03b1 DCCM, DSSP, and generate plots for comparison with holo. Case requirement: case_id=protein_only Protein only (apo) Preprocess and set up a 1 ns MD simulation for each PDB using AMBER99SB-ILDN, TIP3P water, 310 K, 1 bar, 0.15 M NaCl, and perform analysis of backbone RMSD, per-residue RMSF (including residues 150\u2013200 when present), radius of gyration, C\u03b1 DCCM, and DSSP time evolution. Use protein only: exclude ligand and crystallographic ions from the source PDB.",
+      "analysis_prompt": null,
+      "task_scope": "full_pipeline",
+      "working_dir": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42",
+      "case_id": "protein_only",
+      "case_description": "Protein only (apo)",
+      "case_directive": "Preprocess and set up a 1 ns MD simulation for each PDB using AMBER99SB-ILDN, TIP3P water, 310 K, 1 bar, 0.15 M NaCl, and perform analysis of backbone RMSD, per-residue RMSF (including residues 150\u2013200 when present), radius of gyration, C\u03b1 DCCM, and DSSP time evolution.",
+      "protein_name": "dynamics"
+    },
+    {
+      "pdb": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42.pdb",
+      "label": "q8wz42_ATP_MG",
+      "prompt": "label q8wz42_ATP_MG, TITIN, q8wz42.pdb, /home/.../q8wz42_ATP_MG, holo. Follow the workflow: preprocess, simsetup, hpcjob, analysis, reporter. Compute backbone RMSD, per\u2011residue RMSF, radius of gyration, C\u03b1 DCCM, DSSP, ligand\u2011pocket COM distance, and generate plots for comparison with apo. Case requirement: case_id=protein_with_ligand Protein + ATP + Mg (holo) Preprocess and set up a 1 ns MD simulation for each PDB using AMBER99SB-ILDN, TIP3P water, 310 K, 1 bar, 0.15 M NaCl, and perform analysis of backbone RMSD, per-residue RMSF (including residues 150\u2013200 when present), radius of gyration, COM distance between bound ATP and the catalytic pocket, C\u03b1 DCCM, and DSSP time evolution. Include the ligand and crystallographic Mg/ions from the source PDB.",
+      "analysis_prompt": null,
+      "task_scope": "full_pipeline",
+      "working_dir": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42_ATP_MG",
+      "case_id": "protein_with_ligand",
+      "case_description": "Protein + ATP + Mg (holo)",
+      "case_directive": "Preprocess and set up a 1 ns MD simulation for each PDB using AMBER99SB-ILDN, TIP3P water, 310 K, 1 bar, 0.15 M NaCl, and perform analysis of backbone RMSD, per-residue RMSF (including residues 150\u2013200 when present), radius of gyration, COM distance between bound ATP and the catalytic pocket, C\u03b1 DCCM, and DSSP time evolution.",
+      "protein_name": "dynamics"
+    }
+  ],
+  "run_pre_combined": false,
+  "pre_combined_plan": "",
+  "run_post_combined": true,
+  "post_combined_plan": "After all per\u2011simulation analyses and individual reports are finished, gather the standard output files (rmsd.dat, rmsf.dat, gyration.dat, dccm_heatmap.png, dssp.png, ligand_pocket_distance.csv) from each simulation\u2019s analysis folder. Use the cross\u2011simulation analysis tools to compute overlay plots (e.g., RMSD and RMSF overlays, DCCM difference maps) and statistical tables summarizing mean, std, min, max for each metric across the four proteins and both apo/holo states. Then invoke the reporter to generate a combined HTML report that includes the overlay figures, tables, and a literature review linking the observed dynamics to activation\u2011loop conformations and allosteric regulation for ERBB3, VRK3, MLKL, and TITIN.",
+  "run_combined_analysis": true,
+  "num_combined_prompts": 1,
+  "combined_prompt": "After all per\u2011simulation analyses and individual reports are finished, gather the standard output files (rmsd.dat, rmsf.dat, gyration.dat, dccm_heatmap.png, dssp.png, ligand_pocket_distance.csv) from each simulation\u2019s analysis folder. Use the cross\u2011simulation analysis tools to compute overlay plots (e.g., RMSD and RMSF overlays, DCCM difference maps) and statistical tables summarizing mean, std, min, max for each metric across the four proteins and both apo/holo states. Then invoke the reporter to generate a combined HTML report that includes the overlay figures, tables, and a literature review linking the observed dynamics to activation\u2011loop conformations and allosteric regulation for ERBB3, VRK3, MLKL, and TITIN.",
+  "combined_analysis_plan": "After all per\u2011simulation analyses and individual reports are finished, gather the standard output files (rmsd.dat, rmsf.dat, gyration.dat, dccm_heatmap.png, dssp.png, ligand_pocket_distance.csv) from each simulation\u2019s analysis folder. Use the cross\u2011simulation analysis tools to compute overlay plots (e.g., RMSD and RMSF overlays, DCCM difference maps) and statistical tables summarizing mean, std, min, max for each metric across the four proteins and both apo/holo states. Then invoke the reporter to generate a combined HTML report that includes the overlay figures, tables, and a literature review linking the observed dynamics to activation\u2011loop conformations and allosteric regulation for ERBB3, VRK3, MLKL, and TITIN.",
+  "num_simulations": 8,
+  "labels": [
+    "p21860",
+    "p21860_ATP_MG",
+    "q8iv63",
+    "q8iv63_ATP_MG",
+    "q8nb16",
+    "q8nb16_ATP_MG",
+    "q8wz42",
+    "q8wz42_ATP_MG"
+  ],
+  "prompt_source": "llm",
+  "timestamp": "2026-11-11T11:46:41.946923",
+  "label": "overall"
+}

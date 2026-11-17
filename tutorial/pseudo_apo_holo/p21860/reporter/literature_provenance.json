@@ -1,0 +1,1093 @@
+{
+  "pipeline": "evidence_grounded_literature_v1",
+  "steps": {
+    "1_observations": {
+      "n": 6,
+      "observations": [
+        {
+          "id": "obs_rmsd_1",
+          "kind": "rmsd_stability",
+          "analysis_type": "RMSD",
+          "statement": "Receptor tyrosine-protein kinase erbB-3: modest backbone RMSD / local conformational stability (mean 1.29 \u00c5, max 1.65 \u00c5)",
+          "metrics": {
+            "mean_rmsd_angstrom": 1.289,
+            "std_rmsd_angstrom": 0.421,
+            "min_rmsd_angstrom": 0.0,
+            "max_rmsd_angstrom": 1.653
+          },
+          "keywords": [
+            "rmsd",
+            "conformational stability",
+            "backbone",
+            "molecular dynamics"
+          ]
+        },
+        {
+          "id": "obs_rmsf_2",
+          "kind": "rmsf_hotspots",
+          "analysis_type": "RMSF",
+          "statement": "Receptor tyrosine-protein kinase erbB-3: RMSF hotspots / flexible sites: GLY24 (2.10 \u00c5), GLU23 (1.80 \u00c5), GLU25 (1.74 \u00c5), PRO71 (1.59 \u00c5), SER26 (1.58 \u00c5)",
+          "metrics": {
+            "mean_rmsf_angstrom": 0.776,
+            "most_flexible_residue": 24,
+            "most_flexible_rmsf": 2.101,
+            "top_flexible": [
+              "GLY24 (2.10 \u00c5)",
+              "GLU23 (1.80 \u00c5)",
+              "GLU25 (1.74 \u00c5)",
+              "PRO71 (1.59 \u00c5)",
+              "SER26 (1.58 \u00c5)"
+            ]
+          },
+          "keywords": [
+            "rmsf",
+            "flexibility",
+            "flexible loop",
+            "hotspot",
+            "residue fluctuation",
+            "GLY24",
+            "GLU23",
+            "GLU25"
+          ]
+        },
+        {
+          "id": "obs_rmsf_3",
+          "kind": "rmsf_hotspots",
+          "analysis_type": "RMSF",
+          "statement": "Receptor tyrosine-protein kinase erbB-3: RMSF hotspots / flexible sites: ALA163 (1.17 \u00c5), GLU162 (1.02 \u00c5), HIS182 (1.00 \u00c5), PRO153 (0.98 \u00c5), PRO152 (0.96 \u00c5)",
+          "metrics": {
+            "mean_rmsf_angstrom": 0.646,
+            "most_flexible_residue": 163,
+            "most_flexible_rmsf": 1.174,
+            "top_flexible": [
+              "ALA163 (1.17 \u00c5)",
+              "GLU162 (1.02 \u00c5)",
+              "HIS182 (1.00 \u00c5)",
+              "PRO153 (0.98 \u00c5)",
+              "PRO152 (0.96 \u00c5)"
+            ]
+          },
+          "keywords": [
+            "rmsf",
+            "flexibility",
+            "flexible loop",
+            "hotspot",
+            "residue fluctuation",
+            "ALA163",
+            "GLU162",
+            "HIS182"
+          ]
+        },
+        {
+          "id": "obs_dccm_4",
+          "kind": "correlated_motions",
+          "analysis_type": "DCCM",
+          "statement": "Receptor tyrosine-protein kinase erbB-3: correlated motions / allosteric coupling observed",
+          "metrics": {
+            "n_atoms": 258,
+            "n_residues": 258,
+            "n_frames_used": 11,
+            "mean_abs_correlation": 0.195,
+            "n_strongly_correlated_pairs": 50
+          },
+          "keywords": [
+            "dccm",
+            "correlated motion",
+            "allosteric",
+            "communication"
+          ]
+        },
+        {
+          "id": "obs_rg_5",
+          "kind": "compactness",
+          "analysis_type": "Radius_of_Gyration",
+          "statement": "Receptor tyrosine-protein kinase erbB-3: radius of gyration / compactness (mean 18.672 \u00c5)",
+          "metrics": {
+            "n_frames": 11,
+            "mean_rg_angstrom": 18.672,
+            "std_rg_angstrom": 0.142,
+            "min_rg_angstrom": 18.37,
+            "max_rg_angstrom": 18.888
+          },
+          "keywords": [
+            "radius of gyration",
+            "compactness",
+            "folding",
+            "stability",
+            "molecular dynamics"
+          ]
+        },
+        {
+          "id": "obs_goal_ligand",
+          "kind": "ligand_or_pocket",
+          "analysis_type": "goal",
+          "statement": "User objective involves apo/holo or ligand-related interpretation",
+          "metrics": {},
+          "keywords": [
+            "apo",
+            "holo",
+            "ligand",
+            "atp",
+            "binding"
+          ]
+        }
+      ]
+    },
+    "2_queries": {
+      "n": 71,
+      "queries": {
+        "alias_0_dynamics": "HER3 molecular dynamics",
+        "alias_0_flexibility": "HER3 conformational flexibility",
+        "alias_0_functional": "HER3 functional study",
+        "alias_0_computational": "HER3 (computational OR \"molecular dynamics\" OR simulation)",
+        "protein_0_dynamics": "HER3 protein dynamics molecular dynamics",
+        "protein_0_mechanism": "HER3 mechanism structure function molecular dynamics",
+        "protein_0_function": "HER3 kinase receptor structure dynamics",
+        "alias_1_dynamics": "ERBB3 molecular dynamics",
+        "alias_1_flexibility": "ERBB3 conformational flexibility",
+        "alias_1_functional": "ERBB3 functional study",
+        "alias_1_computational": "ERBB3 (computational OR \"molecular dynamics\" OR simulation)",
+        "protein_1_dynamics": "ERBB3 protein dynamics molecular dynamics",
+        "protein_1_mechanism": "ERBB3 mechanism structure function molecular dynamics",
+        "protein_1_function": "ERBB3 kinase receptor structure dynamics",
+        "alias_2_dynamics": "dynamics molecular dynamics",
+        "alias_2_flexibility": "dynamics conformational flexibility",
+        "alias_2_functional": "dynamics functional study",
+        "alias_2_computational": "dynamics (computational OR \"molecular dynamics\" OR simulation)",
+        "protein_2_dynamics": "dynamics protein dynamics molecular dynamics",
+        "protein_2_mechanism": "dynamics mechanism structure function molecular dynamics",
+        "protein_2_function": "dynamics kinase receptor structure dynamics",
+        "alias_3_dynamics": "\"Proto-oncogene-like protein c-ErbB-3\" molecular dynamics",
+        "alias_3_flexibility": "\"Proto-oncogene-like protein c-ErbB-3\" conformational flexibility",
+        "alias_3_functional": "\"Proto-oncogene-like protein c-ErbB-3\" functional study",
+        "alias_3_computational": "\"Proto-oncogene-like protein c-ErbB-3\" (computational OR \"molecular dynamics\" OR simulation)",
+        "protein_3_dynamics": "Proto-oncogene-like protein c-ErbB-3 protein dynamics molecular dynamics",
+        "protein_3_mechanism": "Proto-oncogene-like protein c-ErbB-3 mechanism structure function molecular dynamics",
+        "protein_3_function": "Proto-oncogene-like protein c-ErbB-3 kinase receptor structure dynamics",
+        "alias_4_dynamics": "\"Receptor tyrosine-protein kinase erbB-3\" molecular dynamics",
+        "alias_4_flexibility": "\"Receptor tyrosine-protein kinase erbB-3\" conformational flexibility",
+        "alias_4_functional": "\"Receptor tyrosine-protein kinase erbB-3\" functional study",
+        "alias_4_computational": "\"Receptor tyrosine-protein kinase erbB-3\" (computational OR \"molecular dynamics\" OR simulation)",
+        "protein_4_dynamics": "Receptor tyrosine-protein kinase erbB-3 protein dynamics molecular dynamics",
+        "protein_4_mechanism": "Receptor tyrosine-protein kinase erbB-3 mechanism structure function molecular dynamics",
+        "protein_4_function": "Receptor tyrosine-protein kinase erbB-3 kinase receptor structure dynamics",
+        "protein_dynamics": "\"Receptor tyrosine-protein kinase erbB-3\" molecular dynamics simulation",
+        "protein_function": "\"Receptor tyrosine-protein kinase erbB-3\" structure function",
+        "protein_functional_study": "\"Receptor tyrosine-protein kinase erbB-3\" functional study OR deficiency OR knockout",
+        "protein_computational_study": "\"Receptor tyrosine-protein kinase erbB-3\" computational study OR molecular dynamics OR simulation",
+        "protein_context": "\"Receptor tyrosine-protein kinase erbB-3\" kinase receptor molecular dynamics",
+        "protein_goal_context": "Receptor tyrosine-protein kinase erbB-3 alloster compare versus",
+        "protein_biology": "Receptor tyrosine-protein kinase erbB-3 receptor allosteric",
+        "protein_family_review": "Receptor tyrosine-protein kinase erbB-3 pseudokinase structure function review",
+        "theme_family_dynamics": "pseudokinase kinase domain molecular dynamics simulation",
+        "theme_family_flexibility": "pseudokinase apo flexibility residue dynamics",
+        "theme_related_kinase": "kinase molecular dynamics conformational",
+        "theme_related_allosteric": "allosteric molecular dynamics conformational",
+        "ligand_effect": "Receptor tyrosine-protein kinase erbB-3 atp binding protein dynamics simulation",
+        "allosteric_dccm": "Receptor tyrosine-protein kinase erbB-3 allosteric communication correlated motion molecular dynamics",
+        "method_RMSD": "Receptor tyrosine-protein kinase erbB-3 RMSD stability molecular dynamics",
+        "theme_method_RMSD": "pseudokinase RMSD stability molecular dynamics",
+        "method_RMSF": "Receptor tyrosine-protein kinase erbB-3 RMSF residue flexibility dynamics",
+        "theme_method_RMSF": "pseudokinase RMSF residue flexibility dynamics",
+        "method_Radius_of_Gyration": "Receptor tyrosine-protein kinase erbB-3 radius of gyration compactness",
+        "theme_method_Radius_of_Gyration": "pseudokinase radius of gyration compactness",
+        "method_DSSP_SecondaryStructure": "Receptor tyrosine-protein kinase erbB-3 DSSP_SecondaryStructure molecular dynamics",
+        "theme_method_DSSP_SecondaryStructure": "pseudokinase DSSP_SecondaryStructure molecular dynamics",
+        "result_rmsd": "Receptor tyrosine-protein kinase erbB-3 pseudokinase conformational stability RMSD molecular dynamics",
+        "theme_result_rmsd": "pseudokinase conformational stability RMSD molecular dynamics",
+        "result_rmsf": "Receptor tyrosine-protein kinase erbB-3 pseudokinase residue flexibility RMSF domain molecular dynamics",
+        "theme_result_rmsf": "pseudokinase residue flexibility RMSF domain molecular dynamics",
+        "result_rg": "Receptor tyrosine-protein kinase erbB-3 pseudokinase radius of gyration domain stability molecular dynamics",
+        "theme_result_rg": "pseudokinase radius of gyration domain stability molecular dynamics",
+        "hypothesis_objective": "Receptor tyrosine-protein kinase erbB-3 alloster compare versus molecular dynamics",
+        "theme_objective": "alloster compare versus molecular dynamics protein structure",
+        "theme_family_structure": "pseudokinase kinase structure function conformational dynamics",
+        "theme_ligand": "atp binding protein molecular dynamics simulation",
+        "_fallback_general": "molecular dynamics protein conformational stability review",
+        "obs_rmsf_hotspots": "dynamics ALA163 GLU162 HIS182 flexibility molecular dynamics",
+        "theme_obs_flexibility": "protein residue flexibility RMSF activation loop molecular dynamics",
+        "theme_obs_allostery": "dynamics allosteric correlated motions molecular dynamics"
+      }
+    },
+    "2b_uniprot_seed": {
+      "n": 8
+    },
+    "2_gather": {
+      "n_candidates": 28,
+      "source_counts": {
+        "uniprot_curated": 8,
+        "unknown": 20
+      },
+      "candidates": [
+        {
+          "title": "Isolation and characterization of ERBB3, a third member of the ERBB/epidermal growth factor receptor family: evidence for overexpression in a subset of human mammary tumors.",
+          "year": 1989,
+          "pmid": "2687875",
+          "doi": "10.1073/pnas.86.23.9193",
+          "source": "uniprot_curated",
+          "url": null,
+          "query_key": "uniprot:key_references"
+        },
+        {
+          "title": "Molecular cloning and expression of an additional epidermal growth factor receptor-related gene.",
+          "year": 1990,
+          "pmid": "2164210",
+          "doi": "10.1073/pnas.87.13.4905",
+          "source": "uniprot_curated",
+          "url": null,
+          "query_key": "uniprot:key_references"
+        },
+        {
+          "title": "c-erbB3 gene encodes secreted as well as transmembrane receptor tyrosine kinase.",
+          "year": 1993,
+          "pmid": "7685162",
+          "doi": "10.1006/bbrc.1993.1542",
+          "source": "uniprot_curated",
+          "url": null,
+          "query_key": "uniprot:key_references"
+        },
+        {
+          "title": "Complete sequencing and characterization of 21,243 full-length human cDNAs.",
+          "year": 2004,
+          "pmid": "14702039",
+          "doi": "10.1038/ng1285",
+          "source": "uniprot_curated",
+          "url": null,
+          "query_key": "uniprot:key_references"
+        },
+        {
+          "title": "The finished DNA sequence of human chromosome 12.",
+          "year": 2006,
+          "pmid": "16541075",
+          "doi": "10.1038/nature04569",
+          "source": "uniprot_curated",
+          "url": null,
+          "query_key": "uniprot:key_references"
+        },
+        {
+          "title": "The status, quality, and expansion of the NIH full-length cDNA project: the Mammalian Gene Collection (MGC).",
+          "year": 2004,
+          "pmid": "15489334",
+          "doi": "10.1101/gr.2596504",
+          "source": "uniprot_curated",
+          "url": null,
+          "query_key": "uniprot:key_references"
+        },
+        {
+          "title": "Biochemical characterization of the protein tyrosine kinase homology domain of the ErbB3 (HER3) receptor protein.",
+          "year": 1997,
+          "pmid": "9148746",
+          "doi": "10.1042/bj3220757",
+          "source": "uniprot_curated",
+          "url": null,
+          "query_key": "uniprot:key_references"
+        },
+        {
+          "title": "Analysis of Grb7 recruitment by heregulin-activated erbB receptors reveals a novel target selectivity for erbB3.",
+          "year": 1998,
+          "pmid": "9516479",
+          "doi": "10.1074/jbc.273.13.7717",
+          "source": "uniprot_curated",
+          "url": null,
+          "query_key": "uniprot:key_references"
+        },
+        {
+          "title": "Structures of the HER2-HER3-NRG1\u03b2 complex reveal a dynamic dimer interface.",
+          "year": 2021,
+          "pmid": "34759323",
+          "doi": "10.1038/s41586-021-04084-z",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/34759323/",
+          "query_key": "pubmed:alias_0_dynamics"
+        },
+        {
+          "title": "Self-inhibition of HER2 and HER3 at fever temperatures may prevent their hetero-dimerization.",
+          "year": 2024,
+          "pmid": "37342980",
+          "doi": "10.1080/07391102.2023.2227700",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37342980/",
+          "query_key": "pubmed:alias_0_dynamics"
+        },
+        {
+          "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+          "year": 2022,
+          "pmid": "35108525",
+          "doi": "10.1016/j.celrep.2021.110291",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35108525/",
+          "query_key": "pubmed:alias_0_dynamics"
+        },
+        {
+          "title": "Structural analysis of HER2-trastuzumab complex reveals receptor conformational adaptation.",
+          "year": 2025,
+          "pmid": "40712014",
+          "doi": "10.1126/sciadv.adu9945",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/40712014/",
+          "query_key": "pubmed:alias_0_dynamics"
+        },
+        {
+          "title": "Extensive conformational and physical plasticity protects HER2-HER3 tumorigenic signaling.",
+          "year": 2022,
+          "pmid": "35108526",
+          "doi": "10.1016/j.celrep.2021.110285",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35108526/",
+          "query_key": "pubmed:alias_0_flexibility"
+        },
+        {
+          "title": "Efficacy of Zenocutuzumab in <i>NRG1</i> Fusion-Positive Cancer.",
+          "year": 2025,
+          "pmid": "39908431",
+          "doi": "10.1056/NEJMoa2405008",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39908431/",
+          "query_key": "pubmed:alias_0_functional"
+        },
+        {
+          "title": "HER kinase inhibition in patients with HER2- and HER3-mutant cancers.",
+          "year": 2018,
+          "pmid": "29420467",
+          "doi": "10.1038/nature25475",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/29420467/",
+          "query_key": "pubmed:alias_0_functional"
+        },
+        {
+          "title": "ErbB3 Governs Endothelial Dysfunction in Hypoxia-Induced Pulmonary Hypertension.",
+          "year": 2024,
+          "pmid": "38214194",
+          "doi": "10.1161/CIRCULATIONAHA.123.067005",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/38214194/",
+          "query_key": "pubmed:alias_0_functional"
+        },
+        {
+          "title": "BL-B01D1, a first-in-class EGFR-HER3 bispecific antibody-drug conjugate, in patients with locally advanced or metastatic solid tumours: a first-in-human, open-label, multicentre, p",
+          "year": 2024,
+          "pmid": "38823410",
+          "doi": "10.1016/S1470-2045(24)00159-1",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/38823410/",
+          "query_key": "pubmed:alias_0_functional"
+        },
+        {
+          "title": "Tumor Microenvironment-Derived NRG1 Promotes Antiandrogen Resistance in Prostate Cancer.",
+          "year": 2020,
+          "pmid": "32679108",
+          "doi": "10.1016/j.ccell.2020.06.005",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32679108/",
+          "query_key": "pubmed:alias_0_computational"
+        },
+        {
+          "title": "Circulating tumor cell plasticity determines breast cancer therapy resistance via neuregulin 1-HER3 signaling.",
+          "year": 2025,
+          "pmid": "39753722",
+          "doi": "10.1038/s43018-024-00882-2",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39753722/",
+          "query_key": "pubmed:alias_0_computational"
+        },
+        {
+          "title": "DUSP6 inhibition overcomes neuregulin/HER3-driven therapy tolerance in HER2+ breast cancer.",
+          "year": 2024,
+          "pmid": "38886591",
+          "doi": "10.1038/s44321-024-00088-0",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/38886591/",
+          "query_key": "pubmed:alias_0_computational"
+        },
+        {
+          "title": "HER3-targeted protein chimera forms endosomolytic capsomeres and self-assembles into stealth nucleocapsids for systemic tumor homing of RNA interference in vivo.",
+          "year": 2019,
+          "pmid": "31617560",
+          "doi": "10.1093/nar/gkz900",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31617560/",
+          "query_key": "pubmed:protein_0_mechanism"
+        },
+        {
+          "title": "Exploring the Binding Mechanism of NRG1-ERBB3 Complex and Discovery of Potent Natural Products to Reduce Diabetes-Assisted Breast Cancer Progression.",
+          "year": 2023,
+          "pmid": "37389721",
+          "doi": "10.1007/s12539-023-00566-y",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37389721/",
+          "query_key": "pubmed:protein_0_mechanism"
+        },
+        {
+          "title": "Conformational diversity and protein-protein interfaces in drug repurposing in Ras signaling pathway.",
+          "year": 2024,
+          "pmid": "38216592",
+          "doi": "10.1038/s41598-023-50913-8",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/38216592/",
+          "query_key": "pubmed:protein_0_function"
+        },
+        {
+          "title": "A small molecule inhibitor of HER3: a proof-of-concept study.",
+          "year": 2020,
+          "pmid": "32815546",
+          "doi": "10.1042/BCJ20200496",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32815546/",
+          "query_key": "pubmed:protein_0_function"
+        },
+        {
+          "title": "Modulating pseudokinase conformation from the ATP-binding site.",
+          "year": 2026,
+          "pmid": "42759518",
+          "doi": "10.1016/j.str.2026.08.013",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42759518/",
+          "query_key": "pubmed:alias_1_dynamics"
+        },
+        {
+          "title": "Targeting PI3K/AKT/mTOR and MAPK Signaling Pathways in Gastric Cancer.",
+          "year": 2024,
+          "pmid": "38339127",
+          "doi": "10.3390/ijms25031848",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/38339127/",
+          "query_key": "pubmed:alias_1_functional"
+        },
+        {
+          "title": "Full-length transcriptome atlas of gallbladder cancer reveals trastuzumab resistance conferred by ERBB2 alternative splicing.",
+          "year": 2025,
+          "pmid": "39948369",
+          "doi": "10.1038/s41392-025-02150-w",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39948369/",
+          "query_key": "pubmed:alias_1_computational"
+        },
+        {
+          "title": "HER3: Updates and current biology function, targeted therapy and pathologic detecting methods.",
+          "year": 2024,
+          "pmid": "39366553",
+          "doi": "10.1016/j.lfs.2024.123087",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39366553/",
+          "query_key": "pubmed_theme:ERBB3"
+        }
+      ]
+    },
+    "3_rank_screen": {
+      "n_ranked": 12,
+      "max_refs": 12,
+      "aliases_used": [
+        "dynamics",
+        "Receptor tyrosine-protein kinase erbB-3",
+        "ERBB3",
+        "HER3",
+        "Proto-oncogene-like protein c-ErbB-3",
+        "Tyrosine kinase-type cell surface receptor HER3",
+        "P21860"
+      ],
+      "ranked": [
+        {
+          "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+          "year": 2022,
+          "pmid": "35108525",
+          "doi": "10.1016/j.celrep.2021.110291",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35108525/",
+          "relevance_note": "Mentions: dynamics, HER3",
+          "query_key": "pubmed:alias_0_dynamics",
+          "score": 110,
+          "matched_aliases": [
+            "dynamics",
+            "HER3"
+          ]
+        },
+        {
+          "title": "Structures of the HER2-HER3-NRG1\u03b2 complex reveal a dynamic dimer interface.",
+          "year": 2021,
+          "pmid": "34759323",
+          "doi": "10.1038/s41586-021-04084-z",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/34759323/",
+          "relevance_note": "Mentions: dynamics, HER3",
+          "query_key": "pubmed:alias_0_dynamics",
+          "score": 76,
+          "matched_aliases": [
+            "dynamics",
+            "HER3"
+          ]
+        },
+        {
+          "title": "Modulating pseudokinase conformation from the ATP-binding site.",
+          "year": 2026,
+          "pmid": "42759518",
+          "doi": "10.1016/j.str.2026.08.013",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42759518/",
+          "relevance_note": "Mentions: dynamics, ERBB3",
+          "query_key": "pubmed:alias_1_dynamics",
+          "score": 64,
+          "matched_aliases": [
+            "dynamics",
+            "ERBB3"
+          ]
+        },
+        {
+          "title": "HER3-targeted protein chimera forms endosomolytic capsomeres and self-assembles into stealth nucleocapsids for systemic tumor homing of RNA interference in vivo.",
+          "year": 2019,
+          "pmid": "31617560",
+          "doi": "10.1093/nar/gkz900",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31617560/",
+          "relevance_note": "Mentions: dynamics, ERBB3, HER3",
+          "query_key": "pubmed:protein_0_mechanism",
+          "score": 60,
+          "matched_aliases": [
+            "dynamics",
+            "ERBB3",
+            "HER3"
+          ]
+        },
+        {
+          "title": "Exploring the Binding Mechanism of NRG1-ERBB3 Complex and Discovery of Potent Natural Products to Reduce Diabetes-Assisted Breast Cancer Progression.",
+          "year": 2023,
+          "pmid": "37389721",
+          "doi": "10.1007/s12539-023-00566-y",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37389721/",
+          "relevance_note": "Mentions: dynamics, ERBB3",
+          "query_key": "pubmed:protein_0_mechanism",
+          "score": 55,
+          "matched_aliases": [
+            "dynamics",
+            "ERBB3"
+          ]
+        },
+        {
+          "title": "Conformational diversity and protein-protein interfaces in drug repurposing in Ras signaling pathway.",
+          "year": 2024,
+          "pmid": "38216592",
+          "doi": "10.1038/s41598-023-50913-8",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/38216592/",
+          "relevance_note": "Mentions: dynamics, ERBB3, HER3",
+          "query_key": "pubmed:protein_0_function",
+          "score": 51,
+          "matched_aliases": [
+            "dynamics",
+            "ERBB3",
+            "HER3"
+          ]
+        },
+        {
+          "title": "A small molecule inhibitor of HER3: a proof-of-concept study.",
+          "year": 2020,
+          "pmid": "32815546",
+          "doi": "10.1042/BCJ20200496",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32815546/",
+          "relevance_note": "Mentions: HER3",
+          "query_key": "pubmed:protein_0_function",
+          "score": 51,
+          "matched_aliases": [
+            "HER3"
+          ]
+        },
+        {
+          "title": "Structural analysis of HER2-trastuzumab complex reveals receptor conformational adaptation.",
+          "year": 2025,
+          "pmid": "40712014",
+          "doi": "10.1126/sciadv.adu9945",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/40712014/",
+          "relevance_note": "Mentions: dynamics, HER3",
+          "query_key": "pubmed:alias_0_dynamics",
+          "score": 45,
+          "matched_aliases": [
+            "dynamics",
+            "HER3"
+          ]
+        },
+        {
+          "title": "Molecular cloning and expression of an additional epidermal growth factor receptor-related gene.",
+          "year": 1990,
+          "pmid": "2164210",
+          "doi": "10.1073/pnas.87.13.4905",
+          "source": "uniprot_curated",
+          "url": null,
+          "relevance_note": "Identity: uniprot_curated",
+          "query_key": "uniprot:key_references",
+          "score": 14
+        },
+        {
+          "title": "Complete sequencing and characterization of 21,243 full-length human cDNAs.",
+          "year": 2004,
+          "pmid": "14702039",
+          "doi": "10.1038/ng1285",
+          "source": "uniprot_curated",
+          "url": null,
+          "relevance_note": "Identity: uniprot_curated",
+          "query_key": "uniprot:key_references",
+          "score": 14
+        },
+        {
+          "title": "The finished DNA sequence of human chromosome 12.",
+          "year": 2006,
+          "pmid": "16541075",
+          "doi": "10.1038/nature04569",
+          "source": "uniprot_curated",
+          "url": null,
+          "relevance_note": "Identity: uniprot_curated",
+          "query_key": "uniprot:key_references",
+          "score": 14
+        },
+        {
+          "title": "The status, quality, and expansion of the NIH full-length cDNA project: the Mammalian Gene Collection (MGC).",
+          "year": 2004,
+          "pmid": "15489334",
+          "doi": "10.1101/gr.2596504",
+          "source": "uniprot_curated",
+          "url": null,
+          "relevance_note": "Identity: uniprot_curated",
+          "query_key": "uniprot:key_references",
+          "score": 14
+        }
+      ]
+    },
+    "4_evidence_passages": {
+      "n_refs_examined": 5,
+      "evidence": [
+        {
+          "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+          "pmid": "35108525",
+          "doi": "10.1016/j.celrep.2021.110291",
+          "pmcid": "PMC8889928",
+          "source": null,
+          "evidence_source": "europe_pmc_fulltext",
+          "passages": [
+            "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors.",
+            "Mutational disruption of ATP binding and molecular dynamics simulation of the apo KD of HER3 identify a conformational coupling of the ATP pocket with a hydrophobic AP-2 pocket, analogous to EGFR, that is critical for tumorigenic signaling and feasible for targeting.",
+            "The analysis confirms the critical role of this kinase dimer in this cancer type and identifies multiple new opportunities for the design of first-in-class allosteric inhibitors for this disease."
+          ],
+          "relevance_note": "Mentions: dynamics, HER3"
+        },
+        {
+          "title": "Structures of the HER2-HER3-NRG1\u03b2 complex reveal a dynamic dimer interface.",
+          "pmid": "34759323",
+          "doi": "10.1038/s41586-021-04084-z",
+          "pmcid": "PMC9298180",
+          "source": null,
+          "evidence_source": "abstract",
+          "passages": [
+            "The unique features of a singly liganded HER2-HER3 heterodimer underscore the allosteric sensing of ligand occupancy by the dimerization interface and explain why extracellular domains of HER2 do not homo-associate via a canonical active dimer interface."
+          ],
+          "relevance_note": "Mentions: dynamics, HER3"
+        },
+        {
+          "title": "Modulating pseudokinase conformation from the ATP-binding site.",
+          "pmid": "42759518",
+          "doi": "10.1016/j.str.2026.08.013",
+          "pmcid": "PMC13618211",
+          "source": null,
+          "evidence_source": "abstract",
+          "passages": [
+            "Pseudokinase domains (PsKDs) mediate key signaling processes involved in human disease.",
+            "Despite transformative success in targeting catalytically active protein kinases, drug development for pseudokinases has lagged behind."
+          ],
+          "relevance_note": "Mentions: dynamics, ERBB3"
+        },
+        {
+          "title": "HER3-targeted protein chimera forms endosomolytic capsomeres and self-assembles into stealth nucleocapsids for systemic tumor homing of RNA interference in vivo.",
+          "pmid": "31617560",
+          "doi": "10.1093/nar/gkz900",
+          "pmcid": "PMC6868389",
+          "source": null,
+          "evidence_source": "europe_pmc_fulltext",
+          "passages": [
+            "Nucleic Acids Res Nucleic Acids Res 4 nar 0411011 nar Nucleic Acids Research 0305-1048 1362-4962 Oxford University Press PMC6868389 PMC6868389.1 6868389 6868389 31617560 10.1093/nar/gkz900 gkz900 1 Chemical Biology and Nucleic Acid Chemistry HER3-targeted protein chimera forms endosomolytic capsomeres and self-assembles into stealth nucleocapsids for systemic tumor homing of RNA interference in vivo http://orcid.org/0000-0002-3429-5105 Alonso-Valenteen Felix 1 Pacheco Sayuri 2 Srinivas Dustin 1 Rentsendorj Altan 1 Chu David 1 Lubow Jay 1 Sims Jessica 1 Miao Tianxin 1 Mikhael Simoun 1 Hwang Jae",
+            "Here, structural modeling, molecular dynamics simulations, and functional assays suggest that it forms pentameric units resembling viral capsomeres that assemble into larger capsid-like structures when combined with siRNA cargo.",
+            "Here, we used computational biophysical methods for the structural modeling of HPK in different oligomeric states and then evolved the HPK structures under physiological conditions using molecular dynamics (MD) simulations to uncover its influences on siRNA particle assembly, stability, targeting, and host recognition, which were then tested in functional assays."
+          ],
+          "relevance_note": "Mentions: dynamics, ERBB3, HER3"
+        },
+        {
+          "title": "Exploring the Binding Mechanism of NRG1-ERBB3 Complex and Discovery of Potent Natural Products to Reduce Diabetes-Assisted Breast Cancer Progression.",
+          "pmid": "37389721",
+          "doi": "10.1007/s12539-023-00566-y",
+          "pmcid": "PMC10374477",
+          "source": null,
+          "evidence_source": "europe_pmc_fulltext",
+          "passages": [
+            "The conformational stability and dynamic features of NRG1\u2013WT, \u2013H2A, \u2013L3A, and \u2013K35A complexed with ERBB3 were subjected to 400 ns molecular dynamics simulations.",
+            "The modeled domain I structure was validated against the X-ray crystal structure using PyMOL with a root-mean-square deviation (RMSD) of 0.973 \u00c5.",
+            "The RMSD trajectories of alpha-carbon (C\u03b1)-atoms demonstrate the dynamic stability and convergence of the NRG1\u2013ERBB3 complexes (Fig."
+          ],
+          "relevance_note": "Mentions: dynamics, ERBB3"
+        }
+      ]
+    },
+    "5_compare_evidence": {
+      "n_observations": 6,
+      "comparisons": [
+        {
+          "observation_id": "obs_rmsd_1",
+          "observation": "Receptor tyrosine-protein kinase erbB-3: modest backbone RMSD / local conformational stability (mean 1.29 \u00c5, max 1.65 \u00c5)",
+          "kind": "rmsd_stability",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            },
+            {
+              "title": "HER3-targeted protein chimera forms endosomolytic capsomeres and self-assembles into stealth nucleocapsids for systemic tumor homing of RNA interference in vivo.",
+              "pmid": "31617560",
+              "doi": "10.1093/nar/gkz900",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "Nucleic Acids Res Nucleic Acids Res 4 nar 0411011 nar Nucleic Acids Research 0305-1048 1362-4962 Oxford University Press PMC6868389 PMC6868389.1 6868389 6868389 31617560 10.1093/nar/gkz900 gkz900 1 Chemical Biology and Nucleic Acid Chemistry HER3-targeted protein chimera forms endosomolytic capsomer"
+            },
+            {
+              "title": "Exploring the Binding Mechanism of NRG1-ERBB3 Complex and Discovery of Potent Natural Products to Reduce Diabetes-Assisted Breast Cancer Progression.",
+              "pmid": "37389721",
+              "doi": "10.1007/s12539-023-00566-y",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The conformational stability and dynamic features of NRG1\u2013WT, \u2013H2A, \u2013L3A, and \u2013K35A complexed with ERBB3 were subjected to 400 ns molecular dynamics simulations."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsf_2",
+          "observation": "Receptor tyrosine-protein kinase erbB-3: RMSF hotspots / flexible sites: GLY24 (2.10 \u00c5), GLU23 (1.80 \u00c5), GLU25 (1.74 \u00c5), PRO71 (1.59 \u00c5), SER26 (1.58 \u00c5)",
+          "kind": "rmsf_hotspots",
+          "category": "not_addressed",
+          "supporting": [],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsf_3",
+          "observation": "Receptor tyrosine-protein kinase erbB-3: RMSF hotspots / flexible sites: ALA163 (1.17 \u00c5), GLU162 (1.02 \u00c5), HIS182 (1.00 \u00c5), PRO153 (0.98 \u00c5), PRO152 (0.96 \u00c5)",
+          "kind": "rmsf_hotspots",
+          "category": "not_addressed",
+          "supporting": [],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_dccm_4",
+          "observation": "Receptor tyrosine-protein kinase erbB-3: correlated motions / allosteric coupling observed",
+          "kind": "correlated_motions",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            },
+            {
+              "title": "Structures of the HER2-HER3-NRG1\u03b2 complex reveal a dynamic dimer interface.",
+              "pmid": "34759323",
+              "doi": "10.1038/s41586-021-04084-z",
+              "evidence_source": "abstract",
+              "passage": "The unique features of a singly liganded HER2-HER3 heterodimer underscore the allosteric sensing of ligand occupancy by the dimerization interface and explain why extracellular domains of HER2 do not homo-associate via a canonical active dimer interface."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rg_5",
+          "observation": "Receptor tyrosine-protein kinase erbB-3: radius of gyration / compactness (mean 18.672 \u00c5)",
+          "kind": "compactness",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            },
+            {
+              "title": "HER3-targeted protein chimera forms endosomolytic capsomeres and self-assembles into stealth nucleocapsids for systemic tumor homing of RNA interference in vivo.",
+              "pmid": "31617560",
+              "doi": "10.1093/nar/gkz900",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "Nucleic Acids Res Nucleic Acids Res 4 nar 0411011 nar Nucleic Acids Research 0305-1048 1362-4962 Oxford University Press PMC6868389 PMC6868389.1 6868389 6868389 31617560 10.1093/nar/gkz900 gkz900 1 Chemical Biology and Nucleic Acid Chemistry HER3-targeted protein chimera forms endosomolytic capsomer"
+            },
+            {
+              "title": "Exploring the Binding Mechanism of NRG1-ERBB3 Complex and Discovery of Potent Natural Products to Reduce Diabetes-Assisted Breast Cancer Progression.",
+              "pmid": "37389721",
+              "doi": "10.1007/s12539-023-00566-y",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The conformational stability and dynamic features of NRG1\u2013WT, \u2013H2A, \u2013L3A, and \u2013K35A complexed with ERBB3 were subjected to 400 ns molecular dynamics simulations."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_goal_ligand",
+          "observation": "User objective involves apo/holo or ligand-related interpretation",
+          "kind": "ligand_or_pocket",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            },
+            {
+              "title": "Structures of the HER2-HER3-NRG1\u03b2 complex reveal a dynamic dimer interface.",
+              "pmid": "34759323",
+              "doi": "10.1038/s41586-021-04084-z",
+              "evidence_source": "abstract",
+              "passage": "The unique features of a singly liganded HER2-HER3 heterodimer underscore the allosteric sensing of ligand occupancy by the dimerization interface and explain why extracellular domains of HER2 do not homo-associate via a canonical active dimer interface."
+            }
+          ],
+          "conflicting": []
+        }
+      ]
+    },
+    "6_candidates_for_report": {
+      "n": 12,
+      "note": "These ranked candidates are passed to the literature-review LLM; uncited papers are pruned after writing (see Step 6 final selection).",
+      "candidates": [
+        {
+          "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+          "year": 2022,
+          "pmid": "35108525",
+          "doi": "10.1016/j.celrep.2021.110291",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35108525/",
+          "relevance_note": "Mentions: dynamics, HER3",
+          "query_key": "pubmed:alias_0_dynamics",
+          "score": 110,
+          "matched_aliases": [
+            "dynamics",
+            "HER3"
+          ]
+        },
+        {
+          "title": "Structures of the HER2-HER3-NRG1\u03b2 complex reveal a dynamic dimer interface.",
+          "year": 2021,
+          "pmid": "34759323",
+          "doi": "10.1038/s41586-021-04084-z",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/34759323/",
+          "relevance_note": "Mentions: dynamics, HER3",
+          "query_key": "pubmed:alias_0_dynamics",
+          "score": 76,
+          "matched_aliases": [
+            "dynamics",
+            "HER3"
+          ]
+        },
+        {
+          "title": "Modulating pseudokinase conformation from the ATP-binding site.",
+          "year": 2026,
+          "pmid": "42759518",
+          "doi": "10.1016/j.str.2026.08.013",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42759518/",
+          "relevance_note": "Mentions: dynamics, ERBB3",
+          "query_key": "pubmed:alias_1_dynamics",
+          "score": 64,
+          "matched_aliases": [
+            "dynamics",
+            "ERBB3"
+          ]
+        },
+        {
+          "title": "HER3-targeted protein chimera forms endosomolytic capsomeres and self-assembles into stealth nucleocapsids for systemic tumor homing of RNA interference in vivo.",
+          "year": 2019,
+          "pmid": "31617560",
+          "doi": "10.1093/nar/gkz900",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31617560/",
+          "relevance_note": "Mentions: dynamics, ERBB3, HER3",
+          "query_key": "pubmed:protein_0_mechanism",
+          "score": 60,
+          "matched_aliases": [
+            "dynamics",
+            "ERBB3",
+            "HER3"
+          ]
+        },
+        {
+          "title": "Exploring the Binding Mechanism of NRG1-ERBB3 Complex and Discovery of Potent Natural Products to Reduce Diabetes-Assisted Breast Cancer Progression.",
+          "year": 2023,
+          "pmid": "37389721",
+          "doi": "10.1007/s12539-023-00566-y",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37389721/",
+          "relevance_note": "Mentions: dynamics, ERBB3",
+          "query_key": "pubmed:protein_0_mechanism",
+          "score": 55,
+          "matched_aliases": [
+            "dynamics",
+            "ERBB3"
+          ]
+        },
+        {
+          "title": "Conformational diversity and protein-protein interfaces in drug repurposing in Ras signaling pathway.",
+          "year": 2024,
+          "pmid": "38216592",
+          "doi": "10.1038/s41598-023-50913-8",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/38216592/",
+          "relevance_note": "Mentions: dynamics, ERBB3, HER3",
+          "query_key": "pubmed:protein_0_function",
+          "score": 51,
+          "matched_aliases": [
+            "dynamics",
+            "ERBB3",
+            "HER3"
+          ]
+        },
+        {
+          "title": "A small molecule inhibitor of HER3: a proof-of-concept study.",
+          "year": 2020,
+          "pmid": "32815546",
+          "doi": "10.1042/BCJ20200496",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32815546/",
+          "relevance_note": "Mentions: HER3",
+          "query_key": "pubmed:protein_0_function",
+          "score": 51,
+          "matched_aliases": [
+            "HER3"
+          ]
+        },
+        {
+          "title": "Structural analysis of HER2-trastuzumab complex reveals receptor conformational adaptation.",
+          "year": 2025,
+          "pmid": "40712014",
+          "doi": "10.1126/sciadv.adu9945",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/40712014/",
+          "relevance_note": "Mentions: dynamics, HER3",
+          "query_key": "pubmed:alias_0_dynamics",
+          "score": 45,
+          "matched_aliases": [
+            "dynamics",
+            "HER3"
+          ]
+        },
+        {
+          "title": "Molecular cloning and expression of an additional epidermal growth factor receptor-related gene.",
+          "year": 1990,
+          "pmid": "2164210",
+          "doi": "10.1073/pnas.87.13.4905",
+          "source": "uniprot_curated",
+          "url": null,
+          "relevance_note": "Identity: uniprot_curated",
+          "query_key": "uniprot:key_references",
+          "score": 14
+        },
+        {
+          "title": "Complete sequencing and characterization of 21,243 full-length human cDNAs.",
+          "year": 2004,
+          "pmid": "14702039",
+          "doi": "10.1038/ng1285",
+          "source": "uniprot_curated",
+          "url": null,
+          "relevance_note": "Identity: uniprot_curated",
+          "query_key": "uniprot:key_references",
+          "score": 14
+        },
+        {
+          "title": "The finished DNA sequence of human chromosome 12.",
+          "year": 2006,
+          "pmid": "16541075",
+          "doi": "10.1038/nature04569",
+          "source": "uniprot_curated",
+          "url": null,
+          "relevance_note": "Identity: uniprot_curated",
+          "query_key": "uniprot:key_references",
+          "score": 14
+        },
+        {
+          "title": "The status, quality, and expansion of the NIH full-length cDNA project: the Mammalian Gene Collection (MGC).",
+          "year": 2004,
+          "pmid": "15489334",
+          "doi": "10.1101/gr.2596504",
+          "source": "uniprot_curated",
+          "url": null,
+          "relevance_note": "Identity: uniprot_curated",
+          "query_key": "uniprot:key_references",
+          "score": 14
+        }
+      ]
+    },
+    "6_final_cited": {
+      "n_cited": 5,
+      "cited": [
+        {
+          "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+          "year": 2022,
+          "pmid": "35108525",
+          "doi": "10.1016/j.celrep.2021.110291",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35108525/",
+          "query_key": "pubmed:alias_0_dynamics"
+        },
+        {
+          "title": "Structures of the HER2-HER3-NRG1\u03b2 complex reveal a dynamic dimer interface.",
+          "year": 2021,
+          "pmid": "34759323",
+          "doi": "10.1038/s41586-021-04084-z",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/34759323/",
+          "query_key": "pubmed:alias_0_dynamics"
+        },
+        {
+          "title": "Modulating pseudokinase conformation from the ATP-binding site.",
+          "year": 2026,
+          "pmid": "42759518",
+          "doi": "10.1016/j.str.2026.08.013",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42759518/",
+          "query_key": "pubmed:alias_1_dynamics"
+        },
+        {
+          "title": "HER3-targeted protein chimera forms endosomolytic capsomeres and self-assembles into stealth nucleocapsids for systemic tumor homing of RNA interference in vivo.",
+          "year": 2019,
+          "pmid": "31617560",
+          "doi": "10.1093/nar/gkz900",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31617560/",
+          "query_key": "pubmed:protein_0_mechanism"
+        },
+        {
+          "title": "A small molecule inhibitor of HER3: a proof-of-concept study.",
+          "year": 2020,
+          "pmid": "32815546",
+          "doi": "10.1042/BCJ20200496",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32815546/",
+          "query_key": "pubmed:protein_0_function"
+        }
+      ]
+    }
+  },
+  "identity": {
+    "protein": "Receptor tyrosine-protein kinase erbB-3",
+    "gene": "dynamics",
+    "aliases": [
+      "dynamics",
+      "Receptor tyrosine-protein kinase erbB-3",
+      "ERBB3",
+      "HER3",
+      "Proto-oncogene-like protein c-ErbB-3",
+      "Tyrosine kinase-type cell surface receptor HER3",
+      "P21860"
+    ],
+    "family": "pseudokinase",
+    "uniprot_id": "p21860",
+    "source": "goal_text"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "timestamp": "2026-11-13T20:33:19.697719",
+  "stage": "reporter",
+  "label": "q8wz42",
+  "sim_root": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42",
+  "stage_dir": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42/reporter",
+  "pocket_mapped": "",
+  "global_mapped": "",
+  "files": {
+    "comprehensive_summary.json": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42/reporter/comprehensive_summary.json",
+    "execution_log.txt": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42/reporter/execution_log.txt",
+    "execution_plan.json": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42/reporter/execution_plan.json",
+    "execution_plan.md": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42/reporter/execution_plan.md",
+    "execution_report.md": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42/reporter/execution_report.md",
+    "literature_provenance.json": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42/reporter/literature_provenance.json",
+    "report.html": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42/reporter/report.html",
+    "system_frame_0ns.pdb": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42/reporter/system_frame_0ns.pdb",
+    "system_frame_1ns.pdb": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42/reporter/system_frame_1ns.pdb"
+  }
+}

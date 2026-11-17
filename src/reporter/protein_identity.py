@@ -27,6 +27,12 @@ _ID_NAME_MAP_RE = re.compile(
     r"\b([A-Za-z0-9_\-]{4,12})\s*:\s*([A-Za-z][A-Za-z0-9_\-]{1,30})"
 )
 
+_GENE_SYNONYMS = {
+    "ERBB3": ("HER3", "ErbB-3"),
+    "TITIN": ("TTN",),
+    "MLKL": ("mixed lineage kinase domain-like",),
+}
+
 _SKIP_NAMES = frozenset({
     "ATP", "ADP", "MD", "PDB", "HPC", "COM", "FEL", "PCA", "DSSP", "DCCM",
     "RMSD", "RMSF", "SASA", "HTML", "B5R1", "SYSTEM", "PROTEIN", "LIGAND",
@@ -41,6 +47,13 @@ _SKIP_NAMES = frozenset({
     "DOMAIN", "KINASE", "PSEUDOKINASE", "CATALYTIC", "RESIDUE", "RESIDUES",
     "REGION", "LOOP", "CHAIN", "STRUCTURE", "MODEL", "COMPLEX", "UNKNOWN",
     "NA", "NONE", "NULL", "TEST", "EXAMPLE", "TARGET", "QUERY", "GYRATION",
+    # Goal verbs and method words — "protein dynamics" is not a gene name
+    "DYNAMICS", "DYNAMIC", "BINDING", "EFFECT", "STUDY", "SIMULATION",
+    "MOLECULAR", "CONFORMATIONAL", "ACTIVATION", "ALLOSTERIC", "REGULATION",
+    "OVERLAY", "COMPARATIVE", "LITERATURE", "FLEXIBILITY", "STABILITY",
+    "CORRELATION", "DISTANCE", "POCKET", "CATALYTIC", "BOUND", "HUMAN",
+    "WHOLE", "ONLY", "EACH", "THESE", "GIVEN", "AVAILABLE", "CURRENT",
+    "NAMED", "FOLLOWING", "INCLUDING", "BETWEEN", "WITHIN", "PRESENT",
 })
 
 
@@ -59,6 +72,25 @@ def _is_placeholder_name(name: Optional[str]) -> bool:
 
 def _looks_like_uniprot(name: str) -> bool:
     return bool(name and _UNIPROT_RE.match(name.strip()))
+
+
+def study_proteins_from_goal(text: str) -> List[Tuple[str, str]]:
+    """Named proteins in a goal, as ``(id, name)`` pairs.
+
+    Reads lines such as ``p21860: ERBB3``. Generic words and the campaign
+    folder name are not proteins.
+    """
+    found: List[Tuple[str, str]] = []
+    seen: set = set()
+    for uid, pname in _parse_id_name_map(text or "").items():
+        if _is_placeholder_name(pname) or not _looks_like_gene_symbol(pname):
+            continue
+        key = pname.upper()
+        if key in seen:
+            continue
+        seen.add(key)
+        found.append((uid, pname.upper() if pname.isupper() or any(c.isdigit() for c in pname) else pname))
+    return found
 
 
 def _parse_id_name_map(text: str) -> Dict[str, str]:
@@ -275,11 +307,45 @@ def resolve_protein_identity(
     aliases: List[str] = []
     key_references: List[Dict[str, Any]] = []
     source = "unknown"
+    study_proteins = study_proteins_from_goal(goal_text)
+    study_ids = {acc.lower() for acc, _name in study_proteins}
+    multi_study = (
+        len(study_proteins) >= 2
+        and sim_label.lower() not in study_ids
+    )
+    if multi_study:
+        names: List[str] = []
+        for _acc, name in study_proteins:
+            if name not in names:
+                names.append(name)
+        display_name = ", ".join(names)
+        protein_name = display_name
+        gene_name = ""
+        aliases = list(names)
+        for name in names:
+            for extra in _GENE_SYNONYMS.get(name.upper(), ()):
+                if extra not in aliases:
+                    aliases.append(extra)
+        source = "goal_id_map"
 
-    # Prefer UniProt(gene) / full protein name from the goal BEFORE id:name
-    # maps — enriched plans often contain "q9c098: Preprocess the …" which
-    # falsely maps the sim label to an agent-stage verb.
-    goal_names = _names_from_goal(sim_label, goal_text)
+    # A label that the goal names explicitly (p21860: ERBB3) wins over a
+    # loose "protein <word>" match such as "protein dynamics" or "protein whole".
+    id_map = _parse_id_name_map(goal_text)
+    mapped = id_map.get((sim_label or "").lower()) if not multi_study else None
+    if mapped and not _is_placeholder_name(mapped):
+        if _looks_like_gene_symbol(mapped):
+            gene_name = mapped.upper() if mapped.isupper() or any(ch.isdigit() for ch in mapped) else mapped
+        else:
+            protein_name = mapped
+        display_name = gene_name or mapped
+        source = "goal_id_map"
+        goal_names = {}
+    elif multi_study:
+        goal_names = {}
+    else:
+        # Enriched plans often contain "q9c098: Preprocess the …", which the
+        # id map rejects because the name is an agent-stage verb.
+        goal_names = _names_from_goal(sim_label, goal_text)
     if goal_names.get("gene") and not _is_placeholder_name(goal_names["gene"]):
         gene_name = goal_names["gene"]
         display_name = gene_name
@@ -393,7 +459,7 @@ def resolve_protein_identity(
 
     def _push_alias(val: Optional[str]) -> None:
         v = (val or "").strip()
-        if not v or _is_placeholder_name(v):
+        if not v or _is_placeholder_name(v) or "," in v:
             return
         key = v.lower()
         if key in seen_al:
@@ -477,7 +543,14 @@ def resolve_protein_identity(
         "protein_name": protein_name or display_name,
         "aliases": alias_pack,
         "key_references": key_references,
-        "uniprot_id": (uniprot_id or sim_label or "").lower() if uniprot_id or _looks_like_uniprot(sim_label) else sim_label,
+        "uniprot_id": (
+            str(uniprot_id).lower()
+            if uniprot_id and _looks_like_uniprot(str(uniprot_id))
+            else ""
+        ),
+        "study_proteins": [
+            {"id": acc, "name": name} for acc, name in study_proteins
+        ],
         "organism": (sys_info or {}).get("organism", "") or (uni_meta or {}).get("organism", ""),
         "protein_family": protein_family,
         "related_terms": related_deduped,

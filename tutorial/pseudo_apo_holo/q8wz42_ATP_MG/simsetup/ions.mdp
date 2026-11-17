@@ -1,0 +1,13 @@
+; ion.mdp - used for ion addition
+integrator      = steep        ; steepest descent energy minimization
+emtol           = 1000.0       ; stop minimization when Fmax < 1000 kJ/mol/nm
+emstep          = 0.01
+nsteps          = 50000
+
+cutoff-scheme   = Verlet
+nstlist         = 20
+ns_type         = grid
+coulombtype     = PME
+rcoulomb        = 1.0
+rvdw            = 1.0
+pbc             = xyz

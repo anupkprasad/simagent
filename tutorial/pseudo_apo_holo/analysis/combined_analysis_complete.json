@@ -1,0 +1,27 @@
+{
+  "success": true,
+  "step_success": true,
+  "timestamp": "2026-11-13T20:35:10",
+  "labels": [
+    "p21860",
+    "p21860_ATP_MG",
+    "q8iv63",
+    "q8iv63_ATP_MG",
+    "q8nb16",
+    "q8nb16_ATP_MG",
+    "q8wz42",
+    "q8wz42_ATP_MG"
+  ],
+  "sim_dirs": [
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8iv63",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8iv63_ATP_MG",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8nb16",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8nb16_ATP_MG",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42_ATP_MG"
+  ],
+  "planning_mode": "llm",
+  "stage": "post_combined"
+}

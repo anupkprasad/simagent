@@ -1,0 +1,126 @@
+{
+  "updated_at": "2026-11-17T20:38:01.093209+00:00",
+  "workflow_phase": "complete",
+  "pool_type": "sequential",
+  "phase": "complete",
+  "max_workers": null,
+  "active_sim": null,
+  "active_agent": null,
+  "simulations": {
+    "p21860": {
+      "preprocessing": "done",
+      "simsetup": "done",
+      "hpc": "done",
+      "analysis": "done",
+      "reporter": "done",
+      "status": "done",
+      "health": "healthy"
+    },
+    "p21860_ATP_MG": {
+      "preprocessing": "done",
+      "simsetup": "done",
+      "hpc": "done",
+      "analysis": "done",
+      "reporter": "done",
+      "status": "done",
+      "health": "healthy"
+    },
+    "q8iv63": {
+      "preprocessing": "done",
+      "simsetup": "done",
+      "hpc": "done",
+      "analysis": "done",
+      "reporter": "done",
+      "status": "done",
+      "health": "healthy"
+    },
+    "q8iv63_ATP_MG": {
+      "preprocessing": "done",
+      "simsetup": "done",
+      "hpc": "done",
+      "analysis": "done",
+      "reporter": "done",
+      "status": "done",
+      "health": "healthy"
+    },
+    "q8nb16": {
+      "preprocessing": "done",
+      "simsetup": "done",
+      "hpc": "done",
+      "analysis": "done",
+      "reporter": "done",
+      "status": "done",
+      "health": "healthy"
+    },
+    "q8nb16_ATP_MG": {
+      "preprocessing": "done",
+      "simsetup": "done",
+      "hpc": "done",
+      "analysis": "done",
+      "reporter": "done",
+      "status": "done",
+      "health": "healthy"
+    },
+    "q8wz42": {
+      "preprocessing": "done",
+      "simsetup": "done",
+      "hpc": "done",
+      "analysis": "done",
+      "reporter": "done",
+      "status": "done",
+      "health": "healthy"
+    },
+    "q8wz42_ATP_MG": {
+      "preprocessing": "done",
+      "simsetup": "done",
+      "hpc": "done",
+      "analysis": "done",
+      "reporter": "done",
+      "status": "done",
+      "health": "healthy"
+    }
+  },
+  "summary_lines": [
+    "  p21860: status=done preprocessing=done simsetup=done hpc=done analysis=done reporter=done",
+    "  p21860_ATP_MG: status=done preprocessing=done simsetup=done hpc=done analysis=done reporter=done",
+    "  q8iv63: status=done preprocessing=done simsetup=done hpc=done analysis=done reporter=done",
+    "  q8iv63_ATP_MG: status=done preprocessing=done simsetup=done hpc=done analysis=done reporter=done",
+    "  q8nb16: status=done preprocessing=done simsetup=done hpc=done analysis=done reporter=done",
+    "  q8nb16_ATP_MG: status=done preprocessing=done simsetup=done hpc=done analysis=done reporter=done",
+    "  q8wz42: status=done preprocessing=done simsetup=done hpc=done analysis=done reporter=done",
+    "  q8wz42_ATP_MG: status=done preprocessing=done simsetup=done hpc=done analysis=done reporter=done"
+  ],
+  "running": [],
+  "pending": [],
+  "done": [
+    "p21860",
+    "p21860_ATP_MG",
+    "q8iv63",
+    "q8iv63_ATP_MG",
+    "q8nb16",
+    "q8nb16_ATP_MG",
+    "q8wz42",
+    "q8wz42_ATP_MG"
+  ],
+  "failed": [],
+  "healthy": [
+    "p21860",
+    "p21860_ATP_MG",
+    "q8iv63",
+    "q8iv63_ATP_MG",
+    "q8nb16",
+    "q8nb16_ATP_MG",
+    "q8wz42",
+    "q8wz42_ATP_MG"
+  ],
+  "submitted": [],
+  "pending_count": 0,
+  "done_count": 8,
+  "failed_count": 0,
+  "healthy_count": 8,
+  "submitted_count": 0,
+  "combined": {
+    "analysis": "done",
+    "reporter": "done"
+  }
+}

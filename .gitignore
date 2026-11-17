@@ -86,8 +86,21 @@ tests/
 examples/
 example/
 
-# Local tutorial. Run it here first; publish only after that run.
-tutorial/
+# Tutorial provenance is published: starter inputs, plots, tables, plans,
+# and HTML reports. Trajectories, coordinates, topologies, and force fields
+# stay local through the patterns above (*.xtc *.trr *.gro *.tpr *.top *.ff/).
+# Re-include only the four starting structures, not solvated copies.
+!tutorial/pseudo_apo_holo/*.pdb
+# GROMACS backups and generated intermediates under the tutorial run.
+tutorial/**/*#
+tutorial/**/*.ndx
+tutorial/**/*.itp
+tutorial/**/*.out
+tutorial/**/*.pkl
+tutorial/**/*.npz
+tutorial/**/*.pid
+tutorial/**/.agentic_job_id
+tutorial/**/hpc/*_run.sh
 
 # Generated planner cache. Rebuilt from agentic/planner/knowledge/.
 agentic/planner/knowledge_index.json

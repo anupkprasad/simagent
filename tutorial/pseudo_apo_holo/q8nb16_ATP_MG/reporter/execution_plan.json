@@ -1,0 +1,75 @@
+{
+  "timestamp": "N/A",
+  "reasoning": "The user wants a comprehensive HTML report that visualizes the MD trajectory analysis and places the results in a literature context. The workflow therefore requires parsing the existing JSONL results, optionally gathering relevant literature, and generating the report. The report generation tool automatically embeds the images referenced in the JSONL, so we only need to provide the parsed data and any literature references.",
+  "overview": "1. Load the analysis_summary.jsonl file. 2. Generate PubMed queries based on the protein and analysis types. 3. Retrieve literature abstracts that discuss activation\u2011loop conformations, allostery, and MD dynamics for the target proteins. 4. Create a self\u2011contained HTML report that displays plots, statistics cards, and literature citations.",
+  "report_focus": [
+    "Backbone RMSD and COM distance evolution",
+    "Per\u2011residue RMSF for residues 150\u2013200",
+    "Radius of gyration trends",
+    "Dynamic cross\u2011correlation patterns",
+    "DSSP secondary\u2011structure changes",
+    "Comparative statistics across apo/holo systems"
+  ],
+  "literature_queries": [
+    "ERBB3 activation loop dynamics MD",
+    "VRK3 allosteric regulation kinase structure",
+    "MLKL activation loop phosphorylation dynamics",
+    "Titin protein dynamics allostery cryo\u2011EM"
+  ],
+  "estimated_complexity": "medium",
+  "steps": [
+    {
+      "name": "Read Analysis Summary",
+      "description": "Parse the JSONL file to obtain all quantitative results and image file paths.",
+      "tool_name": "read_analysis_summary",
+      "tool_params": {
+        "summary_file": "analysis_summary.jsonl"
+      },
+      "reason": "We need the analysis data to feed into the report generator."
+    },
+    {
+      "name": "Generate Literature Queries",
+      "description": "Formulate PubMed search strings that target activation\u2011loop dynamics and allostery for the proteins under study.",
+      "tool_name": "generate_literature_queries",
+      "tool_params": {
+        "analysis_types": [
+          "RMSD",
+          "RMSF",
+          "Cross\u2011Correlation",
+          "DSSP"
+        ],
+        "user_goal": "Compare apo/holo dynamics of ERBB3, VRK3, MLKL, and TITIN and relate to known activation\u2011loop and allosteric regulation mechanisms.",
+        "protein_name": "ERBB3, VRK3, MLKL, TITIN",
+        "aliases": [],
+        "gene_name": "",
+        "uniprot_id": "",
+        "analysis_stats": {}
+      },
+      "reason": "These queries will be fed into PubMed to fetch relevant literature."
+    },
+    {
+      "name": "Search PubMed",
+      "description": "Retrieve abstracts and citations that match the generated queries.",
+      "tool_name": "search_pubmed",
+      "tool_params": {
+        "query": "<placeholder_for_generated_queries>",
+        "max_results": 20,
+        "include_abstracts": true,
+        "max_age_years": null
+      },
+      "reason": "Provide the report with up\u2011to\u2011date contextual literature."
+    },
+    {
+      "name": "Generate HTML Report",
+      "description": "Create a professional, self\u2011contained report that embeds the plots, displays key statistics, and cites the literature.",
+      "tool_name": "generate_html_report",
+      "tool_params": {
+        "analysis_data": {},
+        "literature_refs": {},
+        "report_type": "comprehensive",
+        "output_file": "report.html"
+      },
+      "reason": "Deliver the final user product."
+    }
+  ]
+}

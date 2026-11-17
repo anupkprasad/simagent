@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0",
+  "timestamp": "2026-11-11T11:54:31.208073",
+  "stage": "hpc",
+  "label": "q8wz42_ATP_MG",
+  "sim_root": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42_ATP_MG",
+  "stage_dir": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42_ATP_MG/hpc",
+  "pocket_mapped": "",
+  "global_mapped": "",
+  "files": {},
+  "hpc_dir": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42_ATP_MG/hpc"
+}

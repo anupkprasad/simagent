@@ -1,0 +1,1493 @@
+{
+  "pipeline": "evidence_grounded_literature_v1",
+  "steps": {
+    "1_observations": {
+      "n": 16,
+      "observations": [
+        {
+          "id": "obs_rmsd_1",
+          "kind": "rmsd_stability",
+          "analysis_type": "RMSD",
+          "statement": "Titin: modest backbone RMSD / local conformational stability (mean 1.01 \u00c5, max 1.25 \u00c5)",
+          "metrics": {
+            "mean_rmsd_angstrom": 1.013,
+            "std_rmsd_angstrom": 0.332,
+            "min_rmsd_angstrom": 0.0,
+            "max_rmsd_angstrom": 1.249
+          },
+          "keywords": [
+            "rmsd",
+            "conformational stability",
+            "backbone",
+            "molecular dynamics"
+          ]
+        },
+        {
+          "id": "obs_dccm_2",
+          "kind": "correlated_motions",
+          "analysis_type": "DCCM",
+          "statement": "Titin: correlated motions / allosteric coupling observed",
+          "metrics": {
+            "n_atoms": 255,
+            "n_residues": 255,
+            "n_frames_used": 3,
+            "mean_abs_correlation": 0.354,
+            "n_strongly_correlated_pairs": 50
+          },
+          "keywords": [
+            "dccm",
+            "correlated motion",
+            "allosteric",
+            "communication"
+          ]
+        },
+        {
+          "id": "obs_rmsf_3",
+          "kind": "rmsf_hotspots",
+          "analysis_type": "RMSF",
+          "statement": "Titin: RMSF hotspots / flexible sites: PHE12 (1.95 \u00c5), GLU11 (1.91 \u00c5), THR159 (1.86 \u00c5), GLY10 (1.68 \u00c5), ALA160 (1.49 \u00c5)",
+          "metrics": {
+            "mean_rmsf_angstrom": 0.639,
+            "most_flexible_residue": 12,
+            "most_flexible_rmsf": 1.953,
+            "top_flexible": [
+              "PHE12 (1.95 \u00c5)",
+              "GLU11 (1.91 \u00c5)",
+              "THR159 (1.86 \u00c5)",
+              "GLY10 (1.68 \u00c5)",
+              "ALA160 (1.49 \u00c5)"
+            ]
+          },
+          "keywords": [
+            "rmsf",
+            "flexibility",
+            "flexible loop",
+            "hotspot",
+            "residue fluctuation",
+            "PHE12",
+            "GLU11",
+            "THR159"
+          ]
+        },
+        {
+          "id": "obs_rmsf_4",
+          "kind": "rmsf_hotspots",
+          "analysis_type": "RMSF",
+          "statement": "Titin: RMSF hotspots / flexible sites: THR159 (1.62 \u00c5), ALA160 (1.22 \u00c5), PHE158 (1.17 \u00c5), PRO150 (1.14 \u00c5), GLY151 (1.12 \u00c5)",
+          "metrics": {
+            "mean_rmsf_angstrom": 0.528,
+            "most_flexible_residue": 159,
+            "most_flexible_rmsf": 1.625,
+            "top_flexible": [
+              "THR159 (1.62 \u00c5)",
+              "ALA160 (1.22 \u00c5)",
+              "PHE158 (1.17 \u00c5)",
+              "PRO150 (1.14 \u00c5)",
+              "GLY151 (1.12 \u00c5)"
+            ]
+          },
+          "keywords": [
+            "rmsf",
+            "flexibility",
+            "flexible loop",
+            "hotspot",
+            "residue fluctuation",
+            "THR159",
+            "ALA160",
+            "PHE158"
+          ]
+        },
+        {
+          "id": "obs_rmsd_5",
+          "kind": "rmsd_stability",
+          "analysis_type": "RMSD",
+          "statement": "Titin: modest backbone RMSD / local conformational stability (mean 1.01 \u00c5, max 1.25 \u00c5)",
+          "metrics": {
+            "mean_rmsd_angstrom": 1.013,
+            "std_rmsd_angstrom": 0.332,
+            "min_rmsd_angstrom": 0.0,
+            "max_rmsd_angstrom": 1.249
+          },
+          "keywords": [
+            "rmsd",
+            "conformational stability",
+            "backbone",
+            "molecular dynamics"
+          ]
+        },
+        {
+          "id": "obs_dccm_6",
+          "kind": "correlated_motions",
+          "analysis_type": "DCCM",
+          "statement": "Titin: correlated motions / allosteric coupling observed",
+          "metrics": {
+            "n_atoms": 255,
+            "n_residues": 255,
+            "n_frames_used": 3,
+            "mean_abs_correlation": 0.354,
+            "n_strongly_correlated_pairs": 50
+          },
+          "keywords": [
+            "dccm",
+            "correlated motion",
+            "allosteric",
+            "communication"
+          ]
+        },
+        {
+          "id": "obs_rmsf_7",
+          "kind": "rmsf_hotspots",
+          "analysis_type": "RMSF",
+          "statement": "Titin: RMSF hotspots / flexible sites: PHE12 (1.95 \u00c5), GLU11 (1.91 \u00c5), THR159 (1.86 \u00c5), GLY10 (1.68 \u00c5), ALA160 (1.49 \u00c5)",
+          "metrics": {
+            "mean_rmsf_angstrom": 0.639,
+            "most_flexible_residue": 12,
+            "most_flexible_rmsf": 1.953,
+            "top_flexible": [
+              "PHE12 (1.95 \u00c5)",
+              "GLU11 (1.91 \u00c5)",
+              "THR159 (1.86 \u00c5)",
+              "GLY10 (1.68 \u00c5)",
+              "ALA160 (1.49 \u00c5)"
+            ]
+          },
+          "keywords": [
+            "rmsf",
+            "flexibility",
+            "flexible loop",
+            "hotspot",
+            "residue fluctuation",
+            "PHE12",
+            "GLU11",
+            "THR159"
+          ]
+        },
+        {
+          "id": "obs_rmsf_8",
+          "kind": "rmsf_hotspots",
+          "analysis_type": "RMSF",
+          "statement": "Titin: RMSF hotspots / flexible sites: THR159 (1.62 \u00c5), ALA160 (1.22 \u00c5), PHE158 (1.17 \u00c5), PRO150 (1.14 \u00c5), GLY151 (1.12 \u00c5)",
+          "metrics": {
+            "mean_rmsf_angstrom": 0.528,
+            "most_flexible_residue": 159,
+            "most_flexible_rmsf": 1.625,
+            "top_flexible": [
+              "THR159 (1.62 \u00c5)",
+              "ALA160 (1.22 \u00c5)",
+              "PHE158 (1.17 \u00c5)",
+              "PRO150 (1.14 \u00c5)",
+              "GLY151 (1.12 \u00c5)"
+            ]
+          },
+          "keywords": [
+            "rmsf",
+            "flexibility",
+            "flexible loop",
+            "hotspot",
+            "residue fluctuation",
+            "THR159",
+            "ALA160",
+            "PHE158"
+          ]
+        },
+        {
+          "id": "obs_rmsd_9",
+          "kind": "rmsd_stability",
+          "analysis_type": "RMSD",
+          "statement": "Titin: modest backbone RMSD / local conformational stability (mean 1.01 \u00c5, max 1.25 \u00c5)",
+          "metrics": {
+            "mean_rmsd_angstrom": 1.013,
+            "std_rmsd_angstrom": 0.332,
+            "min_rmsd_angstrom": 0.0,
+            "max_rmsd_angstrom": 1.249
+          },
+          "keywords": [
+            "rmsd",
+            "conformational stability",
+            "backbone",
+            "molecular dynamics"
+          ]
+        },
+        {
+          "id": "obs_dccm_10",
+          "kind": "correlated_motions",
+          "analysis_type": "DCCM",
+          "statement": "Titin: correlated motions / allosteric coupling observed",
+          "metrics": {
+            "n_atoms": 255,
+            "n_residues": 255,
+            "n_frames_used": 3,
+            "mean_abs_correlation": 0.354,
+            "n_strongly_correlated_pairs": 50
+          },
+          "keywords": [
+            "dccm",
+            "correlated motion",
+            "allosteric",
+            "communication"
+          ]
+        },
+        {
+          "id": "obs_rmsf_11",
+          "kind": "rmsf_hotspots",
+          "analysis_type": "RMSF",
+          "statement": "Titin: RMSF hotspots / flexible sites: PHE12 (1.95 \u00c5), GLU11 (1.91 \u00c5), THR159 (1.86 \u00c5), GLY10 (1.68 \u00c5), ALA160 (1.49 \u00c5)",
+          "metrics": {
+            "mean_rmsf_angstrom": 0.639,
+            "most_flexible_residue": 12,
+            "most_flexible_rmsf": 1.953,
+            "top_flexible": [
+              "PHE12 (1.95 \u00c5)",
+              "GLU11 (1.91 \u00c5)",
+              "THR159 (1.86 \u00c5)",
+              "GLY10 (1.68 \u00c5)",
+              "ALA160 (1.49 \u00c5)"
+            ]
+          },
+          "keywords": [
+            "rmsf",
+            "flexibility",
+            "flexible loop",
+            "hotspot",
+            "residue fluctuation",
+            "PHE12",
+            "GLU11",
+            "THR159"
+          ]
+        },
+        {
+          "id": "obs_rmsf_12",
+          "kind": "rmsf_hotspots",
+          "analysis_type": "RMSF",
+          "statement": "Titin: RMSF hotspots / flexible sites: THR159 (1.62 \u00c5), ALA160 (1.22 \u00c5), PHE158 (1.17 \u00c5), PRO150 (1.14 \u00c5), GLY151 (1.12 \u00c5)",
+          "metrics": {
+            "mean_rmsf_angstrom": 0.528,
+            "most_flexible_residue": 159,
+            "most_flexible_rmsf": 1.625,
+            "top_flexible": [
+              "THR159 (1.62 \u00c5)",
+              "ALA160 (1.22 \u00c5)",
+              "PHE158 (1.17 \u00c5)",
+              "PRO150 (1.14 \u00c5)",
+              "GLY151 (1.12 \u00c5)"
+            ]
+          },
+          "keywords": [
+            "rmsf",
+            "flexibility",
+            "flexible loop",
+            "hotspot",
+            "residue fluctuation",
+            "THR159",
+            "ALA160",
+            "PHE158"
+          ]
+        },
+        {
+          "id": "obs_rg_13",
+          "kind": "compactness",
+          "analysis_type": "Radius_of_Gyration",
+          "statement": "Titin: radius of gyration / compactness (mean 19.292 \u00c5)",
+          "metrics": {
+            "n_frames": 11,
+            "mean_rg_angstrom": 19.292,
+            "std_rg_angstrom": 0.114,
+            "min_rg_angstrom": 19.091,
+            "max_rg_angstrom": 19.469
+          },
+          "keywords": [
+            "radius of gyration",
+            "compactness",
+            "folding",
+            "stability",
+            "molecular dynamics"
+          ]
+        },
+        {
+          "id": "obs_rg_14",
+          "kind": "compactness",
+          "analysis_type": "Radius_of_Gyration",
+          "statement": "Titin: radius of gyration / compactness (mean 19.292 \u00c5)",
+          "metrics": {
+            "n_frames": 11,
+            "mean_rg_angstrom": 19.292,
+            "std_rg_angstrom": 0.114,
+            "min_rg_angstrom": 19.091,
+            "max_rg_angstrom": 19.469
+          },
+          "keywords": [
+            "radius of gyration",
+            "compactness",
+            "folding",
+            "stability",
+            "molecular dynamics"
+          ]
+        },
+        {
+          "id": "obs_rg_15",
+          "kind": "compactness",
+          "analysis_type": "Radius_of_Gyration",
+          "statement": "Titin: radius of gyration / compactness (mean 19.292 \u00c5)",
+          "metrics": {
+            "n_frames": 11,
+            "mean_rg_angstrom": 19.292,
+            "std_rg_angstrom": 0.114,
+            "min_rg_angstrom": 19.091,
+            "max_rg_angstrom": 19.469
+          },
+          "keywords": [
+            "radius of gyration",
+            "compactness",
+            "folding",
+            "stability",
+            "molecular dynamics"
+          ]
+        },
+        {
+          "id": "obs_goal_ligand",
+          "kind": "ligand_or_pocket",
+          "analysis_type": "goal",
+          "statement": "User objective involves apo/holo or ligand-related interpretation",
+          "metrics": {},
+          "keywords": [
+            "apo",
+            "holo",
+            "ligand",
+            "atp",
+            "binding"
+          ]
+        }
+      ]
+    },
+    "2_queries": {
+      "n": 71,
+      "queries": {
+        "alias_0_dynamics": "TTN molecular dynamics",
+        "alias_0_flexibility": "TTN conformational flexibility",
+        "alias_0_functional": "TTN functional study",
+        "alias_0_computational": "TTN (computational OR \"molecular dynamics\" OR simulation)",
+        "protein_0_dynamics": "TTN protein dynamics molecular dynamics",
+        "protein_0_mechanism": "TTN mechanism structure function molecular dynamics",
+        "protein_0_function": "TTN allosteric pseudokinase structure dynamics",
+        "alias_1_dynamics": "Titin molecular dynamics",
+        "alias_1_flexibility": "Titin conformational flexibility",
+        "alias_1_functional": "Titin functional study",
+        "alias_1_computational": "Titin (computational OR \"molecular dynamics\" OR simulation)",
+        "protein_1_dynamics": "Titin protein dynamics molecular dynamics",
+        "protein_1_mechanism": "Titin mechanism structure function molecular dynamics",
+        "protein_1_function": "Titin allosteric pseudokinase structure dynamics",
+        "alias_2_dynamics": "dynamics molecular dynamics",
+        "alias_2_flexibility": "dynamics conformational flexibility",
+        "alias_2_functional": "dynamics functional study",
+        "alias_2_computational": "dynamics (computational OR \"molecular dynamics\" OR simulation)",
+        "protein_2_dynamics": "dynamics protein dynamics molecular dynamics",
+        "protein_2_mechanism": "dynamics mechanism structure function molecular dynamics",
+        "protein_2_function": "dynamics allosteric pseudokinase structure dynamics",
+        "alias_3_dynamics": "Connectin molecular dynamics",
+        "alias_3_flexibility": "Connectin conformational flexibility",
+        "alias_3_functional": "Connectin functional study",
+        "alias_3_computational": "Connectin (computational OR \"molecular dynamics\" OR simulation)",
+        "protein_3_dynamics": "Connectin protein dynamics molecular dynamics",
+        "protein_3_mechanism": "Connectin mechanism structure function molecular dynamics",
+        "protein_3_function": "Connectin allosteric pseudokinase structure dynamics",
+        "alias_4_dynamics": "\"Rhabdomyosarcoma antigen MU-RMS-40.14\" molecular dynamics",
+        "alias_4_flexibility": "\"Rhabdomyosarcoma antigen MU-RMS-40.14\" conformational flexibility",
+        "alias_4_functional": "\"Rhabdomyosarcoma antigen MU-RMS-40.14\" functional study",
+        "alias_4_computational": "\"Rhabdomyosarcoma antigen MU-RMS-40.14\" (computational OR \"molecular dynamics\" OR simulation)",
+        "protein_4_dynamics": "Rhabdomyosarcoma antigen MU-RMS-40.14 protein dynamics molecular dynamics",
+        "protein_4_mechanism": "Rhabdomyosarcoma antigen MU-RMS-40.14 mechanism structure function molecular dynamics",
+        "protein_4_function": "Rhabdomyosarcoma antigen MU-RMS-40.14 allosteric pseudokinase structure dynamics",
+        "protein_dynamics": "Titin molecular dynamics simulation",
+        "protein_function": "Titin structure function",
+        "protein_functional_study": "Titin functional study OR deficiency OR knockout",
+        "protein_computational_study": "Titin computational study OR molecular dynamics OR simulation",
+        "protein_context": "Titin allosteric pseudokinase molecular dynamics",
+        "protein_goal_context": "Titin alloster holo",
+        "protein_biology": "Titin allosteric",
+        "protein_family_review": "Titin pseudokinase structure function review",
+        "theme_family_dynamics": "pseudokinase allosteric domain molecular dynamics simulation",
+        "theme_family_flexibility": "pseudokinase apo flexibility residue dynamics",
+        "theme_related_kinase": "kinase molecular dynamics conformational",
+        "theme_related_allosteric": "allosteric molecular dynamics conformational",
+        "ligand_effect": "Titin atp binding protein dynamics simulation",
+        "allosteric_dccm": "Titin allosteric communication correlated motion molecular dynamics",
+        "method_RMSD": "Titin RMSD stability molecular dynamics",
+        "theme_method_RMSD": "pseudokinase RMSD stability molecular dynamics",
+        "method_RMSF": "Titin RMSF residue flexibility dynamics",
+        "theme_method_RMSF": "pseudokinase RMSF residue flexibility dynamics",
+        "method_Radius_of_Gyration": "Titin radius of gyration compactness",
+        "theme_method_Radius_of_Gyration": "pseudokinase radius of gyration compactness",
+        "method_DSSP_SecondaryStructure": "Titin DSSP_SecondaryStructure molecular dynamics",
+        "theme_method_DSSP_SecondaryStructure": "pseudokinase DSSP_SecondaryStructure molecular dynamics",
+        "result_rmsd": "Titin pseudokinase conformational stability RMSD molecular dynamics",
+        "theme_result_rmsd": "pseudokinase conformational stability RMSD molecular dynamics",
+        "result_rmsf": "Titin pseudokinase residue flexibility RMSF domain molecular dynamics",
+        "theme_result_rmsf": "pseudokinase residue flexibility RMSF domain molecular dynamics",
+        "result_rg": "Titin pseudokinase radius of gyration domain stability molecular dynamics",
+        "theme_result_rg": "pseudokinase radius of gyration domain stability molecular dynamics",
+        "hypothesis_objective": "Titin alloster holo molecular dynamics",
+        "theme_objective": "alloster holo molecular dynamics protein structure",
+        "theme_family_structure": "pseudokinase allosteric structure function conformational dynamics",
+        "theme_ligand": "atp binding protein molecular dynamics simulation",
+        "_fallback_general": "molecular dynamics protein conformational stability review",
+        "theme_obs_allostery": "dynamics allosteric correlated motions molecular dynamics",
+        "obs_rmsf_hotspots": "dynamics THR159 ALA160 PHE158 flexibility molecular dynamics",
+        "theme_obs_flexibility": "protein residue flexibility RMSF activation loop molecular dynamics"
+      }
+    },
+    "2b_uniprot_seed": {
+      "n": 8
+    },
+    "2_gather": {
+      "n_candidates": 28,
+      "source_counts": {
+        "uniprot_curated": 8,
+        "unknown": 20
+      },
+      "candidates": [
+        {
+          "title": "Titins, giant proteins in charge of muscle ultrastructure and elasticity.",
+          "year": 1995,
+          "pmid": "7569978",
+          "doi": "10.1126/science.270.5234.293",
+          "source": "uniprot_curated",
+          "url": null,
+          "query_key": "uniprot:key_references"
+        },
+        {
+          "title": "Series of exon-skipping events in the elastic spring region of titin as the structural basis for myofibrillar elastic diversity.",
+          "year": 2000,
+          "pmid": "10850961",
+          "doi": "10.1161/01.res.86.11.1114",
+          "source": "uniprot_curated",
+          "url": null,
+          "query_key": "uniprot:key_references"
+        },
+        {
+          "title": "The complete gene sequence of titin, expression of an unusual ~700 kDa titin isoform and its interaction with obscurin identify a novel Z-line to I-band linking system.",
+          "year": 2001,
+          "pmid": "11717165",
+          "doi": "10.1161/hh2301.100981",
+          "source": "uniprot_curated",
+          "url": null,
+          "query_key": "uniprot:key_references"
+        },
+        {
+          "title": "Generation and annotation of the DNA sequences of human chromosomes 2 and 4.",
+          "year": 2005,
+          "pmid": "15815621",
+          "doi": "10.1038/nature03466",
+          "source": "uniprot_curated",
+          "url": null,
+          "query_key": "uniprot:key_references"
+        },
+        {
+          "title": "The status, quality, and expansion of the NIH full-length cDNA project: the Mammalian Gene Collection (MGC).",
+          "year": 2004,
+          "pmid": "15489334",
+          "doi": "10.1101/gr.2596504",
+          "source": "uniprot_curated",
+          "url": null,
+          "query_key": "uniprot:key_references"
+        },
+        {
+          "title": "The central Z-disk region of titin is assembled from a novel repeat in variable copy numbers.",
+          "year": 1996,
+          "pmid": "8937992",
+          "doi": "10.1242/jcs.109.11.2747",
+          "source": "uniprot_curated",
+          "url": null,
+          "query_key": "uniprot:key_references"
+        },
+        {
+          "title": "Dissecting titin into its structural motifs: identification of an alpha helix near the N-terminus.",
+          "year": 1995,
+          "pmid": "7819249",
+          "doi": "10.1021/bi00002a021",
+          "source": "uniprot_curated",
+          "url": null,
+          "query_key": "uniprot:key_references"
+        },
+        {
+          "title": "Familial dilated cardiomyopathy locus maps to chromosome 2q31.",
+          "year": 1999,
+          "pmid": "10051295",
+          "doi": "10.1161/01.cir.99.8.1022",
+          "source": "uniprot_curated",
+          "url": null,
+          "query_key": "uniprot:key_references"
+        },
+        {
+          "title": "Switchable reinforced streptavidin.",
+          "year": 2020,
+          "pmid": "32181776",
+          "doi": "10.1039/d0nr00265h",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32181776/",
+          "query_key": "pubmed:alias_0_dynamics"
+        },
+        {
+          "title": "Involvement of muscle satellite cell dysfunction in neuromuscular disorders: Expanding the portfolio of satellite cell-opathies.",
+          "year": 2022,
+          "pmid": "35302338",
+          "doi": "10.4081/ejtm.2022.10064",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35302338/",
+          "query_key": "pubmed:alias_0_dynamics"
+        },
+        {
+          "title": "Photoactive Thiophene-Enriched Tetrathienonaphthalene-Based Covalent Organic Frameworks.",
+          "year": 2025,
+          "pmid": "41201146",
+          "doi": "10.1002/smll.202511000",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/41201146/",
+          "query_key": "pubmed:alias_0_dynamics"
+        },
+        {
+          "title": "Engineering protonation conformation of l-aspartate-\u03b1-decarboxylase to relieve mechanism-based inactivation.",
+          "year": 2020,
+          "pmid": "32096553",
+          "doi": "10.1002/bit.27316",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32096553/",
+          "query_key": "pubmed:alias_0_dynamics"
+        },
+        {
+          "title": "Directed Evolution of P450 BM3 towards Functionalization of Aromatic O-Heterocycles.",
+          "year": 2019,
+          "pmid": "31288417",
+          "doi": "10.3390/ijms20133353",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31288417/",
+          "query_key": "pubmed:alias_0_flexibility"
+        },
+        {
+          "title": "Interdomain linkers tune the energy dissipation of immunoglobulin domains in titin.",
+          "year": 2026,
+          "pmid": "42226344",
+          "doi": "10.1002/pro.70663",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42226344/",
+          "query_key": "pubmed:alias_0_flexibility"
+        },
+        {
+          "title": "Conformational entropy of a single peptide controlled under force governs protease recognition and catalysis.",
+          "year": 2018,
+          "pmid": "30341218",
+          "doi": "10.1073/pnas.1803872115",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/30341218/",
+          "query_key": "pubmed:alias_0_flexibility"
+        },
+        {
+          "title": "Titin-truncating variants affect heart function in disease cohorts and the general population.",
+          "year": 2017,
+          "pmid": "27869827",
+          "doi": "10.1038/ng.3719",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/27869827/",
+          "query_key": "pubmed:alias_0_functional"
+        },
+        {
+          "title": "Transient tachypnoea: new concepts on the commonest neonatal respiratory disorder.",
+          "year": 2025,
+          "pmid": "39909500",
+          "doi": "10.1183/16000617.0112-2024",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39909500/",
+          "query_key": "pubmed:alias_0_functional"
+        },
+        {
+          "title": "Clinical Phenotypes and Prognosis of Dilated Cardiomyopathy Caused by Truncating Variants in the <i>TTN</i> Gene.",
+          "year": 2020,
+          "pmid": "32964742",
+          "doi": "10.1161/CIRCHEARTFAILURE.119.006832",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32964742/",
+          "query_key": "pubmed:alias_0_functional"
+        },
+        {
+          "title": "Association Between Titin Loss-of-Function Variants and Early-Onset Atrial Fibrillation.",
+          "year": 2018,
+          "pmid": "30535219",
+          "doi": "10.1001/jama.2018.18179",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/30535219/",
+          "query_key": "pubmed:alias_0_functional"
+        },
+        {
+          "title": "Stroke genetics informs drug discovery and risk prediction across ancestries.",
+          "year": 2022,
+          "pmid": "36180795",
+          "doi": "10.1038/s41586-022-05165-3",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/36180795/",
+          "query_key": "pubmed:alias_0_computational"
+        },
+        {
+          "title": "Alternative Splicing Mediated by RNA-Binding Protein RBM24 Facilitates Cardiac Myofibrillogenesis in a Differentiation Stage-Specific Manner.",
+          "year": 2022,
+          "pmid": "34816743",
+          "doi": "10.1161/CIRCRESAHA.121.320080",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/34816743/",
+          "query_key": "pubmed:protein_0_dynamics"
+        },
+        {
+          "title": "The Y9P Variant of the Titin I27 Module: Structural Determinants of Its Revisited Nanomechanics.",
+          "year": 2016,
+          "pmid": "27021163",
+          "doi": "10.1016/j.str.2016.02.016",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/27021163/",
+          "query_key": "pubmed:protein_0_mechanism"
+        },
+        {
+          "title": "Molecular stretching modulates mechanosensing pathways.",
+          "year": 2017,
+          "pmid": "28474792",
+          "doi": "10.1002/pro.3188",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/28474792/",
+          "query_key": "pubmed:alias_1_dynamics"
+        },
+        {
+          "title": "Nucleosome-mediated conformational switches in micro-eccDNAs.",
+          "year": 2025,
+          "pmid": "40666917",
+          "doi": "10.1101/2025.06.14.659616",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/40666917/",
+          "query_key": "pubmed:alias_1_dynamics"
+        },
+        {
+          "title": "Autoinhibition of cMyBP-C by its middle domains.",
+          "year": 2025,
+          "pmid": "39923987",
+          "doi": "10.1016/j.yjmcc.2025.02.002",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39923987/",
+          "query_key": "pubmed:alias_1_flexibility"
+        },
+        {
+          "title": "Interdomain linkers tailor the stability of immunoglobulin repeats in polyproteins.",
+          "year": 2021,
+          "pmid": "33684619",
+          "doi": "10.1016/j.bbrc.2021.02.114",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/33684619/",
+          "query_key": "pubmed:alias_1_flexibility"
+        },
+        {
+          "title": "The calcium-binding protein S100A1 binds to titin's N2A insertion sequence in a pH-dependent manner.",
+          "year": 2025,
+          "pmid": "39737810",
+          "doi": "10.1085/jgp.202313472",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39737810/",
+          "query_key": "pubmed:alias_1_flexibility"
+        },
+        {
+          "title": "\u03b1-myosin heavy chain lactylation maintains sarcomeric structure and function and alleviates the development of heart failure.",
+          "year": 2023,
+          "pmid": "37443257",
+          "doi": "10.1038/s41422-023-00844-w",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37443257/",
+          "query_key": "pubmed:alias_1_functional"
+        }
+      ]
+    },
+    "3_rank_screen": {
+      "n_ranked": 12,
+      "max_refs": 12,
+      "aliases_used": [
+        "dynamics",
+        "Titin",
+        "TTN",
+        "Connectin",
+        "Rhabdomyosarcoma antigen MU-RMS-40.14",
+        "Q8WZ42"
+      ],
+      "ranked": [
+        {
+          "title": "Engineering protonation conformation of l-aspartate-\u03b1-decarboxylase to relieve mechanism-based inactivation.",
+          "year": 2020,
+          "pmid": "32096553",
+          "doi": "10.1002/bit.27316",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32096553/",
+          "relevance_note": "Mentions: dynamics, TTN",
+          "query_key": "pubmed:alias_0_dynamics",
+          "score": 51,
+          "matched_aliases": [
+            "dynamics",
+            "TTN"
+          ]
+        },
+        {
+          "title": "Alternative Splicing Mediated by RNA-Binding Protein RBM24 Facilitates Cardiac Myofibrillogenesis in a Differentiation Stage-Specific Manner.",
+          "year": 2022,
+          "pmid": "34816743",
+          "doi": "10.1161/CIRCRESAHA.121.320080",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/34816743/",
+          "relevance_note": "Mentions: dynamics, Titin, TTN",
+          "query_key": "pubmed:protein_0_dynamics",
+          "score": 48,
+          "matched_aliases": [
+            "dynamics",
+            "Titin",
+            "TTN"
+          ]
+        },
+        {
+          "title": "Molecular stretching modulates mechanosensing pathways.",
+          "year": 2017,
+          "pmid": "28474792",
+          "doi": "10.1002/pro.3188",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/28474792/",
+          "relevance_note": "Mentions: dynamics, Titin",
+          "query_key": "pubmed:alias_1_dynamics",
+          "score": 48,
+          "matched_aliases": [
+            "dynamics",
+            "Titin"
+          ]
+        },
+        {
+          "title": "The Y9P Variant of the Titin I27 Module: Structural Determinants of Its Revisited Nanomechanics.",
+          "year": 2016,
+          "pmid": "27021163",
+          "doi": "10.1016/j.str.2016.02.016",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/27021163/",
+          "relevance_note": "Mentions: dynamics, Titin",
+          "query_key": "pubmed:protein_0_mechanism",
+          "score": 47,
+          "matched_aliases": [
+            "dynamics",
+            "Titin"
+          ]
+        },
+        {
+          "title": "Nucleosome-mediated conformational switches in micro-eccDNAs.",
+          "year": 2025,
+          "pmid": "40666917",
+          "doi": "10.1101/2025.06.14.659616",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/40666917/",
+          "relevance_note": "Mentions: dynamics, Titin",
+          "query_key": "pubmed:alias_1_dynamics",
+          "score": 46,
+          "matched_aliases": [
+            "dynamics",
+            "Titin"
+          ]
+        },
+        {
+          "title": "Involvement of muscle satellite cell dysfunction in neuromuscular disorders: Expanding the portfolio of satellite cell-opathies.",
+          "year": 2022,
+          "pmid": "35302338",
+          "doi": "10.4081/ejtm.2022.10064",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35302338/",
+          "relevance_note": "Mentions: dynamics",
+          "query_key": "pubmed:alias_0_dynamics",
+          "score": 38,
+          "matched_aliases": [
+            "dynamics"
+          ]
+        },
+        {
+          "title": "Photoactive Thiophene-Enriched Tetrathienonaphthalene-Based Covalent Organic Frameworks.",
+          "year": 2025,
+          "pmid": "41201146",
+          "doi": "10.1002/smll.202511000",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/41201146/",
+          "relevance_note": "Mentions: dynamics, TTN",
+          "query_key": "pubmed:alias_0_dynamics",
+          "score": 35,
+          "matched_aliases": [
+            "dynamics",
+            "TTN"
+          ]
+        },
+        {
+          "title": "Conformational entropy of a single peptide controlled under force governs protease recognition and catalysis.",
+          "year": 2018,
+          "pmid": "30341218",
+          "doi": "10.1073/pnas.1803872115",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/30341218/",
+          "relevance_note": "Mentions: dynamics",
+          "query_key": "pubmed:alias_0_flexibility",
+          "score": 35,
+          "matched_aliases": [
+            "dynamics"
+          ]
+        },
+        {
+          "title": "Generation and annotation of the DNA sequences of human chromosomes 2 and 4.",
+          "year": 2005,
+          "pmid": "15815621",
+          "doi": "10.1038/nature03466",
+          "source": "uniprot_curated",
+          "url": null,
+          "relevance_note": "Identity: uniprot_curated",
+          "query_key": "uniprot:key_references",
+          "score": 14
+        },
+        {
+          "title": "The status, quality, and expansion of the NIH full-length cDNA project: the Mammalian Gene Collection (MGC).",
+          "year": 2004,
+          "pmid": "15489334",
+          "doi": "10.1101/gr.2596504",
+          "source": "uniprot_curated",
+          "url": null,
+          "relevance_note": "Identity: uniprot_curated",
+          "query_key": "uniprot:key_references",
+          "score": 14
+        },
+        {
+          "title": "Familial dilated cardiomyopathy locus maps to chromosome 2q31.",
+          "year": 1999,
+          "pmid": "10051295",
+          "doi": "10.1161/01.cir.99.8.1022",
+          "source": "uniprot_curated",
+          "url": null,
+          "relevance_note": "Identity: uniprot_curated",
+          "query_key": "uniprot:key_references",
+          "score": 14
+        },
+        {
+          "title": "Series of exon-skipping events in the elastic spring region of titin as the structural basis for myofibrillar elastic diversity.",
+          "year": 2000,
+          "pmid": "10850961",
+          "doi": "10.1161/01.res.86.11.1114",
+          "source": "uniprot_curated",
+          "url": null,
+          "relevance_note": "Mentions: Titin",
+          "query_key": "uniprot:key_references",
+          "score": 31,
+          "matched_aliases": [
+            "Titin"
+          ]
+        }
+      ]
+    },
+    "4_evidence_passages": {
+      "n_refs_examined": 5,
+      "evidence": [
+        {
+          "title": "Engineering protonation conformation of l-aspartate-\u03b1-decarboxylase to relieve mechanism-based inactivation.",
+          "pmid": "32096553",
+          "doi": "10.1002/bit.27316",
+          "pmcid": null,
+          "source": null,
+          "evidence_source": "abstract",
+          "passages": [
+            "5.5 \u00c5 in Q5), an increased difficulty for incorrect protonation to occur, and the decreased flexibility of residues in regions A, B, and C, thereby enhancing the probability of correct protonation."
+          ],
+          "relevance_note": "Mentions: dynamics, TTN"
+        },
+        {
+          "title": "Alternative Splicing Mediated by RNA-Binding Protein RBM24 Facilitates Cardiac Myofibrillogenesis in a Differentiation Stage-Specific Manner.",
+          "pmid": "34816743",
+          "doi": "10.1161/CIRCRESAHA.121.320080",
+          "pmcid": null,
+          "source": null,
+          "evidence_source": "abstract",
+          "passages": [
+            "Mutations in genes encoding sarcomeric proteins lead to failures in sarcomere assembly, the building blocks of contracting muscles, resulting in cardiomyopathies that are a leading cause of morbidity and mortality worldwide.",
+            "Splicing variants of sarcomeric proteins are crucial at different stages of myofibrillogenesis, accounting for sarcomeric structural integrity."
+          ],
+          "relevance_note": "Mentions: dynamics, Titin, TTN"
+        },
+        {
+          "title": "Molecular stretching modulates mechanosensing pathways.",
+          "pmid": "28474792",
+          "doi": "10.1002/pro.3188",
+          "pmcid": "PMC5477536",
+          "source": null,
+          "evidence_source": "abstract",
+          "passages": [
+            "For individual cells in tissues to create the diverse forms of biological organisms, it is necessary that they must reliably sense and generate the correct forces over the correct distances and directions.",
+            "There is considerable evidence that the mechanical aspects of the cellular microenvironment provide critical physical parameters to be sensed."
+          ],
+          "relevance_note": "Mentions: dynamics, Titin"
+        },
+        {
+          "title": "The Y9P Variant of the Titin I27 Module: Structural Determinants of Its Revisited Nanomechanics.",
+          "pmid": "27021163",
+          "doi": "10.1016/j.str.2016.02.016",
+          "pmcid": null,
+          "source": null,
+          "evidence_source": "abstract",
+          "passages": [
+            "Using single-molecule force spectroscopy based on atomic force microscopy, polyprotein engineering, and steered molecular dynamics simulations, we show that, unexpectedly, the mechanostability of the Y9P variant is comparable to the wild type."
+          ],
+          "relevance_note": "Mentions: dynamics, Titin"
+        },
+        {
+          "title": "Nucleosome-mediated conformational switches in micro-eccDNAs.",
+          "pmid": "40666917",
+          "doi": "10.1101/2025.06.14.659616",
+          "pmcid": "PMC12262562",
+          "source": null,
+          "evidence_source": "europe_pmc_fulltext",
+          "passages": [
+            "Here we identified a 358-bp circular micro-eccDNA molecule derived from the human Titin gene, which was selected for this study based on its size and sequence characteristics, and used atomistic molecular dynamics simulations to study its interaction with nucleosomes and corresponding topological state.",
+            "Using molecular dynamics (MD) simulations, we address: ( i .) whether a micro-eccDNA molecule in this size range can accommodate up to two nucleosomes; ( ii .) effects of nucleosome loss on duplex stability; ( iii .) how DNA transcription/accessibility can in turn be modulated by micro-eccDNA topology and chromatin structure.",
+            "( 2021 ) Base-pair resolution analysis of the effect of supercoiling on DNA flexibility and major groove recognition by triplex-forming oligonucleotides ."
+          ],
+          "relevance_note": "Mentions: dynamics, Titin"
+        }
+      ]
+    },
+    "5_compare_evidence": {
+      "n_observations": 16,
+      "comparisons": [
+        {
+          "observation_id": "obs_rmsd_1",
+          "observation": "Titin: modest backbone RMSD / local conformational stability (mean 1.01 \u00c5, max 1.25 \u00c5)",
+          "kind": "rmsd_stability",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "The Y9P Variant of the Titin I27 Module: Structural Determinants of Its Revisited Nanomechanics.",
+              "pmid": "27021163",
+              "doi": "10.1016/j.str.2016.02.016",
+              "evidence_source": "abstract",
+              "passage": "Using single-molecule force spectroscopy based on atomic force microscopy, polyprotein engineering, and steered molecular dynamics simulations, we show that, unexpectedly, the mechanostability of the Y9P variant is comparable to the wild type."
+            },
+            {
+              "title": "Nucleosome-mediated conformational switches in micro-eccDNAs.",
+              "pmid": "40666917",
+              "doi": "10.1101/2025.06.14.659616",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "Here we identified a 358-bp circular micro-eccDNA molecule derived from the human Titin gene, which was selected for this study based on its size and sequence characteristics, and used atomistic molecular dynamics simulations to study its interaction with nucleosomes and corresponding topological st"
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_dccm_2",
+          "observation": "Titin: correlated motions / allosteric coupling observed",
+          "kind": "correlated_motions",
+          "category": "not_addressed",
+          "supporting": [],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsf_3",
+          "observation": "Titin: RMSF hotspots / flexible sites: PHE12 (1.95 \u00c5), GLU11 (1.91 \u00c5), THR159 (1.86 \u00c5), GLY10 (1.68 \u00c5), ALA160 (1.49 \u00c5)",
+          "kind": "rmsf_hotspots",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Engineering protonation conformation of l-aspartate-\u03b1-decarboxylase to relieve mechanism-based inactivation.",
+              "pmid": "32096553",
+              "doi": "10.1002/bit.27316",
+              "evidence_source": "abstract",
+              "passage": "5.5 \u00c5 in Q5), an increased difficulty for incorrect protonation to occur, and the decreased flexibility of residues in regions A, B, and C, thereby enhancing the probability of correct protonation."
+            },
+            {
+              "title": "Nucleosome-mediated conformational switches in micro-eccDNAs.",
+              "pmid": "40666917",
+              "doi": "10.1101/2025.06.14.659616",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "Here we identified a 358-bp circular micro-eccDNA molecule derived from the human Titin gene, which was selected for this study based on its size and sequence characteristics, and used atomistic molecular dynamics simulations to study its interaction with nucleosomes and corresponding topological st"
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsf_4",
+          "observation": "Titin: RMSF hotspots / flexible sites: THR159 (1.62 \u00c5), ALA160 (1.22 \u00c5), PHE158 (1.17 \u00c5), PRO150 (1.14 \u00c5), GLY151 (1.12 \u00c5)",
+          "kind": "rmsf_hotspots",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Engineering protonation conformation of l-aspartate-\u03b1-decarboxylase to relieve mechanism-based inactivation.",
+              "pmid": "32096553",
+              "doi": "10.1002/bit.27316",
+              "evidence_source": "abstract",
+              "passage": "5.5 \u00c5 in Q5), an increased difficulty for incorrect protonation to occur, and the decreased flexibility of residues in regions A, B, and C, thereby enhancing the probability of correct protonation."
+            },
+            {
+              "title": "Nucleosome-mediated conformational switches in micro-eccDNAs.",
+              "pmid": "40666917",
+              "doi": "10.1101/2025.06.14.659616",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "Here we identified a 358-bp circular micro-eccDNA molecule derived from the human Titin gene, which was selected for this study based on its size and sequence characteristics, and used atomistic molecular dynamics simulations to study its interaction with nucleosomes and corresponding topological st"
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsd_5",
+          "observation": "Titin: modest backbone RMSD / local conformational stability (mean 1.01 \u00c5, max 1.25 \u00c5)",
+          "kind": "rmsd_stability",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "The Y9P Variant of the Titin I27 Module: Structural Determinants of Its Revisited Nanomechanics.",
+              "pmid": "27021163",
+              "doi": "10.1016/j.str.2016.02.016",
+              "evidence_source": "abstract",
+              "passage": "Using single-molecule force spectroscopy based on atomic force microscopy, polyprotein engineering, and steered molecular dynamics simulations, we show that, unexpectedly, the mechanostability of the Y9P variant is comparable to the wild type."
+            },
+            {
+              "title": "Nucleosome-mediated conformational switches in micro-eccDNAs.",
+              "pmid": "40666917",
+              "doi": "10.1101/2025.06.14.659616",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "Here we identified a 358-bp circular micro-eccDNA molecule derived from the human Titin gene, which was selected for this study based on its size and sequence characteristics, and used atomistic molecular dynamics simulations to study its interaction with nucleosomes and corresponding topological st"
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_dccm_6",
+          "observation": "Titin: correlated motions / allosteric coupling observed",
+          "kind": "correlated_motions",
+          "category": "not_addressed",
+          "supporting": [],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsf_7",
+          "observation": "Titin: RMSF hotspots / flexible sites: PHE12 (1.95 \u00c5), GLU11 (1.91 \u00c5), THR159 (1.86 \u00c5), GLY10 (1.68 \u00c5), ALA160 (1.49 \u00c5)",
+          "kind": "rmsf_hotspots",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Engineering protonation conformation of l-aspartate-\u03b1-decarboxylase to relieve mechanism-based inactivation.",
+              "pmid": "32096553",
+              "doi": "10.1002/bit.27316",
+              "evidence_source": "abstract",
+              "passage": "5.5 \u00c5 in Q5), an increased difficulty for incorrect protonation to occur, and the decreased flexibility of residues in regions A, B, and C, thereby enhancing the probability of correct protonation."
+            },
+            {
+              "title": "Nucleosome-mediated conformational switches in micro-eccDNAs.",
+              "pmid": "40666917",
+              "doi": "10.1101/2025.06.14.659616",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "Here we identified a 358-bp circular micro-eccDNA molecule derived from the human Titin gene, which was selected for this study based on its size and sequence characteristics, and used atomistic molecular dynamics simulations to study its interaction with nucleosomes and corresponding topological st"
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsf_8",
+          "observation": "Titin: RMSF hotspots / flexible sites: THR159 (1.62 \u00c5), ALA160 (1.22 \u00c5), PHE158 (1.17 \u00c5), PRO150 (1.14 \u00c5), GLY151 (1.12 \u00c5)",
+          "kind": "rmsf_hotspots",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Engineering protonation conformation of l-aspartate-\u03b1-decarboxylase to relieve mechanism-based inactivation.",
+              "pmid": "32096553",
+              "doi": "10.1002/bit.27316",
+              "evidence_source": "abstract",
+              "passage": "5.5 \u00c5 in Q5), an increased difficulty for incorrect protonation to occur, and the decreased flexibility of residues in regions A, B, and C, thereby enhancing the probability of correct protonation."
+            },
+            {
+              "title": "Nucleosome-mediated conformational switches in micro-eccDNAs.",
+              "pmid": "40666917",
+              "doi": "10.1101/2025.06.14.659616",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "Here we identified a 358-bp circular micro-eccDNA molecule derived from the human Titin gene, which was selected for this study based on its size and sequence characteristics, and used atomistic molecular dynamics simulations to study its interaction with nucleosomes and corresponding topological st"
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsd_9",
+          "observation": "Titin: modest backbone RMSD / local conformational stability (mean 1.01 \u00c5, max 1.25 \u00c5)",
+          "kind": "rmsd_stability",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "The Y9P Variant of the Titin I27 Module: Structural Determinants of Its Revisited Nanomechanics.",
+              "pmid": "27021163",
+              "doi": "10.1016/j.str.2016.02.016",
+              "evidence_source": "abstract",
+              "passage": "Using single-molecule force spectroscopy based on atomic force microscopy, polyprotein engineering, and steered molecular dynamics simulations, we show that, unexpectedly, the mechanostability of the Y9P variant is comparable to the wild type."
+            },
+            {
+              "title": "Nucleosome-mediated conformational switches in micro-eccDNAs.",
+              "pmid": "40666917",
+              "doi": "10.1101/2025.06.14.659616",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "Here we identified a 358-bp circular micro-eccDNA molecule derived from the human Titin gene, which was selected for this study based on its size and sequence characteristics, and used atomistic molecular dynamics simulations to study its interaction with nucleosomes and corresponding topological st"
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_dccm_10",
+          "observation": "Titin: correlated motions / allosteric coupling observed",
+          "kind": "correlated_motions",
+          "category": "not_addressed",
+          "supporting": [],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsf_11",
+          "observation": "Titin: RMSF hotspots / flexible sites: PHE12 (1.95 \u00c5), GLU11 (1.91 \u00c5), THR159 (1.86 \u00c5), GLY10 (1.68 \u00c5), ALA160 (1.49 \u00c5)",
+          "kind": "rmsf_hotspots",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Engineering protonation conformation of l-aspartate-\u03b1-decarboxylase to relieve mechanism-based inactivation.",
+              "pmid": "32096553",
+              "doi": "10.1002/bit.27316",
+              "evidence_source": "abstract",
+              "passage": "5.5 \u00c5 in Q5), an increased difficulty for incorrect protonation to occur, and the decreased flexibility of residues in regions A, B, and C, thereby enhancing the probability of correct protonation."
+            },
+            {
+              "title": "Nucleosome-mediated conformational switches in micro-eccDNAs.",
+              "pmid": "40666917",
+              "doi": "10.1101/2025.06.14.659616",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "Here we identified a 358-bp circular micro-eccDNA molecule derived from the human Titin gene, which was selected for this study based on its size and sequence characteristics, and used atomistic molecular dynamics simulations to study its interaction with nucleosomes and corresponding topological st"
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsf_12",
+          "observation": "Titin: RMSF hotspots / flexible sites: THR159 (1.62 \u00c5), ALA160 (1.22 \u00c5), PHE158 (1.17 \u00c5), PRO150 (1.14 \u00c5), GLY151 (1.12 \u00c5)",
+          "kind": "rmsf_hotspots",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Engineering protonation conformation of l-aspartate-\u03b1-decarboxylase to relieve mechanism-based inactivation.",
+              "pmid": "32096553",
+              "doi": "10.1002/bit.27316",
+              "evidence_source": "abstract",
+              "passage": "5.5 \u00c5 in Q5), an increased difficulty for incorrect protonation to occur, and the decreased flexibility of residues in regions A, B, and C, thereby enhancing the probability of correct protonation."
+            },
+            {
+              "title": "Nucleosome-mediated conformational switches in micro-eccDNAs.",
+              "pmid": "40666917",
+              "doi": "10.1101/2025.06.14.659616",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "Here we identified a 358-bp circular micro-eccDNA molecule derived from the human Titin gene, which was selected for this study based on its size and sequence characteristics, and used atomistic molecular dynamics simulations to study its interaction with nucleosomes and corresponding topological st"
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rg_13",
+          "observation": "Titin: radius of gyration / compactness (mean 19.292 \u00c5)",
+          "kind": "compactness",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "The Y9P Variant of the Titin I27 Module: Structural Determinants of Its Revisited Nanomechanics.",
+              "pmid": "27021163",
+              "doi": "10.1016/j.str.2016.02.016",
+              "evidence_source": "abstract",
+              "passage": "Using single-molecule force spectroscopy based on atomic force microscopy, polyprotein engineering, and steered molecular dynamics simulations, we show that, unexpectedly, the mechanostability of the Y9P variant is comparable to the wild type."
+            },
+            {
+              "title": "Nucleosome-mediated conformational switches in micro-eccDNAs.",
+              "pmid": "40666917",
+              "doi": "10.1101/2025.06.14.659616",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "Here we identified a 358-bp circular micro-eccDNA molecule derived from the human Titin gene, which was selected for this study based on its size and sequence characteristics, and used atomistic molecular dynamics simulations to study its interaction with nucleosomes and corresponding topological st"
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rg_14",
+          "observation": "Titin: radius of gyration / compactness (mean 19.292 \u00c5)",
+          "kind": "compactness",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "The Y9P Variant of the Titin I27 Module: Structural Determinants of Its Revisited Nanomechanics.",
+              "pmid": "27021163",
+              "doi": "10.1016/j.str.2016.02.016",
+              "evidence_source": "abstract",
+              "passage": "Using single-molecule force spectroscopy based on atomic force microscopy, polyprotein engineering, and steered molecular dynamics simulations, we show that, unexpectedly, the mechanostability of the Y9P variant is comparable to the wild type."
+            },
+            {
+              "title": "Nucleosome-mediated conformational switches in micro-eccDNAs.",
+              "pmid": "40666917",
+              "doi": "10.1101/2025.06.14.659616",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "Here we identified a 358-bp circular micro-eccDNA molecule derived from the human Titin gene, which was selected for this study based on its size and sequence characteristics, and used atomistic molecular dynamics simulations to study its interaction with nucleosomes and corresponding topological st"
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rg_15",
+          "observation": "Titin: radius of gyration / compactness (mean 19.292 \u00c5)",
+          "kind": "compactness",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "The Y9P Variant of the Titin I27 Module: Structural Determinants of Its Revisited Nanomechanics.",
+              "pmid": "27021163",
+              "doi": "10.1016/j.str.2016.02.016",
+              "evidence_source": "abstract",
+              "passage": "Using single-molecule force spectroscopy based on atomic force microscopy, polyprotein engineering, and steered molecular dynamics simulations, we show that, unexpectedly, the mechanostability of the Y9P variant is comparable to the wild type."
+            },
+            {
+              "title": "Nucleosome-mediated conformational switches in micro-eccDNAs.",
+              "pmid": "40666917",
+              "doi": "10.1101/2025.06.14.659616",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "Here we identified a 358-bp circular micro-eccDNA molecule derived from the human Titin gene, which was selected for this study based on its size and sequence characteristics, and used atomistic molecular dynamics simulations to study its interaction with nucleosomes and corresponding topological st"
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_goal_ligand",
+          "observation": "User objective involves apo/holo or ligand-related interpretation",
+          "kind": "ligand_or_pocket",
+          "category": "not_addressed",
+          "supporting": [],
+          "conflicting": []
+        }
+      ]
+    },
+    "6_candidates_for_report": {
+      "n": 12,
+      "note": "These ranked candidates are passed to the literature-review LLM; uncited papers are pruned after writing (see Step 6 final selection).",
+      "candidates": [
+        {
+          "title": "Engineering protonation conformation of l-aspartate-\u03b1-decarboxylase to relieve mechanism-based inactivation.",
+          "year": 2020,
+          "pmid": "32096553",
+          "doi": "10.1002/bit.27316",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32096553/",
+          "relevance_note": "Mentions: dynamics, TTN",
+          "query_key": "pubmed:alias_0_dynamics",
+          "score": 51,
+          "matched_aliases": [
+            "dynamics",
+            "TTN"
+          ]
+        },
+        {
+          "title": "Alternative Splicing Mediated by RNA-Binding Protein RBM24 Facilitates Cardiac Myofibrillogenesis in a Differentiation Stage-Specific Manner.",
+          "year": 2022,
+          "pmid": "34816743",
+          "doi": "10.1161/CIRCRESAHA.121.320080",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/34816743/",
+          "relevance_note": "Mentions: dynamics, Titin, TTN",
+          "query_key": "pubmed:protein_0_dynamics",
+          "score": 48,
+          "matched_aliases": [
+            "dynamics",
+            "Titin",
+            "TTN"
+          ]
+        },
+        {
+          "title": "Molecular stretching modulates mechanosensing pathways.",
+          "year": 2017,
+          "pmid": "28474792",
+          "doi": "10.1002/pro.3188",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/28474792/",
+          "relevance_note": "Mentions: dynamics, Titin",
+          "query_key": "pubmed:alias_1_dynamics",
+          "score": 48,
+          "matched_aliases": [
+            "dynamics",
+            "Titin"
+          ]
+        },
+        {
+          "title": "The Y9P Variant of the Titin I27 Module: Structural Determinants of Its Revisited Nanomechanics.",
+          "year": 2016,
+          "pmid": "27021163",
+          "doi": "10.1016/j.str.2016.02.016",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/27021163/",
+          "relevance_note": "Mentions: dynamics, Titin",
+          "query_key": "pubmed:protein_0_mechanism",
+          "score": 47,
+          "matched_aliases": [
+            "dynamics",
+            "Titin"
+          ]
+        },
+        {
+          "title": "Nucleosome-mediated conformational switches in micro-eccDNAs.",
+          "year": 2025,
+          "pmid": "40666917",
+          "doi": "10.1101/2025.06.14.659616",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/40666917/",
+          "relevance_note": "Mentions: dynamics, Titin",
+          "query_key": "pubmed:alias_1_dynamics",
+          "score": 46,
+          "matched_aliases": [
+            "dynamics",
+            "Titin"
+          ]
+        },
+        {
+          "title": "Involvement of muscle satellite cell dysfunction in neuromuscular disorders: Expanding the portfolio of satellite cell-opathies.",
+          "year": 2022,
+          "pmid": "35302338",
+          "doi": "10.4081/ejtm.2022.10064",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35302338/",
+          "relevance_note": "Mentions: dynamics",
+          "query_key": "pubmed:alias_0_dynamics",
+          "score": 38,
+          "matched_aliases": [
+            "dynamics"
+          ]
+        },
+        {
+          "title": "Photoactive Thiophene-Enriched Tetrathienonaphthalene-Based Covalent Organic Frameworks.",
+          "year": 2025,
+          "pmid": "41201146",
+          "doi": "10.1002/smll.202511000",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/41201146/",
+          "relevance_note": "Mentions: dynamics, TTN",
+          "query_key": "pubmed:alias_0_dynamics",
+          "score": 35,
+          "matched_aliases": [
+            "dynamics",
+            "TTN"
+          ]
+        },
+        {
+          "title": "Conformational entropy of a single peptide controlled under force governs protease recognition and catalysis.",
+          "year": 2018,
+          "pmid": "30341218",
+          "doi": "10.1073/pnas.1803872115",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/30341218/",
+          "relevance_note": "Mentions: dynamics",
+          "query_key": "pubmed:alias_0_flexibility",
+          "score": 35,
+          "matched_aliases": [
+            "dynamics"
+          ]
+        },
+        {
+          "title": "Generation and annotation of the DNA sequences of human chromosomes 2 and 4.",
+          "year": 2005,
+          "pmid": "15815621",
+          "doi": "10.1038/nature03466",
+          "source": "uniprot_curated",
+          "url": null,
+          "relevance_note": "Identity: uniprot_curated",
+          "query_key": "uniprot:key_references",
+          "score": 14
+        },
+        {
+          "title": "The status, quality, and expansion of the NIH full-length cDNA project: the Mammalian Gene Collection (MGC).",
+          "year": 2004,
+          "pmid": "15489334",
+          "doi": "10.1101/gr.2596504",
+          "source": "uniprot_curated",
+          "url": null,
+          "relevance_note": "Identity: uniprot_curated",
+          "query_key": "uniprot:key_references",
+          "score": 14
+        },
+        {
+          "title": "Familial dilated cardiomyopathy locus maps to chromosome 2q31.",
+          "year": 1999,
+          "pmid": "10051295",
+          "doi": "10.1161/01.cir.99.8.1022",
+          "source": "uniprot_curated",
+          "url": null,
+          "relevance_note": "Identity: uniprot_curated",
+          "query_key": "uniprot:key_references",
+          "score": 14
+        },
+        {
+          "title": "Series of exon-skipping events in the elastic spring region of titin as the structural basis for myofibrillar elastic diversity.",
+          "year": 2000,
+          "pmid": "10850961",
+          "doi": "10.1161/01.res.86.11.1114",
+          "source": "uniprot_curated",
+          "url": null,
+          "relevance_note": "Mentions: Titin",
+          "query_key": "uniprot:key_references",
+          "score": 31,
+          "matched_aliases": [
+            "Titin"
+          ]
+        }
+      ]
+    },
+    "6_final_cited": {
+      "n_cited": 4,
+      "cited": [
+        {
+          "title": "Molecular stretching modulates mechanosensing pathways.",
+          "year": 2017,
+          "pmid": "28474792",
+          "doi": "10.1002/pro.3188",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/28474792/",
+          "query_key": "pubmed:alias_1_dynamics"
+        },
+        {
+          "title": "The Y9P Variant of the Titin I27 Module: Structural Determinants of Its Revisited Nanomechanics.",
+          "year": 2016,
+          "pmid": "27021163",
+          "doi": "10.1016/j.str.2016.02.016",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/27021163/",
+          "query_key": "pubmed:protein_0_mechanism"
+        },
+        {
+          "title": "Alternative Splicing Mediated by RNA-Binding Protein RBM24 Facilitates Cardiac Myofibrillogenesis in a Differentiation Stage-Specific Manner.",
+          "year": 2022,
+          "pmid": "34816743",
+          "doi": "10.1161/CIRCRESAHA.121.320080",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/34816743/",
+          "query_key": "pubmed:protein_0_dynamics"
+        },
+        {
+          "title": "Involvement of muscle satellite cell dysfunction in neuromuscular disorders: Expanding the portfolio of satellite cell-opathies.",
+          "year": 2022,
+          "pmid": "35302338",
+          "doi": "10.4081/ejtm.2022.10064",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35302338/",
+          "query_key": "pubmed:alias_0_dynamics"
+        }
+      ]
+    }
+  },
+  "identity": {
+    "protein": "Titin",
+    "gene": "dynamics",
+    "aliases": [
+      "dynamics",
+      "Titin",
+      "TTN",
+      "Connectin",
+      "Rhabdomyosarcoma antigen MU-RMS-40.14",
+      "Q8WZ42"
+    ],
+    "family": "pseudokinase",
+    "uniprot_id": "q8wz42",
+    "source": "goal_text"
+  }
+}

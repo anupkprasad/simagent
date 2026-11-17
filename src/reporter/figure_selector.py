@@ -833,6 +833,11 @@ def select_per_sim_highlight_figures(
                 rec.get("metadata") or {},
                 search_dirs,
             )
+            dccm_comparison_shown = any(
+                "dccm" in Path(p).name.lower()
+                and any(token in Path(p).name.lower() for token in ("panel", "diff", "comparison"))
+                for p in exclude
+            )
             selected = select_images_from_entry(
                 images,
                 user_goal=user_goal,
@@ -843,6 +848,13 @@ def select_per_sim_highlight_figures(
             )
             for img_path in selected.values():
                 if str(img_path) in exclude:
+                    continue
+                # The comparative section already shows one apo|holo|Δ figure
+                # per protein. Per-simulation heatmaps and line plots repeat it.
+                img_name = Path(str(img_path)).name.lower()
+                if "dccm" in img_name and (
+                    dccm_comparison_shown or "heatmap" not in img_name
+                ):
                     continue
                 if atype in {"FELFeatures", "FELBasinStructures", "FreeEnergyLandscape"}:
                     if fel_count.get(label, 0) >= narrative.max_fel_per_sim:

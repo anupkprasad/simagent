@@ -821,8 +821,18 @@ def _base_protein_id(name: str) -> str:
 
 
 def is_holo_simulation(sim_dir: str, label: str) -> bool:
-    """Return True when the simulation directory/label denotes a holo (ligand-bound) system."""
-    key = f"{sim_dir} {label}".lower()
+    """Return True when this simulation's own name denotes a ligand-bound system.
+
+    Only the directory and label basenames are checked. A campaign folder such
+    as ``pseudo_apo_holo`` contains "holo" and must not mark every protein-only
+    run as ligand-bound, or apo/holo DCCM pairs never form.
+    """
+    names = []
+    for raw in (sim_dir, label):
+        if not raw:
+            continue
+        names.append(Path(str(raw)).name.lower())
+    key = " ".join(names)
     return any(kw in key for kw in _HOLO_KEYWORDS)
 
 
@@ -1748,6 +1758,7 @@ def run_combined_dccm_apo_holo_analysis(
     if not pairs:
         return {
             "success": False,
+            "error": "No apo/holo simulation pairs detected",
             "plots": [],
             "pairs": [],
             "message": "No apo/holo simulation pairs detected",
@@ -1816,13 +1827,18 @@ def run_combined_dccm_apo_holo_analysis(
     except Exception as se:
         logger.warning(f"run_combined_dccm_apo_holo_analysis: summary log failed: {se}")
 
-    return {
-        "success": len(plots) > 0,
+    n_plots = len(plots)
+    message = f"Generated {n_plots} per-protein DCCM apo/holo plot(s)"
+    result = {
+        "success": n_plots > 0,
         "plots": plots,
         "pairs": pairs,
         "results": processed,
-        "message": f"Generated {len(plots)} per-protein DCCM apo/holo plot(s)",
+        "message": message,
     }
+    if n_plots == 0:
+        result["error"] = message
+    return result
 
 
 @tool

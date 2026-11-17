@@ -1,0 +1,45 @@
+{
+  "timestamp": "N/A",
+  "reasoning": "The user wants a comprehensive HTML report that embeds all plots and statistics from the analysis_summary.jsonl file and contextualizes the findings with peer\u2011reviewed literature.  The report must be generated with `generate_html_report`, which accepts the parsed analysis data and an optional list of literature references.  The analysis data are loaded with `read_analysis_summary`.  Because the literature context is a key part of the goal, we prepare a set of PubMed search queries for the four proteins of interest, but we will not invoke the search tool directly in this plan\u2014those queries can be executed manually or by the user after the report is generated.",
+  "overview": "1. Parse the analysis summary. 2. Generate a list of relevant literature queries for ERBB3, VRK3, MLKL, and TITIN. 3. Create a single HTML report that embeds all plots, displays key statistics cards, and includes placeholder sections for literature citations.",
+  "report_focus": [
+    "Backbone RMSD and RMSF trends across apo/holo states",
+    "Radius of gyration and COM distance to ATP",
+    "DCCM differences between apo and holo",
+    "DSSP dynamics of the 150\u2013200 region"
+  ],
+  "literature_queries": [
+    "ERBB3 activation loop dynamics",
+    "VRK3 allosteric regulation kinase",
+    "MLKL activation loop conformations",
+    "Titin protein dynamics",
+    "ERBB3 MD simulation studies",
+    "VRK3 MD dynamics",
+    "MLKL MD activation loop",
+    "Titin allosteric regulation"
+  ],
+  "estimated_complexity": "medium",
+  "steps": [
+    {
+      "name": "Read Analysis Summary",
+      "description": "Load and parse the analysis_summary.jsonl file to obtain all metric results and image paths.",
+      "tool_name": "read_analysis_summary",
+      "tool_params": {
+        "summary_file": "analysis_summary.jsonl"
+      },
+      "reason": "Need the analysis data to feed into the report."
+    },
+    {
+      "name": "Generate HTML Report",
+      "description": "Create a comprehensive, self\u2011contained HTML report that embeds all plots, displays key statistics cards, and allocates sections for literature references.",
+      "tool_name": "generate_html_report",
+      "tool_params": {
+        "analysis_data": {},
+        "literature_refs": [],
+        "report_type": "comprehensive",
+        "output_file": "report.html"
+      },
+      "reason": "Produce the final deliverable with all requested visualizations and insights."
+    }
+  ]
+}

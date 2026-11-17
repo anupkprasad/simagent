@@ -1,0 +1,1007 @@
+{
+  "pipeline": "evidence_grounded_literature_v1",
+  "steps": {
+    "1_observations": {
+      "n": 6,
+      "observations": [
+        {
+          "id": "obs_rmsd_1",
+          "kind": "rmsd_stability",
+          "analysis_type": "RMSD",
+          "statement": "ERBB3: modest backbone RMSD / local conformational stability (mean 1.39 \u00c5, max 1.82 \u00c5)",
+          "metrics": {
+            "mean_rmsd_angstrom": 1.388,
+            "std_rmsd_angstrom": 0.469,
+            "min_rmsd_angstrom": 0.0,
+            "max_rmsd_angstrom": 1.825
+          },
+          "keywords": [
+            "rmsd",
+            "conformational stability",
+            "backbone",
+            "molecular dynamics"
+          ]
+        },
+        {
+          "id": "obs_rmsf_2",
+          "kind": "rmsf_hotspots",
+          "analysis_type": "RMSF",
+          "statement": "ERBB3: RMSF hotspots / flexible sites: PRO30 (2.59 \u00c5), GLY29 (2.50 \u00c5), SER28 (2.49 \u00c5), THR25 (2.39 \u00c5), CYS26 (2.22 \u00c5)",
+          "metrics": {
+            "mean_rmsf_angstrom": 0.773,
+            "most_flexible_residue": 30,
+            "most_flexible_rmsf": 2.589,
+            "top_flexible": [
+              "PRO30 (2.59 \u00c5)",
+              "GLY29 (2.50 \u00c5)",
+              "SER28 (2.49 \u00c5)",
+              "THR25 (2.39 \u00c5)",
+              "CYS26 (2.22 \u00c5)"
+            ]
+          },
+          "keywords": [
+            "rmsf",
+            "flexibility",
+            "flexible loop",
+            "hotspot",
+            "residue fluctuation",
+            "PRO30",
+            "GLY29",
+            "SER28"
+          ]
+        },
+        {
+          "id": "obs_rg_3",
+          "kind": "compactness",
+          "analysis_type": "Radius_of_Gyration",
+          "statement": "ERBB3: radius of gyration / compactness (mean 19.95 \u00c5)",
+          "metrics": {
+            "n_frames": 11,
+            "mean_rg_angstrom": 19.95,
+            "std_rg_angstrom": 0.152,
+            "min_rg_angstrom": 19.496,
+            "max_rg_angstrom": 20.083
+          },
+          "keywords": [
+            "radius of gyration",
+            "compactness",
+            "folding",
+            "stability",
+            "molecular dynamics"
+          ]
+        },
+        {
+          "id": "obs_dccm_4",
+          "kind": "correlated_motions",
+          "analysis_type": "DCCM",
+          "statement": "ERBB3: correlated motions / allosteric coupling observed",
+          "metrics": {
+            "n_atoms": 292,
+            "n_residues": 292,
+            "n_frames_used": 11,
+            "mean_abs_correlation": 0.201,
+            "n_strongly_correlated_pairs": 50
+          },
+          "keywords": [
+            "dccm",
+            "correlated motion",
+            "allosteric",
+            "communication"
+          ]
+        },
+        {
+          "id": "obs_ligand_5",
+          "kind": "ligand_or_pocket",
+          "analysis_type": "Ligand_Pocket_COM_Distance",
+          "statement": "ERBB3: ligand/pocket dynamics from Ligand_Pocket_COM_Distance",
+          "metrics": {
+            "n_frames": 11,
+            "cutoff_angstrom": 5.0,
+            "n_pocket_atoms": 200,
+            "mean_distance_angstrom": 3.098,
+            "std_distance_angstrom": 0.234,
+            "min_distance_angstrom": 2.667,
+            "max_distance_angstrom": 3.422
+          },
+          "keywords": [
+            "ligand",
+            "binding",
+            "pocket",
+            "displacement",
+            "residence"
+          ]
+        },
+        {
+          "id": "obs_ligand_6",
+          "kind": "ligand_or_pocket",
+          "analysis_type": "INTER_COM_Distance_Protein_vs_ATP",
+          "statement": "ERBB3: ligand/pocket dynamics from INTER_COM_Distance_Protein_vs_ATP",
+          "metrics": {
+            "n_frames": 11,
+            "mean_distance_angstrom": 10.56,
+            "std_distance_angstrom": 0.266,
+            "min_distance_angstrom": 10.151,
+            "max_distance_angstrom": 10.91
+          },
+          "keywords": [
+            "ligand",
+            "binding",
+            "pocket",
+            "displacement",
+            "residence"
+          ]
+        }
+      ]
+    },
+    "2_queries": {
+      "n": 47,
+      "queries": {
+        "alias_0_dynamics": "ERBB3 molecular dynamics",
+        "alias_0_flexibility": "ERBB3 conformational flexibility",
+        "alias_0_functional": "ERBB3 functional study",
+        "alias_0_computational": "ERBB3 (computational OR \"molecular dynamics\" OR simulation)",
+        "protein_0_dynamics": "ERBB3 protein dynamics molecular dynamics",
+        "protein_0_mechanism": "ERBB3 mechanism structure function molecular dynamics",
+        "protein_0_function": "ERBB3 allosteric pseudokinase structure dynamics",
+        "protein_dynamics": "ERBB3 molecular dynamics simulation",
+        "protein_function": "ERBB3 structure function",
+        "protein_functional_study": "ERBB3 functional study OR deficiency OR knockout",
+        "protein_computational_study": "ERBB3 computational study OR molecular dynamics OR simulation",
+        "protein_context": "ERBB3 allosteric pseudokinase molecular dynamics",
+        "protein_goal_context": "ERBB3 alloster holo",
+        "protein_biology": "ERBB3 allosteric",
+        "protein_family_review": "ERBB3 pseudokinase structure function review",
+        "theme_family_dynamics": "pseudokinase allosteric domain molecular dynamics simulation",
+        "theme_family_flexibility": "pseudokinase apo flexibility residue dynamics",
+        "theme_related_kinase": "kinase molecular dynamics conformational",
+        "theme_related_allosteric": "allosteric molecular dynamics conformational",
+        "ligand_effect": "ERBB3 atp binding protein dynamics simulation",
+        "allosteric_dccm": "ERBB3 allosteric communication correlated motion molecular dynamics",
+        "method_RMSD": "ERBB3 RMSD stability molecular dynamics",
+        "theme_method_RMSD": "pseudokinase RMSD stability molecular dynamics",
+        "method_RMSF": "ERBB3 RMSF residue flexibility dynamics",
+        "theme_method_RMSF": "pseudokinase RMSF residue flexibility dynamics",
+        "method_Radius_of_Gyration": "ERBB3 radius of gyration compactness",
+        "theme_method_Radius_of_Gyration": "pseudokinase radius of gyration compactness",
+        "method_Ligand_Pocket_COM_Distance": "ERBB3 Ligand_Pocket_COM_Distance molecular dynamics",
+        "theme_method_Ligand_Pocket_COM_Distance": "pseudokinase Ligand_Pocket_COM_Distance molecular dynamics",
+        "method_INTER_COM_Distance_Protein_vs_ATP": "ERBB3 INTER_COM_Distance_Protein_vs_ATP molecular dynamics",
+        "theme_method_INTER_COM_Distance_Protein_vs_ATP": "pseudokinase INTER_COM_Distance_Protein_vs_ATP molecular dynamics",
+        "method_DSSP_SecondaryStructure": "ERBB3 DSSP_SecondaryStructure molecular dynamics",
+        "theme_method_DSSP_SecondaryStructure": "pseudokinase DSSP_SecondaryStructure molecular dynamics",
+        "result_rmsd": "ERBB3 pseudokinase conformational stability RMSD molecular dynamics",
+        "theme_result_rmsd": "pseudokinase conformational stability RMSD molecular dynamics",
+        "result_rmsf": "ERBB3 pseudokinase residue flexibility RMSF domain molecular dynamics",
+        "theme_result_rmsf": "pseudokinase residue flexibility RMSF domain molecular dynamics",
+        "result_rg": "ERBB3 pseudokinase radius of gyration domain stability molecular dynamics",
+        "theme_result_rg": "pseudokinase radius of gyration domain stability molecular dynamics",
+        "hypothesis_objective": "ERBB3 alloster holo molecular dynamics",
+        "theme_objective": "alloster holo molecular dynamics protein structure",
+        "theme_family_structure": "pseudokinase allosteric structure function conformational dynamics",
+        "theme_ligand": "atp binding protein molecular dynamics simulation",
+        "_fallback_general": "molecular dynamics protein conformational stability review",
+        "obs_rmsf_hotspots": "ERBB3 PRO30 GLY29 SER28 flexibility molecular dynamics",
+        "theme_obs_flexibility": "protein residue flexibility RMSF activation loop molecular dynamics",
+        "theme_obs_allostery": "ERBB3 allosteric correlated motions molecular dynamics"
+      }
+    },
+    "2_gather": {
+      "n_candidates": 28,
+      "source_counts": {
+        "unknown": 8,
+        "EuropePMC": 16,
+        "Crossref": 4
+      },
+      "candidates": [
+        {
+          "title": "Integrated genomic and molecular characterization of cervical cancer.",
+          "year": 2017,
+          "pmid": "28112728",
+          "doi": "10.1038/nature21386",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/28112728/",
+          "query_key": "pubmed:protein_function"
+        },
+        {
+          "title": "Trans-activating mutations of the pseudokinase ERBB3.",
+          "year": 2024,
+          "pmid": "38806620",
+          "doi": "10.1038/s41388-024-03070-9",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/38806620/",
+          "query_key": "pubmed:protein_function"
+        },
+        {
+          "title": "Structures of the HER2-HER3-NRG1\u03b2 complex reveal a dynamic dimer interface.",
+          "year": 2021,
+          "pmid": "34759323",
+          "doi": "10.1038/s41586-021-04084-z",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/34759323/",
+          "query_key": "pubmed:protein_function"
+        },
+        {
+          "title": "Extensive conformational and physical plasticity protects HER2-HER3 tumorigenic signaling.",
+          "year": 2022,
+          "pmid": "35108526",
+          "doi": "10.1016/j.celrep.2021.110285",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35108526/",
+          "query_key": "pubmed:protein_function"
+        },
+        {
+          "title": "ATP allosterically stabilizes integrin-linked kinase for efficient force generation.",
+          "year": 2022,
+          "pmid": "35259013",
+          "doi": "10.1073/pnas.2106098119",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35259013/",
+          "query_key": "pubmed:theme_family_structure"
+        },
+        {
+          "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+          "year": 2022,
+          "pmid": "35108525",
+          "doi": "10.1016/j.celrep.2021.110291",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35108525/",
+          "query_key": "pubmed:theme_family_structure"
+        },
+        {
+          "title": "Sunitinib inhibits RNase L by destabilizing its active dimer conformation.",
+          "year": 2020,
+          "pmid": "32830849",
+          "doi": "10.1042/BCJ20200260",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32830849/",
+          "query_key": "pubmed:theme_family_structure"
+        },
+        {
+          "title": "Vps34 Kinase Domain Dynamics Regulate the Autophagic PI 3-Kinase Complex.",
+          "year": 2017,
+          "pmid": "28757208",
+          "doi": "10.1016/j.molcel.2017.07.003",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/28757208/",
+          "query_key": "pubmed:theme_family_structure"
+        },
+        {
+          "title": "Functional epigenomic liquid biopsy identifies potential therapeutic vulnerabilities after enfortumab vedotin\u2013pembrolizumab resistance in metastatic urothelial carcinoma (mUC)",
+          "year": 2026,
+          "pmid": null,
+          "doi": null,
+          "source": "EuropePMC",
+          "url": null,
+          "query_key": "europepmc:ERBB3 protein molecular dynamics"
+        },
+        {
+          "title": "Mapping Mutations and Signaling Network Interactions to Guide Precision Therapy in Gallbladder Cancer.",
+          "year": 2026,
+          "pmid": "42817222",
+          "doi": "10.1002/cnr2.70699",
+          "source": "EuropePMC",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42817222/",
+          "query_key": "europepmc:ERBB3 protein molecular dynamics"
+        },
+        {
+          "title": "Tumor specific cytokine pattern explored in renal cell carcinoma.",
+          "year": 2026,
+          "pmid": "42809553",
+          "doi": "10.1371/journal.pone.0358533",
+          "source": "EuropePMC",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42809553/",
+          "query_key": "europepmc:ERBB3 protein molecular dynamics"
+        },
+        {
+          "title": "Trastuzumab-TKI combination in HER2-Positive tumors: a FAERS-Based safety profile and multimodal analysis of Tanespimycin's role in enhancing targeting of the HSP90AA1-PI3K-Akt-mTO",
+          "year": 2026,
+          "pmid": "42719185",
+          "doi": "10.3389/fphar.2026.1844013",
+          "source": "EuropePMC",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42719185/",
+          "query_key": "europepmc:ERBB3 protein molecular dynamics"
+        },
+        {
+          "title": "Coronary Microvascular Dysfunction: Epidemiology, Pathophysiology, Diagnosis, and Treatment.",
+          "year": 2026,
+          "pmid": "42494468",
+          "doi": "10.1002/mco2.70875",
+          "source": "EuropePMC",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42494468/",
+          "query_key": "europepmc:ERBB3 structure function"
+        },
+        {
+          "title": "Deconstruction of Human Age-Related Cataract Capsules Defines Aging.",
+          "year": 2026,
+          "pmid": "42555200",
+          "doi": "10.1002/advs.76532",
+          "source": "EuropePMC",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42555200/",
+          "query_key": "europepmc:ERBB3 structure function"
+        },
+        {
+          "title": "Biochemistry, Epidermal Growth Factor Receptor",
+          "year": 2026,
+          "pmid": "29494066",
+          "doi": null,
+          "source": "EuropePMC",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/29494066/",
+          "query_key": "europepmc:ERBB3 structure function"
+        },
+        {
+          "title": "A\u2011Raf: A serine/threonine protein kinase with important biological functions (Review).",
+          "year": 2026,
+          "pmid": "42429158",
+          "doi": "10.3892/mmr.2026.13959",
+          "source": "EuropePMC",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42429158/",
+          "query_key": "europepmc:ERBB3 structure function"
+        },
+        {
+          "title": "Quantum Reactivity-Guided Optimization of ATP-Competitive Ligands through Multiscale Simulation.",
+          "year": 2026,
+          "pmid": "42565187",
+          "doi": "10.1021/acsphyschemau.6c00012",
+          "source": "EuropePMC",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42565187/",
+          "query_key": "europepmc:pseudokinase molecular dynamics conformational"
+        },
+        {
+          "title": "The multifaceted roles of receptor tyrosine pseudokinases in cellular signalling.",
+          "year": 2026,
+          "pmid": "42267535",
+          "doi": "10.1042/bst20260770",
+          "source": "EuropePMC",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42267535/",
+          "query_key": "europepmc:pseudokinase molecular dynamics conformational"
+        },
+        {
+          "title": "JAK3-Mediated Structural Remodeling of \u03b2-Catenin Suppresses Epithelial-Mesenchymal Transition: Insights from In Silico Modeling.",
+          "year": 2026,
+          "pmid": "42883412",
+          "doi": "10.3390/biology15191738",
+          "source": "EuropePMC",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42883412/",
+          "query_key": "europepmc:pseudokinase molecular dynamics conformational"
+        },
+        {
+          "title": "A curated benchmark for cofolding models on kinase conformational states.",
+          "year": 2026,
+          "pmid": "42686818",
+          "doi": "10.1038/s44386-026-00068-z",
+          "source": "EuropePMC",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42686818/",
+          "query_key": "europepmc:pseudokinase molecular dynamics conformational"
+        },
+        {
+          "title": "Computational Analysis of the Homologous Mouse Double RINGs Interface for Targeted Anticancer Drug Design.",
+          "year": 2026,
+          "pmid": "42940173",
+          "doi": "10.3390/biomedicines14102366",
+          "source": "EuropePMC",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42940173/",
+          "query_key": "europepmc:protein domain molecular dynamics RMSD RMSF conformational"
+        },
+        {
+          "title": "AlloPool is a deep learning framework that infers protein allostery from molecular dynamics simulations.",
+          "year": 2026,
+          "pmid": "42766632",
+          "doi": "10.1371/journal.pbio.3004002",
+          "source": "EuropePMC",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42766632/",
+          "query_key": "europepmc:protein domain molecular dynamics RMSD RMSF conformational"
+        },
+        {
+          "title": "Comparative Conformational Sampling of Apo Adenylate Kinase by Enhanced Molecular Dynamics and a Sequence-Based Generative Ensemble Model.",
+          "year": 2026,
+          "pmid": "42943756",
+          "doi": "10.3390/molecules31203686",
+          "source": "EuropePMC",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42943756/",
+          "query_key": "europepmc:protein domain molecular dynamics RMSD RMSF conformational"
+        },
+        {
+          "title": "Integrated In Silico Analysis Reveals ABC Transporter ATP-Binding Protein as a Therapeutic Target in Helicobacter pylori",
+          "year": null,
+          "pmid": null,
+          "doi": null,
+          "source": "EuropePMC",
+          "url": null,
+          "query_key": "europepmc:protein domain molecular dynamics RMSD RMSF conformational"
+        },
+        {
+          "title": "271. Downregulation of ErbB3 Expression by Adenovirus Expressing ErbB3 Specific shRNA Enhances Antitumor Efficacy through Apoptosis Induction",
+          "year": 2009,
+          "pmid": null,
+          "doi": "10.1016/s1525-0016(16)38629-4",
+          "source": "Crossref",
+          "url": "https://doi.org/10.1016/s1525-0016(16)38629-4",
+          "query_key": "crossref:ERBB3 molecular dynamics"
+        },
+        {
+          "title": "Betacellulin (BTC) Biases the EGFR To Dimerize with ErbB3",
+          "year": 2018,
+          "pmid": null,
+          "doi": "10.1124/mol.118.113399",
+          "source": "Crossref",
+          "url": "https://doi.org/10.1124/mol.118.113399",
+          "query_key": "crossref:ERBB3 molecular dynamics"
+        },
+        {
+          "title": "Expression of ErbB3, ErbB4, and neuregulin\u20101 mRNA during tooth development",
+          "year": 2002,
+          "pmid": null,
+          "doi": "10.1002/dvdy.10114",
+          "source": "Crossref",
+          "url": "https://doi.org/10.1002/dvdy.10114",
+          "query_key": "crossref:ERBB3 molecular dynamics"
+        },
+        {
+          "title": "Simulation of homology models for the extracellular domains (ECD) of ErbB3, ErbB4 and the ErbB2\u2013ErbB3 complex in their active conformations",
+          "year": 2013,
+          "pmid": null,
+          "doi": "10.1007/s00894-012-1613-y",
+          "source": "Crossref",
+          "url": "https://doi.org/10.1007/s00894-012-1613-y",
+          "query_key": "crossref:ERBB3 molecular dynamics"
+        }
+      ]
+    },
+    "3_rank_screen": {
+      "n_ranked": 12,
+      "max_refs": 12,
+      "aliases_used": [
+        "ERBB3"
+      ],
+      "ranked": [
+        {
+          "title": "Trans-activating mutations of the pseudokinase ERBB3.",
+          "year": 2024,
+          "pmid": "38806620",
+          "doi": "10.1038/s41388-024-03070-9",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/38806620/",
+          "relevance_note": "Mentions: ERBB3",
+          "query_key": "pubmed:protein_function",
+          "score": 50,
+          "matched_aliases": [
+            "ERBB3"
+          ]
+        },
+        {
+          "title": "Biochemistry, Epidermal Growth Factor Receptor",
+          "year": 2026,
+          "pmid": "29494066",
+          "doi": null,
+          "source": "EuropePMC",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/29494066/",
+          "relevance_note": "Mentions: ERBB3",
+          "query_key": "europepmc:ERBB3 structure function",
+          "score": 43,
+          "matched_aliases": [
+            "ERBB3"
+          ]
+        },
+        {
+          "title": "271. Downregulation of ErbB3 Expression by Adenovirus Expressing ErbB3 Specific shRNA Enhances Antitumor Efficacy through Apoptosis Induction",
+          "year": 2009,
+          "pmid": null,
+          "doi": "10.1016/s1525-0016(16)38629-4",
+          "source": "Crossref",
+          "url": "https://doi.org/10.1016/s1525-0016(16)38629-4",
+          "relevance_note": "Mentions: ERBB3",
+          "query_key": "crossref:ERBB3 molecular dynamics",
+          "score": 40,
+          "matched_aliases": [
+            "ERBB3"
+          ]
+        },
+        {
+          "title": "Integrated genomic and molecular characterization of cervical cancer.",
+          "year": 2017,
+          "pmid": "28112728",
+          "doi": "10.1038/nature21386",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/28112728/",
+          "relevance_note": "Mentions: ERBB3",
+          "query_key": "pubmed:protein_function",
+          "score": 36,
+          "matched_aliases": [
+            "ERBB3"
+          ]
+        },
+        {
+          "title": "Expression of ErbB3, ErbB4, and neuregulin\u20101 mRNA during tooth development",
+          "year": 2002,
+          "pmid": null,
+          "doi": "10.1002/dvdy.10114",
+          "source": "Crossref",
+          "url": "https://doi.org/10.1002/dvdy.10114",
+          "relevance_note": "Mentions: ERBB3",
+          "query_key": "crossref:ERBB3 molecular dynamics",
+          "score": 35,
+          "matched_aliases": [
+            "ERBB3"
+          ]
+        },
+        {
+          "title": "Mapping Mutations and Signaling Network Interactions to Guide Precision Therapy in Gallbladder Cancer.",
+          "year": 2026,
+          "pmid": "42817222",
+          "doi": "10.1002/cnr2.70699",
+          "source": "EuropePMC",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42817222/",
+          "relevance_note": "Mentions: ERBB3",
+          "query_key": "europepmc:ERBB3 protein molecular dynamics",
+          "score": 33,
+          "matched_aliases": [
+            "ERBB3"
+          ]
+        },
+        {
+          "title": "Betacellulin (BTC) Biases the EGFR To Dimerize with ErbB3",
+          "year": 2018,
+          "pmid": null,
+          "doi": "10.1124/mol.118.113399",
+          "source": "Crossref",
+          "url": "https://doi.org/10.1124/mol.118.113399",
+          "relevance_note": "Mentions: ERBB3",
+          "query_key": "crossref:ERBB3 molecular dynamics",
+          "score": 30,
+          "matched_aliases": [
+            "ERBB3"
+          ]
+        },
+        {
+          "title": "Simulation of homology models for the extracellular domains (ECD) of ErbB3, ErbB4 and the ErbB2\u2013ErbB3 complex in their active conformations",
+          "year": 2013,
+          "pmid": null,
+          "doi": "10.1007/s00894-012-1613-y",
+          "source": "Crossref",
+          "url": "https://doi.org/10.1007/s00894-012-1613-y",
+          "relevance_note": "Mentions: ERBB3",
+          "query_key": "crossref:ERBB3 molecular dynamics",
+          "score": 30,
+          "matched_aliases": [
+            "ERBB3"
+          ]
+        },
+        {
+          "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+          "year": 2022,
+          "pmid": "35108525",
+          "doi": "10.1016/j.celrep.2021.110291",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35108525/",
+          "relevance_note": "Matches family / dynamics / analysis themes",
+          "query_key": "pubmed:theme_family_structure",
+          "score": 84
+        },
+        {
+          "title": "ATP allosterically stabilizes integrin-linked kinase for efficient force generation.",
+          "year": 2022,
+          "pmid": "35259013",
+          "doi": "10.1073/pnas.2106098119",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35259013/",
+          "relevance_note": "Matches family / dynamics / analysis themes",
+          "query_key": "pubmed:theme_family_structure",
+          "score": 63
+        },
+        {
+          "title": "Sunitinib inhibits RNase L by destabilizing its active dimer conformation.",
+          "year": 2020,
+          "pmid": "32830849",
+          "doi": "10.1042/BCJ20200260",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32830849/",
+          "relevance_note": "Matches family / dynamics / analysis themes",
+          "query_key": "pubmed:theme_family_structure",
+          "score": 63
+        },
+        {
+          "title": "Quantum Reactivity-Guided Optimization of ATP-Competitive Ligands through Multiscale Simulation.",
+          "year": 2026,
+          "pmid": "42565187",
+          "doi": "10.1021/acsphyschemau.6c00012",
+          "source": "EuropePMC",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42565187/",
+          "relevance_note": "Matches family / dynamics / analysis themes",
+          "query_key": "europepmc:pseudokinase molecular dynamics conformational",
+          "score": 60
+        }
+      ]
+    },
+    "4_evidence_passages": {
+      "n_refs_examined": 5,
+      "evidence": [
+        {
+          "title": "Trans-activating mutations of the pseudokinase ERBB3.",
+          "pmid": "38806620",
+          "doi": "10.1038/s41388-024-03070-9",
+          "pmcid": "PMC11245391",
+          "source": null,
+          "evidence_source": "europe_pmc_fulltext",
+          "passages": [
+            "While harboring little kinase activity, pseudokinases can still promote signaling and carry out important noncatalytic functions such as serving as scaffolding or docking platforms, regulatory domains, or structural elements [ 4 , 5 ].",
+            "For example, based on the recent cryo-EM ectodomain structures of ERBB2-ERBB3 [ 34 ], K279 is located in domain II of ERBB3 just after the dimerization arm, at the beginning of module 5, a module in direct contact with the dimerization arm of ERBB2, thereby potentially affecting dimer formation and stability; it is known that modules 2\u20137 of domain II are sensitive to alterations as demonstrated by the oncogenic mutation S310F of ERBB2 that directly stabilizes the dimerization arm of ERBB3 [ 34 ].",
+            "Between the TM helices and kinase domains, the A676T variant may favor the asymmetric, active conformation of the kinase domain through increasing the stability of the JM region."
+          ],
+          "relevance_note": "Mentions: ERBB3"
+        },
+        {
+          "title": "Biochemistry, Epidermal Growth Factor Receptor",
+          "pmid": "29494066",
+          "doi": null,
+          "pmcid": null,
+          "source": "EuropePMC",
+          "evidence_source": "abstract",
+          "passages": [
+            "The epidermal growth factor receptor (EGFR), also known as erythroblastic leukemia viral oncogene homolog 1 (ErbB1) or human epidermal growth factor receptor 1 (HER1), is a member of the erythroblastic leukemia viral oncogene homolog (ErbB) family of receptor tyrosine kinases that regulates cellular proliferation, differentiation, survival, migration, and tissue repair.",
+            "The ErbB receptor family comprises 4 structurally related receptors\u2014EGFR, HER2 (ErbB2), HER3 (ErbB3), and HER4 (ErbB4)\u2014that undergo ligand-induced homodimerization or heterodimerization."
+          ],
+          "relevance_note": "Mentions: ERBB3"
+        },
+        {
+          "title": "271. Downregulation of ErbB3 Expression by Adenovirus Expressing ErbB3 Specific shRNA Enhances Antitumor Efficacy through Apoptosis Induction",
+          "pmid": null,
+          "doi": "10.1016/s1525-0016(16)38629-4",
+          "pmcid": null,
+          "source": "Crossref",
+          "evidence_source": "abstract",
+          "passages": [],
+          "relevance_note": "Mentions: ERBB3"
+        },
+        {
+          "title": "Integrated genomic and molecular characterization of cervical cancer.",
+          "pmid": "28112728",
+          "doi": "10.1038/nature21386",
+          "pmcid": "PMC5354998",
+          "source": null,
+          "evidence_source": "europe_pmc_fulltext",
+          "passages": [
+            "While most HPV infections are cleared within months, some persist and express viral oncogenes that inactivate p53 and Rb, leading to increased genomic instability, accumulation of somatic mutations, and in some cases integration of HPV into the host genome 4 .",
+            "HPV integration events affected all chromosomes, including some previously described hotspots such as 3q28 and 8q24 ( Fig.",
+            "Klimczak National Institute on Deafness and Other Communication Disorders 22 : Carter Van Waes, Zhong Chen, Anthony D."
+          ],
+          "relevance_note": "Mentions: ERBB3"
+        },
+        {
+          "title": "Expression of ErbB3, ErbB4, and neuregulin\u20101 mRNA during tooth development",
+          "pmid": null,
+          "doi": "10.1002/dvdy.10114",
+          "pmcid": null,
+          "source": "Crossref",
+          "evidence_source": "abstract",
+          "passages": [
+            "Abstract The receptor tyrosine kinases ErbB3 and ErbB4, which bind to various variants of neuregulin (NRG), play fundamental roles in neural development and in organs, which form through epithelial\u2010mesenchymal interactions.",
+            "Here, we demonstrate that NRG\u20101 and the receptors ErbB3 and ErbB4 are expressed locally during rodent tooth development."
+          ],
+          "relevance_note": "Mentions: ERBB3"
+        }
+      ]
+    },
+    "5_compare_evidence": {
+      "n_observations": 6,
+      "comparisons": [
+        {
+          "observation_id": "obs_rmsd_1",
+          "observation": "ERBB3: modest backbone RMSD / local conformational stability (mean 1.39 \u00c5, max 1.82 \u00c5)",
+          "kind": "rmsd_stability",
+          "category": "not_addressed",
+          "supporting": [],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsf_2",
+          "observation": "ERBB3: RMSF hotspots / flexible sites: PRO30 (2.59 \u00c5), GLY29 (2.50 \u00c5), SER28 (2.49 \u00c5), THR25 (2.39 \u00c5), CYS26 (2.22 \u00c5)",
+          "kind": "rmsf_hotspots",
+          "category": "plausible",
+          "supporting": [
+            {
+              "title": "Integrated genomic and molecular characterization of cervical cancer.",
+              "pmid": "28112728",
+              "doi": "10.1038/nature21386",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "While most HPV infections are cleared within months, some persist and express viral oncogenes that inactivate p53 and Rb, leading to increased genomic instability, accumulation of somatic mutations, and in some cases integration of HPV into the host genome 4 ."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rg_3",
+          "observation": "ERBB3: radius of gyration / compactness (mean 19.95 \u00c5)",
+          "kind": "compactness",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Trans-activating mutations of the pseudokinase ERBB3.",
+              "pmid": "38806620",
+              "doi": "10.1038/s41388-024-03070-9",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "While harboring little kinase activity, pseudokinases can still promote signaling and carry out important noncatalytic functions such as serving as scaffolding or docking platforms, regulatory domains, or structural elements [ 4 , 5 ]."
+            },
+            {
+              "title": "Integrated genomic and molecular characterization of cervical cancer.",
+              "pmid": "28112728",
+              "doi": "10.1038/nature21386",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "While most HPV infections are cleared within months, some persist and express viral oncogenes that inactivate p53 and Rb, leading to increased genomic instability, accumulation of somatic mutations, and in some cases integration of HPV into the host genome 4 ."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_dccm_4",
+          "observation": "ERBB3: correlated motions / allosteric coupling observed",
+          "kind": "correlated_motions",
+          "category": "plausible",
+          "supporting": [
+            {
+              "title": "Integrated genomic and molecular characterization of cervical cancer.",
+              "pmid": "28112728",
+              "doi": "10.1038/nature21386",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "While most HPV infections are cleared within months, some persist and express viral oncogenes that inactivate p53 and Rb, leading to increased genomic instability, accumulation of somatic mutations, and in some cases integration of HPV into the host genome 4 ."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_ligand_5",
+          "observation": "ERBB3: ligand/pocket dynamics from Ligand_Pocket_COM_Distance",
+          "kind": "ligand_or_pocket",
+          "category": "plausible",
+          "supporting": [
+            {
+              "title": "Biochemistry, Epidermal Growth Factor Receptor",
+              "pmid": "29494066",
+              "doi": null,
+              "evidence_source": "abstract",
+              "passage": "The epidermal growth factor receptor (EGFR), also known as erythroblastic leukemia viral oncogene homolog 1 (ErbB1) or human epidermal growth factor receptor 1 (HER1), is a member of the erythroblastic leukemia viral oncogene homolog (ErbB) family of receptor tyrosine kinases that regulates cellular"
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_ligand_6",
+          "observation": "ERBB3: ligand/pocket dynamics from INTER_COM_Distance_Protein_vs_ATP",
+          "kind": "ligand_or_pocket",
+          "category": "plausible",
+          "supporting": [
+            {
+              "title": "Biochemistry, Epidermal Growth Factor Receptor",
+              "pmid": "29494066",
+              "doi": null,
+              "evidence_source": "abstract",
+              "passage": "The epidermal growth factor receptor (EGFR), also known as erythroblastic leukemia viral oncogene homolog 1 (ErbB1) or human epidermal growth factor receptor 1 (HER1), is a member of the erythroblastic leukemia viral oncogene homolog (ErbB) family of receptor tyrosine kinases that regulates cellular"
+            }
+          ],
+          "conflicting": []
+        }
+      ]
+    },
+    "6_candidates_for_report": {
+      "n": 12,
+      "note": "These ranked candidates are passed to the literature-review LLM; uncited papers are pruned after writing (see Step 6 final selection).",
+      "candidates": [
+        {
+          "title": "Trans-activating mutations of the pseudokinase ERBB3.",
+          "year": 2024,
+          "pmid": "38806620",
+          "doi": "10.1038/s41388-024-03070-9",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/38806620/",
+          "relevance_note": "Mentions: ERBB3",
+          "query_key": "pubmed:protein_function",
+          "score": 50,
+          "matched_aliases": [
+            "ERBB3"
+          ]
+        },
+        {
+          "title": "Biochemistry, Epidermal Growth Factor Receptor",
+          "year": 2026,
+          "pmid": "29494066",
+          "doi": null,
+          "source": "EuropePMC",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/29494066/",
+          "relevance_note": "Mentions: ERBB3",
+          "query_key": "europepmc:ERBB3 structure function",
+          "score": 43,
+          "matched_aliases": [
+            "ERBB3"
+          ]
+        },
+        {
+          "title": "271. Downregulation of ErbB3 Expression by Adenovirus Expressing ErbB3 Specific shRNA Enhances Antitumor Efficacy through Apoptosis Induction",
+          "year": 2009,
+          "pmid": null,
+          "doi": "10.1016/s1525-0016(16)38629-4",
+          "source": "Crossref",
+          "url": "https://doi.org/10.1016/s1525-0016(16)38629-4",
+          "relevance_note": "Mentions: ERBB3",
+          "query_key": "crossref:ERBB3 molecular dynamics",
+          "score": 40,
+          "matched_aliases": [
+            "ERBB3"
+          ]
+        },
+        {
+          "title": "Integrated genomic and molecular characterization of cervical cancer.",
+          "year": 2017,
+          "pmid": "28112728",
+          "doi": "10.1038/nature21386",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/28112728/",
+          "relevance_note": "Mentions: ERBB3",
+          "query_key": "pubmed:protein_function",
+          "score": 36,
+          "matched_aliases": [
+            "ERBB3"
+          ]
+        },
+        {
+          "title": "Expression of ErbB3, ErbB4, and neuregulin\u20101 mRNA during tooth development",
+          "year": 2002,
+          "pmid": null,
+          "doi": "10.1002/dvdy.10114",
+          "source": "Crossref",
+          "url": "https://doi.org/10.1002/dvdy.10114",
+          "relevance_note": "Mentions: ERBB3",
+          "query_key": "crossref:ERBB3 molecular dynamics",
+          "score": 35,
+          "matched_aliases": [
+            "ERBB3"
+          ]
+        },
+        {
+          "title": "Mapping Mutations and Signaling Network Interactions to Guide Precision Therapy in Gallbladder Cancer.",
+          "year": 2026,
+          "pmid": "42817222",
+          "doi": "10.1002/cnr2.70699",
+          "source": "EuropePMC",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42817222/",
+          "relevance_note": "Mentions: ERBB3",
+          "query_key": "europepmc:ERBB3 protein molecular dynamics",
+          "score": 33,
+          "matched_aliases": [
+            "ERBB3"
+          ]
+        },
+        {
+          "title": "Betacellulin (BTC) Biases the EGFR To Dimerize with ErbB3",
+          "year": 2018,
+          "pmid": null,
+          "doi": "10.1124/mol.118.113399",
+          "source": "Crossref",
+          "url": "https://doi.org/10.1124/mol.118.113399",
+          "relevance_note": "Mentions: ERBB3",
+          "query_key": "crossref:ERBB3 molecular dynamics",
+          "score": 30,
+          "matched_aliases": [
+            "ERBB3"
+          ]
+        },
+        {
+          "title": "Simulation of homology models for the extracellular domains (ECD) of ErbB3, ErbB4 and the ErbB2\u2013ErbB3 complex in their active conformations",
+          "year": 2013,
+          "pmid": null,
+          "doi": "10.1007/s00894-012-1613-y",
+          "source": "Crossref",
+          "url": "https://doi.org/10.1007/s00894-012-1613-y",
+          "relevance_note": "Mentions: ERBB3",
+          "query_key": "crossref:ERBB3 molecular dynamics",
+          "score": 30,
+          "matched_aliases": [
+            "ERBB3"
+          ]
+        },
+        {
+          "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+          "year": 2022,
+          "pmid": "35108525",
+          "doi": "10.1016/j.celrep.2021.110291",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35108525/",
+          "relevance_note": "Matches family / dynamics / analysis themes",
+          "query_key": "pubmed:theme_family_structure",
+          "score": 84
+        },
+        {
+          "title": "ATP allosterically stabilizes integrin-linked kinase for efficient force generation.",
+          "year": 2022,
+          "pmid": "35259013",
+          "doi": "10.1073/pnas.2106098119",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35259013/",
+          "relevance_note": "Matches family / dynamics / analysis themes",
+          "query_key": "pubmed:theme_family_structure",
+          "score": 63
+        },
+        {
+          "title": "Sunitinib inhibits RNase L by destabilizing its active dimer conformation.",
+          "year": 2020,
+          "pmid": "32830849",
+          "doi": "10.1042/BCJ20200260",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32830849/",
+          "relevance_note": "Matches family / dynamics / analysis themes",
+          "query_key": "pubmed:theme_family_structure",
+          "score": 63
+        },
+        {
+          "title": "Quantum Reactivity-Guided Optimization of ATP-Competitive Ligands through Multiscale Simulation.",
+          "year": 2026,
+          "pmid": "42565187",
+          "doi": "10.1021/acsphyschemau.6c00012",
+          "source": "EuropePMC",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42565187/",
+          "relevance_note": "Matches family / dynamics / analysis themes",
+          "query_key": "europepmc:pseudokinase molecular dynamics conformational",
+          "score": 60
+        }
+      ]
+    },
+    "6_final_cited": {
+      "n_cited": 5,
+      "cited": [
+        {
+          "title": "Trans-activating mutations of the pseudokinase ERBB3.",
+          "year": 2024,
+          "pmid": "38806620",
+          "doi": "10.1038/s41388-024-03070-9",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/38806620/",
+          "query_key": "pubmed:protein_function"
+        },
+        {
+          "title": "Biochemistry, Epidermal Growth Factor Receptor",
+          "year": 2026,
+          "pmid": "29494066",
+          "doi": null,
+          "source": "EuropePMC",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/29494066/",
+          "query_key": "europepmc:ERBB3 structure function"
+        },
+        {
+          "title": "Simulation of homology models for the extracellular domains (ECD) of ErbB3, ErbB4 and the ErbB2\u2013ErbB3 complex in their active conformations",
+          "year": 2013,
+          "pmid": null,
+          "doi": "10.1007/s00894-012-1613-y",
+          "source": "Crossref",
+          "url": "https://doi.org/10.1007/s00894-012-1613-y",
+          "query_key": "crossref:ERBB3 molecular dynamics"
+        },
+        {
+          "title": "Integrated genomic and molecular characterization of cervical cancer.",
+          "year": 2017,
+          "pmid": "28112728",
+          "doi": "10.1038/nature21386",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/28112728/",
+          "query_key": "pubmed:protein_function"
+        },
+        {
+          "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+          "year": 2022,
+          "pmid": "35108525",
+          "doi": "10.1016/j.celrep.2021.110291",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35108525/",
+          "query_key": "pubmed:theme_family_structure"
+        }
+      ]
+    }
+  },
+  "identity": {
+    "protein": "ERBB3",
+    "gene": "ERBB3",
+    "aliases": [
+      "ERBB3"
+    ],
+    "family": "pseudokinase",
+    "uniprot_id": "q8iv63_ATP_MG",
+    "source": "goal_text"
+  }
+}

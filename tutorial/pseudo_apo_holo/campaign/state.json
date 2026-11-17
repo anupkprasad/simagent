@@ -1,0 +1,198 @@
+{
+  "schema_version": "1.0",
+  "timestamp": "2026-11-17T15:38:01.110223",
+  "workflow_status": "completed",
+  "spec_hash": "e41330008391a2ad",
+  "mode": "apo_holo",
+  "family_modular": false,
+  "n_systems": 4,
+  "labels": [
+    "p21860",
+    "q8iv63",
+    "q8nb16",
+    "q8wz42"
+  ],
+  "completed_pipeline_stages": [
+    "reporter"
+  ],
+  "science_contract": {
+    "modular_dirs": [],
+    "analysis_markers": [],
+    "min_features_present": 1,
+    "min_complete_fraction": 0.85
+  },
+  "required_feature_columns": [],
+  "required_calculations": [
+    "calculate_rmsf",
+    "calculate_rmsd",
+    "calculate_radius_of_gyration",
+    "calculate_dccm"
+  ],
+  "pin_tools": [
+    "calculate_rmsf",
+    "calculate_rmsd",
+    "calculate_radius_of_gyration",
+    "calculate_dccm"
+  ],
+  "campaign_spec": {
+    "mode": "apo_holo",
+    "n_systems": 4,
+    "labels": [
+      "p21860",
+      "q8iv63",
+      "q8nb16",
+      "q8wz42"
+    ],
+    "family_modular": false,
+    "analysis_recipe": {
+      "steps": [
+        {
+          "name": "Per-residue RMSF",
+          "tool_name": "calculate_rmsf",
+          "description": "",
+          "tool_params": {
+            "output_file": "rmsf.dat"
+          },
+          "reason": "Soft pin from requested metrics"
+        },
+        {
+          "name": "Backbone RMSD",
+          "tool_name": "calculate_rmsd",
+          "description": "",
+          "tool_params": {
+            "output_file": "rmsd.dat"
+          },
+          "reason": "Soft pin from requested metrics"
+        },
+        {
+          "name": "Radius of gyration",
+          "tool_name": "calculate_radius_of_gyration",
+          "description": "",
+          "tool_params": {
+            "output_file": "gyration.dat"
+          },
+          "reason": "Soft pin from requested metrics"
+        },
+        {
+          "name": "DCCM",
+          "tool_name": "calculate_dccm",
+          "description": "",
+          "tool_params": {
+            "output_file": "dccm.dat"
+          },
+          "reason": "Soft pin from requested metrics"
+        }
+      ],
+      "required_feature_columns": [],
+      "metric_groups": [
+        "calculate_dccm",
+        "calculate_radius_of_gyration",
+        "calculate_rmsd",
+        "calculate_rmsf"
+      ]
+    },
+    "pre_combined_recipe": {
+      "steps": [],
+      "required_feature_columns": [],
+      "metric_groups": []
+    },
+    "post_combined_recipe": {
+      "steps": [
+        {
+          "name": "Apo/holo metric overlays",
+          "tool_name": "run_combined_analysis",
+          "description": "Overlay RMSD/RMSF/Rg across apo and holo labels",
+          "tool_params": {
+            "metrics": [
+              "rmsd",
+              "rmsf",
+              "rg"
+            ]
+          },
+          "reason": "apo_holo profile: paired overlays"
+        }
+      ],
+      "required_feature_columns": [],
+      "metric_groups": []
+    },
+    "contract": {
+      "modular_dirs": [],
+      "analysis_markers": [],
+      "min_features_present": 1,
+      "min_complete_fraction": 0.85
+    },
+    "pin_tools": [
+      "calculate_rmsf",
+      "calculate_rmsd",
+      "calculate_radius_of_gyration",
+      "calculate_dccm"
+    ],
+    "required_calculations": [
+      "calculate_rmsf",
+      "calculate_rmsd",
+      "calculate_radius_of_gyration",
+      "calculate_dccm"
+    ],
+    "pin_pre_tools": [],
+    "required_shared_setup": [],
+    "pin_post_tools": [
+      "run_combined_analysis"
+    ],
+    "required_post": [
+      "run_combined_analysis"
+    ],
+    "pre_combined_compiled": false,
+    "allow_partial_combined": true,
+    "original_goal": "I want to study the effect of ATP binding on protein dynamics for these four\nPDBs \u2014 p21860.pdb, q8iv63.pdb, q8nb16.pdb, and q8wz42.pdb \u2014 which are available\nin the current working directory. Each PDB has protein + ATP + Mg.\n\nPlease preprocess and set up MD simulations for 1 ns for all PDBs with two\ncomponent cases per structure:\n  1. Protein only (apo)\n  2. Protein + ATP + Mg (holo)\nfor a total of eight simulations. Once setups are done, submit the jobs to HPC.\n\nThe proteins are human pseudokinases (UniProt id : name):\n  p21860: ERBB3, q8iv63: VRK3, q8nb16: MLKL, q8wz42: TITIN.\n\nForce field AMBER99SB-ILDN, TIP3P water, 310 K, 1 bar, 0.15 M NaCl.\n\nFor each system compute:\n  (1) backbone RMSD over time,\n  (2) per-residue RMSF (and an RMSF bar plot near the active-site region,\n      residues 150\u2013200 when present),\n  (3) radius of gyration,\n  (4) COM distance between bound ATP and the catalytic pocket (pocket =\n      protein atoms within 5 \u00c5 of ATP at frame 0) for holo systems,\n  (5) C\u03b1 DCCM, including apo vs holo DCCM differences where both cases exist,\n  (6) DSSP time evolution for the whole protein and the active-site region\n      (residues 150\u2013200 when present).\n\nAfter per-simulation analysis, generate comparative overlay plots and\nstatistical tables across all systems. In the reporter, retrieve relevant\nliterature for each named protein focusing on activation-loop conformations,\nallosteric regulation, and MD or experimental dynamics, and correlate the\nsimulation findings with that literature in the final report.",
+    "settings": {
+      "conservation_metric": "similarity",
+      "min_conservation": 0.5,
+      "min_coverage": 0.25,
+      "pocket_cutoff_A": 15.0,
+      "lobe_method": "auto",
+      "retrieval_k": 16,
+      "embed_model": "nomic-embed-text",
+      "agent_retrieval": {
+        "analysis": {
+          "knowledge_k": 4,
+          "memory_k": 5,
+          "study_k": 4
+        },
+        "reporter": {
+          "knowledge_k": 6,
+          "memory_k": 4,
+          "study_k": 6
+        },
+        "supervisor": {
+          "knowledge_k": 2,
+          "memory_k": 5,
+          "study_k": 4,
+          "route_once": true,
+          "allowed_destinations": [
+            "analysis",
+            "reporter",
+            "final_report"
+          ]
+        }
+      },
+      "gold_columns": [],
+      "hitl": null,
+      "feature_pack": "from_goal",
+      "family_modular": "auto",
+      "reference_label": "q8nb16",
+      "feature_plugins": [],
+      "source_path": "/home/akp66103/workspace/simagent/agentic/campaign/campaign.yaml",
+      "family_detect": {
+        "mode": "auto",
+        "family": false,
+        "score": 1,
+        "signals": [
+          "dccm"
+        ],
+        "reason": "score 1 below threshold",
+        "feature_pack": "from_goal"
+      }
+    }
+  },
+  "multi_sim_base_dir": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo"
+}

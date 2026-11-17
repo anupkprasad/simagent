@@ -1,0 +1,118 @@
+{
+  "timestamp": "N/A",
+  "reasoning": "The goal is to transform the raw MD\u2011analysis output (stored in `analysis/analysis_summary.jsonl`) into a polished, data\u2011rich HTML report.  The report must embed all generated plots, present key statistics, and contextualise the findings with recent literature on activation\u2011loop conformations and allosteric regulation for each of the four pseudokinases.  The workflow therefore consists of: (1) loading the analysis data, (2) creating PubMed search queries that capture dynamics/structure\u2011function literature for the four proteins, (3) querying PubMed and assembling a concise reference list, and finally (4) feeding the analysis results and the literature references into the `generate_html_report` tool to create `report.html` in the reporter directory.",
+  "overview": "1. Parse `analysis_summary.jsonl`. 2. Generate literature queries for ERBB3, VRK3, MLKL, and TITIN. 3. Retrieve recent papers (last 10\u202fyears) that discuss activation\u2011loop dynamics, allosteric regulation, or MD\u2011derived insights. 4. Construct a single\u2011simulation HTML report that embeds plots, displays statistics cards, and lists key references.",
+  "report_focus": [
+    "Backbone RMSD and stability trends",
+    "Residue\u2011level flexibility (RMSF, especially 150\u2013200)",
+    "Global compactness (radius of gyration)",
+    "Ligand\u2011binding pocket dynamics (COM distance)",
+    "Cooperative motions (DCCM differences)",
+    "Secondary\u2011structure evolution (DSSP)"
+  ],
+  "literature_queries": [
+    "ERBB3 activation loop dynamics allosteric regulation",
+    "VRK3 pseudokinase dynamics allosteric regulation",
+    "MLKL activation loop dynamics necroptosis allosteric",
+    "TITIN structural dynamics allosteric regulation"
+  ],
+  "estimated_complexity": "medium",
+  "steps": [
+    {
+      "name": "Read Analysis Summary",
+      "description": "Parse the JSONL file containing all analysis metrics, statistics, and image file paths.",
+      "tool_name": "read_analysis_summary",
+      "tool_params": {
+        "summary_file": "analysis_summary.jsonl"
+      },
+      "reason": "We need the analysis data and image paths to populate the report."
+    },
+    {
+      "name": "Generate Literature Search Queries",
+      "description": "Create PubMed search queries tailored to the four pseudokinases and the analysis types (RMSD, RMSF, DSSP, DCCM, allosteric regulation).",
+      "tool_name": "generate_literature_queries",
+      "tool_params": {
+        "analysis_types": [
+          "RMSD",
+          "RMSF",
+          "DSSP",
+          "DCCM",
+          "allosteric",
+          "activation-loop"
+        ],
+        "user_goal": "Analyze activation-loop dynamics and allosteric regulation in ERBB3, VRK3, MLKL, TITIN from MD trajectories.",
+        "protein_name": "",
+        "aliases": [
+          "ERBB3",
+          "VRK3",
+          "MLKL",
+          "TITIN"
+        ],
+        "gene_name": "",
+        "uniprot_id": "",
+        "analysis_stats": {}
+      },
+      "reason": "These queries will drive targeted PubMed searches that return relevant recent literature."
+    },
+    {
+      "name": "Search PubMed for ERBB3",
+      "description": "Retrieve the most recent papers on ERBB3 activation\u2011loop dynamics and allosteric regulation.",
+      "tool_name": "search_pubmed",
+      "tool_params": {
+        "query": "ERBB3 activation loop dynamics allosteric regulation",
+        "max_results": 10,
+        "include_abstracts": true,
+        "max_age_years": 10
+      },
+      "reason": "Collect a focused reference list for ERBB3."
+    },
+    {
+      "name": "Search PubMed for VRK3",
+      "description": "Retrieve the most recent papers on VRK3 pseudokinase dynamics and regulation.",
+      "tool_name": "search_pubmed",
+      "tool_params": {
+        "query": "VRK3 pseudokinase dynamics allosteric regulation",
+        "max_results": 10,
+        "include_abstracts": true,
+        "max_age_years": 10
+      },
+      "reason": "Collect a focused reference list for VRK3."
+    },
+    {
+      "name": "Search PubMed for MLKL",
+      "description": "Retrieve the most recent papers on MLKL activation\u2011loop dynamics and necroptosis regulation.",
+      "tool_name": "search_pubmed",
+      "tool_params": {
+        "query": "MLKL activation loop dynamics necroptosis allosteric",
+        "max_results": 10,
+        "include_abstracts": true,
+        "max_age_years": 10
+      },
+      "reason": "Collect a focused reference list for MLKL."
+    },
+    {
+      "name": "Search PubMed for TITIN",
+      "description": "Retrieve the most recent papers on TITIN structural dynamics and allosteric regulation in muscle.",
+      "tool_name": "search_pubmed",
+      "tool_params": {
+        "query": "TITIN structural dynamics allosteric regulation",
+        "max_results": 10,
+        "include_abstracts": true,
+        "max_age_years": 10
+      },
+      "reason": "Collect a focused reference list for TITIN."
+    },
+    {
+      "name": "Generate HTML Report",
+      "description": "Create a comprehensive, self\u2011contained HTML report that embeds all analysis plots, displays key statistics cards, and lists the curated literature references.",
+      "tool_name": "generate_html_report",
+      "tool_params": {
+        "analysis_data": {},
+        "literature_refs": [],
+        "report_type": "comprehensive",
+        "output_file": "report.html"
+      },
+      "reason": "Produce the final user deliverable."
+    }
+  ]
+}

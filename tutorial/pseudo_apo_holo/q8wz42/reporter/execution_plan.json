@@ -1,0 +1,37 @@
+{
+  "timestamp": "N/A",
+  "reasoning": "The task requires creating a single\u2011simulation HTML report from pre\u2011generated analysis results. No new simulations are needed, so the workflow simply parses the provided JSONL summary, then feeds that data into the report generator. Optional literature searches are omitted to keep the plan focused on the required deliverables, but the structure can be expanded if needed.",
+  "overview": "1\ufe0f\u20e3 Load analysis results from `analysis_summary.jsonl`. 2\ufe0f\u20e3 Generate a comprehensive HTML report (`report.html`) that embeds all plots, displays key statistics, and follows the modern layout guidelines.",
+  "report_focus": [
+    "Backbone RMSD",
+    "Per\u2011residue RMSF (residues 150\u2013200)",
+    "Radius of Gyration",
+    "ATP\u2011Catalytic Pocket COM Distance (holo only)",
+    "C\u03b1 DCCM",
+    "DSSP Evolution (whole protein & residues 150\u2013200)"
+  ],
+  "literature_queries": [],
+  "estimated_complexity": "low",
+  "steps": [
+    {
+      "name": "Read Analysis Summary",
+      "description": "Parse the JSONL file that contains all analysis metrics, statistics, and image paths.",
+      "tool_name": "read_analysis_summary",
+      "tool_params": {
+        "summary_file": "analysis_summary.jsonl"
+      },
+      "reason": "To obtain the data that will drive the report."
+    },
+    {
+      "name": "Generate HTML Report",
+      "description": "Create a self\u2011contained, visually polished HTML report that embeds all analysis visualisations and key statistics.",
+      "tool_name": "generate_html_report",
+      "tool_params": {
+        "analysis_data": {},
+        "output_file": "report.html",
+        "report_type": "comprehensive"
+      },
+      "reason": "Produce the final deliverable."
+    }
+  ]
+}

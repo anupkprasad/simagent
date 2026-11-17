@@ -1,0 +1,315 @@
+{
+  "summary_file_version": "1.0",
+  "created_at": "2026-11-14T01:34:32.616284",
+  "description": "MD Analysis Summary - Pretty-printed JSON for readability",
+  "format": "Multi-line JSON objects separated by newlines",
+  "fields": {
+    "timestamp": "ISO timestamp of analysis",
+    "analysis_type": "Type of analysis performed",
+    "statistics": "Key statistical measures",
+    "files": "Input/output file paths",
+    "metadata": "Key observations and additional context (selections, parameters, notable residues)"
+  }
+}
+---
+{
+  "timestamp": "2026-11-14, Time 01:35:08",
+  "analysis_type": "Combined RG",
+  "statistics": {
+    "p21860": {
+      "mean": 18.672,
+      "std": 0.142,
+      "min": 18.37,
+      "max": 18.888
+    },
+    "p21860_ATP_MG": {
+      "mean": 18.729,
+      "std": 0.152,
+      "min": 18.345,
+      "max": 18.899
+    },
+    "q8iv63": {
+      "mean": 19.739,
+      "std": 0.102,
+      "min": 19.523,
+      "max": 19.898
+    },
+    "q8iv63_ATP_MG": {
+      "mean": 19.95,
+      "std": 0.152,
+      "min": 19.496,
+      "max": 20.083
+    },
+    "q8nb16": {
+      "mean": 19.382,
+      "std": 0.106,
+      "min": 19.26,
+      "max": 19.584
+    },
+    "q8nb16_ATP_MG": {
+      "mean": 19.559,
+      "std": 0.092,
+      "min": 19.326,
+      "max": 19.651
+    },
+    "q8wz42": {
+      "mean": 19.292,
+      "std": 0.114,
+      "min": 19.091,
+      "max": 19.469
+    },
+    "q8wz42_ATP_MG": {
+      "mean": 19.451,
+      "std": 0.122,
+      "min": 19.117,
+      "max": 19.62
+    }
+  },
+  "files": {
+    "overlay_plot": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/analysis/rg_overlay.png",
+    "stats_csv": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/analysis/rg_stats.csv"
+  },
+  "metadata": {
+    "simulations": [
+      "p21860",
+      "p21860_ATP_MG",
+      "q8iv63",
+      "q8iv63_ATP_MG",
+      "q8nb16",
+      "q8nb16_ATP_MG",
+      "q8wz42",
+      "q8wz42_ATP_MG"
+    ],
+    "n_simulations": 8,
+    "metric": "rg"
+  }
+}
+---
+{
+  "timestamp": "2026-11-14, Time 01:35:08",
+  "analysis_type": "Combined RMSD",
+  "statistics": {
+    "p21860": {
+      "mean": 1.289,
+      "std": 0.421,
+      "min": 0.0,
+      "max": 1.653
+    },
+    "p21860_ATP_MG": {
+      "mean": 1.361,
+      "std": 0.484,
+      "min": 0.0,
+      "max": 1.843
+    },
+    "q8iv63": {
+      "mean": 1.33,
+      "std": 0.479,
+      "min": 0.0,
+      "max": 1.865
+    },
+    "q8iv63_ATP_MG": {
+      "mean": 1.388,
+      "std": 0.469,
+      "min": 0.0,
+      "max": 1.825
+    },
+    "q8nb16": {
+      "mean": 1.399,
+      "std": 0.494,
+      "min": 0.0,
+      "max": 1.748
+    },
+    "q8nb16_ATP_MG": {
+      "mean": 1.346,
+      "std": 0.443,
+      "min": 0.0,
+      "max": 1.712
+    },
+    "q8wz42": {
+      "mean": 1.013,
+      "std": 0.332,
+      "min": 0.0,
+      "max": 1.249
+    },
+    "q8wz42_ATP_MG": {
+      "mean": 0.901,
+      "std": 0.313,
+      "min": 0.0,
+      "max": 1.243
+    }
+  },
+  "files": {
+    "overlay_plot": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/analysis/rmsd_overlay.png",
+    "stats_csv": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/analysis/rmsd_stats.csv"
+  },
+  "metadata": {
+    "simulations": [
+      "p21860",
+      "p21860_ATP_MG",
+      "q8iv63",
+      "q8iv63_ATP_MG",
+      "q8nb16",
+      "q8nb16_ATP_MG",
+      "q8wz42",
+      "q8wz42_ATP_MG"
+    ],
+    "n_simulations": 8,
+    "metric": "rmsd"
+  }
+}
+---
+{
+  "timestamp": "2026-11-14, Time 01:35:08",
+  "analysis_type": "Combined RMSF",
+  "statistics": {
+    "p21860": {
+      "mean": 0.776,
+      "std": 0.29,
+      "min": 0.333,
+      "max": 2.101
+    },
+    "p21860_ATP_MG": {
+      "mean": 0.749,
+      "std": 0.354,
+      "min": 0.321,
+      "max": 2.397
+    },
+    "q8iv63": {
+      "mean": 0.834,
+      "std": 0.482,
+      "min": 0.296,
+      "max": 2.875
+    },
+    "q8iv63_ATP_MG": {
+      "mean": 0.773,
+      "std": 0.427,
+      "min": 0.292,
+      "max": 2.589
+    },
+    "q8nb16": {
+      "mean": 0.74,
+      "std": 0.384,
+      "min": 0.269,
+      "max": 2.861
+    },
+    "q8nb16_ATP_MG": {
+      "mean": 0.709,
+      "std": 0.302,
+      "min": 0.304,
+      "max": 2.256
+    },
+    "q8wz42": {
+      "mean": 0.639,
+      "std": 0.313,
+      "min": 0.281,
+      "max": 1.953
+    },
+    "q8wz42_ATP_MG": {
+      "mean": 0.597,
+      "std": 0.236,
+      "min": 0.246,
+      "max": 1.418
+    }
+  },
+  "files": {
+    "overlay_plot": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/analysis/rmsf_overlay.png",
+    "stats_csv": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/analysis/rmsf_stats.csv"
+  },
+  "metadata": {
+    "simulations": [
+      "p21860",
+      "p21860_ATP_MG",
+      "q8iv63",
+      "q8iv63_ATP_MG",
+      "q8nb16",
+      "q8nb16_ATP_MG",
+      "q8wz42",
+      "q8wz42_ATP_MG"
+    ],
+    "n_simulations": 8,
+    "metric": "rmsf"
+  }
+}
+---
+{
+  "timestamp": "2026-11-14, Time 01:35:08",
+  "analysis_type": "Combined_Analysis_Overview",
+  "statistics": {
+    "n_plots": 3,
+    "n_tables": 3,
+    "n_skipped_metrics": 0
+  },
+  "files": {},
+  "metadata": {
+    "simulations": [
+      "p21860",
+      "p21860_ATP_MG",
+      "q8iv63",
+      "q8iv63_ATP_MG",
+      "q8nb16",
+      "q8nb16_ATP_MG",
+      "q8wz42",
+      "q8wz42_ATP_MG"
+    ],
+    "metrics_requested": [
+      "rg",
+      "rmsd",
+      "rmsf"
+    ],
+    "metrics_skipped": []
+  }
+}
+---
+{
+  "timestamp": "2026-11-14, Time 01:35:10",
+  "analysis_type": "Combined_COM_Distance",
+  "statistics": {
+    "p21860_ATP_MG": {
+      "mean": 2.103,
+      "std": 0.191,
+      "min": 1.853,
+      "max": 2.468
+    },
+    "q8iv63_ATP_MG": {
+      "mean": 3.098,
+      "std": 0.234,
+      "min": 2.667,
+      "max": 3.422
+    },
+    "q8nb16_ATP_MG": {
+      "mean": 2.266,
+      "std": 0.263,
+      "min": 1.839,
+      "max": 2.774
+    },
+    "q8wz42_ATP_MG": {
+      "mean": 5.353,
+      "std": 0.204,
+      "min": 5.114,
+      "max": 5.836
+    }
+  },
+  "files": {
+    "overlay_plot": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/analysis/com_distance_overlay.png",
+    "source_csv_files": [
+      "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/analysis/ligand_pocket_distance.csv",
+      "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8iv63_ATP_MG/analysis/ligand_pocket_distance.csv",
+      "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8nb16_ATP_MG/analysis/ligand_pocket_distance.csv",
+      "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42_ATP_MG/analysis/ligand_pocket_distance.csv"
+    ]
+  },
+  "metadata": {
+    "simulations": [
+      "p21860_ATP_MG",
+      "q8iv63_ATP_MG",
+      "q8nb16_ATP_MG",
+      "q8wz42_ATP_MG"
+    ],
+    "missing_simulations": [
+      "p21860",
+      "q8iv63",
+      "q8nb16",
+      "q8wz42"
+    ]
+  }
+}

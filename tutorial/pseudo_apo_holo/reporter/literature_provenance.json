@@ -1,0 +1,2871 @@
+{
+  "pipeline": "evidence_grounded_literature_v1",
+  "steps": {
+    "1_observations": {
+      "n": 55,
+      "observations": [
+        {
+          "id": "obs_rmsd_1",
+          "kind": "rmsd_stability",
+          "analysis_type": "RMSD",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: modest backbone RMSD / local conformational stability (mean 1.29 \u00c5, max 1.65 \u00c5)",
+          "metrics": {
+            "mean_rmsd_angstrom": 1.289,
+            "std_rmsd_angstrom": 0.421,
+            "min_rmsd_angstrom": 0.0,
+            "max_rmsd_angstrom": 1.653
+          },
+          "keywords": [
+            "rmsd",
+            "conformational stability",
+            "backbone",
+            "molecular dynamics"
+          ]
+        },
+        {
+          "id": "obs_rmsf_2",
+          "kind": "rmsf_hotspots",
+          "analysis_type": "RMSF",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: RMSF hotspots / flexible sites: GLY24 (2.10 \u00c5), GLU23 (1.80 \u00c5), GLU25 (1.74 \u00c5), PRO71 (1.59 \u00c5), SER26 (1.58 \u00c5)",
+          "metrics": {
+            "mean_rmsf_angstrom": 0.776,
+            "most_flexible_residue": 24,
+            "most_flexible_rmsf": 2.101,
+            "top_flexible": [
+              "GLY24 (2.10 \u00c5)",
+              "GLU23 (1.80 \u00c5)",
+              "GLU25 (1.74 \u00c5)",
+              "PRO71 (1.59 \u00c5)",
+              "SER26 (1.58 \u00c5)"
+            ]
+          },
+          "keywords": [
+            "rmsf",
+            "flexibility",
+            "flexible loop",
+            "hotspot",
+            "residue fluctuation",
+            "activation loop",
+            "GLY24",
+            "GLU23",
+            "GLU25"
+          ]
+        },
+        {
+          "id": "obs_rmsf_3",
+          "kind": "rmsf_hotspots",
+          "analysis_type": "RMSF",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: RMSF hotspots / flexible sites: ALA163 (1.17 \u00c5), GLU162 (1.02 \u00c5), HIS182 (1.00 \u00c5), PRO153 (0.98 \u00c5), PRO152 (0.96 \u00c5)",
+          "metrics": {
+            "mean_rmsf_angstrom": 0.646,
+            "most_flexible_residue": 163,
+            "most_flexible_rmsf": 1.174,
+            "top_flexible": [
+              "ALA163 (1.17 \u00c5)",
+              "GLU162 (1.02 \u00c5)",
+              "HIS182 (1.00 \u00c5)",
+              "PRO153 (0.98 \u00c5)",
+              "PRO152 (0.96 \u00c5)"
+            ]
+          },
+          "keywords": [
+            "rmsf",
+            "flexibility",
+            "flexible loop",
+            "hotspot",
+            "residue fluctuation",
+            "activation loop",
+            "ALA163",
+            "GLU162",
+            "HIS182"
+          ]
+        },
+        {
+          "id": "obs_dccm_4",
+          "kind": "correlated_motions",
+          "analysis_type": "DCCM",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: correlated motions / allosteric coupling observed",
+          "metrics": {
+            "n_atoms": 258,
+            "n_residues": 258,
+            "n_frames_used": 11,
+            "mean_abs_correlation": 0.195,
+            "n_strongly_correlated_pairs": 50
+          },
+          "keywords": [
+            "dccm",
+            "correlated motion",
+            "allosteric",
+            "communication"
+          ]
+        },
+        {
+          "id": "obs_rg_5",
+          "kind": "compactness",
+          "analysis_type": "Radius_of_Gyration",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: radius of gyration / compactness (mean 18.672 \u00c5)",
+          "metrics": {
+            "n_frames": 11,
+            "mean_rg_angstrom": 18.672,
+            "std_rg_angstrom": 0.142,
+            "min_rg_angstrom": 18.37,
+            "max_rg_angstrom": 18.888
+          },
+          "keywords": [
+            "radius of gyration",
+            "compactness",
+            "folding",
+            "stability",
+            "molecular dynamics"
+          ]
+        },
+        {
+          "id": "obs_dccm_6",
+          "kind": "correlated_motions",
+          "analysis_type": "DCCM",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: correlated motions / allosteric coupling observed",
+          "metrics": {
+            "n_atoms": 258,
+            "n_residues": 258,
+            "n_frames_used": 3,
+            "mean_abs_correlation": 0.351,
+            "n_strongly_correlated_pairs": 50
+          },
+          "keywords": [
+            "dccm",
+            "correlated motion",
+            "allosteric",
+            "communication"
+          ]
+        },
+        {
+          "id": "obs_rmsd_7",
+          "kind": "rmsd_stability",
+          "analysis_type": "RMSD",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: modest backbone RMSD / local conformational stability (mean 1.36 \u00c5, max 1.84 \u00c5)",
+          "metrics": {
+            "mean_rmsd_angstrom": 1.361,
+            "std_rmsd_angstrom": 0.484,
+            "min_rmsd_angstrom": 0.0,
+            "max_rmsd_angstrom": 1.843
+          },
+          "keywords": [
+            "rmsd",
+            "conformational stability",
+            "backbone",
+            "molecular dynamics"
+          ]
+        },
+        {
+          "id": "obs_rmsf_8",
+          "kind": "rmsf_hotspots",
+          "analysis_type": "RMSF",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: RMSF hotspots / flexible sites: GLY24 (2.40 \u00c5), THR258 (2.10 \u00c5), SER26 (1.98 \u00c5), GLU23 (1.89 \u00c5), GLU25 (1.88 \u00c5)",
+          "metrics": {
+            "mean_rmsf_angstrom": 0.749,
+            "most_flexible_residue": 24,
+            "most_flexible_rmsf": 2.397,
+            "top_flexible": [
+              "GLY24 (2.40 \u00c5)",
+              "THR258 (2.10 \u00c5)",
+              "SER26 (1.98 \u00c5)",
+              "GLU23 (1.89 \u00c5)",
+              "GLU25 (1.88 \u00c5)"
+            ]
+          },
+          "keywords": [
+            "rmsf",
+            "flexibility",
+            "flexible loop",
+            "hotspot",
+            "residue fluctuation",
+            "activation loop",
+            "GLY24",
+            "THR258",
+            "SER26"
+          ]
+        },
+        {
+          "id": "obs_ligand_9",
+          "kind": "ligand_or_pocket",
+          "analysis_type": "Ligand_Pocket_COM_Distance",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: ligand/pocket dynamics from Ligand_Pocket_COM_Distance",
+          "metrics": {
+            "n_frames": 11,
+            "cutoff_angstrom": 5.0,
+            "n_pocket_atoms": 220,
+            "mean_distance_angstrom": 2.103,
+            "std_distance_angstrom": 0.191,
+            "min_distance_angstrom": 1.853,
+            "max_distance_angstrom": 2.468
+          },
+          "keywords": [
+            "ligand",
+            "binding",
+            "pocket",
+            "displacement",
+            "residence"
+          ]
+        },
+        {
+          "id": "obs_ligand_10",
+          "kind": "ligand_or_pocket",
+          "analysis_type": "INTER_COM_Distance_Protein_vs_ATP",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: ligand/pocket dynamics from INTER_COM_Distance_Protein_vs_ATP",
+          "metrics": {
+            "n_frames": 11,
+            "mean_distance_angstrom": 9.903,
+            "std_distance_angstrom": 0.224,
+            "min_distance_angstrom": 9.6,
+            "max_distance_angstrom": 10.209
+          },
+          "keywords": [
+            "ligand",
+            "binding",
+            "pocket",
+            "displacement",
+            "residence"
+          ]
+        },
+        {
+          "id": "obs_rg_11",
+          "kind": "compactness",
+          "analysis_type": "Radius_of_Gyration",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: radius of gyration / compactness (mean 18.729 \u00c5)",
+          "metrics": {
+            "n_frames": 11,
+            "mean_rg_angstrom": 18.729,
+            "std_rg_angstrom": 0.152,
+            "min_rg_angstrom": 18.345,
+            "max_rg_angstrom": 18.899
+          },
+          "keywords": [
+            "radius of gyration",
+            "compactness",
+            "folding",
+            "stability",
+            "molecular dynamics"
+          ]
+        },
+        {
+          "id": "obs_rmsd_12",
+          "kind": "rmsd_stability",
+          "analysis_type": "RMSD",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: modest backbone RMSD / local conformational stability (mean 1.33 \u00c5, max 1.86 \u00c5)",
+          "metrics": {
+            "mean_rmsd_angstrom": 1.33,
+            "std_rmsd_angstrom": 0.479,
+            "min_rmsd_angstrom": 0.0,
+            "max_rmsd_angstrom": 1.865
+          },
+          "keywords": [
+            "rmsd",
+            "conformational stability",
+            "backbone",
+            "molecular dynamics"
+          ]
+        },
+        {
+          "id": "obs_rmsf_13",
+          "kind": "rmsf_hotspots",
+          "analysis_type": "RMSF",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: RMSF hotspots / flexible sites: PRO30 (2.88 \u00c5), SER171 (2.77 \u00c5), ASP27 (2.68 \u00c5), GLY29 (2.67 \u00c5), GLN31 (2.62 \u00c5)",
+          "metrics": {
+            "mean_rmsf_angstrom": 0.834,
+            "most_flexible_residue": 30,
+            "most_flexible_rmsf": 2.875,
+            "top_flexible": [
+              "PRO30 (2.88 \u00c5)",
+              "SER171 (2.77 \u00c5)",
+              "ASP27 (2.68 \u00c5)",
+              "GLY29 (2.67 \u00c5)",
+              "GLN31 (2.62 \u00c5)"
+            ]
+          },
+          "keywords": [
+            "rmsf",
+            "flexibility",
+            "flexible loop",
+            "hotspot",
+            "residue fluctuation",
+            "activation loop",
+            "PRO30",
+            "SER171",
+            "ASP27"
+          ]
+        },
+        {
+          "id": "obs_dccm_14",
+          "kind": "correlated_motions",
+          "analysis_type": "DCCM",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: correlated motions / allosteric coupling observed",
+          "metrics": {
+            "n_atoms": 292,
+            "n_residues": 292,
+            "n_frames_used": 3,
+            "mean_abs_correlation": 0.358,
+            "n_strongly_correlated_pairs": 50
+          },
+          "keywords": [
+            "dccm",
+            "correlated motion",
+            "allosteric",
+            "communication"
+          ]
+        },
+        {
+          "id": "obs_rg_15",
+          "kind": "compactness",
+          "analysis_type": "Radius_of_Gyration",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: radius of gyration / compactness (mean 19.739 \u00c5)",
+          "metrics": {
+            "n_frames": 11,
+            "mean_rg_angstrom": 19.739,
+            "std_rg_angstrom": 0.102,
+            "min_rg_angstrom": 19.523,
+            "max_rg_angstrom": 19.898
+          },
+          "keywords": [
+            "radius of gyration",
+            "compactness",
+            "folding",
+            "stability",
+            "molecular dynamics"
+          ]
+        },
+        {
+          "id": "obs_rmsd_16",
+          "kind": "rmsd_stability",
+          "analysis_type": "RMSD",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: modest backbone RMSD / local conformational stability (mean 1.39 \u00c5, max 1.82 \u00c5)",
+          "metrics": {
+            "mean_rmsd_angstrom": 1.388,
+            "std_rmsd_angstrom": 0.469,
+            "min_rmsd_angstrom": 0.0,
+            "max_rmsd_angstrom": 1.825
+          },
+          "keywords": [
+            "rmsd",
+            "conformational stability",
+            "backbone",
+            "molecular dynamics"
+          ]
+        },
+        {
+          "id": "obs_rmsf_17",
+          "kind": "rmsf_hotspots",
+          "analysis_type": "RMSF",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: RMSF hotspots / flexible sites: PRO30 (2.59 \u00c5), GLY29 (2.50 \u00c5), SER28 (2.49 \u00c5), THR25 (2.39 \u00c5), CYS26 (2.22 \u00c5)",
+          "metrics": {
+            "mean_rmsf_angstrom": 0.773,
+            "most_flexible_residue": 30,
+            "most_flexible_rmsf": 2.589,
+            "top_flexible": [
+              "PRO30 (2.59 \u00c5)",
+              "GLY29 (2.50 \u00c5)",
+              "SER28 (2.49 \u00c5)",
+              "THR25 (2.39 \u00c5)",
+              "CYS26 (2.22 \u00c5)"
+            ]
+          },
+          "keywords": [
+            "rmsf",
+            "flexibility",
+            "flexible loop",
+            "hotspot",
+            "residue fluctuation",
+            "activation loop",
+            "PRO30",
+            "GLY29",
+            "SER28"
+          ]
+        },
+        {
+          "id": "obs_rg_18",
+          "kind": "compactness",
+          "analysis_type": "Radius_of_Gyration",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: radius of gyration / compactness (mean 19.95 \u00c5)",
+          "metrics": {
+            "n_frames": 11,
+            "mean_rg_angstrom": 19.95,
+            "std_rg_angstrom": 0.152,
+            "min_rg_angstrom": 19.496,
+            "max_rg_angstrom": 20.083
+          },
+          "keywords": [
+            "radius of gyration",
+            "compactness",
+            "folding",
+            "stability",
+            "molecular dynamics"
+          ]
+        },
+        {
+          "id": "obs_dccm_19",
+          "kind": "correlated_motions",
+          "analysis_type": "DCCM",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: correlated motions / allosteric coupling observed",
+          "metrics": {
+            "n_atoms": 292,
+            "n_residues": 292,
+            "n_frames_used": 11,
+            "mean_abs_correlation": 0.201,
+            "n_strongly_correlated_pairs": 50
+          },
+          "keywords": [
+            "dccm",
+            "correlated motion",
+            "allosteric",
+            "communication"
+          ]
+        },
+        {
+          "id": "obs_ligand_20",
+          "kind": "ligand_or_pocket",
+          "analysis_type": "Ligand_Pocket_COM_Distance",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: ligand/pocket dynamics from Ligand_Pocket_COM_Distance",
+          "metrics": {
+            "n_frames": 11,
+            "cutoff_angstrom": 5.0,
+            "n_pocket_atoms": 200,
+            "mean_distance_angstrom": 3.098,
+            "std_distance_angstrom": 0.234,
+            "min_distance_angstrom": 2.667,
+            "max_distance_angstrom": 3.422
+          },
+          "keywords": [
+            "ligand",
+            "binding",
+            "pocket",
+            "displacement",
+            "residence"
+          ]
+        },
+        {
+          "id": "obs_ligand_21",
+          "kind": "ligand_or_pocket",
+          "analysis_type": "INTER_COM_Distance_Protein_vs_ATP",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: ligand/pocket dynamics from INTER_COM_Distance_Protein_vs_ATP",
+          "metrics": {
+            "n_frames": 11,
+            "mean_distance_angstrom": 10.56,
+            "std_distance_angstrom": 0.266,
+            "min_distance_angstrom": 10.151,
+            "max_distance_angstrom": 10.91
+          },
+          "keywords": [
+            "ligand",
+            "binding",
+            "pocket",
+            "displacement",
+            "residence"
+          ]
+        },
+        {
+          "id": "obs_rmsd_22",
+          "kind": "rmsd_stability",
+          "analysis_type": "RMSD",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: modest backbone RMSD / local conformational stability (mean 1.40 \u00c5, max 1.75 \u00c5)",
+          "metrics": {
+            "mean_rmsd_angstrom": 1.399,
+            "std_rmsd_angstrom": 0.494,
+            "min_rmsd_angstrom": 0.0,
+            "max_rmsd_angstrom": 1.748
+          },
+          "keywords": [
+            "rmsd",
+            "conformational stability",
+            "backbone",
+            "molecular dynamics"
+          ]
+        },
+        {
+          "id": "obs_rmsf_23",
+          "kind": "rmsf_hotspots",
+          "analysis_type": "RMSF",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: RMSF hotspots / flexible sites: THR80 (2.86 \u00c5), GLU79 (2.29 \u00c5), VAL81 (2.14 \u00c5), GLY169 (2.14 \u00c5), PRO83 (1.95 \u00c5)",
+          "metrics": {
+            "mean_rmsf_angstrom": 0.74,
+            "most_flexible_residue": 80,
+            "most_flexible_rmsf": 2.861,
+            "top_flexible": [
+              "THR80 (2.86 \u00c5)",
+              "GLU79 (2.29 \u00c5)",
+              "VAL81 (2.14 \u00c5)",
+              "GLY169 (2.14 \u00c5)",
+              "PRO83 (1.95 \u00c5)"
+            ]
+          },
+          "keywords": [
+            "rmsf",
+            "flexibility",
+            "flexible loop",
+            "hotspot",
+            "residue fluctuation",
+            "activation loop",
+            "THR80",
+            "GLU79",
+            "VAL81"
+          ]
+        },
+        {
+          "id": "obs_rmsf_24",
+          "kind": "rmsf_hotspots",
+          "analysis_type": "RMSF",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: RMSF hotspots / flexible sites: GLY169 (1.71 \u00c5), GLU173 (1.60 \u00c5), SER165 (1.56 \u00c5), SER167 (1.55 \u00c5), MET166 (1.55 \u00c5)",
+          "metrics": {
+            "mean_rmsf_angstrom": 0.795,
+            "most_flexible_residue": 169,
+            "most_flexible_rmsf": 1.709,
+            "top_flexible": [
+              "GLY169 (1.71 \u00c5)",
+              "GLU173 (1.60 \u00c5)",
+              "SER165 (1.56 \u00c5)",
+              "SER167 (1.55 \u00c5)",
+              "MET166 (1.55 \u00c5)"
+            ]
+          },
+          "keywords": [
+            "rmsf",
+            "flexibility",
+            "flexible loop",
+            "hotspot",
+            "residue fluctuation",
+            "activation loop",
+            "GLY169",
+            "GLU173",
+            "SER165"
+          ]
+        },
+        {
+          "id": "obs_rg_25",
+          "kind": "compactness",
+          "analysis_type": "Radius_of_Gyration",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: radius of gyration / compactness (mean 19.382 \u00c5)",
+          "metrics": {
+            "n_frames": 11,
+            "mean_rg_angstrom": 19.382,
+            "std_rg_angstrom": 0.106,
+            "min_rg_angstrom": 19.26,
+            "max_rg_angstrom": 19.585
+          },
+          "keywords": [
+            "radius of gyration",
+            "compactness",
+            "folding",
+            "stability",
+            "molecular dynamics"
+          ]
+        },
+        {
+          "id": "obs_dccm_26",
+          "kind": "correlated_motions",
+          "analysis_type": "DCCM",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: correlated motions / allosteric coupling observed",
+          "metrics": {
+            "n_atoms": 276,
+            "n_residues": 276,
+            "n_frames_used": 3,
+            "mean_abs_correlation": 0.378,
+            "n_strongly_correlated_pairs": 50
+          },
+          "keywords": [
+            "dccm",
+            "correlated motion",
+            "allosteric",
+            "communication"
+          ]
+        },
+        {
+          "id": "obs_rmsd_27",
+          "kind": "rmsd_stability",
+          "analysis_type": "RMSD",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: modest backbone RMSD / local conformational stability (mean 1.35 \u00c5, max 1.71 \u00c5)",
+          "metrics": {
+            "mean_rmsd_angstrom": 1.346,
+            "std_rmsd_angstrom": 0.443,
+            "min_rmsd_angstrom": 0.0,
+            "max_rmsd_angstrom": 1.712
+          },
+          "keywords": [
+            "rmsd",
+            "conformational stability",
+            "backbone",
+            "molecular dynamics"
+          ]
+        },
+        {
+          "id": "obs_rmsf_28",
+          "kind": "rmsf_hotspots",
+          "analysis_type": "RMSF",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: RMSF hotspots / flexible sites: THR80 (2.26 \u00c5), GLU79 (1.81 \u00c5), GLY10 (1.71 \u00c5), SER167 (1.70 \u00c5), SER11 (1.67 \u00c5)",
+          "metrics": {
+            "mean_rmsf_angstrom": 0.709,
+            "most_flexible_residue": 80,
+            "most_flexible_rmsf": 2.256,
+            "top_flexible": [
+              "THR80 (2.26 \u00c5)",
+              "GLU79 (1.81 \u00c5)",
+              "GLY10 (1.71 \u00c5)",
+              "SER167 (1.70 \u00c5)",
+              "SER11 (1.67 \u00c5)"
+            ]
+          },
+          "keywords": [
+            "rmsf",
+            "flexibility",
+            "flexible loop",
+            "hotspot",
+            "residue fluctuation",
+            "activation loop",
+            "THR80",
+            "GLU79",
+            "GLY10"
+          ]
+        },
+        {
+          "id": "obs_rmsf_29",
+          "kind": "rmsf_hotspots",
+          "analysis_type": "RMSF",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: RMSF hotspots / flexible sites: SER167 (1.70 \u00c5), MET166 (1.50 \u00c5), GLN163 (1.48 \u00c5), THR164 (1.43 \u00c5), SER165 (1.40 \u00c5)",
+          "metrics": {
+            "mean_rmsf_angstrom": 0.835,
+            "most_flexible_residue": 167,
+            "most_flexible_rmsf": 1.702,
+            "top_flexible": [
+              "SER167 (1.70 \u00c5)",
+              "MET166 (1.50 \u00c5)",
+              "GLN163 (1.48 \u00c5)",
+              "THR164 (1.43 \u00c5)",
+              "SER165 (1.40 \u00c5)"
+            ]
+          },
+          "keywords": [
+            "rmsf",
+            "flexibility",
+            "flexible loop",
+            "hotspot",
+            "residue fluctuation",
+            "activation loop",
+            "SER167",
+            "MET166",
+            "GLN163"
+          ]
+        },
+        {
+          "id": "obs_rg_30",
+          "kind": "compactness",
+          "analysis_type": "Radius_of_Gyration",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: radius of gyration / compactness (mean 19.559 \u00c5)",
+          "metrics": {
+            "n_frames": 11,
+            "mean_rg_angstrom": 19.559,
+            "std_rg_angstrom": 0.092,
+            "min_rg_angstrom": 19.326,
+            "max_rg_angstrom": 19.651
+          },
+          "keywords": [
+            "radius of gyration",
+            "compactness",
+            "folding",
+            "stability",
+            "molecular dynamics"
+          ]
+        },
+        {
+          "id": "obs_dccm_31",
+          "kind": "correlated_motions",
+          "analysis_type": "DCCM",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: correlated motions / allosteric coupling observed",
+          "metrics": {
+            "n_atoms": 276,
+            "n_residues": 276,
+            "n_frames_used": 3,
+            "mean_abs_correlation": 0.395,
+            "n_strongly_correlated_pairs": 50
+          },
+          "keywords": [
+            "dccm",
+            "correlated motion",
+            "allosteric",
+            "communication"
+          ]
+        },
+        {
+          "id": "obs_dccm_32",
+          "kind": "correlated_motions",
+          "analysis_type": "DCCM",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: correlated motions / allosteric coupling observed",
+          "metrics": {
+            "n_atoms": 276,
+            "n_residues": 276,
+            "n_frames_used": 3,
+            "mean_abs_correlation": 0.395,
+            "n_strongly_correlated_pairs": 50
+          },
+          "keywords": [
+            "dccm",
+            "correlated motion",
+            "allosteric",
+            "communication"
+          ]
+        },
+        {
+          "id": "obs_ligand_33",
+          "kind": "ligand_or_pocket",
+          "analysis_type": "Ligand_Pocket_COM_Distance",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: ligand/pocket dynamics from Ligand_Pocket_COM_Distance",
+          "metrics": {
+            "n_frames": 11,
+            "cutoff_angstrom": 5.0,
+            "n_pocket_atoms": 197,
+            "mean_distance_angstrom": 2.266,
+            "std_distance_angstrom": 0.263,
+            "min_distance_angstrom": 1.839,
+            "max_distance_angstrom": 2.774
+          },
+          "keywords": [
+            "ligand",
+            "binding",
+            "pocket",
+            "displacement",
+            "residence"
+          ]
+        },
+        {
+          "id": "obs_ligand_34",
+          "kind": "ligand_or_pocket",
+          "analysis_type": "INTER_COM_Distance_Protein_vs_ATP",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: ligand/pocket dynamics from INTER_COM_Distance_Protein_vs_ATP",
+          "metrics": {
+            "n_frames": 11,
+            "mean_distance_angstrom": 8.937,
+            "std_distance_angstrom": 0.234,
+            "min_distance_angstrom": 8.332,
+            "max_distance_angstrom": 9.184
+          },
+          "keywords": [
+            "ligand",
+            "binding",
+            "pocket",
+            "displacement",
+            "residence"
+          ]
+        },
+        {
+          "id": "obs_rmsd_35",
+          "kind": "rmsd_stability",
+          "analysis_type": "RMSD",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: modest backbone RMSD / local conformational stability (mean 1.01 \u00c5, max 1.25 \u00c5)",
+          "metrics": {
+            "mean_rmsd_angstrom": 1.013,
+            "std_rmsd_angstrom": 0.332,
+            "min_rmsd_angstrom": 0.0,
+            "max_rmsd_angstrom": 1.249
+          },
+          "keywords": [
+            "rmsd",
+            "conformational stability",
+            "backbone",
+            "molecular dynamics"
+          ]
+        },
+        {
+          "id": "obs_dccm_36",
+          "kind": "correlated_motions",
+          "analysis_type": "DCCM",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: correlated motions / allosteric coupling observed",
+          "metrics": {
+            "n_atoms": 255,
+            "n_residues": 255,
+            "n_frames_used": 3,
+            "mean_abs_correlation": 0.354,
+            "n_strongly_correlated_pairs": 50
+          },
+          "keywords": [
+            "dccm",
+            "correlated motion",
+            "allosteric",
+            "communication"
+          ]
+        },
+        {
+          "id": "obs_rmsf_37",
+          "kind": "rmsf_hotspots",
+          "analysis_type": "RMSF",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: RMSF hotspots / flexible sites: PHE12 (1.95 \u00c5), GLU11 (1.91 \u00c5), THR159 (1.86 \u00c5), GLY10 (1.68 \u00c5), ALA160 (1.49 \u00c5)",
+          "metrics": {
+            "mean_rmsf_angstrom": 0.639,
+            "most_flexible_residue": 12,
+            "most_flexible_rmsf": 1.953,
+            "top_flexible": [
+              "PHE12 (1.95 \u00c5)",
+              "GLU11 (1.91 \u00c5)",
+              "THR159 (1.86 \u00c5)",
+              "GLY10 (1.68 \u00c5)",
+              "ALA160 (1.49 \u00c5)"
+            ]
+          },
+          "keywords": [
+            "rmsf",
+            "flexibility",
+            "flexible loop",
+            "hotspot",
+            "residue fluctuation",
+            "activation loop",
+            "PHE12",
+            "GLU11",
+            "THR159"
+          ]
+        },
+        {
+          "id": "obs_rmsf_38",
+          "kind": "rmsf_hotspots",
+          "analysis_type": "RMSF",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: RMSF hotspots / flexible sites: THR159 (1.62 \u00c5), ALA160 (1.22 \u00c5), PHE158 (1.17 \u00c5), PRO150 (1.14 \u00c5), GLY151 (1.12 \u00c5)",
+          "metrics": {
+            "mean_rmsf_angstrom": 0.528,
+            "most_flexible_residue": 159,
+            "most_flexible_rmsf": 1.625,
+            "top_flexible": [
+              "THR159 (1.62 \u00c5)",
+              "ALA160 (1.22 \u00c5)",
+              "PHE158 (1.17 \u00c5)",
+              "PRO150 (1.14 \u00c5)",
+              "GLY151 (1.12 \u00c5)"
+            ]
+          },
+          "keywords": [
+            "rmsf",
+            "flexibility",
+            "flexible loop",
+            "hotspot",
+            "residue fluctuation",
+            "activation loop",
+            "THR159",
+            "ALA160",
+            "PHE158"
+          ]
+        },
+        {
+          "id": "obs_rmsd_39",
+          "kind": "rmsd_stability",
+          "analysis_type": "RMSD",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: modest backbone RMSD / local conformational stability (mean 1.01 \u00c5, max 1.25 \u00c5)",
+          "metrics": {
+            "mean_rmsd_angstrom": 1.013,
+            "std_rmsd_angstrom": 0.332,
+            "min_rmsd_angstrom": 0.0,
+            "max_rmsd_angstrom": 1.249
+          },
+          "keywords": [
+            "rmsd",
+            "conformational stability",
+            "backbone",
+            "molecular dynamics"
+          ]
+        },
+        {
+          "id": "obs_dccm_40",
+          "kind": "correlated_motions",
+          "analysis_type": "DCCM",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: correlated motions / allosteric coupling observed",
+          "metrics": {
+            "n_atoms": 255,
+            "n_residues": 255,
+            "n_frames_used": 3,
+            "mean_abs_correlation": 0.354,
+            "n_strongly_correlated_pairs": 50
+          },
+          "keywords": [
+            "dccm",
+            "correlated motion",
+            "allosteric",
+            "communication"
+          ]
+        },
+        {
+          "id": "obs_rmsf_41",
+          "kind": "rmsf_hotspots",
+          "analysis_type": "RMSF",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: RMSF hotspots / flexible sites: PHE12 (1.95 \u00c5), GLU11 (1.91 \u00c5), THR159 (1.86 \u00c5), GLY10 (1.68 \u00c5), ALA160 (1.49 \u00c5)",
+          "metrics": {
+            "mean_rmsf_angstrom": 0.639,
+            "most_flexible_residue": 12,
+            "most_flexible_rmsf": 1.953,
+            "top_flexible": [
+              "PHE12 (1.95 \u00c5)",
+              "GLU11 (1.91 \u00c5)",
+              "THR159 (1.86 \u00c5)",
+              "GLY10 (1.68 \u00c5)",
+              "ALA160 (1.49 \u00c5)"
+            ]
+          },
+          "keywords": [
+            "rmsf",
+            "flexibility",
+            "flexible loop",
+            "hotspot",
+            "residue fluctuation",
+            "activation loop",
+            "PHE12",
+            "GLU11",
+            "THR159"
+          ]
+        },
+        {
+          "id": "obs_rmsf_42",
+          "kind": "rmsf_hotspots",
+          "analysis_type": "RMSF",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: RMSF hotspots / flexible sites: THR159 (1.62 \u00c5), ALA160 (1.22 \u00c5), PHE158 (1.17 \u00c5), PRO150 (1.14 \u00c5), GLY151 (1.12 \u00c5)",
+          "metrics": {
+            "mean_rmsf_angstrom": 0.528,
+            "most_flexible_residue": 159,
+            "most_flexible_rmsf": 1.625,
+            "top_flexible": [
+              "THR159 (1.62 \u00c5)",
+              "ALA160 (1.22 \u00c5)",
+              "PHE158 (1.17 \u00c5)",
+              "PRO150 (1.14 \u00c5)",
+              "GLY151 (1.12 \u00c5)"
+            ]
+          },
+          "keywords": [
+            "rmsf",
+            "flexibility",
+            "flexible loop",
+            "hotspot",
+            "residue fluctuation",
+            "activation loop",
+            "THR159",
+            "ALA160",
+            "PHE158"
+          ]
+        },
+        {
+          "id": "obs_rmsd_43",
+          "kind": "rmsd_stability",
+          "analysis_type": "RMSD",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: modest backbone RMSD / local conformational stability (mean 1.01 \u00c5, max 1.25 \u00c5)",
+          "metrics": {
+            "mean_rmsd_angstrom": 1.013,
+            "std_rmsd_angstrom": 0.332,
+            "min_rmsd_angstrom": 0.0,
+            "max_rmsd_angstrom": 1.249
+          },
+          "keywords": [
+            "rmsd",
+            "conformational stability",
+            "backbone",
+            "molecular dynamics"
+          ]
+        },
+        {
+          "id": "obs_dccm_44",
+          "kind": "correlated_motions",
+          "analysis_type": "DCCM",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: correlated motions / allosteric coupling observed",
+          "metrics": {
+            "n_atoms": 255,
+            "n_residues": 255,
+            "n_frames_used": 3,
+            "mean_abs_correlation": 0.354,
+            "n_strongly_correlated_pairs": 50
+          },
+          "keywords": [
+            "dccm",
+            "correlated motion",
+            "allosteric",
+            "communication"
+          ]
+        },
+        {
+          "id": "obs_rmsf_45",
+          "kind": "rmsf_hotspots",
+          "analysis_type": "RMSF",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: RMSF hotspots / flexible sites: PHE12 (1.95 \u00c5), GLU11 (1.91 \u00c5), THR159 (1.86 \u00c5), GLY10 (1.68 \u00c5), ALA160 (1.49 \u00c5)",
+          "metrics": {
+            "mean_rmsf_angstrom": 0.639,
+            "most_flexible_residue": 12,
+            "most_flexible_rmsf": 1.953,
+            "top_flexible": [
+              "PHE12 (1.95 \u00c5)",
+              "GLU11 (1.91 \u00c5)",
+              "THR159 (1.86 \u00c5)",
+              "GLY10 (1.68 \u00c5)",
+              "ALA160 (1.49 \u00c5)"
+            ]
+          },
+          "keywords": [
+            "rmsf",
+            "flexibility",
+            "flexible loop",
+            "hotspot",
+            "residue fluctuation",
+            "activation loop",
+            "PHE12",
+            "GLU11",
+            "THR159"
+          ]
+        },
+        {
+          "id": "obs_rmsf_46",
+          "kind": "rmsf_hotspots",
+          "analysis_type": "RMSF",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: RMSF hotspots / flexible sites: THR159 (1.62 \u00c5), ALA160 (1.22 \u00c5), PHE158 (1.17 \u00c5), PRO150 (1.14 \u00c5), GLY151 (1.12 \u00c5)",
+          "metrics": {
+            "mean_rmsf_angstrom": 0.528,
+            "most_flexible_residue": 159,
+            "most_flexible_rmsf": 1.625,
+            "top_flexible": [
+              "THR159 (1.62 \u00c5)",
+              "ALA160 (1.22 \u00c5)",
+              "PHE158 (1.17 \u00c5)",
+              "PRO150 (1.14 \u00c5)",
+              "GLY151 (1.12 \u00c5)"
+            ]
+          },
+          "keywords": [
+            "rmsf",
+            "flexibility",
+            "flexible loop",
+            "hotspot",
+            "residue fluctuation",
+            "activation loop",
+            "THR159",
+            "ALA160",
+            "PHE158"
+          ]
+        },
+        {
+          "id": "obs_rg_47",
+          "kind": "compactness",
+          "analysis_type": "Radius_of_Gyration",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: radius of gyration / compactness (mean 19.292 \u00c5)",
+          "metrics": {
+            "n_frames": 11,
+            "mean_rg_angstrom": 19.292,
+            "std_rg_angstrom": 0.114,
+            "min_rg_angstrom": 19.091,
+            "max_rg_angstrom": 19.469
+          },
+          "keywords": [
+            "radius of gyration",
+            "compactness",
+            "folding",
+            "stability",
+            "molecular dynamics"
+          ]
+        },
+        {
+          "id": "obs_rg_48",
+          "kind": "compactness",
+          "analysis_type": "Radius_of_Gyration",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: radius of gyration / compactness (mean 19.292 \u00c5)",
+          "metrics": {
+            "n_frames": 11,
+            "mean_rg_angstrom": 19.292,
+            "std_rg_angstrom": 0.114,
+            "min_rg_angstrom": 19.091,
+            "max_rg_angstrom": 19.469
+          },
+          "keywords": [
+            "radius of gyration",
+            "compactness",
+            "folding",
+            "stability",
+            "molecular dynamics"
+          ]
+        },
+        {
+          "id": "obs_rg_49",
+          "kind": "compactness",
+          "analysis_type": "Radius_of_Gyration",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: radius of gyration / compactness (mean 19.292 \u00c5)",
+          "metrics": {
+            "n_frames": 11,
+            "mean_rg_angstrom": 19.292,
+            "std_rg_angstrom": 0.114,
+            "min_rg_angstrom": 19.091,
+            "max_rg_angstrom": 19.469
+          },
+          "keywords": [
+            "radius of gyration",
+            "compactness",
+            "folding",
+            "stability",
+            "molecular dynamics"
+          ]
+        },
+        {
+          "id": "obs_dccm_50",
+          "kind": "correlated_motions",
+          "analysis_type": "DCCM",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: correlated motions / allosteric coupling observed",
+          "metrics": {
+            "n_atoms": 255,
+            "n_residues": 255,
+            "n_frames_used": 3,
+            "mean_abs_correlation": 0.374,
+            "n_strongly_correlated_pairs": 50
+          },
+          "keywords": [
+            "dccm",
+            "correlated motion",
+            "allosteric",
+            "communication"
+          ]
+        },
+        {
+          "id": "obs_rmsd_51",
+          "kind": "rmsd_stability",
+          "analysis_type": "RMSD",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: modest backbone RMSD / local conformational stability (mean 0.90 \u00c5, max 1.24 \u00c5)",
+          "metrics": {
+            "mean_rmsd_angstrom": 0.901,
+            "std_rmsd_angstrom": 0.313,
+            "min_rmsd_angstrom": 0.0,
+            "max_rmsd_angstrom": 1.243
+          },
+          "keywords": [
+            "rmsd",
+            "conformational stability",
+            "backbone",
+            "molecular dynamics"
+          ]
+        },
+        {
+          "id": "obs_rmsf_52",
+          "kind": "rmsf_hotspots",
+          "analysis_type": "RMSF",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: RMSF hotspots / flexible sites: GLY151 (1.42 \u00c5), SER22 (1.37 \u00c5), MET67 (1.36 \u00c5), SER23 (1.34 \u00c5), ALA90 (1.29 \u00c5)",
+          "metrics": {
+            "mean_rmsf_angstrom": 0.597,
+            "most_flexible_residue": 151,
+            "most_flexible_rmsf": 1.418,
+            "top_flexible": [
+              "GLY151 (1.42 \u00c5)",
+              "SER22 (1.37 \u00c5)",
+              "MET67 (1.36 \u00c5)",
+              "SER23 (1.34 \u00c5)",
+              "ALA90 (1.29 \u00c5)"
+            ]
+          },
+          "keywords": [
+            "rmsf",
+            "flexibility",
+            "flexible loop",
+            "hotspot",
+            "residue fluctuation",
+            "activation loop",
+            "GLY151",
+            "SER22",
+            "MET67"
+          ]
+        },
+        {
+          "id": "obs_ligand_53",
+          "kind": "ligand_or_pocket",
+          "analysis_type": "Ligand_Pocket_COM_Distance",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: ligand/pocket dynamics from Ligand_Pocket_COM_Distance",
+          "metrics": {
+            "n_frames": 11,
+            "cutoff_angstrom": 5.0,
+            "n_pocket_atoms": 160,
+            "mean_distance_angstrom": 5.171,
+            "std_distance_angstrom": 0.679,
+            "min_distance_angstrom": 3.111,
+            "max_distance_angstrom": 5.836
+          },
+          "keywords": [
+            "ligand",
+            "binding",
+            "pocket",
+            "displacement",
+            "residence"
+          ]
+        },
+        {
+          "id": "obs_ligand_54",
+          "kind": "ligand_or_pocket",
+          "analysis_type": "INTER_COM_Distance_Protein_vs_ATP",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: ligand/pocket dynamics from INTER_COM_Distance_Protein_vs_ATP",
+          "metrics": {
+            "n_frames": 11,
+            "mean_distance_angstrom": 13.763,
+            "std_distance_angstrom": 0.304,
+            "min_distance_angstrom": 13.238,
+            "max_distance_angstrom": 14.24
+          },
+          "keywords": [
+            "ligand",
+            "binding",
+            "pocket",
+            "displacement",
+            "residence"
+          ]
+        },
+        {
+          "id": "obs_rg_55",
+          "kind": "compactness",
+          "analysis_type": "Radius_of_Gyration",
+          "statement": "ERBB3, VRK3, MLKL, TITIN: radius of gyration / compactness (mean 19.451 \u00c5)",
+          "metrics": {
+            "n_frames": 11,
+            "mean_rg_angstrom": 19.451,
+            "std_rg_angstrom": 0.122,
+            "min_rg_angstrom": 19.117,
+            "max_rg_angstrom": 19.62
+          },
+          "keywords": [
+            "radius of gyration",
+            "compactness",
+            "folding",
+            "stability",
+            "molecular dynamics"
+          ]
+        }
+      ]
+    },
+    "2_queries": {
+      "n": 11,
+      "queries": {
+        "ERBB3_md": "ERBB3 (pseudokinase OR kinase) (\"molecular dynamics\" OR \"activation loop\" OR allosteric OR ATP)",
+        "ERBB3_function": "ERBB3 (structure OR conformation OR dynamics) (activation OR allosteric OR regulation)",
+        "VRK3_md": "VRK3 (pseudokinase OR kinase) (\"molecular dynamics\" OR \"activation loop\" OR allosteric OR ATP)",
+        "VRK3_function": "VRK3 (structure OR conformation OR dynamics) (activation OR allosteric OR regulation)",
+        "MLKL_md": "MLKL (pseudokinase OR kinase) (\"molecular dynamics\" OR \"activation loop\" OR allosteric OR ATP)",
+        "MLKL_function": "MLKL (structure OR conformation OR dynamics) (activation OR allosteric OR regulation)",
+        "TITIN_md": "TITIN (pseudokinase OR kinase) (\"molecular dynamics\" OR \"activation loop\" OR allosteric OR ATP)",
+        "TITIN_function": "TITIN (structure OR conformation OR dynamics) (activation OR allosteric OR regulation)",
+        "obs_rmsf_hotspots": "ERBB3, VRK3, MLKL, TITIN GLY151 SER22 MET67 flexibility molecular dynamics",
+        "theme_obs_flexibility": "protein residue flexibility RMSF activation loop molecular dynamics",
+        "theme_obs_allostery": "ERBB3, VRK3, MLKL, TITIN allosteric correlated motions molecular dynamics"
+      }
+    },
+    "2_gather": {
+      "n_candidates": 28,
+      "source_counts": {
+        "unknown": 28
+      },
+      "candidates": [
+        {
+          "title": "Patritumab deruxtecan induces immunogenic cell death.",
+          "year": 2025,
+          "pmid": "40458967",
+          "doi": "10.1080/2162402X.2025.2514050",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/40458967/",
+          "query_key": "pubmed:ERBB3_md"
+        },
+        {
+          "title": "Structures of the HER2-HER3-NRG1\u03b2 complex reveal a dynamic dimer interface.",
+          "year": 2021,
+          "pmid": "34759323",
+          "doi": "10.1038/s41586-021-04084-z",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/34759323/",
+          "query_key": "pubmed:ERBB3_md"
+        },
+        {
+          "title": "Enzyme Is the Name-Adapter Is the Game.",
+          "year": 2024,
+          "pmid": "39120280",
+          "doi": "10.3390/cells13151249",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39120280/",
+          "query_key": "pubmed:ERBB3_md"
+        },
+        {
+          "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+          "year": 2022,
+          "pmid": "35108525",
+          "doi": "10.1016/j.celrep.2021.110291",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35108525/",
+          "query_key": "pubmed:ERBB3_md"
+        },
+        {
+          "title": "Integrated genomic and molecular characterization of cervical cancer.",
+          "year": 2017,
+          "pmid": "28112728",
+          "doi": "10.1038/nature21386",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/28112728/",
+          "query_key": "pubmed:ERBB3_function"
+        },
+        {
+          "title": "ErbB Receptors and Cancer.",
+          "year": 2017,
+          "pmid": "28791631",
+          "doi": "10.1007/978-1-4939-7219-7_1",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/28791631/",
+          "query_key": "pubmed:ERBB3_function"
+        },
+        {
+          "title": "NRG1 fusions in breast cancer.",
+          "year": 2021,
+          "pmid": "33413557",
+          "doi": "10.1186/s13058-020-01377-5",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/33413557/",
+          "query_key": "pubmed:ERBB3_function"
+        },
+        {
+          "title": "Characterization of Ligand Binding to Pseudokinases Using a Thermal Shift Assay.",
+          "year": 2017,
+          "pmid": "28730475",
+          "doi": "10.1007/978-1-4939-7154-1_7",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/28730475/",
+          "query_key": "pubmed:VRK3_md"
+        },
+        {
+          "title": "SERPINI1 functions as a tumor suppressor in glioma.",
+          "year": 2026,
+          "pmid": "42230926",
+          "doi": "10.1038/s41598-026-55196-3",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42230926/",
+          "query_key": "pubmed:VRK3_function"
+        },
+        {
+          "title": "Phosphoproteomic analyses of kidneys of Atlantic salmon infected with Aeromonas salmonicida.",
+          "year": 2019,
+          "pmid": "30765835",
+          "doi": "10.1038/s41598-019-38890-3",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/30765835/",
+          "query_key": "pubmed:VRK3_function"
+        },
+        {
+          "title": "The cGAS-STING signaling in cardiovascular and metabolic diseases: Future novel target option for pharmacotherapy.",
+          "year": 2022,
+          "pmid": "35127372",
+          "doi": "10.1016/j.apsb.2021.05.011",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35127372/",
+          "query_key": "pubmed:MLKL_md"
+        },
+        {
+          "title": "How autophagy controls the intestinal epithelial barrier.",
+          "year": 2022,
+          "pmid": "33906557",
+          "doi": "10.1080/15548627.2021.1909406",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/33906557/",
+          "query_key": "pubmed:MLKL_md"
+        },
+        {
+          "title": "The regulatory and modulatory roles of TRP family channels in malignant tumors and relevant therapeutic strategies.",
+          "year": 2022,
+          "pmid": "35847486",
+          "doi": "10.1016/j.apsb.2021.11.001",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35847486/",
+          "query_key": "pubmed:MLKL_md"
+        },
+        {
+          "title": "Genetic and Epigenetic Regulation of the Innate Immune Response to Gout.",
+          "year": 2023,
+          "pmid": "36745138",
+          "doi": "10.1080/08820139.2023.2168554",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/36745138/",
+          "query_key": "pubmed:MLKL_md"
+        },
+        {
+          "title": "Influenza Virus Z-RNAs Induce ZBP1-Mediated Necroptosis.",
+          "year": 2020,
+          "pmid": "32200799",
+          "doi": "10.1016/j.cell.2020.02.050",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32200799/",
+          "query_key": "pubmed:MLKL_function"
+        },
+        {
+          "title": "Neutrophil extracellular traps trigger alveolar epithelial cell necroptosis through the cGAS-STING pathway during acute lung injury in mice.",
+          "year": 2024,
+          "pmid": "39309425",
+          "doi": "10.7150/ijbs.99456",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39309425/",
+          "query_key": "pubmed:MLKL_function"
+        },
+        {
+          "title": "Necroptosis: MLKL Polymerization.",
+          "year": 2018,
+          "pmid": "30294675",
+          "doi": null,
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/30294675/",
+          "query_key": "pubmed:MLKL_function"
+        },
+        {
+          "title": "Sublethal necroptosis signaling promotes inflammation and liver cancer.",
+          "year": 2023,
+          "pmid": "37329888",
+          "doi": "10.1016/j.immuni.2023.05.017",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37329888/",
+          "query_key": "pubmed:MLKL_function"
+        },
+        {
+          "title": "Switchable reinforced streptavidin.",
+          "year": 2020,
+          "pmid": "32181776",
+          "doi": "10.1039/d0nr00265h",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32181776/",
+          "query_key": "pubmed:TITIN_md"
+        },
+        {
+          "title": "Titin domains with reduced core hydrophobicity cause dilated cardiomyopathy.",
+          "year": 2023,
+          "pmid": "38052212",
+          "doi": "10.1016/j.celrep.2023.113490",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/38052212/",
+          "query_key": "pubmed:TITIN_md"
+        },
+        {
+          "title": "Force generation by titin folding.",
+          "year": 2017,
+          "pmid": "28097712",
+          "doi": "10.1002/pro.3117",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/28097712/",
+          "query_key": "pubmed:TITIN_md"
+        },
+        {
+          "title": "Advanced Evolution of Pathogenesis Concepts in Cardiomyopathies.",
+          "year": 2019,
+          "pmid": "30995779",
+          "doi": "10.3390/jcm8040520",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/30995779/",
+          "query_key": "pubmed:TITIN_md"
+        },
+        {
+          "title": "Muscle Contraction.",
+          "year": 2018,
+          "pmid": "29419405",
+          "doi": "10.1101/cshperspect.a023200",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/29419405/",
+          "query_key": "pubmed:TITIN_function"
+        },
+        {
+          "title": "\u03b1-myosin heavy chain lactylation maintains sarcomeric structure and function and alleviates the development of heart failure.",
+          "year": 2023,
+          "pmid": "37443257",
+          "doi": "10.1038/s41422-023-00844-w",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37443257/",
+          "query_key": "pubmed:TITIN_function"
+        },
+        {
+          "title": "Eccentric Exercise: Physiological Characteristics and Acute Responses.",
+          "year": 2017,
+          "pmid": "27638040",
+          "doi": "10.1007/s40279-016-0624-8",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/27638040/",
+          "query_key": "pubmed:TITIN_function"
+        },
+        {
+          "title": "Discovery of Titin and Its Role in Heart Function and Disease.",
+          "year": 2025,
+          "pmid": "39745989",
+          "doi": "10.1161/CIRCRESAHA.124.323051",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39745989/",
+          "query_key": "pubmed:TITIN_function"
+        },
+        {
+          "title": "Activation Loop Plasticity and Active Site Coupling in the MAP Kinase, ERK2.",
+          "year": 2023,
+          "pmid": "37806554",
+          "doi": "10.1016/j.jmb.2023.168309",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37806554/",
+          "query_key": "pubmed:theme_obs_flexibility"
+        },
+        {
+          "title": "Activation loop plasticity and active site coupling in the MAP kinase, ERK2.",
+          "year": 2023,
+          "pmid": "37090603",
+          "doi": "10.1101/2023.04.15.537040",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37090603/",
+          "query_key": "pubmed:theme_obs_flexibility"
+        }
+      ]
+    },
+    "3_rank_screen": {
+      "n_ranked": 8,
+      "max_refs": 12,
+      "aliases_used": [
+        "ERBB3",
+        "VRK3",
+        "MLKL",
+        "TITIN",
+        "HER3",
+        "ErbB-3",
+        "mixed lineage kinase domain-like",
+        "TTN",
+        "ERBB3, VRK3, MLKL, TITIN"
+      ],
+      "ranked": [
+        {
+          "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+          "year": 2022,
+          "pmid": "35108525",
+          "doi": "10.1016/j.celrep.2021.110291",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35108525/",
+          "relevance_note": "Mentions: HER3",
+          "query_key": "pubmed:ERBB3_md",
+          "score": 81,
+          "matched_aliases": [
+            "HER3"
+          ]
+        },
+        {
+          "title": "Characterization of Ligand Binding to Pseudokinases Using a Thermal Shift Assay.",
+          "year": 2017,
+          "pmid": "28730475",
+          "doi": "10.1007/978-1-4939-7154-1_7",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/28730475/",
+          "relevance_note": "Mentions: ERBB3, VRK3, MLKL, HER3",
+          "query_key": "pubmed:VRK3_md",
+          "score": 81,
+          "matched_aliases": [
+            "ERBB3",
+            "VRK3",
+            "MLKL",
+            "HER3"
+          ]
+        },
+        {
+          "title": "Structures of the HER2-HER3-NRG1\u03b2 complex reveal a dynamic dimer interface.",
+          "year": 2021,
+          "pmid": "34759323",
+          "doi": "10.1038/s41586-021-04084-z",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/34759323/",
+          "relevance_note": "Mentions: HER3",
+          "query_key": "pubmed:ERBB3_md",
+          "score": 55,
+          "matched_aliases": [
+            "HER3"
+          ]
+        },
+        {
+          "title": "Influenza Virus Z-RNAs Induce ZBP1-Mediated Necroptosis.",
+          "year": 2020,
+          "pmid": "32200799",
+          "doi": "10.1016/j.cell.2020.02.050",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32200799/",
+          "relevance_note": "Mentions: MLKL, mixed lineage kinase domain-like",
+          "query_key": "pubmed:MLKL_function",
+          "score": 50,
+          "matched_aliases": [
+            "MLKL",
+            "mixed lineage kinase domain-like"
+          ]
+        },
+        {
+          "title": "Necroptosis: MLKL Polymerization.",
+          "year": 2018,
+          "pmid": "30294675",
+          "doi": null,
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/30294675/",
+          "relevance_note": "Mentions: MLKL, mixed lineage kinase domain-like",
+          "query_key": "pubmed:MLKL_function",
+          "score": 44,
+          "matched_aliases": [
+            "MLKL",
+            "mixed lineage kinase domain-like"
+          ]
+        },
+        {
+          "title": "ErbB Receptors and Cancer.",
+          "year": 2017,
+          "pmid": "28791631",
+          "doi": "10.1007/978-1-4939-7219-7_1",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/28791631/",
+          "relevance_note": "Mentions: ERBB3, HER3",
+          "query_key": "pubmed:ERBB3_function",
+          "score": 40,
+          "matched_aliases": [
+            "ERBB3",
+            "HER3"
+          ]
+        },
+        {
+          "title": "Discovery of Titin and Its Role in Heart Function and Disease.",
+          "year": 2025,
+          "pmid": "39745989",
+          "doi": "10.1161/CIRCRESAHA.124.323051",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39745989/",
+          "relevance_note": "Mentions: TITIN, TTN",
+          "query_key": "pubmed:TITIN_function",
+          "score": 39,
+          "matched_aliases": [
+            "TITIN",
+            "TTN"
+          ]
+        },
+        {
+          "title": "Genetic and Epigenetic Regulation of the Innate Immune Response to Gout.",
+          "year": 2023,
+          "pmid": "36745138",
+          "doi": "10.1080/08820139.2023.2168554",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/36745138/",
+          "relevance_note": "Mentions: MLKL, mixed lineage kinase domain-like",
+          "query_key": "pubmed:MLKL_md",
+          "score": 37,
+          "matched_aliases": [
+            "MLKL",
+            "mixed lineage kinase domain-like"
+          ]
+        }
+      ]
+    },
+    "4_evidence_passages": {
+      "n_refs_examined": 5,
+      "evidence": [
+        {
+          "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+          "pmid": "35108525",
+          "doi": "10.1016/j.celrep.2021.110291",
+          "pmcid": "PMC8889928",
+          "source": null,
+          "evidence_source": "europe_pmc_fulltext",
+          "passages": [
+            "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors.",
+            "Mutational disruption of ATP binding and molecular dynamics simulation of the apo KD of HER3 identify a conformational coupling of the ATP pocket with a hydrophobic AP-2 pocket, analogous to EGFR, that is critical for tumorigenic signaling and feasible for targeting.",
+            "The analysis confirms the critical role of this kinase dimer in this cancer type and identifies multiple new opportunities for the design of first-in-class allosteric inhibitors for this disease."
+          ],
+          "relevance_note": "Mentions: HER3"
+        },
+        {
+          "title": "Characterization of Ligand Binding to Pseudokinases Using a Thermal Shift Assay.",
+          "pmid": "28730475",
+          "doi": "10.1007/978-1-4939-7154-1_7",
+          "pmcid": null,
+          "source": null,
+          "evidence_source": "abstract",
+          "passages": [
+            "The protocol herein describes a robust and proven method for the measurement of pseudokinase-ligand interaction using a fluorescence-based thermal shift assay (TSA).",
+            "Pseudokinases are kinase-like proteins that have recently emerged as crucial regulatory modules of signal transduction pathways and may well represent a novel class of drug targets."
+          ],
+          "relevance_note": "Mentions: ERBB3, VRK3, MLKL, HER3"
+        },
+        {
+          "title": "Structures of the HER2-HER3-NRG1\u03b2 complex reveal a dynamic dimer interface.",
+          "pmid": "34759323",
+          "doi": "10.1038/s41586-021-04084-z",
+          "pmcid": "PMC9298180",
+          "source": null,
+          "evidence_source": "abstract",
+          "passages": [
+            "The unique features of a singly liganded HER2-HER3 heterodimer underscore the allosteric sensing of ligand occupancy by the dimerization interface and explain why extracellular domains of HER2 do not homo-associate via a canonical active dimer interface."
+          ],
+          "relevance_note": "Mentions: HER3"
+        },
+        {
+          "title": "Influenza Virus Z-RNAs Induce ZBP1-Mediated Necroptosis.",
+          "pmid": "32200799",
+          "doi": "10.1016/j.cell.2020.02.050",
+          "pmcid": "PMC7153753",
+          "source": null,
+          "evidence_source": "abstract",
+          "passages": [
+            "Influenza A virus (IAV) is a lytic RNA virus that triggers receptor-interacting serine/threonine-protein kinase 3 (RIPK3)-mediated pathways of apoptosis and mixed lineage kinase domain-like pseudokinase (MLKL)-dependent necroptosis in infected cells.",
+            "ZBP1 initiates RIPK3-driven cell death by sensing IAV RNA and activating RIPK3."
+          ],
+          "relevance_note": "Mentions: MLKL, mixed lineage kinase domain-like"
+        },
+        {
+          "title": "Necroptosis: MLKL Polymerization.",
+          "pmid": "30294675",
+          "doi": null,
+          "pmcid": "PMC6173486",
+          "source": null,
+          "evidence_source": "abstract",
+          "passages": [
+            "Necroptosis is a subtype of regulated necrosis that occurs when caspases are inhibited or fail to activate.",
+            "Stimulus of cell death receptors results in a signaling cascade that triggers caspase independent, immunogenic cell death."
+          ],
+          "relevance_note": "Mentions: MLKL, mixed lineage kinase domain-like"
+        }
+      ]
+    },
+    "5_compare_evidence": {
+      "n_observations": 55,
+      "comparisons": [
+        {
+          "observation_id": "obs_rmsd_1",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: modest backbone RMSD / local conformational stability (mean 1.29 \u00c5, max 1.65 \u00c5)",
+          "kind": "rmsd_stability",
+          "category": "plausible",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsf_2",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: RMSF hotspots / flexible sites: GLY24 (2.10 \u00c5), GLU23 (1.80 \u00c5), GLU25 (1.74 \u00c5), PRO71 (1.59 \u00c5), SER26 (1.58 \u00c5)",
+          "kind": "rmsf_hotspots",
+          "category": "not_addressed",
+          "supporting": [],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsf_3",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: RMSF hotspots / flexible sites: ALA163 (1.17 \u00c5), GLU162 (1.02 \u00c5), HIS182 (1.00 \u00c5), PRO153 (0.98 \u00c5), PRO152 (0.96 \u00c5)",
+          "kind": "rmsf_hotspots",
+          "category": "not_addressed",
+          "supporting": [],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_dccm_4",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: correlated motions / allosteric coupling observed",
+          "kind": "correlated_motions",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            },
+            {
+              "title": "Structures of the HER2-HER3-NRG1\u03b2 complex reveal a dynamic dimer interface.",
+              "pmid": "34759323",
+              "doi": "10.1038/s41586-021-04084-z",
+              "evidence_source": "abstract",
+              "passage": "The unique features of a singly liganded HER2-HER3 heterodimer underscore the allosteric sensing of ligand occupancy by the dimerization interface and explain why extracellular domains of HER2 do not homo-associate via a canonical active dimer interface."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rg_5",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: radius of gyration / compactness (mean 18.672 \u00c5)",
+          "kind": "compactness",
+          "category": "plausible",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_dccm_6",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: correlated motions / allosteric coupling observed",
+          "kind": "correlated_motions",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            },
+            {
+              "title": "Structures of the HER2-HER3-NRG1\u03b2 complex reveal a dynamic dimer interface.",
+              "pmid": "34759323",
+              "doi": "10.1038/s41586-021-04084-z",
+              "evidence_source": "abstract",
+              "passage": "The unique features of a singly liganded HER2-HER3 heterodimer underscore the allosteric sensing of ligand occupancy by the dimerization interface and explain why extracellular domains of HER2 do not homo-associate via a canonical active dimer interface."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsd_7",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: modest backbone RMSD / local conformational stability (mean 1.36 \u00c5, max 1.84 \u00c5)",
+          "kind": "rmsd_stability",
+          "category": "plausible",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsf_8",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: RMSF hotspots / flexible sites: GLY24 (2.40 \u00c5), THR258 (2.10 \u00c5), SER26 (1.98 \u00c5), GLU23 (1.89 \u00c5), GLU25 (1.88 \u00c5)",
+          "kind": "rmsf_hotspots",
+          "category": "not_addressed",
+          "supporting": [],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_ligand_9",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: ligand/pocket dynamics from Ligand_Pocket_COM_Distance",
+          "kind": "ligand_or_pocket",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            },
+            {
+              "title": "Characterization of Ligand Binding to Pseudokinases Using a Thermal Shift Assay.",
+              "pmid": "28730475",
+              "doi": "10.1007/978-1-4939-7154-1_7",
+              "evidence_source": "abstract",
+              "passage": "The protocol herein describes a robust and proven method for the measurement of pseudokinase-ligand interaction using a fluorescence-based thermal shift assay (TSA)."
+            },
+            {
+              "title": "Structures of the HER2-HER3-NRG1\u03b2 complex reveal a dynamic dimer interface.",
+              "pmid": "34759323",
+              "doi": "10.1038/s41586-021-04084-z",
+              "evidence_source": "abstract",
+              "passage": "The unique features of a singly liganded HER2-HER3 heterodimer underscore the allosteric sensing of ligand occupancy by the dimerization interface and explain why extracellular domains of HER2 do not homo-associate via a canonical active dimer interface."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_ligand_10",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: ligand/pocket dynamics from INTER_COM_Distance_Protein_vs_ATP",
+          "kind": "ligand_or_pocket",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            },
+            {
+              "title": "Characterization of Ligand Binding to Pseudokinases Using a Thermal Shift Assay.",
+              "pmid": "28730475",
+              "doi": "10.1007/978-1-4939-7154-1_7",
+              "evidence_source": "abstract",
+              "passage": "The protocol herein describes a robust and proven method for the measurement of pseudokinase-ligand interaction using a fluorescence-based thermal shift assay (TSA)."
+            },
+            {
+              "title": "Structures of the HER2-HER3-NRG1\u03b2 complex reveal a dynamic dimer interface.",
+              "pmid": "34759323",
+              "doi": "10.1038/s41586-021-04084-z",
+              "evidence_source": "abstract",
+              "passage": "The unique features of a singly liganded HER2-HER3 heterodimer underscore the allosteric sensing of ligand occupancy by the dimerization interface and explain why extracellular domains of HER2 do not homo-associate via a canonical active dimer interface."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rg_11",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: radius of gyration / compactness (mean 18.729 \u00c5)",
+          "kind": "compactness",
+          "category": "plausible",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsd_12",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: modest backbone RMSD / local conformational stability (mean 1.33 \u00c5, max 1.86 \u00c5)",
+          "kind": "rmsd_stability",
+          "category": "plausible",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsf_13",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: RMSF hotspots / flexible sites: PRO30 (2.88 \u00c5), SER171 (2.77 \u00c5), ASP27 (2.68 \u00c5), GLY29 (2.67 \u00c5), GLN31 (2.62 \u00c5)",
+          "kind": "rmsf_hotspots",
+          "category": "not_addressed",
+          "supporting": [],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_dccm_14",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: correlated motions / allosteric coupling observed",
+          "kind": "correlated_motions",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            },
+            {
+              "title": "Structures of the HER2-HER3-NRG1\u03b2 complex reveal a dynamic dimer interface.",
+              "pmid": "34759323",
+              "doi": "10.1038/s41586-021-04084-z",
+              "evidence_source": "abstract",
+              "passage": "The unique features of a singly liganded HER2-HER3 heterodimer underscore the allosteric sensing of ligand occupancy by the dimerization interface and explain why extracellular domains of HER2 do not homo-associate via a canonical active dimer interface."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rg_15",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: radius of gyration / compactness (mean 19.739 \u00c5)",
+          "kind": "compactness",
+          "category": "plausible",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsd_16",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: modest backbone RMSD / local conformational stability (mean 1.39 \u00c5, max 1.82 \u00c5)",
+          "kind": "rmsd_stability",
+          "category": "plausible",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsf_17",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: RMSF hotspots / flexible sites: PRO30 (2.59 \u00c5), GLY29 (2.50 \u00c5), SER28 (2.49 \u00c5), THR25 (2.39 \u00c5), CYS26 (2.22 \u00c5)",
+          "kind": "rmsf_hotspots",
+          "category": "not_addressed",
+          "supporting": [],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rg_18",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: radius of gyration / compactness (mean 19.95 \u00c5)",
+          "kind": "compactness",
+          "category": "plausible",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_dccm_19",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: correlated motions / allosteric coupling observed",
+          "kind": "correlated_motions",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            },
+            {
+              "title": "Structures of the HER2-HER3-NRG1\u03b2 complex reveal a dynamic dimer interface.",
+              "pmid": "34759323",
+              "doi": "10.1038/s41586-021-04084-z",
+              "evidence_source": "abstract",
+              "passage": "The unique features of a singly liganded HER2-HER3 heterodimer underscore the allosteric sensing of ligand occupancy by the dimerization interface and explain why extracellular domains of HER2 do not homo-associate via a canonical active dimer interface."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_ligand_20",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: ligand/pocket dynamics from Ligand_Pocket_COM_Distance",
+          "kind": "ligand_or_pocket",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            },
+            {
+              "title": "Characterization of Ligand Binding to Pseudokinases Using a Thermal Shift Assay.",
+              "pmid": "28730475",
+              "doi": "10.1007/978-1-4939-7154-1_7",
+              "evidence_source": "abstract",
+              "passage": "The protocol herein describes a robust and proven method for the measurement of pseudokinase-ligand interaction using a fluorescence-based thermal shift assay (TSA)."
+            },
+            {
+              "title": "Structures of the HER2-HER3-NRG1\u03b2 complex reveal a dynamic dimer interface.",
+              "pmid": "34759323",
+              "doi": "10.1038/s41586-021-04084-z",
+              "evidence_source": "abstract",
+              "passage": "The unique features of a singly liganded HER2-HER3 heterodimer underscore the allosteric sensing of ligand occupancy by the dimerization interface and explain why extracellular domains of HER2 do not homo-associate via a canonical active dimer interface."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_ligand_21",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: ligand/pocket dynamics from INTER_COM_Distance_Protein_vs_ATP",
+          "kind": "ligand_or_pocket",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            },
+            {
+              "title": "Characterization of Ligand Binding to Pseudokinases Using a Thermal Shift Assay.",
+              "pmid": "28730475",
+              "doi": "10.1007/978-1-4939-7154-1_7",
+              "evidence_source": "abstract",
+              "passage": "The protocol herein describes a robust and proven method for the measurement of pseudokinase-ligand interaction using a fluorescence-based thermal shift assay (TSA)."
+            },
+            {
+              "title": "Structures of the HER2-HER3-NRG1\u03b2 complex reveal a dynamic dimer interface.",
+              "pmid": "34759323",
+              "doi": "10.1038/s41586-021-04084-z",
+              "evidence_source": "abstract",
+              "passage": "The unique features of a singly liganded HER2-HER3 heterodimer underscore the allosteric sensing of ligand occupancy by the dimerization interface and explain why extracellular domains of HER2 do not homo-associate via a canonical active dimer interface."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsd_22",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: modest backbone RMSD / local conformational stability (mean 1.40 \u00c5, max 1.75 \u00c5)",
+          "kind": "rmsd_stability",
+          "category": "plausible",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsf_23",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: RMSF hotspots / flexible sites: THR80 (2.86 \u00c5), GLU79 (2.29 \u00c5), VAL81 (2.14 \u00c5), GLY169 (2.14 \u00c5), PRO83 (1.95 \u00c5)",
+          "kind": "rmsf_hotspots",
+          "category": "not_addressed",
+          "supporting": [],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsf_24",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: RMSF hotspots / flexible sites: GLY169 (1.71 \u00c5), GLU173 (1.60 \u00c5), SER165 (1.56 \u00c5), SER167 (1.55 \u00c5), MET166 (1.55 \u00c5)",
+          "kind": "rmsf_hotspots",
+          "category": "not_addressed",
+          "supporting": [],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rg_25",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: radius of gyration / compactness (mean 19.382 \u00c5)",
+          "kind": "compactness",
+          "category": "plausible",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_dccm_26",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: correlated motions / allosteric coupling observed",
+          "kind": "correlated_motions",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            },
+            {
+              "title": "Structures of the HER2-HER3-NRG1\u03b2 complex reveal a dynamic dimer interface.",
+              "pmid": "34759323",
+              "doi": "10.1038/s41586-021-04084-z",
+              "evidence_source": "abstract",
+              "passage": "The unique features of a singly liganded HER2-HER3 heterodimer underscore the allosteric sensing of ligand occupancy by the dimerization interface and explain why extracellular domains of HER2 do not homo-associate via a canonical active dimer interface."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsd_27",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: modest backbone RMSD / local conformational stability (mean 1.35 \u00c5, max 1.71 \u00c5)",
+          "kind": "rmsd_stability",
+          "category": "plausible",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsf_28",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: RMSF hotspots / flexible sites: THR80 (2.26 \u00c5), GLU79 (1.81 \u00c5), GLY10 (1.71 \u00c5), SER167 (1.70 \u00c5), SER11 (1.67 \u00c5)",
+          "kind": "rmsf_hotspots",
+          "category": "not_addressed",
+          "supporting": [],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsf_29",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: RMSF hotspots / flexible sites: SER167 (1.70 \u00c5), MET166 (1.50 \u00c5), GLN163 (1.48 \u00c5), THR164 (1.43 \u00c5), SER165 (1.40 \u00c5)",
+          "kind": "rmsf_hotspots",
+          "category": "not_addressed",
+          "supporting": [],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rg_30",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: radius of gyration / compactness (mean 19.559 \u00c5)",
+          "kind": "compactness",
+          "category": "plausible",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_dccm_31",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: correlated motions / allosteric coupling observed",
+          "kind": "correlated_motions",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            },
+            {
+              "title": "Structures of the HER2-HER3-NRG1\u03b2 complex reveal a dynamic dimer interface.",
+              "pmid": "34759323",
+              "doi": "10.1038/s41586-021-04084-z",
+              "evidence_source": "abstract",
+              "passage": "The unique features of a singly liganded HER2-HER3 heterodimer underscore the allosteric sensing of ligand occupancy by the dimerization interface and explain why extracellular domains of HER2 do not homo-associate via a canonical active dimer interface."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_dccm_32",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: correlated motions / allosteric coupling observed",
+          "kind": "correlated_motions",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            },
+            {
+              "title": "Structures of the HER2-HER3-NRG1\u03b2 complex reveal a dynamic dimer interface.",
+              "pmid": "34759323",
+              "doi": "10.1038/s41586-021-04084-z",
+              "evidence_source": "abstract",
+              "passage": "The unique features of a singly liganded HER2-HER3 heterodimer underscore the allosteric sensing of ligand occupancy by the dimerization interface and explain why extracellular domains of HER2 do not homo-associate via a canonical active dimer interface."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_ligand_33",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: ligand/pocket dynamics from Ligand_Pocket_COM_Distance",
+          "kind": "ligand_or_pocket",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            },
+            {
+              "title": "Characterization of Ligand Binding to Pseudokinases Using a Thermal Shift Assay.",
+              "pmid": "28730475",
+              "doi": "10.1007/978-1-4939-7154-1_7",
+              "evidence_source": "abstract",
+              "passage": "The protocol herein describes a robust and proven method for the measurement of pseudokinase-ligand interaction using a fluorescence-based thermal shift assay (TSA)."
+            },
+            {
+              "title": "Structures of the HER2-HER3-NRG1\u03b2 complex reveal a dynamic dimer interface.",
+              "pmid": "34759323",
+              "doi": "10.1038/s41586-021-04084-z",
+              "evidence_source": "abstract",
+              "passage": "The unique features of a singly liganded HER2-HER3 heterodimer underscore the allosteric sensing of ligand occupancy by the dimerization interface and explain why extracellular domains of HER2 do not homo-associate via a canonical active dimer interface."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_ligand_34",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: ligand/pocket dynamics from INTER_COM_Distance_Protein_vs_ATP",
+          "kind": "ligand_or_pocket",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            },
+            {
+              "title": "Characterization of Ligand Binding to Pseudokinases Using a Thermal Shift Assay.",
+              "pmid": "28730475",
+              "doi": "10.1007/978-1-4939-7154-1_7",
+              "evidence_source": "abstract",
+              "passage": "The protocol herein describes a robust and proven method for the measurement of pseudokinase-ligand interaction using a fluorescence-based thermal shift assay (TSA)."
+            },
+            {
+              "title": "Structures of the HER2-HER3-NRG1\u03b2 complex reveal a dynamic dimer interface.",
+              "pmid": "34759323",
+              "doi": "10.1038/s41586-021-04084-z",
+              "evidence_source": "abstract",
+              "passage": "The unique features of a singly liganded HER2-HER3 heterodimer underscore the allosteric sensing of ligand occupancy by the dimerization interface and explain why extracellular domains of HER2 do not homo-associate via a canonical active dimer interface."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsd_35",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: modest backbone RMSD / local conformational stability (mean 1.01 \u00c5, max 1.25 \u00c5)",
+          "kind": "rmsd_stability",
+          "category": "plausible",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_dccm_36",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: correlated motions / allosteric coupling observed",
+          "kind": "correlated_motions",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            },
+            {
+              "title": "Structures of the HER2-HER3-NRG1\u03b2 complex reveal a dynamic dimer interface.",
+              "pmid": "34759323",
+              "doi": "10.1038/s41586-021-04084-z",
+              "evidence_source": "abstract",
+              "passage": "The unique features of a singly liganded HER2-HER3 heterodimer underscore the allosteric sensing of ligand occupancy by the dimerization interface and explain why extracellular domains of HER2 do not homo-associate via a canonical active dimer interface."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsf_37",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: RMSF hotspots / flexible sites: PHE12 (1.95 \u00c5), GLU11 (1.91 \u00c5), THR159 (1.86 \u00c5), GLY10 (1.68 \u00c5), ALA160 (1.49 \u00c5)",
+          "kind": "rmsf_hotspots",
+          "category": "not_addressed",
+          "supporting": [],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsf_38",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: RMSF hotspots / flexible sites: THR159 (1.62 \u00c5), ALA160 (1.22 \u00c5), PHE158 (1.17 \u00c5), PRO150 (1.14 \u00c5), GLY151 (1.12 \u00c5)",
+          "kind": "rmsf_hotspots",
+          "category": "not_addressed",
+          "supporting": [],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsd_39",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: modest backbone RMSD / local conformational stability (mean 1.01 \u00c5, max 1.25 \u00c5)",
+          "kind": "rmsd_stability",
+          "category": "plausible",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_dccm_40",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: correlated motions / allosteric coupling observed",
+          "kind": "correlated_motions",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            },
+            {
+              "title": "Structures of the HER2-HER3-NRG1\u03b2 complex reveal a dynamic dimer interface.",
+              "pmid": "34759323",
+              "doi": "10.1038/s41586-021-04084-z",
+              "evidence_source": "abstract",
+              "passage": "The unique features of a singly liganded HER2-HER3 heterodimer underscore the allosteric sensing of ligand occupancy by the dimerization interface and explain why extracellular domains of HER2 do not homo-associate via a canonical active dimer interface."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsf_41",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: RMSF hotspots / flexible sites: PHE12 (1.95 \u00c5), GLU11 (1.91 \u00c5), THR159 (1.86 \u00c5), GLY10 (1.68 \u00c5), ALA160 (1.49 \u00c5)",
+          "kind": "rmsf_hotspots",
+          "category": "not_addressed",
+          "supporting": [],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsf_42",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: RMSF hotspots / flexible sites: THR159 (1.62 \u00c5), ALA160 (1.22 \u00c5), PHE158 (1.17 \u00c5), PRO150 (1.14 \u00c5), GLY151 (1.12 \u00c5)",
+          "kind": "rmsf_hotspots",
+          "category": "not_addressed",
+          "supporting": [],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsd_43",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: modest backbone RMSD / local conformational stability (mean 1.01 \u00c5, max 1.25 \u00c5)",
+          "kind": "rmsd_stability",
+          "category": "plausible",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_dccm_44",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: correlated motions / allosteric coupling observed",
+          "kind": "correlated_motions",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            },
+            {
+              "title": "Structures of the HER2-HER3-NRG1\u03b2 complex reveal a dynamic dimer interface.",
+              "pmid": "34759323",
+              "doi": "10.1038/s41586-021-04084-z",
+              "evidence_source": "abstract",
+              "passage": "The unique features of a singly liganded HER2-HER3 heterodimer underscore the allosteric sensing of ligand occupancy by the dimerization interface and explain why extracellular domains of HER2 do not homo-associate via a canonical active dimer interface."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsf_45",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: RMSF hotspots / flexible sites: PHE12 (1.95 \u00c5), GLU11 (1.91 \u00c5), THR159 (1.86 \u00c5), GLY10 (1.68 \u00c5), ALA160 (1.49 \u00c5)",
+          "kind": "rmsf_hotspots",
+          "category": "not_addressed",
+          "supporting": [],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsf_46",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: RMSF hotspots / flexible sites: THR159 (1.62 \u00c5), ALA160 (1.22 \u00c5), PHE158 (1.17 \u00c5), PRO150 (1.14 \u00c5), GLY151 (1.12 \u00c5)",
+          "kind": "rmsf_hotspots",
+          "category": "not_addressed",
+          "supporting": [],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rg_47",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: radius of gyration / compactness (mean 19.292 \u00c5)",
+          "kind": "compactness",
+          "category": "plausible",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rg_48",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: radius of gyration / compactness (mean 19.292 \u00c5)",
+          "kind": "compactness",
+          "category": "plausible",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rg_49",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: radius of gyration / compactness (mean 19.292 \u00c5)",
+          "kind": "compactness",
+          "category": "plausible",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_dccm_50",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: correlated motions / allosteric coupling observed",
+          "kind": "correlated_motions",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            },
+            {
+              "title": "Structures of the HER2-HER3-NRG1\u03b2 complex reveal a dynamic dimer interface.",
+              "pmid": "34759323",
+              "doi": "10.1038/s41586-021-04084-z",
+              "evidence_source": "abstract",
+              "passage": "The unique features of a singly liganded HER2-HER3 heterodimer underscore the allosteric sensing of ligand occupancy by the dimerization interface and explain why extracellular domains of HER2 do not homo-associate via a canonical active dimer interface."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsd_51",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: modest backbone RMSD / local conformational stability (mean 0.90 \u00c5, max 1.24 \u00c5)",
+          "kind": "rmsd_stability",
+          "category": "plausible",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsf_52",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: RMSF hotspots / flexible sites: GLY151 (1.42 \u00c5), SER22 (1.37 \u00c5), MET67 (1.36 \u00c5), SER23 (1.34 \u00c5), ALA90 (1.29 \u00c5)",
+          "kind": "rmsf_hotspots",
+          "category": "not_addressed",
+          "supporting": [],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_ligand_53",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: ligand/pocket dynamics from Ligand_Pocket_COM_Distance",
+          "kind": "ligand_or_pocket",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            },
+            {
+              "title": "Characterization of Ligand Binding to Pseudokinases Using a Thermal Shift Assay.",
+              "pmid": "28730475",
+              "doi": "10.1007/978-1-4939-7154-1_7",
+              "evidence_source": "abstract",
+              "passage": "The protocol herein describes a robust and proven method for the measurement of pseudokinase-ligand interaction using a fluorescence-based thermal shift assay (TSA)."
+            },
+            {
+              "title": "Structures of the HER2-HER3-NRG1\u03b2 complex reveal a dynamic dimer interface.",
+              "pmid": "34759323",
+              "doi": "10.1038/s41586-021-04084-z",
+              "evidence_source": "abstract",
+              "passage": "The unique features of a singly liganded HER2-HER3 heterodimer underscore the allosteric sensing of ligand occupancy by the dimerization interface and explain why extracellular domains of HER2 do not homo-associate via a canonical active dimer interface."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_ligand_54",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: ligand/pocket dynamics from INTER_COM_Distance_Protein_vs_ATP",
+          "kind": "ligand_or_pocket",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            },
+            {
+              "title": "Characterization of Ligand Binding to Pseudokinases Using a Thermal Shift Assay.",
+              "pmid": "28730475",
+              "doi": "10.1007/978-1-4939-7154-1_7",
+              "evidence_source": "abstract",
+              "passage": "The protocol herein describes a robust and proven method for the measurement of pseudokinase-ligand interaction using a fluorescence-based thermal shift assay (TSA)."
+            },
+            {
+              "title": "Structures of the HER2-HER3-NRG1\u03b2 complex reveal a dynamic dimer interface.",
+              "pmid": "34759323",
+              "doi": "10.1038/s41586-021-04084-z",
+              "evidence_source": "abstract",
+              "passage": "The unique features of a singly liganded HER2-HER3 heterodimer underscore the allosteric sensing of ligand occupancy by the dimerization interface and explain why extracellular domains of HER2 do not homo-associate via a canonical active dimer interface."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rg_55",
+          "observation": "ERBB3, VRK3, MLKL, TITIN: radius of gyration / compactness (mean 19.451 \u00c5)",
+          "kind": "compactness",
+          "category": "plausible",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "The allosteric activation of the HER2 kinase domain (KD) by the HER3 KD is required for tumorigenic signaling and can potentially be targeted by allosteric inhibitors."
+            }
+          ],
+          "conflicting": []
+        }
+      ]
+    },
+    "6_candidates_for_report": {
+      "n": 8,
+      "note": "These ranked candidates are passed to the literature-review LLM; uncited papers are pruned after writing (see Step 6 final selection).",
+      "candidates": [
+        {
+          "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+          "year": 2022,
+          "pmid": "35108525",
+          "doi": "10.1016/j.celrep.2021.110291",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35108525/",
+          "relevance_note": "Mentions: HER3",
+          "query_key": "pubmed:ERBB3_md",
+          "score": 81,
+          "matched_aliases": [
+            "HER3"
+          ]
+        },
+        {
+          "title": "Characterization of Ligand Binding to Pseudokinases Using a Thermal Shift Assay.",
+          "year": 2017,
+          "pmid": "28730475",
+          "doi": "10.1007/978-1-4939-7154-1_7",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/28730475/",
+          "relevance_note": "Mentions: ERBB3, VRK3, MLKL, HER3",
+          "query_key": "pubmed:VRK3_md",
+          "score": 81,
+          "matched_aliases": [
+            "ERBB3",
+            "VRK3",
+            "MLKL",
+            "HER3"
+          ]
+        },
+        {
+          "title": "Structures of the HER2-HER3-NRG1\u03b2 complex reveal a dynamic dimer interface.",
+          "year": 2021,
+          "pmid": "34759323",
+          "doi": "10.1038/s41586-021-04084-z",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/34759323/",
+          "relevance_note": "Mentions: HER3",
+          "query_key": "pubmed:ERBB3_md",
+          "score": 55,
+          "matched_aliases": [
+            "HER3"
+          ]
+        },
+        {
+          "title": "Influenza Virus Z-RNAs Induce ZBP1-Mediated Necroptosis.",
+          "year": 2020,
+          "pmid": "32200799",
+          "doi": "10.1016/j.cell.2020.02.050",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32200799/",
+          "relevance_note": "Mentions: MLKL, mixed lineage kinase domain-like",
+          "query_key": "pubmed:MLKL_function",
+          "score": 50,
+          "matched_aliases": [
+            "MLKL",
+            "mixed lineage kinase domain-like"
+          ]
+        },
+        {
+          "title": "Necroptosis: MLKL Polymerization.",
+          "year": 2018,
+          "pmid": "30294675",
+          "doi": null,
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/30294675/",
+          "relevance_note": "Mentions: MLKL, mixed lineage kinase domain-like",
+          "query_key": "pubmed:MLKL_function",
+          "score": 44,
+          "matched_aliases": [
+            "MLKL",
+            "mixed lineage kinase domain-like"
+          ]
+        },
+        {
+          "title": "ErbB Receptors and Cancer.",
+          "year": 2017,
+          "pmid": "28791631",
+          "doi": "10.1007/978-1-4939-7219-7_1",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/28791631/",
+          "relevance_note": "Mentions: ERBB3, HER3",
+          "query_key": "pubmed:ERBB3_function",
+          "score": 40,
+          "matched_aliases": [
+            "ERBB3",
+            "HER3"
+          ]
+        },
+        {
+          "title": "Discovery of Titin and Its Role in Heart Function and Disease.",
+          "year": 2025,
+          "pmid": "39745989",
+          "doi": "10.1161/CIRCRESAHA.124.323051",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39745989/",
+          "relevance_note": "Mentions: TITIN, TTN",
+          "query_key": "pubmed:TITIN_function",
+          "score": 39,
+          "matched_aliases": [
+            "TITIN",
+            "TTN"
+          ]
+        },
+        {
+          "title": "Genetic and Epigenetic Regulation of the Innate Immune Response to Gout.",
+          "year": 2023,
+          "pmid": "36745138",
+          "doi": "10.1080/08820139.2023.2168554",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/36745138/",
+          "relevance_note": "Mentions: MLKL, mixed lineage kinase domain-like",
+          "query_key": "pubmed:MLKL_md",
+          "score": 37,
+          "matched_aliases": [
+            "MLKL",
+            "mixed lineage kinase domain-like"
+          ]
+        }
+      ]
+    },
+    "6_final_cited": {
+      "n_cited": 5,
+      "cited": [
+        {
+          "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+          "year": 2022,
+          "pmid": "35108525",
+          "doi": "10.1016/j.celrep.2021.110291",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35108525/",
+          "query_key": "pubmed:ERBB3_md"
+        },
+        {
+          "title": "Characterization of Ligand Binding to Pseudokinases Using a Thermal Shift Assay.",
+          "year": 2017,
+          "pmid": "28730475",
+          "doi": "10.1007/978-1-4939-7154-1_7",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/28730475/",
+          "query_key": "pubmed:VRK3_md"
+        },
+        {
+          "title": "Structures of the HER2-HER3-NRG1\u03b2 complex reveal a dynamic dimer interface.",
+          "year": 2021,
+          "pmid": "34759323",
+          "doi": "10.1038/s41586-021-04084-z",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/34759323/",
+          "query_key": "pubmed:ERBB3_md"
+        },
+        {
+          "title": "Necroptosis: MLKL Polymerization.",
+          "year": 2018,
+          "pmid": "30294675",
+          "doi": null,
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/30294675/",
+          "query_key": "pubmed:MLKL_function"
+        },
+        {
+          "title": "Influenza Virus Z-RNAs Induce ZBP1-Mediated Necroptosis.",
+          "year": 2020,
+          "pmid": "32200799",
+          "doi": "10.1016/j.cell.2020.02.050",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32200799/",
+          "query_key": "pubmed:MLKL_function"
+        }
+      ]
+    }
+  },
+  "identity": {
+    "protein": "ERBB3, VRK3, MLKL, TITIN",
+    "gene": "",
+    "aliases": [
+      "ERBB3",
+      "VRK3",
+      "MLKL",
+      "TITIN",
+      "HER3",
+      "ErbB-3",
+      "mixed lineage kinase domain-like",
+      "TTN"
+    ],
+    "family": "pseudokinase",
+    "uniprot_id": "",
+    "source": "goal_id_map",
+    "study_proteins": [
+      {
+        "id": "p21860",
+        "name": "ERBB3"
+      },
+      {
+        "id": "q8iv63",
+        "name": "VRK3"
+      },
+      {
+        "id": "q8nb16",
+        "name": "MLKL"
+      },
+      {
+        "id": "q8wz42",
+        "name": "TITIN"
+      }
+    ]
+  }
+}

@@ -91,8 +91,9 @@ Given a natural-language goal and either a PDB file or a UniProt accession, the 
 
 **Hands-on tutorial:** [tutorial/TUTORIAL.md](../tutorial/TUTORIAL.md) runs
 `tutorial/pseudo_apo_holo/` from the goal, launcher, and starting PDBs.
-Reports and trajectories are produced by that run. Framework install and CLI
-remain in this file and [README.md](../README.md).
+The published copy includes the analysis plots, tables, and HTML reports from
+a completed run. Trajectories, coordinates, topologies, and force-field files
+stay local. Framework install and CLI remain in this file and [README.md](../README.md).
 
 ## Repository Layout
 
@@ -101,7 +102,7 @@ SimAgent.py                     # Launcher; command line is agentic/cli.py
 environment.yml                 # Conda environment (SimAgentEnv, Python 3.11)
 tutorial/
     TUTORIAL.md                 # Use-case guide: run / track / find results
-    pseudo_apo_holo/            # Fresh apo/holo starter (PDBs, goal, launcher)
+    pseudo_apo_holo/            # Starter plus plots, tables, and HTML reports
 agentic/
     cli.py                      # Command line used by `simagent` and SimAgent.py
     state.py                    # MDState TypedDict — central shared state (~65 fields)

@@ -1,0 +1,193 @@
+
+========================================================================
+ANALYSIS EXECUTION — 2026-11-13T20:35:10
+Task: Original study goal:
+I want to study the effect of ATP binding on protein dynamics for these four
+PDBs — p21860.pdb, q8iv63.pdb, q8nb16.pdb, and q8wz42.pdb — which are available
+in the current working directory. Each PDB has protein + ATP + Mg.
+
+Please preprocess and set up MD simulations for 1 ns for all PDBs with two
+component cases per structure:
+  1. Protein only (apo)
+  2. Protein + ATP + Mg (holo)
+for a total of eight simulations. Once setups are done, submit the jobs to HPC.
+
+The proteins are human pseudokinases (UniProt id : name):
+  p21860: ERBB3, q8iv63: VRK3, q8nb16: MLKL, q8wz42: TITIN.
+
+Force field AMBER99SB-ILDN, TIP3P water, 310 K, 1 bar, 0.15 M NaCl.
+
+For each system compute:
+  (1) backbone RMSD over time,
+  (2) per-residue RMSF (and an RMSF bar plot near the active-site region,
+      residues 150–200 when present),
+  (3) radius of gyration,
+  (4) COM distance between bound ATP and the catalytic pocket (pocket =
+      protein atoms within 5 Å of ATP at frame 0) for holo systems,
+  (5) Cα DCCM, including apo vs holo DCCM differences where both cases exist,
+  (6) DSSP time evolution for the whole protein and the active-site region
+      (residues 150–200 when present).
+
+After per-simulation analysis, generate comparative overlay plots and
+statistical tables across all systems. In the reporter, retrieve relevant
+literature for each named protein focusing on activation-loop conformations,
+allosteric regulation, and MD or experimental dynamics, and correlate the
+simulation findings with that literature in the final report.
+
+Post-combined (compare / overlay / family report after all sims) plan from master planner:
+After all per‑simulation analyses and individual reports are finished, gather the standard output files (rmsd.dat, rmsf.dat, gyration.dat, dccm_heatmap.png, dssp.png, ligand_pocket_distance.csv) from each simulation’s analysis folder. Use the cross‑simulation analysis tools to compute overlay plots (e.g., RMSD and RMSF overlays, DCCM difference maps) and statistical tables summarizing mean, std, min, max for each metric across the four proteins and both apo/holo states. Then invoke the reporter to generate a combined HTML report that includes the overlay figures, tables, and a literature review linking the observed dynamics to activation‑loop conformations and allosteric regulation for ERBB3, VRK3, MLKL, and TITIN.
+
+Use existing per-simulation analysis outputs under each sim's analysis/ directory (prefer analysis/avg/ when multi-rep). Prefer run_combined_analysis / plot_combined_overlay over recalculating metrics from trajectories. Plan ONLY metrics and deliverables explicitly requested — do not add classification, clustering, ligand RMSF, DCCM, or other extras unless the goal asks for them.
+Success: True
+Plan steps:
+  1. analyze_secondary_structure: Per‑simulation MD metrics
+  2. run_combined_analysis: Combined RMSD / RMSF / Rg overlay
+  3. run_combined_com_distance_analysis: Combined COM distance overlay
+  4. run_combined_dccm_apo_holo_analysis: Combined DCCM apo/holo difference
+
+
+--- Step 1: Per‑simulation MD metrics ---
+Description: Generate DSSP secondary‑structure time series and heatmaps.
+Tool: analyze_secondary_structure
+Reason: Track secondary‑structure evolution.
+Parameters: {
+  "topology_file": "{sim_dir}/topol.tpr",
+  "trajectory_file": "{sim_dir}/traj.xtc",
+  "selection": "protein",
+  "output_prefix": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/analysis/dssp",
+  "create_heatmap": true,
+  "create_time_series": true,
+  "working_dir": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/analysis"
+}
+⚠ Retry 1/2: Topology file not found: {sim_dir}/topol.tpr
+⚠ Retry 2/2: Topology file not found: {sim_dir}/topol.tpr
+✗ Max retries (2) exceeded
+✗ Failed after 3 attempts: Topology file not found: {sim_dir}/topol.tpr
+
+--- Step 2: Combined RMSD / RMSF / Rg overlay ---
+Description: Overlay the three metrics across all eight simulations and produce statistics tables.
+Tool: run_combined_analysis
+Reason: Generate overlay plots (`*_overlay.png`) and statistics CSVs (`*_stats.csv`) for the requested metrics.
+Parameters: {
+  "sim_dirs": [
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8iv63",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8iv63_ATP_MG",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8nb16",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8nb16_ATP_MG",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42_ATP_MG"
+  ],
+  "labels": [
+    "p21860",
+    "p21860_ATP_MG",
+    "q8iv63",
+    "q8iv63_ATP_MG",
+    "q8nb16",
+    "q8nb16_ATP_MG",
+    "q8wz42",
+    "q8wz42_ATP_MG"
+  ],
+  "working_dir": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/analysis",
+  "metrics": [
+    "rg",
+    "rmsd",
+    "rmsf"
+  ],
+  "base_dir": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo",
+  "pdb_files": [
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860.pdb",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860.pdb",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8iv63.pdb",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8iv63.pdb",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8nb16.pdb",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8nb16.pdb",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42.pdb",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42.pdb"
+  ]
+}
+✓ Success: Step completed
+
+--- Step 3: Combined COM distance overlay ---
+Description: Overlay ATP‑pocket COM distances for the holo simulations.
+Tool: run_combined_com_distance_analysis
+Reason: Produce a single overlay plot of ligand‑pocket COM distances across holo runs.
+Parameters: {
+  "sim_dirs": [
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8iv63",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8iv63_ATP_MG",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8nb16",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8nb16_ATP_MG",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42_ATP_MG"
+  ],
+  "labels": [
+    "p21860",
+    "p21860_ATP_MG",
+    "q8iv63",
+    "q8iv63_ATP_MG",
+    "q8nb16",
+    "q8nb16_ATP_MG",
+    "q8wz42",
+    "q8wz42_ATP_MG"
+  ],
+  "working_dir": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/analysis",
+  "base_dir": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo",
+  "pdb_files": [
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860.pdb",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860.pdb",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8iv63.pdb",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8iv63.pdb",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8nb16.pdb",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8nb16.pdb",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42.pdb",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42.pdb"
+  ]
+}
+✓ Success: Step completed
+
+--- Step 4: Combined DCCM apo/holo difference ---
+Description: Generate 3‑panel DCCM figures (apo, holo, Δ) for each protein pair.
+Tool: run_combined_dccm_apo_holo_analysis
+Reason: Create the 3‑panel DCCM comparison figures for each apo/holo pair.
+Parameters: {
+  "sim_dirs": [
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8iv63",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8iv63_ATP_MG",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8nb16",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8nb16_ATP_MG",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42_ATP_MG"
+  ],
+  "labels": [
+    "p21860",
+    "p21860_ATP_MG",
+    "q8iv63",
+    "q8iv63_ATP_MG",
+    "q8nb16",
+    "q8nb16_ATP_MG",
+    "q8wz42",
+    "q8wz42_ATP_MG"
+  ],
+  "working_dir": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/analysis",
+  "base_dir": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo",
+  "pdb_files": [
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860.pdb",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860.pdb",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8iv63.pdb",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8iv63.pdb",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8nb16.pdb",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8nb16.pdb",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42.pdb",
+    "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42.pdb"
+  ]
+}
+⚠ Retry 1/2: None
+⚠ Retry 2/2: None
+✗ Max retries (2) exceeded
+✗ Failed after 3 attempts: Failed to execute

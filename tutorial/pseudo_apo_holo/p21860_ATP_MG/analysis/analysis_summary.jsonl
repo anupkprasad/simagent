@@ -1,0 +1,594 @@
+{
+  "summary_file_version": "1.0",
+  "created_at": "2026-11-14T01:17:31.649100",
+  "description": "MD Analysis Summary - Pretty-printed JSON for readability",
+  "format": "Multi-line JSON objects separated by newlines",
+  "fields": {
+    "timestamp": "ISO timestamp of analysis",
+    "analysis_type": "Type of analysis performed",
+    "statistics": "Key statistical measures",
+    "files": "Input/output file paths",
+    "metadata": "Key observations and additional context (selections, parameters, notable residues)"
+  }
+}
+---
+{
+  "timestamp": "2026-11-14, Time 01:17:32",
+  "analysis_type": "PDB_Input_Validation",
+  "statistics": {
+    "total_atoms": 4143,
+    "total_residues": 261
+  },
+  "files": {
+    "topology_file": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/hpc/md.tpr"
+  },
+  "metadata": {
+    "components_available": {
+      "protein": true,
+      "ligand": true,
+      "water": false,
+      "ions": true,
+      "hydrogens": true
+    },
+    "human_readable_summary": "Protein: Chain A (258 residues) | Ligands: ATP | Ions: MG (\u00d72)",
+    "protein_sequences": {
+      "A": "LRKLKVLGSGVFGTVHKGVWIPEGESIKIPVCIKVIEDKSGRQSFQAVTDHMLAIGSLDHAHIVRLLGLCPGSSLQLVTQYLPLGSLLDHVRQHRGALGPQLLLNWGVQIAKGMYYLEEHGMVHRNLAARNVLLKSPSQVQVADFGVADLLPPDDKQLLYSEAKTPIKWMALESIHFGKYTHQSDVWSYGVTVWELMTFGAEPYAGLRLAEVPDLLEKGERLAQPQICTIDVYMVMVKCWMIDENIRPTFKELANEFT"
+    },
+    "source": "supervisor_validation"
+  }
+}
+---
+{
+  "timestamp": "2026-11-14, Time 01:22:13",
+  "analysis_type": "DCCM",
+  "statistics": {
+    "n_atoms": 258,
+    "n_residues": 258,
+    "n_frames_used": 3,
+    "mean_abs_correlation": 0.351,
+    "n_strongly_correlated_pairs": 50
+  },
+  "files": {
+    "topology_file": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/hpc/md.tpr",
+    "trajectory_file": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/hpc/mdWrap.xtc",
+    "csv_file": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/analysis/dccm.csv",
+    "heatmap_file": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/analysis/dccm_heatmap.png",
+    "plot": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/analysis/dccm.png"
+  },
+  "metadata": {
+    "selection": "protein and name CA",
+    "frame_interval": 5,
+    "top_correlated_pairs": [
+      {
+        "residue_i": 24,
+        "residue_j": 25,
+        "correlation": 0.996
+      },
+      {
+        "residue_i": 161,
+        "residue_j": 162,
+        "correlation": 0.994
+      },
+      {
+        "residue_i": 51,
+        "residue_j": 154,
+        "correlation": 0.992
+      },
+      {
+        "residue_i": 4,
+        "residue_j": 5,
+        "correlation": 0.989
+      },
+      {
+        "residue_i": 208,
+        "residue_j": 209,
+        "correlation": 0.988
+      }
+    ],
+    "aligned_pass": true
+  }
+}
+---
+{
+  "timestamp": "2026-11-14, Time 01:22:13",
+  "analysis_type": "RMSD",
+  "statistics": {
+    "n_frames": 11,
+    "mean_rmsd_angstrom": 1.361,
+    "std_rmsd_angstrom": 0.484,
+    "min_rmsd_angstrom": 0.0,
+    "max_rmsd_angstrom": 1.843
+  },
+  "files": {
+    "topology": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/hpc/md.tpr",
+    "trajectory": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/hpc/mdWrap.xtc",
+    "data": "rmsd.dat",
+    "plot": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/analysis/rmsd.png"
+  },
+  "metadata": {
+    "selection": "protein and name CA",
+    "reference_frame": 0,
+    "alignment_performed": false,
+    "pre_aligned_universe": true
+  }
+}
+---
+{
+  "timestamp": "2026-11-14, Time 01:22:14",
+  "analysis_type": "RMSF",
+  "statistics": {
+    "n_residues": 258,
+    "mean_rmsf_angstrom": 0.749,
+    "std_rmsf_angstrom": 0.354,
+    "min_rmsf_angstrom": 0.32,
+    "max_rmsf_angstrom": 2.397,
+    "most_flexible_residue": 24,
+    "most_flexible_rmsf": 2.397
+  },
+  "files": {
+    "topology": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/hpc/md.tpr",
+    "trajectory": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/hpc/mdWrap.xtc",
+    "data": "rmsf.dat",
+    "plot": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/analysis/rmsf.png"
+  },
+  "metadata": {
+    "selection": "protein and name CA",
+    "top_5_flexible": [
+      {
+        "residue_id": 24,
+        "residue_name": "GLY",
+        "rmsf": 2.397
+      },
+      {
+        "residue_id": 258,
+        "residue_name": "THR",
+        "rmsf": 2.105
+      },
+      {
+        "residue_id": 26,
+        "residue_name": "SER",
+        "rmsf": 1.979
+      },
+      {
+        "residue_id": 23,
+        "residue_name": "GLU",
+        "rmsf": 1.886
+      },
+      {
+        "residue_id": 25,
+        "residue_name": "GLU",
+        "rmsf": 1.877
+      }
+    ],
+    "top_5_rigid": [
+      {
+        "residue_id": 186,
+        "residue_name": "VAL",
+        "rmsf": 0.32
+      },
+      {
+        "residue_id": 191,
+        "residue_name": "VAL",
+        "rmsf": 0.324
+      },
+      {
+        "residue_id": 127,
+        "residue_name": "LEU",
+        "rmsf": 0.327
+      },
+      {
+        "residue_id": 128,
+        "residue_name": "ALA",
+        "rmsf": 0.329
+      },
+      {
+        "residue_id": 187,
+        "residue_name": "TRP",
+        "rmsf": 0.334
+      }
+    ],
+    "alignment_performed": false,
+    "align_selection": "protein and name CA",
+    "pre_aligned_universe": true
+  }
+}
+---
+{
+  "timestamp": "2026-11-14, Time 01:22:14",
+  "analysis_type": "Ligand_Pocket_COM_Distance",
+  "statistics": {
+    "n_frames": 11,
+    "cutoff_angstrom": 5.0,
+    "n_pocket_atoms": 220,
+    "mean_distance_angstrom": 2.103,
+    "std_distance_angstrom": 0.191,
+    "min_distance_angstrom": 1.853,
+    "max_distance_angstrom": 2.468
+  },
+  "files": {
+    "topology": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/hpc/md.tpr",
+    "trajectory": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/hpc/mdWrap.xtc",
+    "data": "ligand_pocket_distance.csv",
+    "plot": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/analysis/ligand_pocket_distance.png"
+  },
+  "metadata": {
+    "ligand_selection": "resname ATP",
+    "protein_selection": "protein",
+    "pocket_residues": [
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      32,
+      34,
+      64,
+      79,
+      80,
+      81,
+      82,
+      83,
+      85,
+      86,
+      89,
+      126,
+      130,
+      131,
+      133,
+      143,
+      144,
+      166
+    ]
+  }
+}
+---
+{
+  "timestamp": "2026-11-14, Time 01:22:14",
+  "analysis_type": "INTER_COM_Distance_Protein_vs_ATP",
+  "statistics": {
+    "n_frames": 11,
+    "mean_distance_angstrom": 9.903,
+    "std_distance_angstrom": 0.224,
+    "min_distance_angstrom": 9.6,
+    "max_distance_angstrom": 10.209
+  },
+  "files": {
+    "topology": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/hpc/md.tpr",
+    "trajectory": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/hpc/mdWrap.xtc",
+    "data": "com_distance.csv",
+    "plot": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/analysis/com_distance.png"
+  },
+  "metadata": {
+    "selection1": "protein",
+    "selection2": "resname ATP",
+    "label1": "Protein",
+    "label2": "ATP",
+    "frame_interval": 1
+  }
+}
+---
+{
+  "timestamp": "2026-11-14, Time 01:22:14",
+  "analysis_type": "Radius_of_Gyration",
+  "statistics": {
+    "n_frames": 11,
+    "mean_rg_angstrom": 18.729,
+    "std_rg_angstrom": 0.152,
+    "min_rg_angstrom": 18.345,
+    "max_rg_angstrom": 18.899
+  },
+  "files": {
+    "topology": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/hpc/md.tpr",
+    "trajectory": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/hpc/mdWrap.xtc",
+    "data": "gyration.dat",
+    "plot": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/analysis/gyration.png",
+    "multipanel_plot": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/analysis/combined_metrics.png"
+  },
+  "metadata": {
+    "selection": "protein",
+    "align_before_rg": false
+  }
+}
+---
+{
+  "timestamp": "2026-11-14, Time 01:22:15",
+  "analysis_type": "DSSP_SecondaryStructure",
+  "statistics": {
+    "n_frames": 11,
+    "n_residues": 257,
+    "avg_helix_percent": 37.46,
+    "avg_sheet_percent": 15.246,
+    "avg_turn_percent": 0.0,
+    "avg_coil_percent": 47.294,
+    "helix_stability_std": 1.566,
+    "sheet_stability_std": 0.57
+  },
+  "files": {
+    "topology": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/hpc/md.tpr",
+    "trajectory": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/hpc/mdWrap.xtc",
+    "raw_data": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/analysis/dssp_raw_data.dat",
+    "percentages": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/analysis/dssp_percentages.dat",
+    "heatmap": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/analysis/dssp_heatmap.png",
+    "timeseries": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/analysis/dssp_timeseries.png",
+    "summary": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/analysis/dssp_summary.txt"
+  },
+  "metadata": {
+    "selection": "protein",
+    "dssp_codes_used": [
+      "H",
+      "B",
+      "E",
+      "G",
+      "I",
+      "T",
+      "S",
+      "-"
+    ],
+    "most_stable_helix_residues": [
+      {
+        "residue_id": 46,
+        "most_common_ss": "H",
+        "persistence_percent": 100.0,
+        "n_transitions": 0
+      },
+      {
+        "residue_id": 47,
+        "most_common_ss": "H",
+        "persistence_percent": 100.0,
+        "n_transitions": 0
+      },
+      {
+        "residue_id": 51,
+        "most_common_ss": "H",
+        "persistence_percent": 100.0,
+        "n_transitions": 0
+      },
+      {
+        "residue_id": 52,
+        "most_common_ss": "H",
+        "persistence_percent": 100.0,
+        "n_transitions": 0
+      },
+      {
+        "residue_id": 53,
+        "most_common_ss": "H",
+        "persistence_percent": 100.0,
+        "n_transitions": 0
+      }
+    ],
+    "most_stable_sheet_residues": [
+      {
+        "residue_id": 3,
+        "most_common_ss": "E",
+        "persistence_percent": 100.0,
+        "n_transitions": 0
+      },
+      {
+        "residue_id": 5,
+        "most_common_ss": "E",
+        "persistence_percent": 100.0,
+        "n_transitions": 0
+      },
+      {
+        "residue_id": 6,
+        "most_common_ss": "E",
+        "persistence_percent": 100.0,
+        "n_transitions": 0
+      },
+      {
+        "residue_id": 9,
+        "most_common_ss": "E",
+        "persistence_percent": 100.0,
+        "n_transitions": 0
+      },
+      {
+        "residue_id": 14,
+        "most_common_ss": "E",
+        "persistence_percent": 100.0,
+        "n_transitions": 0
+      }
+    ],
+    "most_flexible_residues": [
+      {
+        "residue_id": 93,
+        "most_common_ss": "H",
+        "persistence_percent": 54.545,
+        "n_transitions": 1
+      },
+      {
+        "residue_id": 136,
+        "most_common_ss": "E",
+        "persistence_percent": 54.545,
+        "n_transitions": 1
+      },
+      {
+        "residue_id": 139,
+        "most_common_ss": "E",
+        "persistence_percent": 54.545,
+        "n_transitions": 1
+      },
+      {
+        "residue_id": 147,
+        "most_common_ss": "H",
+        "persistence_percent": 54.545,
+        "n_transitions": 1
+      },
+      {
+        "residue_id": 13,
+        "most_common_ss": "-",
+        "persistence_percent": 63.636,
+        "n_transitions": 1
+      }
+    ]
+  }
+}
+---
+{
+  "timestamp": "2026-11-14, Time 01:22:16",
+  "analysis_type": "DSSP_SecondaryStructure",
+  "statistics": {
+    "n_frames": 11,
+    "n_residues": 51,
+    "avg_helix_percent": 60.071,
+    "avg_sheet_percent": 0.0,
+    "avg_turn_percent": 0.0,
+    "avg_coil_percent": 39.929,
+    "helix_stability_std": 4.033,
+    "sheet_stability_std": 0.0
+  },
+  "files": {
+    "topology": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/hpc/md.tpr",
+    "trajectory": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/hpc/mdWrap.xtc",
+    "raw_data": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/analysis/dssp_150to200_raw_data.dat",
+    "percentages": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/analysis/dssp_150to200_percentages.dat",
+    "heatmap": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/analysis/dssp_150to200_heatmap.png",
+    "timeseries": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/analysis/dssp_150to200_timeseries.png",
+    "summary": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/analysis/dssp_150to200_summary.txt",
+    "plot": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/analysis/dssp_percentages.png"
+  },
+  "metadata": {
+    "selection": "protein and resindex 149:199",
+    "dssp_codes_used": [
+      "H",
+      "B",
+      "E",
+      "G",
+      "I",
+      "T",
+      "S",
+      "-"
+    ],
+    "most_stable_helix_residues": [
+      {
+        "residue_id": 4,
+        "most_common_ss": "H",
+        "persistence_percent": 100.0,
+        "n_transitions": 0
+      },
+      {
+        "residue_id": 5,
+        "most_common_ss": "H",
+        "persistence_percent": 100.0,
+        "n_transitions": 0
+      },
+      {
+        "residue_id": 6,
+        "most_common_ss": "H",
+        "persistence_percent": 100.0,
+        "n_transitions": 0
+      },
+      {
+        "residue_id": 7,
+        "most_common_ss": "H",
+        "persistence_percent": 100.0,
+        "n_transitions": 0
+      },
+      {
+        "residue_id": 8,
+        "most_common_ss": "H",
+        "persistence_percent": 100.0,
+        "n_transitions": 0
+      }
+    ],
+    "most_stable_sheet_residues": [],
+    "most_flexible_residues": [
+      {
+        "residue_id": 13,
+        "most_common_ss": "-",
+        "persistence_percent": 81.818,
+        "n_transitions": 1
+      },
+      {
+        "residue_id": 14,
+        "most_common_ss": "-",
+        "persistence_percent": 81.818,
+        "n_transitions": 1
+      },
+      {
+        "residue_id": 15,
+        "most_common_ss": "-",
+        "persistence_percent": 81.818,
+        "n_transitions": 1
+      },
+      {
+        "residue_id": 18,
+        "most_common_ss": "H",
+        "persistence_percent": 81.818,
+        "n_transitions": 1
+      },
+      {
+        "residue_id": 19,
+        "most_common_ss": "H",
+        "persistence_percent": 81.818,
+        "n_transitions": 1
+      }
+    ]
+  }
+}
+---
+{
+  "timestamp": "2026-11-14, Time 01:22:16",
+  "analysis_type": "TrajectoryBatch",
+  "statistics": {
+    "universe_loads": 1,
+    "align_runs": 1,
+    "n_passes": 4,
+    "n_metrics_batched": 8
+  },
+  "files": {
+    "topology": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/hpc/md.tpr",
+    "trajectory": "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/hpc/mdWrap.xtc"
+  },
+  "metadata": {
+    "session_stats": {
+      "universe_loads": 1,
+      "align_runs": 1,
+      "passes": [
+        {
+          "kind": "aligned_batch",
+          "n_metrics": 3
+        },
+        {
+          "kind": "aligned",
+          "selection": "protein and name CA"
+        },
+        {
+          "kind": "raw_fused_streaming",
+          "n_metrics": 3
+        },
+        {
+          "kind": "raw_batch",
+          "n_metrics": 2
+        }
+      ]
+    },
+    "aligned_metrics": [
+      "calculate_dccm",
+      "calculate_rmsd",
+      "calculate_rmsf"
+    ],
+    "raw_streaming_metrics": [
+      "calculate_ligand_pocket_distance",
+      "calculate_com_distance",
+      "calculate_radius_of_gyration"
+    ],
+    "raw_batch_metrics": [
+      "analyze_secondary_structure",
+      "analyze_secondary_structure"
+    ],
+    "batched_step_indices": [
+      0,
+      2,
+      4,
+      5,
+      7,
+      9,
+      11,
+      12
+    ]
+  }
+}

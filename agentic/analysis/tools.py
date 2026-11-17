@@ -1369,7 +1369,11 @@ class AnalysisToolExecutor:
                 if tool_name not in self._builtin_tool_names and not result.get("_summary_logged"):
                     self._auto_log_summary(tool_name, kwargs, result)
             else:
-                logger.error(f"Tool {tool_name} failed: {result.get('error', 'Unknown error')}")
+                logger.error(
+                    "Tool %s failed: %s",
+                    tool_name,
+                    result.get("error") or result.get("message") or "Unknown error",
+                )
             
             return result
             

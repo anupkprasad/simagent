@@ -1,0 +1,62 @@
+; NVT equilibration
+title           = NVT equilibration
+define          = -DPOSRES -DPOSRES_LIG  ; position restrain the protein
+
+; Run parameters
+integrator      = md        ; leap-frog integrator
+nsteps          = 50000
+dt              = 0.002
+comm-mode       = Linear
+
+; Output control
+nstxout         = 0
+nstvout         = 0
+nstfout         = 0
+nstenergy       = 500
+nstlog          = 500
+nstxout-compressed = 500
+
+; Bond parameters
+continuation         = no        ; first dynamics run
+constraint_algorithm = lincs     ; holonomic constraints
+constraints          = h-bonds   ; bonds with H-atoms to constraints
+lincs_iter           = 1         ; accuracy of LINCS
+lincs_order          = 4         ; also related to accuracy
+
+; Neighbor searching
+cutoff-scheme   = Verlet
+ns_type         = grid      ; search neighboring grid cells
+nstlist         = 20        ; 10 fs
+
+; Electrostatics
+coulombtype     = PME       ; for long range electrostatics
+pme_order       = 4         ; cubic interpolation
+fourierspacing  = 0.12      ; grid spacing for FFT
+ewald-rtol      = 1e-5
+optimize-fft    = yes
+rlist           = 1.2
+vdwtype         = cutoff
+vdw-modifier    = force-switch
+rvdw            = 1.2
+rcoulomb        = 1.2
+rvdw-switch     = 1.0
+
+; Temperature coupling (NVT)
+tcoupl          = V-rescale
+tc-grps         = Protein Non-Protein
+tau_t           = 0.1 0.1
+ref_t           = 300.0 300.0
+
+; Periodic boundary conditions
+pbc             = xyz
+
+; Dispersion correction
+DispCorr        = EnerPres
+
+; Pressure coupling is off
+pcoupl          = no
+
+; Velocity generation
+gen_vel         = yes
+gen_temp        = 300.0
+gen_seed        = -1

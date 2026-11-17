@@ -1531,6 +1531,7 @@ No need to specify image paths in tool_params - they're extracted from the analy
                 "family": protein_family,
                 "uniprot_id": uniprot_id,
                 "source": identity.get("source"),
+                "study_proteins": identity.get("study_proteins") or [],
             }
 
             # ── Collect analysis stats to drive result-specific queries ──
@@ -1727,9 +1728,13 @@ No need to specify image paths in tool_params - they're extracted from the analy
                         if _room() <= 0:
                             break
 
-            # Protein-specific PubMed themes (aliases first; long names quoted via query gen).
-            _search_names = list(dict.fromkeys(
-                [
+            # A multi-protein goal already has one query per named protein.
+            # A second theme wave repeats those names and trips the PubMed rate limit.
+            _study_genes = list(research_context.get("study_genes") or [])
+            if len(_study_genes) >= 2:
+                _search_names = []
+            else:
+                _search_names = list(dict.fromkeys(
                     n
                     for n in (
                         [gene_name]
@@ -1738,8 +1743,7 @@ No need to specify image paths in tool_params - they're extracted from the analy
                         + list(research_context.get("aliases") or [])
                     )
                     if n
-                ]
-            ))[:6]
+                ))[:6]
             for pname in _search_names:
                 if _room() <= 0:
                     break

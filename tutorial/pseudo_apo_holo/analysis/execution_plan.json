@@ -1,0 +1,126 @@
+{
+  "timestamp": "2026-11-13T20:35:10",
+  "source": "hitl",
+  "task": "Original study goal:\nI want to study the effect of ATP binding on protein dynamics for these four\nPDBs \u2014 p21860.pdb, q8iv63.pdb, q8nb16.pdb, and q8wz42.pdb \u2014 which are available\nin the current working directory. Each PDB has protein + ATP + Mg.\n\nPlease preprocess and set up MD simulations for 1 ns for all PDBs with two\ncomponent cases per structure:\n  1. Protein only (apo)\n  2. Protein + ATP + Mg (holo)\nfor a total of eight simulations. Once setups are done, submit the jobs to HPC.\n\nThe proteins are human pseudokinases (UniProt id : name):\n  p21860: ERBB3, q8iv63: VRK3, q8nb16: MLKL, q8wz42: TITIN.\n\nForce field AMBER99SB-ILDN, TIP3P water, 310 K, 1 bar, 0.15 M NaCl.\n\nFor each system compute:\n  (1) backbone RMSD over time,\n  (2) per-residue RMSF (and an RMSF bar plot near the active-site region,\n      residues 150\u2013200 when present),\n  (3) radius of gyration,\n  (4) COM distance between bound ATP and the catalytic pocket (pocket =\n      protein atoms within 5 \u00c5 of ATP at frame 0) for holo systems,\n  (5) C\u03b1 DCCM, including apo vs holo DCCM differences where both cases exist,\n  (6) DSSP time evolution for the whole protein and the active-site region\n      (residues 150\u2013200 when present).\n\nAfter per-simulation analysis, generate comparative overlay plots and\nstatistical tables across all systems. In the reporter, retrieve relevant\nliterature for each named protein focusing on activation-loop conformations,\nallosteric regulation, and MD or experimental dynamics, and correlate the\nsimulation findings with that literature in the final report.\n\nPost-combined (compare / overlay / family report after all sims) plan from master planner:\nAfter all per\u2011simulation analyses and individual reports are finished, gather the standard output files (rmsd.dat, rmsf.dat, gyration.dat, dccm_heatmap.png, dssp.png, ligand_pocket_distance.csv) from each simulation\u2019s analysis folder. Use the cross\u2011simulation analysis tools to compute overlay plots (e.g., RMSD and RMSF overlays, DCCM difference maps) and statistical tables summarizing mean, std, min, max for each metric across the four proteins and both apo/holo states. Then invoke the reporter to generate a combined HTML report that includes the overlay figures, tables, and a literature review linking the observed dynamics to activation\u2011loop conformations and allosteric regulation for ERBB3, VRK3, MLKL, and TITIN.\n\nUse existing per-simulation analysis outputs under each sim's analysis/ directory (prefer analysis/avg/ when multi-rep). Prefer run_combined_analysis / plot_combined_overlay over recalculating metrics from trajectories. Plan ONLY metrics and deliverables explicitly requested \u2014 do not add classification, clustering, ligand RMSF, DCCM, or other extras unless the goal asks for them.",
+  "reasoning": "The user wants per\u2011simulation MD metrics (RMSD, RMSF, Rg, COM distance, DCCM, DSSP) for eight systems (apo/holo for four proteins) and then cross\u2011simulation overlays and statistics.  The available tools provide all required per\u2011simulation analyses and a set of combined\u2011analysis utilities that can generate overlay plots and summary tables in one call.  We therefore: 1) run the six per\u2011simulation tools in each simulation\u2019s `analysis/` folder; 2) use `run_combined_analysis` to overlay RMSD, RMSF and Rg; 3) use `run_combined_com_distance_analysis` to overlay the ATP\u2011pocket COM distances for the holo runs; 4) use `run_combined_dccm_apo_holo_analysis` to produce the 3\u2011panel DCCM difference figures for each apo/holo pair; 5) keep the DSSP outputs per simulation for later manual inspection or a simple summary table if desired.  No additional classification or clustering steps are requested, so they are omitted.",
+  "overview": "Per\u2011simulation MD metrics are computed, then combined overlays and statistics are generated for RMSD, RMSF, Rg, COM distance, and DCCM differences across the eight protein systems.",
+  "steps": [
+    {
+      "name": "Per\u2011simulation MD metrics",
+      "description": "Generate DSSP secondary\u2011structure time series and heatmaps.",
+      "tool_name": "analyze_secondary_structure",
+      "tool_params": {
+        "topology_file": "{sim_dir}/topol.tpr",
+        "trajectory_file": "{sim_dir}/traj.xtc",
+        "selection": "protein",
+        "output_prefix": "dssp",
+        "create_heatmap": true,
+        "create_time_series": true,
+        "working_dir": "{sim_dir}/analysis"
+      },
+      "reason": "Track secondary\u2011structure evolution."
+    },
+    {
+      "name": "Combined RMSD / RMSF / Rg overlay",
+      "description": "Overlay the three metrics across all eight simulations and produce statistics tables.",
+      "tool_name": "run_combined_analysis",
+      "tool_params": {
+        "sim_dirs": [
+          "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860",
+          "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG",
+          "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8iv63",
+          "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8iv63_ATP_MG",
+          "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8nb16",
+          "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8nb16_ATP_MG",
+          "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42",
+          "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42_ATP_MG"
+        ],
+        "labels": [
+          "p21860",
+          "p21860_ATP_MG",
+          "q8iv63",
+          "q8iv63_ATP_MG",
+          "q8nb16",
+          "q8nb16_ATP_MG",
+          "q8wz42",
+          "q8wz42_ATP_MG"
+        ],
+        "working_dir": ".",
+        "metrics": [
+          "rg",
+          "rmsd",
+          "rmsf"
+        ]
+      },
+      "reason": "Generate overlay plots (`*_overlay.png`) and statistics CSVs (`*_stats.csv`) for the requested metrics."
+    },
+    {
+      "name": "Combined COM distance overlay",
+      "description": "Overlay ATP\u2011pocket COM distances for the holo simulations.",
+      "tool_name": "run_combined_com_distance_analysis",
+      "tool_params": {
+        "sim_dirs": [
+          "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860",
+          "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG",
+          "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8iv63",
+          "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8iv63_ATP_MG",
+          "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8nb16",
+          "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8nb16_ATP_MG",
+          "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42",
+          "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42_ATP_MG"
+        ],
+        "labels": [
+          "p21860",
+          "p21860_ATP_MG",
+          "q8iv63",
+          "q8iv63_ATP_MG",
+          "q8nb16",
+          "q8nb16_ATP_MG",
+          "q8wz42",
+          "q8wz42_ATP_MG"
+        ],
+        "working_dir": "."
+      },
+      "reason": "Produce a single overlay plot of ligand\u2011pocket COM distances across holo runs."
+    },
+    {
+      "name": "Combined DCCM apo/holo difference",
+      "description": "Generate 3\u2011panel DCCM figures (apo, holo, \u0394) for each protein pair.",
+      "tool_name": "run_combined_dccm_apo_holo_analysis",
+      "tool_params": {
+        "sim_dirs": [
+          "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860",
+          "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG",
+          "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8iv63",
+          "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8iv63_ATP_MG",
+          "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8nb16",
+          "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8nb16_ATP_MG",
+          "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42",
+          "/home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/q8wz42_ATP_MG"
+        ],
+        "labels": [
+          "p21860",
+          "p21860_ATP_MG",
+          "q8iv63",
+          "q8iv63_ATP_MG",
+          "q8nb16",
+          "q8nb16_ATP_MG",
+          "q8wz42",
+          "q8wz42_ATP_MG"
+        ],
+        "working_dir": "."
+      },
+      "reason": "Create the 3\u2011panel DCCM comparison figures for each apo/holo pair."
+    }
+  ],
+  "potential_issues": [
+    "The per\u2011simulation tools assume the presence of `topol.tpr` and `traj.xtc` in each simulation directory; if the file names differ, the paths must be adjusted.",
+    "The combined COM distance analysis only includes holo runs; if a holo run is missing, the overlay will be incomplete.",
+    "DSSP outputs are not automatically combined into a single overlay; manual inspection or a custom table may be required."
+  ],
+  "recommendations": [
+    "Verify that each simulation directory contains the expected topology and trajectory files before running the per\u2011simulation steps.",
+    "After the combined analyses, review the generated overlay PNGs and stats CSVs to ensure all eight simulations are represented.",
+    "If a DSSP summary table is desired, extract the `ss_percentages.json` files from each `analysis/` folder and compute mean/median values manually or with a simple script."
+  ]
+}

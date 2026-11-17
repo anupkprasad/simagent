@@ -2175,7 +2175,8 @@ def _find_dccm_diff_heatmap_plots(overlay_plots: List[str]) -> List[str]:
             continue
         if "comparison" in name:
             continue
-        if "diff" in name or "difference" in name:
+        # Line plots of the same Δ matrix repeat the heatmap. Keep the heatmap.
+        if "heatmap" in name and ("diff" in name or "difference" in name):
             plots.append(p)
     return sorted(plots, key=lambda p: Path(p).name.lower())
 

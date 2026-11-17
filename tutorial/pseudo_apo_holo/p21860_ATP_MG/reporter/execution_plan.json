@@ -1,0 +1,88 @@
+{
+  "timestamp": "N/A",
+  "reasoning": "The user requires a single, comprehensive HTML report summarizing the analysis of eight 1\u202fns MD trajectories (four proteins, apo/holo). The provided JSONL file contains all computed metrics and image paths, so parsing it yields the necessary data for the report. To satisfy the literature\u2011correlation requirement, we perform PubMed searches for each protein focusing on activation\u2011loop dynamics and allosteric regulation. The resulting citations are passed to the report generator. The report will embed the analysis plots, display key statistics, and provide the literature context in a clean, professional layout.",
+  "overview": "Generate a unified report (report.html) that: 1) Parses analysis_summary.jsonl; 2) Retrieves relevant PubMed references; 3) Uses `generate_html_report` to create an HTML file containing all visualizations, statistics, and literature commentary.",
+  "report_focus": [
+    "Cross\u2011comparison of apo vs. holo dynamics for ERBB3, VRK3, MLKL, and TITIN",
+    "Correlation of activation\u2011loop RMSF and DSSP changes with ATP binding",
+    "Allosteric coupling revealed by DCCM differences and COM\u2011distance analysis"
+  ],
+  "literature_queries": [
+    "ERBB3 activation loop dynamics",
+    "VRK3 kinase activation loop regulation",
+    "MLKL allosteric regulation activation loop",
+    "Titin elastic domain dynamics"
+  ],
+  "estimated_complexity": "medium",
+  "steps": [
+    {
+      "name": "Read Analysis Summary",
+      "description": "Load and parse the analysis results, statistics, and image file paths from analysis_summary.jsonl.",
+      "tool_name": "read_analysis_summary",
+      "tool_params": {
+        "summary_file": "analysis_summary.jsonl"
+      },
+      "reason": "Need the analysis data to populate the report."
+    },
+    {
+      "name": "Search PubMed for ERBB3",
+      "description": "Retrieve recent literature on ERBB3 activation\u2011loop dynamics and allosteric regulation.",
+      "tool_name": "search_pubmed",
+      "tool_params": {
+        "query": "ERBB3 activation loop dynamics",
+        "max_results": 3,
+        "include_abstracts": true,
+        "max_age_years": null
+      },
+      "reason": "Gather references for literature correlation."
+    },
+    {
+      "name": "Search PubMed for VRK3",
+      "description": "Retrieve recent literature on VRK3 kinase regulation and activation\u2011loop behavior.",
+      "tool_name": "search_pubmed",
+      "tool_params": {
+        "query": "VRK3 kinase activation loop regulation",
+        "max_results": 3,
+        "include_abstracts": true,
+        "max_age_years": null
+      },
+      "reason": "Gather references for literature correlation."
+    },
+    {
+      "name": "Search PubMed for MLKL",
+      "description": "Retrieve recent literature on MLKL allosteric regulation and activation\u2011loop dynamics.",
+      "tool_name": "search_pubmed",
+      "tool_params": {
+        "query": "MLKL allosteric regulation activation loop",
+        "max_results": 3,
+        "include_abstracts": true,
+        "max_age_years": null
+      },
+      "reason": "Gather references for literature correlation."
+    },
+    {
+      "name": "Search PubMed for TITIN",
+      "description": "Retrieve recent literature on TITIN elastic domain dynamics and activation\u2011loop related movements.",
+      "tool_name": "search_pubmed",
+      "tool_params": {
+        "query": "Titin elastic domain dynamics",
+        "max_results": 3,
+        "include_abstracts": true,
+        "max_age_years": null
+      },
+      "reason": "Gather references for literature correlation."
+    },
+    {
+      "name": "Generate HTML Report",
+      "description": "Create a comprehensive HTML report that embeds all analysis plots, displays key statistics, and includes the collected literature references.",
+      "tool_name": "generate_html_report",
+      "tool_params": {
+        "analysis_data": "${{analysis_data}}",
+        "literature_refs": "${{literature_refs}}",
+        "report_type": "comprehensive",
+        "output_file": "report.html"
+      },
+      "reason": "Produce the final deliverable."
+    }
+  ]
+}

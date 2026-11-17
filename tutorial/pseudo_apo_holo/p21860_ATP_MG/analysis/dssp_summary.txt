@@ -1,0 +1,26 @@
+
+DSSP Secondary Structure Analysis Summary
+==========================================
+
+Trajectory Information:
+  - Topology: /home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/hpc/md.tpr
+  - Trajectory: /home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/hpc/mdWrap.xtc
+  - Selection: protein
+  - Frames analyzed: 11
+  - Residues analyzed: 257
+
+Average Secondary Structure Content:
+  - α-helix      (H):  37.46% ±  1.57%
+  - β-strand     (E):  15.25% ±  0.57%
+  - 3-helix      (G):   0.00% ±  0.00%
+  - π-helix      (I):   0.00% ±  0.00%
+  - Turn         (T):   0.00% ±  0.00%
+  - Bend         (S):   0.00% ±  0.00%
+  - β-bridge     (B):   0.00% ±  0.00%
+  - Coil         (-):  47.29% ±  1.75%
+
+Output Files:
+  - raw_data       : /home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/analysis/dssp_raw_data.dat
+  - percentages    : /home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/analysis/dssp_percentages.dat
+  - heatmap        : /home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/analysis/dssp_heatmap.png
+  - timeseries     : /home/akp66103/workspace/simagent/tutorial/pseudo_apo_holo/p21860_ATP_MG/analysis/dssp_timeseries.png

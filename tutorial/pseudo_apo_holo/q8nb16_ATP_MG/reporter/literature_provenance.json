@@ -1,0 +1,1121 @@
+{
+  "pipeline": "evidence_grounded_literature_v1",
+  "steps": {
+    "1_observations": {
+      "n": 8,
+      "observations": [
+        {
+          "id": "obs_rmsd_1",
+          "kind": "rmsd_stability",
+          "analysis_type": "RMSD",
+          "statement": "dynamics: modest backbone RMSD / local conformational stability (mean 1.35 \u00c5, max 1.71 \u00c5)",
+          "metrics": {
+            "mean_rmsd_angstrom": 1.346,
+            "std_rmsd_angstrom": 0.443,
+            "min_rmsd_angstrom": 0.0,
+            "max_rmsd_angstrom": 1.712
+          },
+          "keywords": [
+            "rmsd",
+            "conformational stability",
+            "backbone",
+            "molecular dynamics"
+          ]
+        },
+        {
+          "id": "obs_rmsf_2",
+          "kind": "rmsf_hotspots",
+          "analysis_type": "RMSF",
+          "statement": "dynamics: RMSF hotspots / flexible sites: THR80 (2.26 \u00c5), GLU79 (1.81 \u00c5), GLY10 (1.71 \u00c5), SER167 (1.70 \u00c5), SER11 (1.67 \u00c5)",
+          "metrics": {
+            "mean_rmsf_angstrom": 0.709,
+            "most_flexible_residue": 80,
+            "most_flexible_rmsf": 2.256,
+            "top_flexible": [
+              "THR80 (2.26 \u00c5)",
+              "GLU79 (1.81 \u00c5)",
+              "GLY10 (1.71 \u00c5)",
+              "SER167 (1.70 \u00c5)",
+              "SER11 (1.67 \u00c5)"
+            ]
+          },
+          "keywords": [
+            "rmsf",
+            "flexibility",
+            "flexible loop",
+            "hotspot",
+            "residue fluctuation",
+            "THR80",
+            "GLU79",
+            "GLY10"
+          ]
+        },
+        {
+          "id": "obs_rmsf_3",
+          "kind": "rmsf_hotspots",
+          "analysis_type": "RMSF",
+          "statement": "dynamics: RMSF hotspots / flexible sites: SER167 (1.70 \u00c5), MET166 (1.50 \u00c5), GLN163 (1.48 \u00c5), THR164 (1.43 \u00c5), SER165 (1.40 \u00c5)",
+          "metrics": {
+            "mean_rmsf_angstrom": 0.835,
+            "most_flexible_residue": 167,
+            "most_flexible_rmsf": 1.702,
+            "top_flexible": [
+              "SER167 (1.70 \u00c5)",
+              "MET166 (1.50 \u00c5)",
+              "GLN163 (1.48 \u00c5)",
+              "THR164 (1.43 \u00c5)",
+              "SER165 (1.40 \u00c5)"
+            ]
+          },
+          "keywords": [
+            "rmsf",
+            "flexibility",
+            "flexible loop",
+            "hotspot",
+            "residue fluctuation",
+            "SER167",
+            "MET166",
+            "GLN163"
+          ]
+        },
+        {
+          "id": "obs_rg_4",
+          "kind": "compactness",
+          "analysis_type": "Radius_of_Gyration",
+          "statement": "dynamics: radius of gyration / compactness (mean 19.559 \u00c5)",
+          "metrics": {
+            "n_frames": 11,
+            "mean_rg_angstrom": 19.559,
+            "std_rg_angstrom": 0.092,
+            "min_rg_angstrom": 19.326,
+            "max_rg_angstrom": 19.651
+          },
+          "keywords": [
+            "radius of gyration",
+            "compactness",
+            "folding",
+            "stability",
+            "molecular dynamics"
+          ]
+        },
+        {
+          "id": "obs_dccm_5",
+          "kind": "correlated_motions",
+          "analysis_type": "DCCM",
+          "statement": "dynamics: correlated motions / allosteric coupling observed",
+          "metrics": {
+            "n_atoms": 276,
+            "n_residues": 276,
+            "n_frames_used": 3,
+            "mean_abs_correlation": 0.395,
+            "n_strongly_correlated_pairs": 50
+          },
+          "keywords": [
+            "dccm",
+            "correlated motion",
+            "allosteric",
+            "communication"
+          ]
+        },
+        {
+          "id": "obs_dccm_6",
+          "kind": "correlated_motions",
+          "analysis_type": "DCCM",
+          "statement": "dynamics: correlated motions / allosteric coupling observed",
+          "metrics": {
+            "n_atoms": 276,
+            "n_residues": 276,
+            "n_frames_used": 3,
+            "mean_abs_correlation": 0.395,
+            "n_strongly_correlated_pairs": 50
+          },
+          "keywords": [
+            "dccm",
+            "correlated motion",
+            "allosteric",
+            "communication"
+          ]
+        },
+        {
+          "id": "obs_ligand_7",
+          "kind": "ligand_or_pocket",
+          "analysis_type": "Ligand_Pocket_COM_Distance",
+          "statement": "dynamics: ligand/pocket dynamics from Ligand_Pocket_COM_Distance",
+          "metrics": {
+            "n_frames": 11,
+            "cutoff_angstrom": 5.0,
+            "n_pocket_atoms": 197,
+            "mean_distance_angstrom": 2.266,
+            "std_distance_angstrom": 0.263,
+            "min_distance_angstrom": 1.839,
+            "max_distance_angstrom": 2.774
+          },
+          "keywords": [
+            "ligand",
+            "binding",
+            "pocket",
+            "displacement",
+            "residence"
+          ]
+        },
+        {
+          "id": "obs_ligand_8",
+          "kind": "ligand_or_pocket",
+          "analysis_type": "INTER_COM_Distance_Protein_vs_ATP",
+          "statement": "dynamics: ligand/pocket dynamics from INTER_COM_Distance_Protein_vs_ATP",
+          "metrics": {
+            "n_frames": 11,
+            "mean_distance_angstrom": 8.937,
+            "std_distance_angstrom": 0.234,
+            "min_distance_angstrom": 8.332,
+            "max_distance_angstrom": 9.184
+          },
+          "keywords": [
+            "ligand",
+            "binding",
+            "pocket",
+            "displacement",
+            "residence"
+          ]
+        }
+      ]
+    },
+    "2_queries": {
+      "n": 47,
+      "queries": {
+        "alias_0_dynamics": "dynamics molecular dynamics",
+        "alias_0_flexibility": "dynamics conformational flexibility",
+        "alias_0_functional": "dynamics functional study",
+        "alias_0_computational": "dynamics (computational OR \"molecular dynamics\" OR simulation)",
+        "protein_0_dynamics": "dynamics protein dynamics molecular dynamics",
+        "protein_0_mechanism": "dynamics mechanism structure function molecular dynamics",
+        "protein_0_function": "dynamics ligand allosteric structure dynamics",
+        "protein_dynamics": "dynamics molecular dynamics simulation",
+        "protein_function": "dynamics structure function",
+        "protein_functional_study": "dynamics functional study OR deficiency OR knockout",
+        "protein_computational_study": "dynamics computational study OR molecular dynamics OR simulation",
+        "protein_context": "dynamics ligand allosteric molecular dynamics",
+        "protein_goal_context": "dynamics alloster holo",
+        "protein_biology": "dynamics allosteric",
+        "protein_family_review": "dynamics pseudokinase structure function review",
+        "theme_family_dynamics": "pseudokinase ligand domain molecular dynamics simulation",
+        "theme_family_flexibility": "pseudokinase apo flexibility residue dynamics",
+        "theme_related_kinase": "kinase molecular dynamics conformational",
+        "theme_related_allosteric": "allosteric molecular dynamics conformational",
+        "ligand_effect": "dynamics atp binding protein dynamics simulation",
+        "allosteric_dccm": "dynamics allosteric communication correlated motion molecular dynamics",
+        "method_RMSD": "dynamics RMSD stability molecular dynamics",
+        "theme_method_RMSD": "pseudokinase RMSD stability molecular dynamics",
+        "method_RMSF": "dynamics RMSF residue flexibility dynamics",
+        "theme_method_RMSF": "pseudokinase RMSF residue flexibility dynamics",
+        "method_Radius_of_Gyration": "dynamics radius of gyration compactness",
+        "theme_method_Radius_of_Gyration": "pseudokinase radius of gyration compactness",
+        "method_Ligand_Pocket_COM_Distance": "dynamics Ligand_Pocket_COM_Distance molecular dynamics",
+        "theme_method_Ligand_Pocket_COM_Distance": "pseudokinase Ligand_Pocket_COM_Distance molecular dynamics",
+        "method_INTER_COM_Distance_Protein_vs_ATP": "dynamics INTER_COM_Distance_Protein_vs_ATP molecular dynamics",
+        "theme_method_INTER_COM_Distance_Protein_vs_ATP": "pseudokinase INTER_COM_Distance_Protein_vs_ATP molecular dynamics",
+        "method_DSSP_SecondaryStructure": "dynamics DSSP_SecondaryStructure molecular dynamics",
+        "theme_method_DSSP_SecondaryStructure": "pseudokinase DSSP_SecondaryStructure molecular dynamics",
+        "result_rmsd": "dynamics pseudokinase conformational stability RMSD molecular dynamics",
+        "theme_result_rmsd": "pseudokinase conformational stability RMSD molecular dynamics",
+        "result_rmsf": "dynamics pseudokinase residue flexibility RMSF domain molecular dynamics",
+        "theme_result_rmsf": "pseudokinase residue flexibility RMSF domain molecular dynamics",
+        "result_rg": "dynamics pseudokinase radius of gyration domain stability molecular dynamics",
+        "theme_result_rg": "pseudokinase radius of gyration domain stability molecular dynamics",
+        "hypothesis_objective": "dynamics alloster holo molecular dynamics",
+        "theme_objective": "alloster holo molecular dynamics protein structure",
+        "theme_family_structure": "pseudokinase ligand structure function conformational dynamics",
+        "theme_ligand": "atp binding protein molecular dynamics simulation",
+        "_fallback_general": "molecular dynamics protein conformational stability review",
+        "obs_rmsf_hotspots": "dynamics SER167 MET166 GLN163 flexibility molecular dynamics",
+        "theme_obs_flexibility": "protein residue flexibility RMSF activation loop molecular dynamics",
+        "theme_obs_allostery": "dynamics allosteric correlated motions molecular dynamics"
+      }
+    },
+    "2_gather": {
+      "n_candidates": 28,
+      "source_counts": {
+        "unknown": 28
+      },
+      "candidates": [
+        {
+          "title": "Atomistic Simulations of Sarcomere Proteins.",
+          "year": 2024,
+          "pmid": "38038842",
+          "doi": "10.1007/978-1-0716-3527-8_3",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/38038842/",
+          "query_key": "pubmed:alias_0_dynamics"
+        },
+        {
+          "title": "Generative molecular dynamics.",
+          "year": 2026,
+          "pmid": "41544599",
+          "doi": "10.1016/j.sbi.2025.103213",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/41544599/",
+          "query_key": "pubmed:alias_0_dynamics"
+        },
+        {
+          "title": "Computer-Assisted Design and Characterization of RNA Nanostructures.",
+          "year": 2023,
+          "pmid": "37572271",
+          "doi": "10.1007/978-1-0716-3417-2_2",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37572271/",
+          "query_key": "pubmed:alias_0_dynamics"
+        },
+        {
+          "title": "Ligand-Binding Calculations with Metadynamics.",
+          "year": 2019,
+          "pmid": "31396906",
+          "doi": "10.1007/978-1-4939-9608-7_10",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31396906/",
+          "query_key": "pubmed:alias_0_dynamics"
+        },
+        {
+          "title": "Discrete analyses of protein dynamics.",
+          "year": 2020,
+          "pmid": "31361191",
+          "doi": "10.1080/07391102.2019.1650112",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31361191/",
+          "query_key": "pubmed:alias_0_flexibility"
+        },
+        {
+          "title": "Carbohydrate Structure Database oligosaccharide conformation tool.",
+          "year": 2022,
+          "pmid": "35275211",
+          "doi": "10.1093/glycob/cwac011",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35275211/",
+          "query_key": "pubmed:alias_0_flexibility"
+        },
+        {
+          "title": "Ensemble determination by NMR data deconvolution.",
+          "year": 2023,
+          "pmid": "37169885",
+          "doi": "10.1038/s41570-023-00494-x",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37169885/",
+          "query_key": "pubmed:alias_0_flexibility"
+        },
+        {
+          "title": "Dynamic allostery in substrate binding by human thymidylate synthase.",
+          "year": 2022,
+          "pmid": "36200982",
+          "doi": "10.7554/eLife.79915",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/36200982/",
+          "query_key": "pubmed:alias_0_flexibility"
+        },
+        {
+          "title": "Shared structural mechanisms of general anaesthetics and benzodiazepines.",
+          "year": 2020,
+          "pmid": "32879488",
+          "doi": "10.1038/s41586-020-2654-5",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32879488/",
+          "query_key": "pubmed:protein_0_mechanism"
+        },
+        {
+          "title": "Can Nanoplastics Alter Cell Membranes?",
+          "year": 2020,
+          "pmid": "31483076",
+          "doi": "10.1002/cphc.201900481",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31483076/",
+          "query_key": "pubmed:protein_0_mechanism"
+        },
+        {
+          "title": "Illuminating ligand-induced dynamics in nuclear receptors through MD simulations.",
+          "year": 2024,
+          "pmid": "38614450",
+          "doi": "10.1016/j.bbagrm.2024.195025",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/38614450/",
+          "query_key": "pubmed:protein_0_mechanism"
+        },
+        {
+          "title": "Atomic-level characterization of protein-protein association.",
+          "year": 2019,
+          "pmid": "30760596",
+          "doi": "10.1073/pnas.1815431116",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/30760596/",
+          "query_key": "pubmed:protein_0_mechanism"
+        },
+        {
+          "title": "Directed Mutagenesis of Catalytic Residues in L-Asparaginase II from Salmonella paratyphi: Structural, Functional and Stability Analysis Using In-Vitro, Docking and Simulation Stud",
+          "year": 2026,
+          "pmid": "42479387",
+          "doi": "10.1007/s12010-026-05838-z",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42479387/",
+          "query_key": "pubmed:method_DSSP_SecondaryStructure"
+        },
+        {
+          "title": "Uncovering protein structure.",
+          "year": 2020,
+          "pmid": "32975287",
+          "doi": "10.1042/EBC20190042",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32975287/",
+          "query_key": "pubmed_theme:dynamics"
+        },
+        {
+          "title": "The endoplasmic reticulum: structure, function and response to cellular signaling.",
+          "year": 2016,
+          "pmid": "26433683",
+          "doi": "10.1007/s00018-015-2052-6",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/26433683/",
+          "query_key": "pubmed_theme:dynamics"
+        },
+        {
+          "title": "Microtubules and Microtubule-Associated Proteins.",
+          "year": 2018,
+          "pmid": "29858272",
+          "doi": "10.1101/cshperspect.a022608",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/29858272/",
+          "query_key": "pubmed_theme:dynamics"
+        },
+        {
+          "title": "Society for Endocrinology Clinical Practice Guideline for the Evaluation of Androgen Excess in Women.",
+          "year": 2025,
+          "pmid": "40364581",
+          "doi": "10.1111/cen.15265",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/40364581/",
+          "query_key": "pubmed_theme:dynamics"
+        },
+        {
+          "title": "Adaptive Deep Brain Stimulation: From Experimental Evidence Toward Practical Implementation.",
+          "year": 2023,
+          "pmid": "37148553",
+          "doi": "10.1002/mds.29415",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37148553/",
+          "query_key": "pubmed_theme:dynamics"
+        },
+        {
+          "title": "Multifaceted Computational Modeling in Glycoscience.",
+          "year": 2022,
+          "pmid": "35786859",
+          "doi": "10.1021/acs.chemrev.2c00060",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35786859/",
+          "query_key": "pubmed_theme:dynamics"
+        },
+        {
+          "title": "All-atom simulations to studying metallodrugs/target interactions.",
+          "year": 2021,
+          "pmid": "32781390",
+          "doi": "10.1016/j.cbpa.2020.07.005",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32781390/",
+          "query_key": "pubmed_theme:dynamics"
+        },
+        {
+          "title": "Pouring SIRAH on NAMD.",
+          "year": 2024,
+          "pmid": "39322588",
+          "doi": "10.1021/acs.jpcb.4c03278",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39322588/",
+          "query_key": "pubmed_theme:dynamics"
+        },
+        {
+          "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+          "year": 2022,
+          "pmid": "35108525",
+          "doi": "10.1016/j.celrep.2021.110291",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35108525/",
+          "query_key": "pubmed_theme:dynamics"
+        },
+        {
+          "title": "Structural Insights into Pseudokinase Domains of Receptor Tyrosine Kinases.",
+          "year": 2020,
+          "pmid": "32619402",
+          "doi": "10.1016/j.molcel.2020.06.018",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32619402/",
+          "query_key": "pubmed_theme:dynamics"
+        },
+        {
+          "title": "Triple-action inhibitory mechanism of allosteric TYK2-specific inhibitors.",
+          "year": 2023,
+          "pmid": "37873392",
+          "doi": "10.1101/2023.10.09.561507",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37873392/",
+          "query_key": "pubmed_theme:dynamics"
+        },
+        {
+          "title": "Function of P2X4 Receptors Is Directly Modulated by a 1:1 Stoichiometric Interaction With 5-HT<sub>3</sub>A Receptors.",
+          "year": 2020,
+          "pmid": "32431598",
+          "doi": "10.3389/fncel.2020.00106",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32431598/",
+          "query_key": "pubmed_theme:dynamics"
+        },
+        {
+          "title": "Substrate Binding Specifically Modulates Domain Arrangements in Adenylate Kinase.",
+          "year": 2015,
+          "pmid": "26536274",
+          "doi": "10.1016/j.bpj.2015.08.049",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/26536274/",
+          "query_key": "pubmed_theme:dynamics"
+        },
+        {
+          "title": "Interplay of substrate polymorphism and conformational plasticity of Plasmodium tyrosyl-tRNA synthetase.",
+          "year": 2021,
+          "pmid": "34571426",
+          "doi": "10.1016/j.compbiolchem.2021.107582",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/34571426/",
+          "query_key": "pubmed_theme:dynamics"
+        },
+        {
+          "title": "Discovery of Covalent MLKL PROTAC Degraders via Optimization of a Theophylline Derivative Ligand for Treating Necroptosis.",
+          "year": 2024,
+          "pmid": "39180479",
+          "doi": "10.1021/acs.jmedchem.4c00949",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39180479/",
+          "query_key": "pubmed:theme_family_dynamics"
+        }
+      ]
+    },
+    "3_rank_screen": {
+      "n_ranked": 12,
+      "max_refs": 12,
+      "aliases_used": [
+        "dynamics"
+      ],
+      "ranked": [
+        {
+          "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+          "year": 2022,
+          "pmid": "35108525",
+          "doi": "10.1016/j.celrep.2021.110291",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35108525/",
+          "relevance_note": "Mentions: dynamics",
+          "query_key": "pubmed_theme:dynamics",
+          "score": 96,
+          "matched_aliases": [
+            "dynamics"
+          ]
+        },
+        {
+          "title": "Interplay of substrate polymorphism and conformational plasticity of Plasmodium tyrosyl-tRNA synthetase.",
+          "year": 2021,
+          "pmid": "34571426",
+          "doi": "10.1016/j.compbiolchem.2021.107582",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/34571426/",
+          "relevance_note": "Mentions: dynamics",
+          "query_key": "pubmed_theme:dynamics",
+          "score": 90,
+          "matched_aliases": [
+            "dynamics"
+          ]
+        },
+        {
+          "title": "Function of P2X4 Receptors Is Directly Modulated by a 1:1 Stoichiometric Interaction With 5-HT<sub>3</sub>A Receptors.",
+          "year": 2020,
+          "pmid": "32431598",
+          "doi": "10.3389/fncel.2020.00106",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32431598/",
+          "relevance_note": "Mentions: dynamics",
+          "query_key": "pubmed_theme:dynamics",
+          "score": 83,
+          "matched_aliases": [
+            "dynamics"
+          ]
+        },
+        {
+          "title": "Substrate Binding Specifically Modulates Domain Arrangements in Adenylate Kinase.",
+          "year": 2015,
+          "pmid": "26536274",
+          "doi": "10.1016/j.bpj.2015.08.049",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/26536274/",
+          "relevance_note": "Mentions: dynamics",
+          "query_key": "pubmed_theme:dynamics",
+          "score": 74,
+          "matched_aliases": [
+            "dynamics"
+          ]
+        },
+        {
+          "title": "Triple-action inhibitory mechanism of allosteric TYK2-specific inhibitors.",
+          "year": 2023,
+          "pmid": "37873392",
+          "doi": "10.1101/2023.10.09.561507",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37873392/",
+          "relevance_note": "Mentions: dynamics",
+          "query_key": "pubmed_theme:dynamics",
+          "score": 73,
+          "matched_aliases": [
+            "dynamics"
+          ]
+        },
+        {
+          "title": "Discovery of Covalent MLKL PROTAC Degraders via Optimization of a Theophylline Derivative Ligand for Treating Necroptosis.",
+          "year": 2024,
+          "pmid": "39180479",
+          "doi": "10.1021/acs.jmedchem.4c00949",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39180479/",
+          "relevance_note": "Mentions: dynamics",
+          "query_key": "pubmed:theme_family_dynamics",
+          "score": 69,
+          "matched_aliases": [
+            "dynamics"
+          ]
+        },
+        {
+          "title": "Illuminating ligand-induced dynamics in nuclear receptors through MD simulations.",
+          "year": 2024,
+          "pmid": "38614450",
+          "doi": "10.1016/j.bbagrm.2024.195025",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/38614450/",
+          "relevance_note": "Mentions: dynamics",
+          "query_key": "pubmed:protein_0_mechanism",
+          "score": 66,
+          "matched_aliases": [
+            "dynamics"
+          ]
+        },
+        {
+          "title": "Shared structural mechanisms of general anaesthetics and benzodiazepines.",
+          "year": 2020,
+          "pmid": "32879488",
+          "doi": "10.1038/s41586-020-2654-5",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32879488/",
+          "relevance_note": "Mentions: dynamics",
+          "query_key": "pubmed:protein_0_mechanism",
+          "score": 60,
+          "matched_aliases": [
+            "dynamics"
+          ]
+        },
+        {
+          "title": "Structural Insights into Pseudokinase Domains of Receptor Tyrosine Kinases.",
+          "year": 2020,
+          "pmid": "32619402",
+          "doi": "10.1016/j.molcel.2020.06.018",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32619402/",
+          "relevance_note": "Matches family / dynamics / analysis themes",
+          "query_key": "pubmed_theme:dynamics",
+          "score": 50
+        },
+        {
+          "title": "Dynamic allostery in substrate binding by human thymidylate synthase.",
+          "year": 2022,
+          "pmid": "36200982",
+          "doi": "10.7554/eLife.79915",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/36200982/",
+          "relevance_note": "Matches family / dynamics / analysis themes",
+          "query_key": "pubmed:alias_0_flexibility",
+          "score": 39
+        },
+        {
+          "title": "Discrete analyses of protein dynamics.",
+          "year": 2020,
+          "pmid": "31361191",
+          "doi": "10.1080/07391102.2019.1650112",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31361191/",
+          "relevance_note": "Mentions: dynamics",
+          "query_key": "pubmed:alias_0_flexibility",
+          "score": 59,
+          "matched_aliases": [
+            "dynamics"
+          ]
+        },
+        {
+          "title": "Directed Mutagenesis of Catalytic Residues in L-Asparaginase II from Salmonella paratyphi: Structural, Functional and Stability Analysis Using In-Vitro, Docking and Simulation Stud",
+          "year": 2026,
+          "pmid": "42479387",
+          "doi": "10.1007/s12010-026-05838-z",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42479387/",
+          "relevance_note": "Mentions: dynamics",
+          "query_key": "pubmed:method_DSSP_SecondaryStructure",
+          "score": 52,
+          "matched_aliases": [
+            "dynamics"
+          ]
+        }
+      ]
+    },
+    "4_evidence_passages": {
+      "n_refs_examined": 5,
+      "evidence": [
+        {
+          "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+          "pmid": "35108525",
+          "doi": "10.1016/j.celrep.2021.110291",
+          "pmcid": "PMC8889928",
+          "source": null,
+          "evidence_source": "abstract",
+          "passages": [
+            "Mutational disruption of ATP binding and molecular dynamics simulation of the apo KD of HER3 identify a conformational coupling of the ATP pocket with a hydrophobic AP-2 pocket, analogous to EGFR, that is critical for tumorigenic signaling and feasible for targeting."
+          ],
+          "relevance_note": "Mentions: dynamics"
+        },
+        {
+          "title": "Interplay of substrate polymorphism and conformational plasticity of Plasmodium tyrosyl-tRNA synthetase.",
+          "pmid": "34571426",
+          "doi": "10.1016/j.compbiolchem.2021.107582",
+          "pmcid": null,
+          "source": null,
+          "evidence_source": "abstract",
+          "passages": [
+            "Molecular dynamics simulations of PfTyrRS in the presence and absence of ligand show conformational heterogeneity for both the protein and the bound ligand."
+          ],
+          "relevance_note": "Mentions: dynamics"
+        },
+        {
+          "title": "Function of P2X4 Receptors Is Directly Modulated by a 1:1 Stoichiometric Interaction With 5-HT<sub>3</sub>A Receptors.",
+          "pmid": "32431598",
+          "doi": "10.3389/fncel.2020.00106",
+          "pmcid": "PMC7214622",
+          "source": null,
+          "evidence_source": "europe_pmc_fulltext",
+          "passages": [
+            "Also, macromolecular docking followed by 100 ns molecular dynamics (MD) simulations suggested that the interaction energy of the P2X4 receptor with 5-HT 3 A receptor is similar at the holo and the apo state of the P2X4 receptor, and the interacting 5-HT 3 A receptor decreased the ATP binding energy of P2X4 receptor.",
+            "Herein, via pull-down assay of interacting receptors, AFM imaging, macromolecular docking, molecular dynamics (MD) simulations, and total internal reflection fluorescence (TIRF) microscopy analysis, we propose that P2X4 receptor physically interacts in a 1:1 stoichiometric manner with 5-HT 3 A receptor, which is maintained after ATP binding.",
+            "Interaction energy values for both complexes are indicated as mean \u00b1 SE after 100 ns molecular dynamics (MD) simulations."
+          ],
+          "relevance_note": "Mentions: dynamics"
+        },
+        {
+          "title": "Substrate Binding Specifically Modulates Domain Arrangements in Adenylate Kinase.",
+          "pmid": "26536274",
+          "doi": "10.1016/j.bpj.2015.08.049",
+          "pmcid": "PMC4643206",
+          "source": null,
+          "evidence_source": "abstract",
+          "passages": [
+            "We employed molecular dynamics simulations to systematically investigate how the individual domain motions are modulated by the binding of substrates."
+          ],
+          "relevance_note": "Mentions: dynamics"
+        },
+        {
+          "title": "Triple-action inhibitory mechanism of allosteric TYK2-specific inhibitors.",
+          "pmid": "37873392",
+          "doi": "10.1101/2023.10.09.561507",
+          "pmcid": "PMC10592677",
+          "source": null,
+          "evidence_source": "europe_pmc_fulltext",
+          "passages": [
+            "All protein kinases have 11 conserved motifs for folding of a bilobal structure, including a \u03b2-barrel like N-terminal lobe, and a helical C-terminal lobe ( Fig.",
+            "The adenine base is recognized by backbone H bonds of a short \u03b2-stretch beginning with Glu, in the (M978)-EYVF motif in TYK2 JH1, located on the backside of the cleft.",
+            "These differences might suggest different stability of the autoinhibited states of different JAK enzymes."
+          ],
+          "relevance_note": "Mentions: dynamics"
+        }
+      ]
+    },
+    "5_compare_evidence": {
+      "n_observations": 8,
+      "comparisons": [
+        {
+          "observation_id": "obs_rmsd_1",
+          "observation": "dynamics: modest backbone RMSD / local conformational stability (mean 1.35 \u00c5, max 1.71 \u00c5)",
+          "kind": "rmsd_stability",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "abstract",
+              "passage": "Mutational disruption of ATP binding and molecular dynamics simulation of the apo KD of HER3 identify a conformational coupling of the ATP pocket with a hydrophobic AP-2 pocket, analogous to EGFR, that is critical for tumorigenic signaling and feasible for targeting."
+            },
+            {
+              "title": "Interplay of substrate polymorphism and conformational plasticity of Plasmodium tyrosyl-tRNA synthetase.",
+              "pmid": "34571426",
+              "doi": "10.1016/j.compbiolchem.2021.107582",
+              "evidence_source": "abstract",
+              "passage": "Molecular dynamics simulations of PfTyrRS in the presence and absence of ligand show conformational heterogeneity for both the protein and the bound ligand."
+            },
+            {
+              "title": "Function of P2X4 Receptors Is Directly Modulated by a 1:1 Stoichiometric Interaction With 5-HT<sub>3</sub>A Receptors.",
+              "pmid": "32431598",
+              "doi": "10.3389/fncel.2020.00106",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "Also, macromolecular docking followed by 100 ns molecular dynamics (MD) simulations suggested that the interaction energy of the P2X4 receptor with 5-HT 3 A receptor is similar at the holo and the apo state of the P2X4 receptor, and the interacting 5-HT 3 A receptor decreased the ATP binding energy "
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsf_2",
+          "observation": "dynamics: RMSF hotspots / flexible sites: THR80 (2.26 \u00c5), GLU79 (1.81 \u00c5), GLY10 (1.71 \u00c5), SER167 (1.70 \u00c5), SER11 (1.67 \u00c5)",
+          "kind": "rmsf_hotspots",
+          "category": "not_addressed",
+          "supporting": [],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsf_3",
+          "observation": "dynamics: RMSF hotspots / flexible sites: SER167 (1.70 \u00c5), MET166 (1.50 \u00c5), GLN163 (1.48 \u00c5), THR164 (1.43 \u00c5), SER165 (1.40 \u00c5)",
+          "kind": "rmsf_hotspots",
+          "category": "not_addressed",
+          "supporting": [],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rg_4",
+          "observation": "dynamics: radius of gyration / compactness (mean 19.559 \u00c5)",
+          "kind": "compactness",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "abstract",
+              "passage": "Mutational disruption of ATP binding and molecular dynamics simulation of the apo KD of HER3 identify a conformational coupling of the ATP pocket with a hydrophobic AP-2 pocket, analogous to EGFR, that is critical for tumorigenic signaling and feasible for targeting."
+            },
+            {
+              "title": "Interplay of substrate polymorphism and conformational plasticity of Plasmodium tyrosyl-tRNA synthetase.",
+              "pmid": "34571426",
+              "doi": "10.1016/j.compbiolchem.2021.107582",
+              "evidence_source": "abstract",
+              "passage": "Molecular dynamics simulations of PfTyrRS in the presence and absence of ligand show conformational heterogeneity for both the protein and the bound ligand."
+            },
+            {
+              "title": "Function of P2X4 Receptors Is Directly Modulated by a 1:1 Stoichiometric Interaction With 5-HT<sub>3</sub>A Receptors.",
+              "pmid": "32431598",
+              "doi": "10.3389/fncel.2020.00106",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "Also, macromolecular docking followed by 100 ns molecular dynamics (MD) simulations suggested that the interaction energy of the P2X4 receptor with 5-HT 3 A receptor is similar at the holo and the apo state of the P2X4 receptor, and the interacting 5-HT 3 A receptor decreased the ATP binding energy "
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_dccm_5",
+          "observation": "dynamics: correlated motions / allosteric coupling observed",
+          "kind": "correlated_motions",
+          "category": "not_addressed",
+          "supporting": [],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_dccm_6",
+          "observation": "dynamics: correlated motions / allosteric coupling observed",
+          "kind": "correlated_motions",
+          "category": "not_addressed",
+          "supporting": [],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_ligand_7",
+          "observation": "dynamics: ligand/pocket dynamics from Ligand_Pocket_COM_Distance",
+          "kind": "ligand_or_pocket",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "abstract",
+              "passage": "Mutational disruption of ATP binding and molecular dynamics simulation of the apo KD of HER3 identify a conformational coupling of the ATP pocket with a hydrophobic AP-2 pocket, analogous to EGFR, that is critical for tumorigenic signaling and feasible for targeting."
+            },
+            {
+              "title": "Interplay of substrate polymorphism and conformational plasticity of Plasmodium tyrosyl-tRNA synthetase.",
+              "pmid": "34571426",
+              "doi": "10.1016/j.compbiolchem.2021.107582",
+              "evidence_source": "abstract",
+              "passage": "Molecular dynamics simulations of PfTyrRS in the presence and absence of ligand show conformational heterogeneity for both the protein and the bound ligand."
+            },
+            {
+              "title": "Function of P2X4 Receptors Is Directly Modulated by a 1:1 Stoichiometric Interaction With 5-HT<sub>3</sub>A Receptors.",
+              "pmid": "32431598",
+              "doi": "10.3389/fncel.2020.00106",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "Also, macromolecular docking followed by 100 ns molecular dynamics (MD) simulations suggested that the interaction energy of the P2X4 receptor with 5-HT 3 A receptor is similar at the holo and the apo state of the P2X4 receptor, and the interacting 5-HT 3 A receptor decreased the ATP binding energy "
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_ligand_8",
+          "observation": "dynamics: ligand/pocket dynamics from INTER_COM_Distance_Protein_vs_ATP",
+          "kind": "ligand_or_pocket",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+              "pmid": "35108525",
+              "doi": "10.1016/j.celrep.2021.110291",
+              "evidence_source": "abstract",
+              "passage": "Mutational disruption of ATP binding and molecular dynamics simulation of the apo KD of HER3 identify a conformational coupling of the ATP pocket with a hydrophobic AP-2 pocket, analogous to EGFR, that is critical for tumorigenic signaling and feasible for targeting."
+            },
+            {
+              "title": "Interplay of substrate polymorphism and conformational plasticity of Plasmodium tyrosyl-tRNA synthetase.",
+              "pmid": "34571426",
+              "doi": "10.1016/j.compbiolchem.2021.107582",
+              "evidence_source": "abstract",
+              "passage": "Molecular dynamics simulations of PfTyrRS in the presence and absence of ligand show conformational heterogeneity for both the protein and the bound ligand."
+            },
+            {
+              "title": "Function of P2X4 Receptors Is Directly Modulated by a 1:1 Stoichiometric Interaction With 5-HT<sub>3</sub>A Receptors.",
+              "pmid": "32431598",
+              "doi": "10.3389/fncel.2020.00106",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "Also, macromolecular docking followed by 100 ns molecular dynamics (MD) simulations suggested that the interaction energy of the P2X4 receptor with 5-HT 3 A receptor is similar at the holo and the apo state of the P2X4 receptor, and the interacting 5-HT 3 A receptor decreased the ATP binding energy "
+            }
+          ],
+          "conflicting": []
+        }
+      ]
+    },
+    "6_candidates_for_report": {
+      "n": 12,
+      "note": "These ranked candidates are passed to the literature-review LLM; uncited papers are pruned after writing (see Step 6 final selection).",
+      "candidates": [
+        {
+          "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+          "year": 2022,
+          "pmid": "35108525",
+          "doi": "10.1016/j.celrep.2021.110291",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35108525/",
+          "relevance_note": "Mentions: dynamics",
+          "query_key": "pubmed_theme:dynamics",
+          "score": 96,
+          "matched_aliases": [
+            "dynamics"
+          ]
+        },
+        {
+          "title": "Interplay of substrate polymorphism and conformational plasticity of Plasmodium tyrosyl-tRNA synthetase.",
+          "year": 2021,
+          "pmid": "34571426",
+          "doi": "10.1016/j.compbiolchem.2021.107582",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/34571426/",
+          "relevance_note": "Mentions: dynamics",
+          "query_key": "pubmed_theme:dynamics",
+          "score": 90,
+          "matched_aliases": [
+            "dynamics"
+          ]
+        },
+        {
+          "title": "Function of P2X4 Receptors Is Directly Modulated by a 1:1 Stoichiometric Interaction With 5-HT<sub>3</sub>A Receptors.",
+          "year": 2020,
+          "pmid": "32431598",
+          "doi": "10.3389/fncel.2020.00106",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32431598/",
+          "relevance_note": "Mentions: dynamics",
+          "query_key": "pubmed_theme:dynamics",
+          "score": 83,
+          "matched_aliases": [
+            "dynamics"
+          ]
+        },
+        {
+          "title": "Substrate Binding Specifically Modulates Domain Arrangements in Adenylate Kinase.",
+          "year": 2015,
+          "pmid": "26536274",
+          "doi": "10.1016/j.bpj.2015.08.049",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/26536274/",
+          "relevance_note": "Mentions: dynamics",
+          "query_key": "pubmed_theme:dynamics",
+          "score": 74,
+          "matched_aliases": [
+            "dynamics"
+          ]
+        },
+        {
+          "title": "Triple-action inhibitory mechanism of allosteric TYK2-specific inhibitors.",
+          "year": 2023,
+          "pmid": "37873392",
+          "doi": "10.1101/2023.10.09.561507",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37873392/",
+          "relevance_note": "Mentions: dynamics",
+          "query_key": "pubmed_theme:dynamics",
+          "score": 73,
+          "matched_aliases": [
+            "dynamics"
+          ]
+        },
+        {
+          "title": "Discovery of Covalent MLKL PROTAC Degraders via Optimization of a Theophylline Derivative Ligand for Treating Necroptosis.",
+          "year": 2024,
+          "pmid": "39180479",
+          "doi": "10.1021/acs.jmedchem.4c00949",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39180479/",
+          "relevance_note": "Mentions: dynamics",
+          "query_key": "pubmed:theme_family_dynamics",
+          "score": 69,
+          "matched_aliases": [
+            "dynamics"
+          ]
+        },
+        {
+          "title": "Illuminating ligand-induced dynamics in nuclear receptors through MD simulations.",
+          "year": 2024,
+          "pmid": "38614450",
+          "doi": "10.1016/j.bbagrm.2024.195025",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/38614450/",
+          "relevance_note": "Mentions: dynamics",
+          "query_key": "pubmed:protein_0_mechanism",
+          "score": 66,
+          "matched_aliases": [
+            "dynamics"
+          ]
+        },
+        {
+          "title": "Shared structural mechanisms of general anaesthetics and benzodiazepines.",
+          "year": 2020,
+          "pmid": "32879488",
+          "doi": "10.1038/s41586-020-2654-5",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32879488/",
+          "relevance_note": "Mentions: dynamics",
+          "query_key": "pubmed:protein_0_mechanism",
+          "score": 60,
+          "matched_aliases": [
+            "dynamics"
+          ]
+        },
+        {
+          "title": "Structural Insights into Pseudokinase Domains of Receptor Tyrosine Kinases.",
+          "year": 2020,
+          "pmid": "32619402",
+          "doi": "10.1016/j.molcel.2020.06.018",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32619402/",
+          "relevance_note": "Matches family / dynamics / analysis themes",
+          "query_key": "pubmed_theme:dynamics",
+          "score": 50
+        },
+        {
+          "title": "Dynamic allostery in substrate binding by human thymidylate synthase.",
+          "year": 2022,
+          "pmid": "36200982",
+          "doi": "10.7554/eLife.79915",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/36200982/",
+          "relevance_note": "Matches family / dynamics / analysis themes",
+          "query_key": "pubmed:alias_0_flexibility",
+          "score": 39
+        },
+        {
+          "title": "Discrete analyses of protein dynamics.",
+          "year": 2020,
+          "pmid": "31361191",
+          "doi": "10.1080/07391102.2019.1650112",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31361191/",
+          "relevance_note": "Mentions: dynamics",
+          "query_key": "pubmed:alias_0_flexibility",
+          "score": 59,
+          "matched_aliases": [
+            "dynamics"
+          ]
+        },
+        {
+          "title": "Directed Mutagenesis of Catalytic Residues in L-Asparaginase II from Salmonella paratyphi: Structural, Functional and Stability Analysis Using In-Vitro, Docking and Simulation Stud",
+          "year": 2026,
+          "pmid": "42479387",
+          "doi": "10.1007/s12010-026-05838-z",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42479387/",
+          "relevance_note": "Mentions: dynamics",
+          "query_key": "pubmed:method_DSSP_SecondaryStructure",
+          "score": 52,
+          "matched_aliases": [
+            "dynamics"
+          ]
+        }
+      ]
+    },
+    "6_final_cited": {
+      "n_cited": 5,
+      "cited": [
+        {
+          "title": "Targetable HER3 functions driving tumorigenic signaling in HER2-amplified cancers.",
+          "year": 2022,
+          "pmid": "35108525",
+          "doi": "10.1016/j.celrep.2021.110291",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35108525/",
+          "query_key": "pubmed_theme:dynamics"
+        },
+        {
+          "title": "Substrate Binding Specifically Modulates Domain Arrangements in Adenylate Kinase.",
+          "year": 2015,
+          "pmid": "26536274",
+          "doi": "10.1016/j.bpj.2015.08.049",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/26536274/",
+          "query_key": "pubmed_theme:dynamics"
+        },
+        {
+          "title": "Triple-action inhibitory mechanism of allosteric TYK2-specific inhibitors.",
+          "year": 2023,
+          "pmid": "37873392",
+          "doi": "10.1101/2023.10.09.561507",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37873392/",
+          "query_key": "pubmed_theme:dynamics"
+        },
+        {
+          "title": "Discovery of Covalent MLKL PROTAC Degraders via Optimization of a Theophylline Derivative Ligand for Treating Necroptosis.",
+          "year": 2024,
+          "pmid": "39180479",
+          "doi": "10.1021/acs.jmedchem.4c00949",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39180479/",
+          "query_key": "pubmed:theme_family_dynamics"
+        },
+        {
+          "title": "Structural Insights into Pseudokinase Domains of Receptor Tyrosine Kinases.",
+          "year": 2020,
+          "pmid": "32619402",
+          "doi": "10.1016/j.molcel.2020.06.018",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32619402/",
+          "query_key": "pubmed_theme:dynamics"
+        }
+      ]
+    }
+  },
+  "identity": {
+    "protein": "dynamics",
+    "gene": "dynamics",
+    "aliases": [
+      "dynamics"
+    ],
+    "family": "pseudokinase",
+    "uniprot_id": "q8nb16_ATP_MG",
+    "source": "goal_text"
+  }
+}

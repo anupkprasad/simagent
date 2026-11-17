@@ -1,0 +1,1081 @@
+{
+  "pipeline": "evidence_grounded_literature_v1",
+  "steps": {
+    "1_observations": {
+      "n": 6,
+      "observations": [
+        {
+          "id": "obs_rmsd_1",
+          "kind": "rmsd_stability",
+          "analysis_type": "RMSD",
+          "statement": "Mixed lineage kinase domain-like protein: modest backbone RMSD / local conformational stability (mean 1.40 \u00c5, max 1.75 \u00c5)",
+          "metrics": {
+            "mean_rmsd_angstrom": 1.399,
+            "std_rmsd_angstrom": 0.494,
+            "min_rmsd_angstrom": 0.0,
+            "max_rmsd_angstrom": 1.748
+          },
+          "keywords": [
+            "rmsd",
+            "conformational stability",
+            "backbone",
+            "molecular dynamics"
+          ]
+        },
+        {
+          "id": "obs_rmsf_2",
+          "kind": "rmsf_hotspots",
+          "analysis_type": "RMSF",
+          "statement": "Mixed lineage kinase domain-like protein: RMSF hotspots / flexible sites: THR80 (2.86 \u00c5), GLU79 (2.29 \u00c5), VAL81 (2.14 \u00c5), GLY169 (2.14 \u00c5), PRO83 (1.95 \u00c5)",
+          "metrics": {
+            "mean_rmsf_angstrom": 0.74,
+            "most_flexible_residue": 80,
+            "most_flexible_rmsf": 2.861,
+            "top_flexible": [
+              "THR80 (2.86 \u00c5)",
+              "GLU79 (2.29 \u00c5)",
+              "VAL81 (2.14 \u00c5)",
+              "GLY169 (2.14 \u00c5)",
+              "PRO83 (1.95 \u00c5)"
+            ]
+          },
+          "keywords": [
+            "rmsf",
+            "flexibility",
+            "flexible loop",
+            "hotspot",
+            "residue fluctuation",
+            "THR80",
+            "GLU79",
+            "VAL81"
+          ]
+        },
+        {
+          "id": "obs_rmsf_3",
+          "kind": "rmsf_hotspots",
+          "analysis_type": "RMSF",
+          "statement": "Mixed lineage kinase domain-like protein: RMSF hotspots / flexible sites: GLY169 (1.71 \u00c5), GLU173 (1.60 \u00c5), SER165 (1.56 \u00c5), SER167 (1.55 \u00c5), MET166 (1.55 \u00c5)",
+          "metrics": {
+            "mean_rmsf_angstrom": 0.795,
+            "most_flexible_residue": 169,
+            "most_flexible_rmsf": 1.709,
+            "top_flexible": [
+              "GLY169 (1.71 \u00c5)",
+              "GLU173 (1.60 \u00c5)",
+              "SER165 (1.56 \u00c5)",
+              "SER167 (1.55 \u00c5)",
+              "MET166 (1.55 \u00c5)"
+            ]
+          },
+          "keywords": [
+            "rmsf",
+            "flexibility",
+            "flexible loop",
+            "hotspot",
+            "residue fluctuation",
+            "GLY169",
+            "GLU173",
+            "SER165"
+          ]
+        },
+        {
+          "id": "obs_rg_4",
+          "kind": "compactness",
+          "analysis_type": "Radius_of_Gyration",
+          "statement": "Mixed lineage kinase domain-like protein: radius of gyration / compactness (mean 19.382 \u00c5)",
+          "metrics": {
+            "n_frames": 11,
+            "mean_rg_angstrom": 19.382,
+            "std_rg_angstrom": 0.106,
+            "min_rg_angstrom": 19.26,
+            "max_rg_angstrom": 19.585
+          },
+          "keywords": [
+            "radius of gyration",
+            "compactness",
+            "folding",
+            "stability",
+            "molecular dynamics"
+          ]
+        },
+        {
+          "id": "obs_dccm_5",
+          "kind": "correlated_motions",
+          "analysis_type": "DCCM",
+          "statement": "Mixed lineage kinase domain-like protein: correlated motions / allosteric coupling observed",
+          "metrics": {
+            "n_atoms": 276,
+            "n_residues": 276,
+            "n_frames_used": 3,
+            "mean_abs_correlation": 0.378,
+            "n_strongly_correlated_pairs": 50
+          },
+          "keywords": [
+            "dccm",
+            "correlated motion",
+            "allosteric",
+            "communication"
+          ]
+        },
+        {
+          "id": "obs_goal_ligand",
+          "kind": "ligand_or_pocket",
+          "analysis_type": "goal",
+          "statement": "User objective involves apo/holo or ligand-related interpretation",
+          "metrics": {},
+          "keywords": [
+            "apo",
+            "holo",
+            "ligand",
+            "atp",
+            "binding"
+          ]
+        }
+      ]
+    },
+    "2_queries": {
+      "n": 71,
+      "queries": {
+        "alias_0_dynamics": "MLKL molecular dynamics",
+        "alias_0_flexibility": "MLKL conformational flexibility",
+        "alias_0_functional": "MLKL functional study",
+        "alias_0_computational": "MLKL (computational OR \"molecular dynamics\" OR simulation)",
+        "protein_0_dynamics": "MLKL protein dynamics molecular dynamics",
+        "protein_0_mechanism": "MLKL mechanism structure function molecular dynamics",
+        "protein_0_function": "MLKL kinase allosteric structure dynamics",
+        "alias_1_dynamics": "hMLKL molecular dynamics",
+        "alias_1_flexibility": "hMLKL conformational flexibility",
+        "alias_1_functional": "hMLKL functional study",
+        "alias_1_computational": "hMLKL (computational OR \"molecular dynamics\" OR simulation)",
+        "protein_1_dynamics": "hMLKL protein dynamics molecular dynamics",
+        "protein_1_mechanism": "hMLKL mechanism structure function molecular dynamics",
+        "protein_1_function": "hMLKL kinase allosteric structure dynamics",
+        "alias_2_dynamics": "dynamics molecular dynamics",
+        "alias_2_flexibility": "dynamics conformational flexibility",
+        "alias_2_functional": "dynamics functional study",
+        "alias_2_computational": "dynamics (computational OR \"molecular dynamics\" OR simulation)",
+        "protein_2_dynamics": "dynamics protein dynamics molecular dynamics",
+        "protein_2_mechanism": "dynamics mechanism structure function molecular dynamics",
+        "protein_2_function": "dynamics kinase allosteric structure dynamics",
+        "alias_3_dynamics": "\"Mixed lineage kinase domain-like protein\" molecular dynamics",
+        "alias_3_flexibility": "\"Mixed lineage kinase domain-like protein\" conformational flexibility",
+        "alias_3_functional": "\"Mixed lineage kinase domain-like protein\" functional study",
+        "alias_3_computational": "\"Mixed lineage kinase domain-like protein\" (computational OR \"molecular dynamics\" OR simulation)",
+        "protein_3_dynamics": "Mixed lineage kinase domain-like protein protein dynamics molecular dynamics",
+        "protein_3_mechanism": "Mixed lineage kinase domain-like protein mechanism structure function molecular dynamics",
+        "protein_3_function": "Mixed lineage kinase domain-like protein kinase allosteric structure dynamics",
+        "alias_4_dynamics": "Q8NB16 molecular dynamics",
+        "alias_4_flexibility": "Q8NB16 conformational flexibility",
+        "alias_4_functional": "Q8NB16 functional study",
+        "alias_4_computational": "Q8NB16 (computational OR \"molecular dynamics\" OR simulation)",
+        "protein_4_dynamics": "Q8NB16 protein dynamics molecular dynamics",
+        "protein_4_mechanism": "Q8NB16 mechanism structure function molecular dynamics",
+        "protein_4_function": "Q8NB16 kinase allosteric structure dynamics",
+        "protein_dynamics": "\"Mixed lineage kinase domain-like protein\" molecular dynamics simulation",
+        "protein_function": "\"Mixed lineage kinase domain-like protein\" structure function",
+        "protein_functional_study": "\"Mixed lineage kinase domain-like protein\" functional study OR deficiency OR knockout",
+        "protein_computational_study": "\"Mixed lineage kinase domain-like protein\" computational study OR molecular dynamics OR simulation",
+        "protein_context": "\"Mixed lineage kinase domain-like protein\" kinase allosteric molecular dynamics",
+        "protein_goal_context": "Mixed lineage kinase domain-like protein alloster holo",
+        "protein_biology": "Mixed lineage kinase domain-like protein allosteric phosphorylation",
+        "protein_family_review": "Mixed lineage kinase domain-like protein pseudokinase structure function review",
+        "theme_family_dynamics": "pseudokinase kinase domain molecular dynamics simulation",
+        "theme_family_flexibility": "pseudokinase apo flexibility residue dynamics",
+        "theme_related_kinase": "kinase molecular dynamics conformational",
+        "theme_related_allosteric": "allosteric molecular dynamics conformational",
+        "ligand_effect": "Mixed lineage kinase domain-like protein atp binding protein dynamics simulation",
+        "allosteric_dccm": "Mixed lineage kinase domain-like protein allosteric communication correlated motion molecular dynamics",
+        "method_RMSD": "Mixed lineage kinase domain-like protein RMSD stability molecular dynamics",
+        "theme_method_RMSD": "pseudokinase RMSD stability molecular dynamics",
+        "method_RMSF": "Mixed lineage kinase domain-like protein RMSF residue flexibility dynamics",
+        "theme_method_RMSF": "pseudokinase RMSF residue flexibility dynamics",
+        "method_Radius_of_Gyration": "Mixed lineage kinase domain-like protein radius of gyration compactness",
+        "theme_method_Radius_of_Gyration": "pseudokinase radius of gyration compactness",
+        "method_DSSP_SecondaryStructure": "Mixed lineage kinase domain-like protein DSSP_SecondaryStructure molecular dynamics",
+        "theme_method_DSSP_SecondaryStructure": "pseudokinase DSSP_SecondaryStructure molecular dynamics",
+        "result_rmsd": "Mixed lineage kinase domain-like protein pseudokinase conformational stability RMSD molecular dynamics",
+        "theme_result_rmsd": "pseudokinase conformational stability RMSD molecular dynamics",
+        "result_rmsf": "Mixed lineage kinase domain-like protein pseudokinase residue flexibility RMSF domain molecular dynamics",
+        "theme_result_rmsf": "pseudokinase residue flexibility RMSF domain molecular dynamics",
+        "result_rg": "Mixed lineage kinase domain-like protein pseudokinase radius of gyration domain stability molecular dynamics",
+        "theme_result_rg": "pseudokinase radius of gyration domain stability molecular dynamics",
+        "hypothesis_objective": "Mixed lineage kinase domain-like protein alloster holo molecular dynamics",
+        "theme_objective": "alloster holo molecular dynamics protein structure",
+        "theme_family_structure": "pseudokinase kinase structure function conformational dynamics",
+        "theme_ligand": "atp binding protein molecular dynamics simulation",
+        "_fallback_general": "molecular dynamics protein conformational stability review",
+        "obs_rmsf_hotspots": "dynamics GLY169 GLU173 SER165 flexibility molecular dynamics",
+        "theme_obs_flexibility": "protein residue flexibility RMSF activation loop molecular dynamics",
+        "theme_obs_allostery": "dynamics allosteric correlated motions molecular dynamics"
+      }
+    },
+    "2b_uniprot_seed": {
+      "n": 8
+    },
+    "2_gather": {
+      "n_candidates": 28,
+      "source_counts": {
+        "uniprot_curated": 8,
+        "unknown": 20
+      },
+      "candidates": [
+        {
+          "title": "The protein kinase complement of the human genome.",
+          "year": 2002,
+          "pmid": "12471243",
+          "doi": "10.1126/science.1075762",
+          "source": "uniprot_curated",
+          "url": null,
+          "query_key": "uniprot:key_references"
+        },
+        {
+          "title": "Complete sequencing and characterization of 21,243 full-length human cDNAs.",
+          "year": 2004,
+          "pmid": "14702039",
+          "doi": "10.1038/ng1285",
+          "source": "uniprot_curated",
+          "url": null,
+          "query_key": "uniprot:key_references"
+        },
+        {
+          "title": "The sequence and analysis of duplication-rich human chromosome 16.",
+          "year": 2004,
+          "pmid": "15616553",
+          "doi": "10.1038/nature03187",
+          "source": "uniprot_curated",
+          "url": null,
+          "query_key": "uniprot:key_references"
+        },
+        {
+          "title": "The status, quality, and expansion of the NIH full-length cDNA project: the Mammalian Gene Collection (MGC).",
+          "year": 2004,
+          "pmid": "15489334",
+          "doi": "10.1101/gr.2596504",
+          "source": "uniprot_curated",
+          "url": null,
+          "query_key": "uniprot:key_references"
+        },
+        {
+          "title": "Kinase-selective enrichment enables quantitative phosphoproteomics of the kinome across the cell cycle.",
+          "year": 2008,
+          "pmid": "18691976",
+          "doi": "10.1016/j.molcel.2008.07.007",
+          "source": "uniprot_curated",
+          "url": null,
+          "query_key": "uniprot:key_references"
+        },
+        {
+          "title": "A quantitative atlas of mitotic phosphorylation.",
+          "year": 2008,
+          "pmid": "18669648",
+          "doi": "10.1073/pnas.0805139105",
+          "source": "uniprot_curated",
+          "url": null,
+          "query_key": "uniprot:key_references"
+        },
+        {
+          "title": "Quantitative phosphoproteomic analysis of T cell receptor signaling reveals system-wide modulation of protein-protein interactions.",
+          "year": 2009,
+          "pmid": "19690332",
+          "doi": "10.1126/scisignal.2000007",
+          "source": "uniprot_curated",
+          "url": null,
+          "query_key": "uniprot:key_references"
+        },
+        {
+          "title": "Quantitative phosphoproteomics reveals widespread full phosphorylation site occupancy during mitosis.",
+          "year": 2010,
+          "pmid": "20068231",
+          "doi": "10.1126/scisignal.2000475",
+          "source": "uniprot_curated",
+          "url": null,
+          "query_key": "uniprot:key_references"
+        },
+        {
+          "title": "MLKL\u2012OPTN axis regulates herpesvirus-induced neurological sequelae.",
+          "year": 2025,
+          "pmid": "40490945",
+          "doi": "10.1002/ctm2.70353",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/40490945/",
+          "query_key": "pubmed:alias_0_dynamics"
+        },
+        {
+          "title": "Characteristic ERK1/2 signaling dynamics distinguishes necroptosis from apoptosis.",
+          "year": 2021,
+          "pmid": "34568795",
+          "doi": "10.1016/j.isci.2021.103074",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/34568795/",
+          "query_key": "pubmed:alias_0_dynamics"
+        },
+        {
+          "title": "Disulfiram reduces the severity of mouse acute pancreatitis by inhibiting RIPK1-dependent acinar cell necrosis.",
+          "year": 2023,
+          "pmid": "36716580",
+          "doi": "10.1016/j.bioorg.2023.106382",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/36716580/",
+          "query_key": "pubmed:alias_0_dynamics"
+        },
+        {
+          "title": "Live-Cell Imaging Technique to Visualize DAMPs Release During Regulated Cell Death.",
+          "year": 2021,
+          "pmid": "34050484",
+          "doi": "10.1007/978-1-0716-1258-3_28",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/34050484/",
+          "query_key": "pubmed:alias_0_dynamics"
+        },
+        {
+          "title": "Understanding allosteric interactions in hMLKL protein that modulate necroptosis and its inhibition.",
+          "year": 2019,
+          "pmid": "31727943",
+          "doi": "10.1038/s41598-019-53078-5",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31727943/",
+          "query_key": "pubmed:alias_0_flexibility"
+        },
+        {
+          "title": "Targeting necroptosis in MCF-7 breast cancer cells: In Silico insights into 8,12-dimethoxysanguinarine from Eomecon Chionantha through molecular docking, dynamics, DFT, and MEP stu",
+          "year": 2025,
+          "pmid": "39775383",
+          "doi": "10.1371/journal.pone.0313094",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39775383/",
+          "query_key": "pubmed:alias_0_flexibility"
+        },
+        {
+          "title": "Necroptosis and tumor progression.",
+          "year": 2022,
+          "pmid": "34627742",
+          "doi": "10.1016/j.trecan.2021.09.003",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/34627742/",
+          "query_key": "pubmed:alias_0_functional"
+        },
+        {
+          "title": "PARP5A and RNF146 phase separation restrains RIPK1-dependent necroptosis.",
+          "year": 2024,
+          "pmid": "38272024",
+          "doi": "10.1016/j.molcel.2023.12.041",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/38272024/",
+          "query_key": "pubmed:alias_0_functional"
+        },
+        {
+          "title": "Necroptosis and neutrophil-associated disorders.",
+          "year": 2018,
+          "pmid": "29371616",
+          "doi": "10.1038/s41419-017-0058-8",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/29371616/",
+          "query_key": "pubmed:alias_0_functional"
+        },
+        {
+          "title": "Necroptotic cell death consequences and disease relevance.",
+          "year": 2025,
+          "pmid": "41094200",
+          "doi": "10.1038/s41590-025-02298-1",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/41094200/",
+          "query_key": "pubmed:alias_0_functional"
+        },
+        {
+          "title": "Sublethal necroptosis signaling promotes inflammation and liver cancer.",
+          "year": 2023,
+          "pmid": "37329888",
+          "doi": "10.1016/j.immuni.2023.05.017",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37329888/",
+          "query_key": "pubmed:alias_0_computational"
+        },
+        {
+          "title": "Necroptosis and Inflammation.",
+          "year": 2016,
+          "pmid": "26865533",
+          "doi": "10.1146/annurev-biochem-060815-014830",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/26865533/",
+          "query_key": "pubmed:alias_0_computational"
+        },
+        {
+          "title": "MRE11 liberates cGAS from nucleosome sequestration during tumorigenesis.",
+          "year": 2024,
+          "pmid": "38200309",
+          "doi": "10.1038/s41586-023-06889-6",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/38200309/",
+          "query_key": "pubmed:alias_0_computational"
+        },
+        {
+          "title": "Necroptosis-Mediated eCIRP Release in Sepsis.",
+          "year": 2022,
+          "pmid": "35873387",
+          "doi": "10.2147/JIR.S370615",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35873387/",
+          "query_key": "pubmed:alias_0_computational"
+        },
+        {
+          "title": "Discovery of Covalent MLKL PROTAC Degraders via Optimization of a Theophylline Derivative Ligand for Treating Necroptosis.",
+          "year": 2024,
+          "pmid": "39180479",
+          "doi": "10.1021/acs.jmedchem.4c00949",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39180479/",
+          "query_key": "pubmed:protein_0_dynamics"
+        },
+        {
+          "title": "Necroptosis induced by MLKL overexpression in liver triggers cellular senescence and leads to chronic inflammation and fibrosis.",
+          "year": 2026,
+          "pmid": "41283975",
+          "doi": "10.1007/s11357-025-01994-y",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/41283975/",
+          "query_key": "pubmed:alias_1_functional"
+        },
+        {
+          "title": "Characterization of novel mouse models to study the role of necroptosis in aging and age-related diseases.",
+          "year": 2023,
+          "pmid": "37792157",
+          "doi": "10.1007/s11357-023-00955-7",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37792157/",
+          "query_key": "pubmed:alias_1_functional"
+        },
+        {
+          "title": "The role of inflammation induced by necroptosis in the development of fibrosis and liver cancer in novel knockin mouse models fed a western diet.",
+          "year": 2025,
+          "pmid": "39514172",
+          "doi": "10.1007/s11357-024-01418-3",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39514172/",
+          "query_key": "pubmed:alias_1_functional"
+        },
+        {
+          "title": "Modeling the molecular fingerprint of protein-lipid interactions of MLKL on complex bilayers.",
+          "year": 2022,
+          "pmid": "36712977",
+          "doi": "10.3389/fchem.2022.1088058",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/36712977/",
+          "query_key": "pubmed:protein_3_mechanism"
+        },
+        {
+          "title": "Network Pharmacology, Molecular Docking and Molecular Dynamics to Explore the Potential Immunomodulatory Mechanisms of Deer Antler.",
+          "year": 2023,
+          "pmid": "37373516",
+          "doi": "10.3390/ijms241210370",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37373516/",
+          "query_key": "pubmed:alias_4_dynamics"
+        }
+      ]
+    },
+    "3_rank_screen": {
+      "n_ranked": 12,
+      "max_refs": 12,
+      "aliases_used": [
+        "dynamics",
+        "Mixed lineage kinase domain-like protein",
+        "MLKL",
+        "hMLKL",
+        "Q8NB16"
+      ],
+      "ranked": [
+        {
+          "title": "Targeting necroptosis in MCF-7 breast cancer cells: In Silico insights into 8,12-dimethoxysanguinarine from Eomecon Chionantha through molecular docking, dynamics, DFT, and MEP stu",
+          "year": 2025,
+          "pmid": "39775383",
+          "doi": "10.1371/journal.pone.0313094",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39775383/",
+          "relevance_note": "Mentions: dynamics, MLKL",
+          "query_key": "pubmed:alias_0_flexibility",
+          "score": 105,
+          "matched_aliases": [
+            "dynamics",
+            "MLKL"
+          ]
+        },
+        {
+          "title": "Understanding allosteric interactions in hMLKL protein that modulate necroptosis and its inhibition.",
+          "year": 2019,
+          "pmid": "31727943",
+          "doi": "10.1038/s41598-019-53078-5",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31727943/",
+          "relevance_note": "Mentions: MLKL, hMLKL",
+          "query_key": "pubmed:alias_0_flexibility",
+          "score": 94,
+          "matched_aliases": [
+            "MLKL",
+            "hMLKL"
+          ]
+        },
+        {
+          "title": "Discovery of Covalent MLKL PROTAC Degraders via Optimization of a Theophylline Derivative Ligand for Treating Necroptosis.",
+          "year": 2024,
+          "pmid": "39180479",
+          "doi": "10.1021/acs.jmedchem.4c00949",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39180479/",
+          "relevance_note": "Mentions: dynamics, MLKL",
+          "query_key": "pubmed:protein_0_dynamics",
+          "score": 75,
+          "matched_aliases": [
+            "dynamics",
+            "MLKL"
+          ]
+        },
+        {
+          "title": "Modeling the molecular fingerprint of protein-lipid interactions of MLKL on complex bilayers.",
+          "year": 2022,
+          "pmid": "36712977",
+          "doi": "10.3389/fchem.2022.1088058",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/36712977/",
+          "relevance_note": "Mentions: dynamics, MLKL",
+          "query_key": "pubmed:protein_3_mechanism",
+          "score": 65,
+          "matched_aliases": [
+            "dynamics",
+            "MLKL"
+          ]
+        },
+        {
+          "title": "Characteristic ERK1/2 signaling dynamics distinguishes necroptosis from apoptosis.",
+          "year": 2021,
+          "pmid": "34568795",
+          "doi": "10.1016/j.isci.2021.103074",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/34568795/",
+          "relevance_note": "Mentions: dynamics, MLKL",
+          "query_key": "pubmed:alias_0_dynamics",
+          "score": 60,
+          "matched_aliases": [
+            "dynamics",
+            "MLKL"
+          ]
+        },
+        {
+          "title": "MLKL\u2012OPTN axis regulates herpesvirus-induced neurological sequelae.",
+          "year": 2025,
+          "pmid": "40490945",
+          "doi": "10.1002/ctm2.70353",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/40490945/",
+          "relevance_note": "Mentions: dynamics, MLKL",
+          "query_key": "pubmed:alias_0_dynamics",
+          "score": 46,
+          "matched_aliases": [
+            "dynamics",
+            "MLKL"
+          ]
+        },
+        {
+          "title": "Network Pharmacology, Molecular Docking and Molecular Dynamics to Explore the Potential Immunomodulatory Mechanisms of Deer Antler.",
+          "year": 2023,
+          "pmid": "37373516",
+          "doi": "10.3390/ijms241210370",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37373516/",
+          "relevance_note": "Mentions: dynamics",
+          "query_key": "pubmed:alias_4_dynamics",
+          "score": 45,
+          "matched_aliases": [
+            "dynamics"
+          ]
+        },
+        {
+          "title": "Disulfiram reduces the severity of mouse acute pancreatitis by inhibiting RIPK1-dependent acinar cell necrosis.",
+          "year": 2023,
+          "pmid": "36716580",
+          "doi": "10.1016/j.bioorg.2023.106382",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/36716580/",
+          "relevance_note": "Mentions: dynamics, MLKL",
+          "query_key": "pubmed:alias_0_dynamics",
+          "score": 40,
+          "matched_aliases": [
+            "dynamics",
+            "MLKL"
+          ]
+        },
+        {
+          "title": "A quantitative atlas of mitotic phosphorylation.",
+          "year": 2008,
+          "pmid": "18669648",
+          "doi": "10.1073/pnas.0805139105",
+          "source": "uniprot_curated",
+          "url": null,
+          "relevance_note": "Identity: uniprot_curated, phosphorylation",
+          "query_key": "uniprot:key_references",
+          "score": 18
+        },
+        {
+          "title": "Quantitative phosphoproteomics reveals widespread full phosphorylation site occupancy during mitosis.",
+          "year": 2010,
+          "pmid": "20068231",
+          "doi": "10.1126/scisignal.2000475",
+          "source": "uniprot_curated",
+          "url": null,
+          "relevance_note": "Identity: uniprot_curated, phosphorylation",
+          "query_key": "uniprot:key_references",
+          "score": 18
+        },
+        {
+          "title": "The protein kinase complement of the human genome.",
+          "year": 2002,
+          "pmid": "12471243",
+          "doi": "10.1126/science.1075762",
+          "source": "uniprot_curated",
+          "url": null,
+          "relevance_note": "Identity: uniprot_curated, kinase",
+          "query_key": "uniprot:key_references",
+          "score": 16
+        },
+        {
+          "title": "Kinase-selective enrichment enables quantitative phosphoproteomics of the kinome across the cell cycle.",
+          "year": 2008,
+          "pmid": "18691976",
+          "doi": "10.1016/j.molcel.2008.07.007",
+          "source": "uniprot_curated",
+          "url": null,
+          "relevance_note": "Identity: uniprot_curated, kinase",
+          "query_key": "uniprot:key_references",
+          "score": 16
+        }
+      ]
+    },
+    "4_evidence_passages": {
+      "n_refs_examined": 5,
+      "evidence": [
+        {
+          "title": "Targeting necroptosis in MCF-7 breast cancer cells: In Silico insights into 8,12-dimethoxysanguinarine from Eomecon Chionantha through molecular docking, dynamics, DFT, and MEP studies.",
+          "pmid": "39775383",
+          "doi": "10.1371/journal.pone.0313094",
+          "pmcid": "PMC11706375",
+          "source": null,
+          "evidence_source": "europe_pmc_fulltext",
+          "passages": [
+            "This study presents the first computational exploration of SG-A interactions with key necroptotic proteins\u2014RIPK1, RIPK3, and MLKL\u2014through molecular docking, molecular dynamics (MD), density functional theory (DFT), and molecular electrostatic potential (MEP) analyses.",
+            "MD simulations further demonstrated the stability of SG-A within the MLKL site, with RMSD values stabilizing between 1.4 and 3.3 \u00c5 over 300 ns, indicating a consistent interaction pattern.",
+            "RMSF analysis indicated the preservation of protein backbone flexibility, with average fluctuations under 1.7 \u00c5."
+          ],
+          "relevance_note": "Mentions: dynamics, MLKL"
+        },
+        {
+          "title": "Understanding allosteric interactions in hMLKL protein that modulate necroptosis and its inhibition.",
+          "pmid": "31727943",
+          "doi": "10.1038/s41598-019-53078-5",
+          "pmcid": "PMC6856060",
+          "source": null,
+          "evidence_source": "europe_pmc_fulltext",
+          "passages": [
+            "Our simulations show increased inter-domain flexibility, increased rigidification of the activation loop and increased alpha helical content in the brace helix region revealing a form of monomeric hMLKL necessary for oligomerization upon phosphorylation as compared to apo state.",
+            "Our goal in this molecular dynamics study is to unravel details of conformational changes that may occur upon NSA binding to the monomeric hMLKL that prevent oligomerization and unleashing of 4HB domain.",
+            "The ATP-bound full length MLKL model was prepared for Molecular Dynamics simulations using protein preparation wizard followed by minimization using Macromodel with default settings 28 ."
+          ],
+          "relevance_note": "Mentions: MLKL, hMLKL"
+        },
+        {
+          "title": "Discovery of Covalent MLKL PROTAC Degraders via Optimization of a Theophylline Derivative Ligand for Treating Necroptosis.",
+          "pmid": "39180479",
+          "doi": "10.1021/acs.jmedchem.4c00949",
+          "pmcid": null,
+          "source": null,
+          "evidence_source": "abstract",
+          "passages": [
+            "Using computer-aided modeling and molecular dynamics simulations, we developed a series of covalent MLKL PROTACs by linking and optimizing a theophylline derivative that covalently targets MLKL."
+          ],
+          "relevance_note": "Mentions: dynamics, MLKL"
+        },
+        {
+          "title": "Modeling the molecular fingerprint of protein-lipid interactions of MLKL on complex bilayers.",
+          "pmid": "36712977",
+          "doi": "10.3389/fchem.2022.1088058",
+          "pmcid": "PMC9877227",
+          "source": null,
+          "evidence_source": "europe_pmc_fulltext",
+          "passages": [
+            "This work presents insights from long all-atom molecular dynamics (MD) simulations of complex membrane models for the PM of mammalian cells with an MLKL protein monomer.",
+            "protein-lipid interactions lipid membrane modeling local lipid fingerprint MLKL protein molecular dynamics simulations mechanisms of cell death This work was performed in part at the University at Buffalo\u2019s Center for Computational Research ( Center for Computational Research UaB, 2019 ).",
+            "Lipids constitute the structural backbone of the membrane, and their relative composition modulates membrane tension, rigidity, and shape ( Casares and EscribRossello, 2019 )."
+          ],
+          "relevance_note": "Mentions: dynamics, MLKL"
+        },
+        {
+          "title": "Characteristic ERK1/2 signaling dynamics distinguishes necroptosis from apoptosis.",
+          "pmid": "34568795",
+          "doi": "10.1016/j.isci.2021.103074",
+          "pmcid": "PMC8449238",
+          "source": null,
+          "evidence_source": "europe_pmc_fulltext",
+          "passages": [
+            "We reasoned that the obligated linker composition required for KAR engineering ( Table S1 ) resulting from the recombination cloning method (MultiSite Gateway Technology) ( Jones et al., 2014 ) might alleviate this shortcoming by adding flexibility.",
+            "A structural modeling approach of EKAR4.0 favors higher flexibility of the biosensor The successful optimization of the EKAR-EV may be attributed in part to the modification of linker composition and/or length between each of the functional elements of EKAR-EV, as reported by Griesbeck et al.",
+            "In the context of EKAR4.0, the generated 3D models of this ERK1/2 biosensor suggested increased flexibility ( Figure S6 H) which led us to hypothesize that the increase in flexibility of the \u2018FP1-PAABD\u2019 polypeptide might explain the improvement of EKAR4.0 dynamic range."
+          ],
+          "relevance_note": "Mentions: dynamics, MLKL"
+        }
+      ]
+    },
+    "5_compare_evidence": {
+      "n_observations": 6,
+      "comparisons": [
+        {
+          "observation_id": "obs_rmsd_1",
+          "observation": "Mixed lineage kinase domain-like protein: modest backbone RMSD / local conformational stability (mean 1.40 \u00c5, max 1.75 \u00c5)",
+          "kind": "rmsd_stability",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Targeting necroptosis in MCF-7 breast cancer cells: In Silico insights into 8,12-dimethoxysanguinarine from Eomecon Chionantha through molecular docking, dynamics, DFT, and MEP studies.",
+              "pmid": "39775383",
+              "doi": "10.1371/journal.pone.0313094",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "This study presents the first computational exploration of SG-A interactions with key necroptotic proteins\u2014RIPK1, RIPK3, and MLKL\u2014through molecular docking, molecular dynamics (MD), density functional theory (DFT), and molecular electrostatic potential (MEP) analyses."
+            },
+            {
+              "title": "Understanding allosteric interactions in hMLKL protein that modulate necroptosis and its inhibition.",
+              "pmid": "31727943",
+              "doi": "10.1038/s41598-019-53078-5",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "Our simulations show increased inter-domain flexibility, increased rigidification of the activation loop and increased alpha helical content in the brace helix region revealing a form of monomeric hMLKL necessary for oligomerization upon phosphorylation as compared to apo state."
+            },
+            {
+              "title": "Discovery of Covalent MLKL PROTAC Degraders via Optimization of a Theophylline Derivative Ligand for Treating Necroptosis.",
+              "pmid": "39180479",
+              "doi": "10.1021/acs.jmedchem.4c00949",
+              "evidence_source": "abstract",
+              "passage": "Using computer-aided modeling and molecular dynamics simulations, we developed a series of covalent MLKL PROTACs by linking and optimizing a theophylline derivative that covalently targets MLKL."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsf_2",
+          "observation": "Mixed lineage kinase domain-like protein: RMSF hotspots / flexible sites: THR80 (2.86 \u00c5), GLU79 (2.29 \u00c5), VAL81 (2.14 \u00c5), GLY169 (2.14 \u00c5), PRO83 (1.95 \u00c5)",
+          "kind": "rmsf_hotspots",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Targeting necroptosis in MCF-7 breast cancer cells: In Silico insights into 8,12-dimethoxysanguinarine from Eomecon Chionantha through molecular docking, dynamics, DFT, and MEP studies.",
+              "pmid": "39775383",
+              "doi": "10.1371/journal.pone.0313094",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "This study presents the first computational exploration of SG-A interactions with key necroptotic proteins\u2014RIPK1, RIPK3, and MLKL\u2014through molecular docking, molecular dynamics (MD), density functional theory (DFT), and molecular electrostatic potential (MEP) analyses."
+            },
+            {
+              "title": "Understanding allosteric interactions in hMLKL protein that modulate necroptosis and its inhibition.",
+              "pmid": "31727943",
+              "doi": "10.1038/s41598-019-53078-5",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "Our simulations show increased inter-domain flexibility, increased rigidification of the activation loop and increased alpha helical content in the brace helix region revealing a form of monomeric hMLKL necessary for oligomerization upon phosphorylation as compared to apo state."
+            },
+            {
+              "title": "Characteristic ERK1/2 signaling dynamics distinguishes necroptosis from apoptosis.",
+              "pmid": "34568795",
+              "doi": "10.1016/j.isci.2021.103074",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "We reasoned that the obligated linker composition required for KAR engineering ( Table S1 ) resulting from the recombination cloning method (MultiSite Gateway Technology) ( Jones et al., 2014 ) might alleviate this shortcoming by adding flexibility."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rmsf_3",
+          "observation": "Mixed lineage kinase domain-like protein: RMSF hotspots / flexible sites: GLY169 (1.71 \u00c5), GLU173 (1.60 \u00c5), SER165 (1.56 \u00c5), SER167 (1.55 \u00c5), MET166 (1.55 \u00c5)",
+          "kind": "rmsf_hotspots",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Targeting necroptosis in MCF-7 breast cancer cells: In Silico insights into 8,12-dimethoxysanguinarine from Eomecon Chionantha through molecular docking, dynamics, DFT, and MEP studies.",
+              "pmid": "39775383",
+              "doi": "10.1371/journal.pone.0313094",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "This study presents the first computational exploration of SG-A interactions with key necroptotic proteins\u2014RIPK1, RIPK3, and MLKL\u2014through molecular docking, molecular dynamics (MD), density functional theory (DFT), and molecular electrostatic potential (MEP) analyses."
+            },
+            {
+              "title": "Understanding allosteric interactions in hMLKL protein that modulate necroptosis and its inhibition.",
+              "pmid": "31727943",
+              "doi": "10.1038/s41598-019-53078-5",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "Our simulations show increased inter-domain flexibility, increased rigidification of the activation loop and increased alpha helical content in the brace helix region revealing a form of monomeric hMLKL necessary for oligomerization upon phosphorylation as compared to apo state."
+            },
+            {
+              "title": "Characteristic ERK1/2 signaling dynamics distinguishes necroptosis from apoptosis.",
+              "pmid": "34568795",
+              "doi": "10.1016/j.isci.2021.103074",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "We reasoned that the obligated linker composition required for KAR engineering ( Table S1 ) resulting from the recombination cloning method (MultiSite Gateway Technology) ( Jones et al., 2014 ) might alleviate this shortcoming by adding flexibility."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_rg_4",
+          "observation": "Mixed lineage kinase domain-like protein: radius of gyration / compactness (mean 19.382 \u00c5)",
+          "kind": "compactness",
+          "category": "supported",
+          "supporting": [
+            {
+              "title": "Targeting necroptosis in MCF-7 breast cancer cells: In Silico insights into 8,12-dimethoxysanguinarine from Eomecon Chionantha through molecular docking, dynamics, DFT, and MEP studies.",
+              "pmid": "39775383",
+              "doi": "10.1371/journal.pone.0313094",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "This study presents the first computational exploration of SG-A interactions with key necroptotic proteins\u2014RIPK1, RIPK3, and MLKL\u2014through molecular docking, molecular dynamics (MD), density functional theory (DFT), and molecular electrostatic potential (MEP) analyses."
+            },
+            {
+              "title": "Understanding allosteric interactions in hMLKL protein that modulate necroptosis and its inhibition.",
+              "pmid": "31727943",
+              "doi": "10.1038/s41598-019-53078-5",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "Our simulations show increased inter-domain flexibility, increased rigidification of the activation loop and increased alpha helical content in the brace helix region revealing a form of monomeric hMLKL necessary for oligomerization upon phosphorylation as compared to apo state."
+            },
+            {
+              "title": "Discovery of Covalent MLKL PROTAC Degraders via Optimization of a Theophylline Derivative Ligand for Treating Necroptosis.",
+              "pmid": "39180479",
+              "doi": "10.1021/acs.jmedchem.4c00949",
+              "evidence_source": "abstract",
+              "passage": "Using computer-aided modeling and molecular dynamics simulations, we developed a series of covalent MLKL PROTACs by linking and optimizing a theophylline derivative that covalently targets MLKL."
+            }
+          ],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_dccm_5",
+          "observation": "Mixed lineage kinase domain-like protein: correlated motions / allosteric coupling observed",
+          "kind": "correlated_motions",
+          "category": "not_addressed",
+          "supporting": [],
+          "conflicting": []
+        },
+        {
+          "observation_id": "obs_goal_ligand",
+          "observation": "User objective involves apo/holo or ligand-related interpretation",
+          "kind": "ligand_or_pocket",
+          "category": "plausible",
+          "supporting": [
+            {
+              "title": "Understanding allosteric interactions in hMLKL protein that modulate necroptosis and its inhibition.",
+              "pmid": "31727943",
+              "doi": "10.1038/s41598-019-53078-5",
+              "evidence_source": "europe_pmc_fulltext",
+              "passage": "Our simulations show increased inter-domain flexibility, increased rigidification of the activation loop and increased alpha helical content in the brace helix region revealing a form of monomeric hMLKL necessary for oligomerization upon phosphorylation as compared to apo state."
+            }
+          ],
+          "conflicting": []
+        }
+      ]
+    },
+    "6_candidates_for_report": {
+      "n": 12,
+      "note": "These ranked candidates are passed to the literature-review LLM; uncited papers are pruned after writing (see Step 6 final selection).",
+      "candidates": [
+        {
+          "title": "Targeting necroptosis in MCF-7 breast cancer cells: In Silico insights into 8,12-dimethoxysanguinarine from Eomecon Chionantha through molecular docking, dynamics, DFT, and MEP stu",
+          "year": 2025,
+          "pmid": "39775383",
+          "doi": "10.1371/journal.pone.0313094",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39775383/",
+          "relevance_note": "Mentions: dynamics, MLKL",
+          "query_key": "pubmed:alias_0_flexibility",
+          "score": 105,
+          "matched_aliases": [
+            "dynamics",
+            "MLKL"
+          ]
+        },
+        {
+          "title": "Understanding allosteric interactions in hMLKL protein that modulate necroptosis and its inhibition.",
+          "year": 2019,
+          "pmid": "31727943",
+          "doi": "10.1038/s41598-019-53078-5",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31727943/",
+          "relevance_note": "Mentions: MLKL, hMLKL",
+          "query_key": "pubmed:alias_0_flexibility",
+          "score": 94,
+          "matched_aliases": [
+            "MLKL",
+            "hMLKL"
+          ]
+        },
+        {
+          "title": "Discovery of Covalent MLKL PROTAC Degraders via Optimization of a Theophylline Derivative Ligand for Treating Necroptosis.",
+          "year": 2024,
+          "pmid": "39180479",
+          "doi": "10.1021/acs.jmedchem.4c00949",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39180479/",
+          "relevance_note": "Mentions: dynamics, MLKL",
+          "query_key": "pubmed:protein_0_dynamics",
+          "score": 75,
+          "matched_aliases": [
+            "dynamics",
+            "MLKL"
+          ]
+        },
+        {
+          "title": "Modeling the molecular fingerprint of protein-lipid interactions of MLKL on complex bilayers.",
+          "year": 2022,
+          "pmid": "36712977",
+          "doi": "10.3389/fchem.2022.1088058",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/36712977/",
+          "relevance_note": "Mentions: dynamics, MLKL",
+          "query_key": "pubmed:protein_3_mechanism",
+          "score": 65,
+          "matched_aliases": [
+            "dynamics",
+            "MLKL"
+          ]
+        },
+        {
+          "title": "Characteristic ERK1/2 signaling dynamics distinguishes necroptosis from apoptosis.",
+          "year": 2021,
+          "pmid": "34568795",
+          "doi": "10.1016/j.isci.2021.103074",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/34568795/",
+          "relevance_note": "Mentions: dynamics, MLKL",
+          "query_key": "pubmed:alias_0_dynamics",
+          "score": 60,
+          "matched_aliases": [
+            "dynamics",
+            "MLKL"
+          ]
+        },
+        {
+          "title": "MLKL\u2012OPTN axis regulates herpesvirus-induced neurological sequelae.",
+          "year": 2025,
+          "pmid": "40490945",
+          "doi": "10.1002/ctm2.70353",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/40490945/",
+          "relevance_note": "Mentions: dynamics, MLKL",
+          "query_key": "pubmed:alias_0_dynamics",
+          "score": 46,
+          "matched_aliases": [
+            "dynamics",
+            "MLKL"
+          ]
+        },
+        {
+          "title": "Network Pharmacology, Molecular Docking and Molecular Dynamics to Explore the Potential Immunomodulatory Mechanisms of Deer Antler.",
+          "year": 2023,
+          "pmid": "37373516",
+          "doi": "10.3390/ijms241210370",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37373516/",
+          "relevance_note": "Mentions: dynamics",
+          "query_key": "pubmed:alias_4_dynamics",
+          "score": 45,
+          "matched_aliases": [
+            "dynamics"
+          ]
+        },
+        {
+          "title": "Disulfiram reduces the severity of mouse acute pancreatitis by inhibiting RIPK1-dependent acinar cell necrosis.",
+          "year": 2023,
+          "pmid": "36716580",
+          "doi": "10.1016/j.bioorg.2023.106382",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/36716580/",
+          "relevance_note": "Mentions: dynamics, MLKL",
+          "query_key": "pubmed:alias_0_dynamics",
+          "score": 40,
+          "matched_aliases": [
+            "dynamics",
+            "MLKL"
+          ]
+        },
+        {
+          "title": "A quantitative atlas of mitotic phosphorylation.",
+          "year": 2008,
+          "pmid": "18669648",
+          "doi": "10.1073/pnas.0805139105",
+          "source": "uniprot_curated",
+          "url": null,
+          "relevance_note": "Identity: uniprot_curated, phosphorylation",
+          "query_key": "uniprot:key_references",
+          "score": 18
+        },
+        {
+          "title": "Quantitative phosphoproteomics reveals widespread full phosphorylation site occupancy during mitosis.",
+          "year": 2010,
+          "pmid": "20068231",
+          "doi": "10.1126/scisignal.2000475",
+          "source": "uniprot_curated",
+          "url": null,
+          "relevance_note": "Identity: uniprot_curated, phosphorylation",
+          "query_key": "uniprot:key_references",
+          "score": 18
+        },
+        {
+          "title": "The protein kinase complement of the human genome.",
+          "year": 2002,
+          "pmid": "12471243",
+          "doi": "10.1126/science.1075762",
+          "source": "uniprot_curated",
+          "url": null,
+          "relevance_note": "Identity: uniprot_curated, kinase",
+          "query_key": "uniprot:key_references",
+          "score": 16
+        },
+        {
+          "title": "Kinase-selective enrichment enables quantitative phosphoproteomics of the kinome across the cell cycle.",
+          "year": 2008,
+          "pmid": "18691976",
+          "doi": "10.1016/j.molcel.2008.07.007",
+          "source": "uniprot_curated",
+          "url": null,
+          "relevance_note": "Identity: uniprot_curated, kinase",
+          "query_key": "uniprot:key_references",
+          "score": 16
+        }
+      ]
+    },
+    "6_final_cited": {
+      "n_cited": 2,
+      "cited": [
+        {
+          "title": "Targeting necroptosis in MCF-7 breast cancer cells: In Silico insights into 8,12-dimethoxysanguinarine from Eomecon Chionantha through molecular docking, dynamics, DFT, and MEP stu",
+          "year": 2025,
+          "pmid": "39775383",
+          "doi": "10.1371/journal.pone.0313094",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39775383/",
+          "query_key": "pubmed:alias_0_flexibility"
+        },
+        {
+          "title": "Understanding allosteric interactions in hMLKL protein that modulate necroptosis and its inhibition.",
+          "year": 2019,
+          "pmid": "31727943",
+          "doi": "10.1038/s41598-019-53078-5",
+          "source": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31727943/",
+          "query_key": "pubmed:alias_0_flexibility"
+        }
+      ]
+    }
+  },
+  "identity": {
+    "protein": "Mixed lineage kinase domain-like protein",
+    "gene": "dynamics",
+    "aliases": [
+      "dynamics",
+      "Mixed lineage kinase domain-like protein",
+      "MLKL",
+      "hMLKL",
+      "Q8NB16"
+    ],
+    "family": "pseudokinase",
+    "uniprot_id": "q8nb16",
+    "source": "goal_text"
+  }
+}
